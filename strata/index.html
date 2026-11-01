@@ -510,7 +510,7 @@ html.sj .S .ph[data-in] img{--sw:44px;scale:1}
 .pstep h3{font-size:15px}
 .S #building{margin-top:0 !important;padding-top:40px !important;padding-bottom:20px !important}
 .wt{padding-top:72px !important;padding-bottom:72px !important}
-.fwm{font-size:calc(22vw - 9px)}
+.fwm{font-size:calc(20.5vw - 8px)}
 .gal{height:86svh;min-height:560px}
 .gal .gc{padding:88px 20px 24px}
 .gbars button span{display:none}
@@ -540,6 +540,19 @@ html.infr .S .rv{opacity:1 !important;transform:none !important}
 @media (max-width:900px){.S .hx.hz{grid-template-columns:minmax(0,1fr);font-size:14vw;line-height:.86}.S .hz .ln:nth-child(odd){text-align:left}.S .hz .ln:nth-child(even){text-align:right}}
 #top .hrow,#top .hadv,#top .hs2{position:relative;z-index:4}
 .hfirst{display:contents}
+@media (max-width:900px){
+.S{--bg:#A6A5A1;background:#A6A5A1 !important}
+body{background:#A6A5A1}
+.S .mcap[data-c="0"],.S .mcap[data-c="1"]{text-align:center}
+.S .mcap[data-c="0"] p,.S .mcap[data-c="1"] p{margin-left:auto;margin-right:auto;max-width:320px}
+.S #building{padding-bottom:72px !important}
+.S .pin{padding-top:24px !important}
+.S #floors{padding-top:16px !important}
+.S .gal .gc{padding:84px 20px 20px !important}
+.S .gal .gc>div:last-child{flex:1;flex-direction:column;align-items:stretch !important;justify-content:space-between !important;flex-wrap:nowrap !important}
+.S .gal .gc>div:last-child>div:last-child{justify-content:space-between;width:100%}
+.S .gal .sh{background:linear-gradient(180deg,rgba(0,0,0,.65) 0%,rgba(0,0,0,.25) 35%,rgba(0,0,0,0) 55%,rgba(0,0,0,.45) 100%) !important}
+}
 @media (max-width:900px){
 .S .hs1{padding-top:80px;gap:0}
 .S .hfirst{display:flex;flex-direction:column;gap:20px;min-height:calc(100svh - 80px);padding-bottom:20px}
