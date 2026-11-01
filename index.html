@@ -1,0 +1,927 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Yarus — residences by the lake, Kyiv · Early access</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F3F1EC">
+<script src="assets/dc-runtime.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F3F1EC}
+a{color:#111110;text-decoration:none}a:hover{color:#111110}
+.C *{box-sizing:border-box}
+.C{--tx:15px}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+.C section[id]{scroll-margin-top:72px}
+.C .sub,.C .qa button span{text-wrap:balance}
+.C p{text-wrap:pretty}
+.C ::selection{background:#111110;color:#F3F1EC}
+.C :focus-visible{outline:2px solid currentColor;outline-offset:4px}
+.band:focus-visible{outline-color:#FFFFFF}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:24px}
+.wd{margin:0;font-weight:400;font-size:88px;line-height:0.86;letter-spacing:-0.035em}
+.sub{margin:0;font-weight:400;font-size:34px;line-height:1.1;letter-spacing:-0.035em}
+.ln{display:block;overflow:hidden;padding:0.06em 0.04em 0.24em;margin:-0.06em -0.04em -0.16em}.ln>span{display:block}
+
+/* header */
+.hd{position:sticky;top:0;z-index:50;height:72px;margin-bottom:-72px;padding:0 40px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:24px;font-size:12px;color:#FFFFFF;transition:background .5s cubic-bezier(.23,1,.32,1),color .5s,box-shadow .5s}
+.hd a{color:inherit}.band{border:1px dashed rgba(255,255,255,.55) !important;background:rgba(255,255,255,.04) !important}
+.band:hover{border-style:solid !important;background:rgba(255,255,255,.14) !important}
+.band.on{border:1.5px solid #FFFFFF !important;background:rgba(255,255,255,.24) !important;box-shadow:0 0 0 4px rgba(255,255,255,.12)}
+.band .bn{position:absolute;right:calc(100% + 10px);top:50%;transform:translateY(-50%);font-weight:300;font-size:22px;line-height:1;color:#FFFFFF;opacity:.7;text-shadow:0 1px 8px rgba(0,0,0,.35);transition:opacity .4s}
+.band.on .bn,.band:hover .bn{opacity:1}
+.rs{position:absolute;right:18px;width:2px;background:rgba(255,255,255,.35);pointer-events:none;transition:background .4s,width .4s}
+.rs::after{content:attr(data-f);position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;font-style:normal;color:#FFFFFF;white-space:nowrap;opacity:.8;padding:3px 7px;background:rgba(17,17,16,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);text-shadow:0 1px 8px rgba(0,0,0,.4);transition:opacity .4s}
+.rs.on{background:#FFFFFF;width:3px}.rs.on::after{opacity:1;font-weight:500}
+.tw .rsl{position:absolute;right:12px;top:12px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#FFFFFF;opacity:.8;text-shadow:0 1px 8px rgba(0,0,0,.4)}
+.cnt.js{animation:none !important}.cnt.js::before{content:attr(data-v) !important}.pvm{display:none}@media (max-width:900px){.pgrid{padding-right:44%}.pvm{display:none !important}.pgrid .stp .pviz{display:block !important;position:absolute;left:calc(100% + 20px);top:-6px;width:70%;height:calc(100% + 12px);margin:0;color:#111110;opacity:0;transform:translateX(10px);transition:opacity .5s,transform .6s cubic-bezier(.23,1,.32,1);pointer-events:none}.pgrid .stp.on .pviz{opacity:1;transform:none}.pvm>div{position:absolute;inset:0;display:flex;align-items:flex-end;opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s cubic-bezier(.23,1,.32,1)}.pvm>div.on{opacity:1;transform:none}.pvm svg{display:block;width:100%;height:auto;max-height:100%}}.pill{font-size:12px !important;letter-spacing:.08em !important}
+.C h2,.C h3,.qa button span{text-wrap:balance}
+.chk input{width:20px !important;height:20px !important}
+.mcta{display:none}
+.hs-intro .mob{display:none}
+@media (hover:none){.pill:hover::before{transform:translateY(101%)}.pill:hover{color:#111110}.pill.solid:hover{color:#F3F1EC}.trm .pill:hover,.f2 .pill:hover{color:#F3F1EC}.f2 .pill.solid:hover{color:#111110 !important}.opt:hover{border-color:#8A8781;color:#55534E}.opt.on:hover{color:#F3F1EC}.im:hover img{transform:none}.wc:hover{transform:none;box-shadow:none}.ftb:hover{background:transparent;color:#111110}.hd .hb:hover{background:transparent;color:inherit;border-color:currentColor}.hd.on .hb:hover{background:#111110;color:#F3F1EC}}
+@media (max-width:900px){
+#top,#top>.sec{min-height:100svh !important}
+section[style*="padding: 160px"],section[style*="padding-top: 160px"]{padding-top:96px !important}
+section[style*="margin-top: 160px"]{margin-top:96px !important}
+section[style*="padding: 120px 40px"]{padding-top:72px !important;padding-bottom:72px !important}
+.C [style*="margin-bottom: 64px"]{margin-bottom:40px !important}
+.C .why{margin-top:40px !important}
+.hs{margin-top:96px !important}
+.f2{gap:48px !important}
+.mpanel .mx{position:sticky;top:12px;align-self:flex-end;margin:12px 12px -60px 0;flex:none}
+.mimg{min-height:120px !important;flex:0 0 140px !important}
+.lang a{padding:12px 8px}
+.vt button{padding:12px 16px}
+.f2 a.ul{padding:6px 0}
+.locg{display:flex !important;flex-direction:column;gap:24px}.locg>.rv{display:contents !important}.locg>.rv>h3{order:1}.locg>.rv>p{order:2}.locg>.ln2{order:3}.locg>.rv>.lv{order:4;margin-top:0}
+.hs-intro .dsk{display:none}.hs-intro .mob{display:inline}
+.mcta{display:flex;position:fixed;left:12px;right:12px;bottom:12px;z-index:60;justify-content:space-between;align-items:center;min-height:56px;padding:0 8px 0 22px;border-radius:999px;background:#111110;color:#F3F1EC !important;font-size:14px;font-weight:500;box-shadow:0 12px 36px rgba(0,0,0,.25);transform:translateY(140%);transition:transform .5s cubic-bezier(.23,1,.32,1)}
+.mcta.on{transform:none}.mcta i{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:#F3F1EC;color:#111110;font-style:normal}
+}
+@media (max-width:420px){.g4.k2:has(.cnt.z2){grid-template-columns:minmax(0,1fr) !important}}
+@media (max-width:900px){.C [style*="font-size: 34px; font-weight: 300"]{font-size:26px !important}.f2 .ph{font-size:26px}}.pre .nm{color:#111110 !important}.stp .prg{position:absolute;left:0;top:6px;height:1px;width:100%;background:#111110;transform-origin:left;transform:scaleX(0);pointer-events:none}.stp.on .prg{animation:prg 3s linear both}.pgrid.held .stp.on .prg{animation:none;transform:scaleX(1)}@keyframes prg{to{transform:scaleX(1)}}@media (max-width:900px){.stp .prg{display:none}}section[style*="#EDE3D3"] .card{background:#F3F1EC !important}.f2{background:#151513;color:#F3F1EC;padding:96px 40px 0;display:flex;flex-direction:column;gap:64px;overflow:hidden}
+.f2 .st{margin:0;font-weight:300;font-size:112px;line-height:.9;letter-spacing:-0.035em}
+.f2 a,.f2 a.ul,.f2 .ph{color:#F3F1EC !important}.f2 .pill.solid{color:#111110 !important}.f2 .pill.solid:hover{color:#F3F1EC !important}.f2 .dim{color:rgba(243,241,236,.5)}.f2 .ph{font-weight:300;font-size:44px;letter-spacing:-0.03em;line-height:1}
+.f2 .pill{border-color:#F3F1EC;color:#F3F1EC}.f2 .pill::before{background:#F3F1EC}.f2 .pill:hover{color:#111110}.f2 .pill.solid{background:#F3F1EC;color:#111110}.f2 .pill.solid::before{background:#151513}.f2 .pill.solid:hover{color:#F3F1EC}
+.mq{border-top:1px solid rgba(243,241,236,.18);border-bottom:1px solid rgba(243,241,236,.18);overflow:hidden;white-space:nowrap;margin:0 -40px}
+.mq>div{display:inline-flex;gap:56px;padding:26px 0;animation:mq 38s linear infinite;font-weight:300;font-size:34px;letter-spacing:-0.02em}
+.mq:hover>div{animation-play-state:paused}.mq span{display:inline-flex;align-items:center;gap:56px}.mq span::after{content:"";width:10px;height:10px;border:1px solid rgba(243,241,236,.6)}
+@keyframes mq{to{transform:translateX(-50%)}}
+.f2c{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;font-size:13px}.f2c>div{display:flex;flex-direction:column;gap:8px;align-items:flex-start}.f2c b{font-weight:500;color:rgba(243,241,236,.5);margin-bottom:6px;font-size:12px}
+.f2b{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:28px 0 32px;border-top:1px solid rgba(243,241,236,.18);font-size:12px;color:rgba(243,241,236,.6)}
+.f2b .lg{color:#F3F1EC}
+@media (max-width:900px){.f2{padding:64px 20px 0;gap:56px}.f2 .st{font-size:64px}.f2 .ph{font-size:32px}.mq{margin:0 -20px}.mq>div{font-size:22px}.f2c{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (prefers-reduced-motion:reduce){.mq>div{animation:none}}
+.ft{padding:140px 40px 0;display:flex;flex-direction:column;gap:72px}
+.ft-nm{font-weight:300;font-size:88px;line-height:.86;letter-spacing:-0.035em}
+.ft-tw{display:flex;flex-direction:column;gap:10px}.ft-tw .lbl{font-size:12px;color:#6B6964;margin-bottom:6px}
+.ftb{display:grid;grid-template-columns:84px minmax(0,1fr) 150px 130px 32px;align-items:center;gap:16px;min-height:84px;padding:0 24px;border:1px solid #111110;background:transparent;color:#111110;font:inherit;font-size:15px;text-align:left;cursor:pointer;transition:background .45s cubic-bezier(.23,1,.32,1),color .45s}
+.ftb .r{font-weight:300;font-size:44px;letter-spacing:-0.03em;line-height:1}.ftb .ar{justify-self:end;transition:transform .45s cubic-bezier(.23,1,.32,1)}
+.ftb:hover,.ftb:focus-visible{background:#111110;color:#F3F1EC}.ftb:hover .ar{transform:translateX(6px)}
+.ftb:nth-child(2){margin:0 22% 0 5%}.ftb:nth-child(3){margin:0 0 0 20%}.ftb:nth-child(4){margin:0 23% 0 0}.ftb:nth-child(5){margin:0 8% 0 12%}
+.ft-info{font-size:13px;line-height:1.6}.ft-info>div{border-top:1px solid #CFCCC4;padding-top:14px}.ft-info b{display:block;font-weight:500;margin-bottom:8px}
+.ft-bot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:24px 0 32px;border-top:1px solid #CFCCC4;font-size:12px;color:#6B6964}
+@media (max-width:900px){.ft{padding:96px 20px 0;gap:48px}.ft-nm{font-size:72px}.ftb{grid-template-columns:56px minmax(0,1fr) 24px;margin:0 !important;padding:0 16px;min-height:72px}.ftb .r{font-size:32px}.ftb .hm{display:none}}
+.side p{text-wrap:balance}.side .rnd{align-self:flex-start;flex-direction:row-reverse;gap:18px;padding:6px 6px 6px 28px;border-radius:999px;background:#FFFFFF;color:#111110 !important;font-size:15px;text-shadow:none;box-shadow:0 10px 30px rgba(0,0,0,.18);transition:background .4s,box-shadow .4s}.side .rnd .c{background:#111110;color:#FFFFFF;width:48px;height:48px}.side .rnd:hover{background:#F3F1EC;box-shadow:0 14px 40px rgba(0,0,0,.26)}.trm{background:#151513;color:#F3F1EC}.trm .ln2{border-top-color:rgba(243,241,236,.2)}.trm .ln2>div{border-bottom-color:rgba(243,241,236,.2) !important}.trm .ln2 p{color:rgba(243,241,236,.62) !important}.trm .pill{border-color:#F3F1EC;color:#F3F1EC}.trm .pill::before{background:#F3F1EC}.trm .pill:hover{color:#111110}.trm .tsub{margin:0;max-width:380px;font-size:var(--tx);line-height:1.55;color:rgba(243,241,236,.62)}.C .stc{background:transparent !important;box-shadow:none !important;border-radius:0 !important;color:#fff !important;padding:8px 24px 4px !important;border-left:1px solid rgba(255,255,255,.3)}.C .stc:first-child{border-left:0;padding-left:0 !important}.C .stc:hover{transform:none}.C .stc>div:last-child{color:rgba(255,255,255,.78) !important}@media (max-width:900px){.C .stc{padding:14px 16px 10px !important}.C .stc:nth-child(odd){border-left:0;padding-left:0 !important}.C .stc:nth-child(n+3){border-top:1px solid rgba(255,255,255,.3)}}.C .wc>div:first-child[style*="font-size: 168px"]{font-size:112px !important}.C .wc>div:first-child[style*="font-size: 128px"]{font-size:112px !important}@media (max-width:900px){.C .wc>div:first-child{font-size:72px !important}.C #terms span[style*="font-size: 72px"]{font-size:44px !important}}.lg{display:inline-flex;align-items:center;gap:12px;font-size:15px;font-weight:500;letter-spacing:.04em}
+.mk{width:17px;height:27px;overflow:visible}.mk rect{fill:currentColor;fill-opacity:0;stroke:currentColor;stroke-width:1.2;vector-effect:non-scaling-stroke;transition:fill-opacity .45s cubic-bezier(.23,1,.32,1),transform .6s cubic-bezier(.23,1,.32,1)}
+.lg:hover .mk rect{fill-opacity:1}.lg:hover .mk rect:nth-child(1){transition-delay:.15s}.lg:hover .mk rect:nth-child(2){transition-delay:.1s}.lg:hover .mk rect:nth-child(3){transition-delay:.05s}
+.lg:hover .mk rect:nth-child(odd){transform:translateX(4px)}.lg:hover .mk rect:nth-child(even){transform:translateX(-4px)}
+.hgrid{position:absolute;inset:0;z-index:0;pointer-events:none;padding:0 40px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:12px}
+.hgrid i{display:block;border-left:1px solid rgba(255,255,255,.13);border-right:1px solid rgba(255,255,255,.13);transform-origin:top;animation:gIn 1.6s cubic-bezier(.16,1,.3,1) both}
+.hgrid i:nth-child(2){animation-delay:.12s}.hgrid i:nth-child(3){animation-delay:.24s}.hgrid i:nth-child(4){animation-delay:.36s}
+@keyframes gIn{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.hgrid.hi{opacity:0;transition:opacity .5s;background-image:repeating-linear-gradient(180deg,rgba(255,255,255,.4) 0 1px,transparent 1px var(--fl,26px));-webkit-mask-image:radial-gradient(circle 240px at var(--mx,50%) var(--my,50%),#000 0,rgba(0,0,0,.35) 45%,transparent 100%);mask-image:radial-gradient(circle 240px at var(--mx,50%) var(--my,50%),#000 0,rgba(0,0,0,.35) 45%,transparent 100%)}
+.hgrid.hi i{border-color:rgba(255,255,255,.75);animation:none}
+#top.gon .hgrid.hi{opacity:1}
+.flr{position:absolute;z-index:3;left:0;top:0;pointer-events:none;font-size:11px;letter-spacing:.04em;color:#fff;white-space:nowrap;display:flex;align-items:center;gap:8px;opacity:0;transition:opacity .4s;transform:translate3d(var(--lx,0),var(--ly,0),0)}
+.flr::before{content:"";width:28px;height:1px;background:#fff}
+#top.gon .flr{opacity:1}
+@media (max-width:900px),(hover:none){.hgrid.hi,.flr{display:none}.hgrid{padding:0 20px;grid-template-columns:repeat(2,minmax(0,1fr))}.hgrid i:nth-child(n+3){display:none}}
+@media (prefers-reduced-motion:reduce){.hgrid i{animation:none}}
+
+.lang{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500}.lang a{opacity:.55;padding:12px 2px;transition:opacity .3s}.lang a:hover,.lang a[aria-current="page"]{opacity:1}.lang span{opacity:.4}
+.hd.on{background:rgba(243,241,236,.86);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);color:#111110;box-shadow:0 1px 0 #DEDBD3}
+.hd .hb{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid currentColor;font-weight:500;transition:background .4s,color .4s,border-color .4s}
+.hd .hb:hover{background:#FFFFFF;color:#111110;border-color:#FFFFFF}
+.hd.on .hb{background:#111110;color:#F3F1EC;border-color:#111110}
+.hd.on .hb:hover{background:transparent;color:#111110}
+
+.ul{position:relative;display:inline-block}
+.ul::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .6s cubic-bezier(.23,1,.32,1)}
+.ul:hover::after{transform:scaleX(1);transform-origin:left}
+.ar{position:relative;display:inline-block;width:14px;height:14px;overflow:hidden}
+.ar i{position:absolute;inset:0;font-style:normal;line-height:14px;transition:transform .55s cubic-bezier(.23,1,.32,1)}
+.ar i+i{transform:translateX(-130%)}
+a:hover .ar i:first-child,button:hover .ar i:first-child{transform:translateX(130%)}
+a:hover .ar i+i,button:hover .ar i+i{transform:translateX(0)}
+.pill{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:48px;padding:0 24px;border-radius:999px;overflow:hidden;isolation:isolate;border:1px solid #111110;background:transparent;color:#111110;font:inherit;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:color .5s cubic-bezier(.23,1,.32,1)}
+.pill::before{content:"";position:absolute;inset:0;z-index:-1;background:#111110;border-radius:999px;transform:translateY(101%);transition:transform .55s cubic-bezier(.23,1,.32,1)}
+.pill:hover{color:#F3F1EC}.pill:hover::before{transform:none}
+.pill.solid{background:#111110;color:#F3F1EC}.pill.solid::before{background:#F3F1EC}.pill.solid:hover{color:#111110}
+.rnd{display:inline-flex;align-items:center;gap:14px;font-size:13px;font-weight:500;cursor:pointer}
+.rnd .c{display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:#FFFFFF;color:#111110;transition:transform .6s cubic-bezier(.23,1,.32,1)}
+.rnd:hover .c{transform:scale(1.12) rotate(-45deg)}
+.im{position:relative;overflow:hidden;background:#E2DFD8}.plx{position:absolute !important;left:0 !important;right:0 !important;top:-15% !important;bottom:auto !important;width:100% !important;height:130% !important;will-change:transform}.im img.plx{transition:none}@media (prefers-reduced-motion:reduce){.plx{top:0 !important;height:100% !important;transform:none !important}}
+
+.im img{display:block;width:100%;height:100%;object-fit:cover;transition:transform 1.4s cubic-bezier(.23,1,.32,1)}
+.im:hover img{transform:scale(1.04)}
+.row{width:100%;background:none;border:0;font:inherit;text-align:left;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:baseline;padding:24px 0;border-bottom:1px solid #CFCCC4;cursor:pointer;color:#76736E;transition:color .45s,padding .6s cubic-bezier(.23,1,.32,1)}
+.row>span:last-child,.trow>span:not(:first-child){color:#6B6964}.row.on>span:last-child,.trow.on>span{color:#111110}
+.row.on,.row:hover{color:#111110}
+.row.on{padding-left:24px}
+.row .dash{display:inline-block;width:0;height:1px;background:#111110;vertical-align:middle;margin-right:0;transition:width .5s cubic-bezier(.23,1,.32,1),margin .5s}
+.row.on .dash{width:28px;margin-right:14px}
+.vw img.pl{object-fit:contain;padding:5% 8%;box-sizing:border-box;background:#FBF3EC}.vt{position:absolute;top:16px;left:16px;z-index:2;display:flex;padding:3px;border-radius:999px;background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 6px 20px rgba(0,0,0,.08)}.vt button{border:0;background:transparent;color:#111110;font:inherit;font-size:12px;padding:8px 14px;border-radius:999px;cursor:pointer;transition:background .3s,color .3s}.vt button:hover{background:rgba(17,17,16,.06)}.vt button.on{background:#111110;color:#fff}.pcap{position:absolute;left:16px;bottom:14px;z-index:2;font-size:12px;color:#55534E;opacity:0;transition:opacity .5s}.pcap.on{opacity:1}
+.vw{position:relative;aspect-ratio:3/2;overflow:hidden;background:#E2DFD8;margin:-32px -32px 0}.lv{position:relative;flex:1 1 auto;min-height:280px;overflow:hidden;background:#E2DFD8;margin-top:24px}@media (max-width:900px){.lv{flex:none;aspect-ratio:3/2;min-height:0}}.vw img,.lv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transform:scale(1.05);transition:opacity .8s ease,transform 1.4s cubic-bezier(.23,1,.32,1)}.vw img.on,.lv img.on{opacity:1;transform:none}.vw .vcap{position:absolute;left:0;right:0;bottom:0;padding:48px 24px 16px;font-size:12px;color:#fff;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.5));pointer-events:none}
+.acc{display:flex;gap:16px;height:680px}
+.acc>.gp{flex:1 1 0;min-width:0;position:relative;transition:flex-grow .9s cubic-bezier(.23,1,.32,1)}.acc>.gp>.im{height:100%}
+.acc:hover>.gp{flex-grow:.75}.acc>.gp:hover{flex-grow:2.2}
+.gh{position:absolute;left:0;right:0;top:0;z-index:2;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:20px 22px 64px;color:#fff;background:linear-gradient(180deg,rgba(0,0,0,.32),rgba(0,0,0,0));pointer-events:none}
+.gh b{font-weight:300;font-size:72px;line-height:.85;letter-spacing:-0.035em}.gh b small{font-size:20px;margin-left:4px;letter-spacing:0}.gh span{font-size:12px;white-space:nowrap;padding-top:6px;opacity:.9}
+.acc .cap{position:absolute;left:0;right:0;bottom:0;padding:72px 22px 20px;display:flex;flex-direction:column;gap:6px;color:#fff;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.6))}
+.acc .cap strong{font-weight:400;font-size:22px;letter-spacing:-0.01em}.acc .cap em{font-style:normal;font-size:13px;line-height:1.45;max-width:320px;opacity:0;transform:translateY(8px);transition:opacity .6s,transform .6s}
+.acc>.gp:hover .cap em{opacity:.92;transform:none}
+.ln2{border-top:1px solid #CFCCC4}
+.card{padding-top:20px;border-top:1px solid #CFCCC4;transition:border-color .5s}
+.card:hover{border-color:#111110}
+.lift{transition:transform .7s cubic-bezier(.23,1,.32,1)}.lift:hover{transform:translateY(-8px)}
+
+/* tier picker */
+.hs{position:relative;margin-top:160px}.hs-pin{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center}
+.hs-track{display:flex;align-items:flex-end;gap:24px;padding:0 40px;will-change:transform}
+.hs-intro{flex:none;width:520px;display:flex;flex-direction:column;gap:20px;padding-right:56px;align-self:center}
+.hs-intro .hint{display:inline-flex;align-items:center;gap:12px;font-size:12px;color:#55534E;margin-top:12px}.hs-intro .hint i{display:block;width:56px;height:1px;background:#111110;position:relative;overflow:hidden}
+.hs-item{flex:none;margin:0;display:flex;flex-direction:column;gap:14px}.hs-item .im{height:64vh;max-height:640px;min-height:380px}
+.hs-item figcaption{display:flex;justify-content:space-between;gap:16px;font-size:13px;color:#55534E}.hs-item figcaption b{font-weight:400;color:#111110}
+.hs-bar{position:absolute;left:40px;right:40px;bottom:40px;height:1px;background:#CFCCC4}.hs-bar i{position:absolute;left:0;top:-0.5px;height:2px;width:100%;background:#111110;transform-origin:left;transform:scaleX(0)}
+@media (max-width:900px){.hs{height:auto !important;margin-top:96px}.hs-pin{position:static;height:auto;display:block}.hs-track{transform:none !important;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 20px;padding:0 20px 8px;gap:12px;-webkit-overflow-scrolling:touch;align-items:stretch}.hs-intro{width:78vw;padding-right:12px}.hs-intro,.hs-item{scroll-snap-align:start}.hs-item{width:84vw !important}.hs-item .im{height:56vw !important;min-height:0}.hs-bar{display:none}}
+@media (prefers-reduced-motion:reduce){.hs{height:auto !important}.hs-pin{position:static;height:auto}.hs-track{transform:none !important;overflow-x:auto}.hs-bar{display:none}}
+.tw{position:relative;aspect-ratio:1127/1395;overflow:hidden;background:#E2DFD8}.tw{position:sticky;top:96px}.tch{display:flex;justify-content:space-between;align-items:baseline;gap:16px}.tch .tnm{font-weight:300;font-size:44px;letter-spacing:-0.035em;line-height:1}.tch>span{font-size:13px;color:#55534E}.tst{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:16px;row-gap:24px}.tst>div{border-top:1px solid #E2DFD8;padding-top:14px;display:flex;flex-direction:column;gap:10px}.tst>div>span:first-child{font-size:12px;color:#6B6964}.tst .big{font-weight:300;font-size:44px;letter-spacing:-0.035em;line-height:1}.tst .tx{font-size:15px;line-height:1.35}.tcta{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;border-top:1px solid #E2DFD8;padding-top:24px}.tcta p{margin:0;font-size:12px;color:#6B6964;max-width:220px}
+
+.tw img{position:absolute;inset:0;width:100%;height:100%;display:block}
+.band{font:inherit;position:absolute;left:47%;width:28%;padding:0;border:1px solid rgba(255,255,255,0);background:rgba(255,255,255,0);cursor:pointer;transition:background .5s cubic-bezier(.23,1,.32,1),border-color .5s}
+.band:hover{border-color:rgba(255,255,255,.7);background:rgba(255,255,255,.12)}
+.band.on{border-color:#FFFFFF;background:rgba(255,255,255,.22)}
+.band .bl{position:absolute;left:calc(100% + 14px);top:50%;transform:translateY(-50%);white-space:nowrap;font-size:12px;color:#FFFFFF;opacity:0;transition:opacity .4s;padding:4px 8px;background:rgba(17,17,16,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.band .bl::before{content:"";display:inline-block;width:20px;height:1px;background:#FFFFFF;vertical-align:middle;margin-right:10px}
+.band.on .bl,.band:hover .bl{opacity:1}
+.trow{width:100%;display:grid;grid-template-columns:96px minmax(0,1fr) auto;align-items:baseline;gap:16px;padding:22px 0;background:none;border:0;border-bottom:1px solid #CFCCC4;color:#76736E;font:inherit;text-align:left;cursor:pointer;transition:color .45s,padding .6s cubic-bezier(.23,1,.32,1)}
+.trow:hover,.trow.on{color:#111110}
+.trow.on{padding-left:16px}
+
+/* form */
+.opt{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid #8A8781;background:#FFFFFF;color:#55534E;font:inherit;font-size:13px;cursor:pointer;transition:border-color .35s,background .35s,color .35s}
+.opt:hover{border-color:#111110;color:#111110}
+.opt.on{background:#111110;border-color:#111110;color:#F3F1EC}
+.fld{display:flex;flex-direction:column;gap:8px;font-size:12px;color:#6B6964}
+.fld input{background:transparent;border:0;border-bottom:1px solid #8A8781;color:#111110;font:inherit;font-size:22px;padding:10px 0;outline:none;transition:border-color .4s;border-radius:0}
+.fld input:hover{border-color:#8A8781}
+.fld input:focus{border-color:#111110}.C .fld input:focus-visible{outline:none;border-bottom-width:2px}
+.fld input[aria-invalid="true"]{border-color:#B3261E}
+.err{font-size:12px;color:#B3261E}
+.pill:disabled{opacity:.35;cursor:not-allowed}.pill:disabled::before{display:none}.pill.solid:disabled:hover{color:#F3F1EC}
+.fld input::placeholder{color:#A3A09A}
+.chk{display:flex;gap:12px;align-items:flex-start;font-size:12px;line-height:1.5;color:#6B6964;cursor:pointer}
+.chk input{accent-color:#111110;width:16px;height:16px;margin:2px 0 0}
+.qa{border-bottom:1px solid #CFCCC4}
+.qa button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:24px 0;background:none;border:0;color:#111110;font:inherit;font-size:22px;letter-spacing:-.02em;text-align:left;cursor:pointer;transition:color .4s}
+.qa button:hover{color:#55534E}
+.qa .pm{flex:none;position:relative;width:16px;height:16px}
+.qa .pm::before,.qa .pm::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#111110;transition:transform .5s cubic-bezier(.23,1,.32,1)}
+.qa .pm::after{transform:rotate(90deg)}
+.qa.on .pm::after{transform:rotate(0)}
+.stp{border:0;background:none;padding:0;margin:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.stp>.nm{font-weight:300;font-size:44px;letter-spacing:-0.035em;color:#8A8781;transition:color .4s}.stp>.dt{font-size:12px;color:#6B6964}.stp>.pc{font-size:13px;color:#6B6964;transition:color .4s}
+.stp.on>.nm,.stp.on>.pc{color:#111110}.stp.on .dotp{background:#111110;border-color:#111110;transform:scale(1.35)}
+.pviz{display:block;margin-top:auto;width:100%;height:220px;color:#CDBFAB;transition:color .5s}.stp:hover .pviz{color:#8A8781}.stp.on .pviz{color:#111110}.pviz rect,.pviz line,.pviz circle{transition:fill-opacity .5s}
+.pnote{margin:0;max-width:560px;font-size:18px;line-height:1.5;letter-spacing:-0.01em;min-height:48px}
+.dotp{width:13px;height:13px;border-radius:50%;border:1px solid #6B6964;background:#FFFFFF;transition:transform .5s cubic-bezier(.23,1,.32,1)}
+.stp:hover .dotp{transform:scale(1.5)}
+
+
+
+/* counters */
+@property --n{syntax:'<integer>';initial-value:0;inherits:false}
+.cnt{--n:var(--to);counter-reset:n var(--n);font-variant-numeric:tabular-nums}
+.cnt::before{content:counter(n)}
+.cnt.z2::before{content:counter(n,decimal-leading-zero)}
+@keyframes cnt{from{--n:var(--from,0)}}
+.cnt.hero{animation:cnt 2s cubic-bezier(.16,1,.3,1) 1.9s both}
+.C.noi .cnt.hero{animation-delay:.4s}
+.cnt.sc{animation:cnt 1.9s cubic-bezier(.16,1,.3,1) both;animation-play-state:paused}
+.cnt.sc.go{animation-play-state:running}
+@media (prefers-reduced-motion: reduce){.cnt{animation:none !important}}
+.stc{background:#FFFFFF;color:#111110;padding:22px 24px 20px;border-radius:4px;box-shadow:0 18px 50px rgba(0,0,0,.14);transition:transform .7s cubic-bezier(.23,1,.32,1)}
+.stc:hover{transform:translateY(-6px)}
+.wc{background:#FFFFFF;padding:28px;border-radius:4px;border-top:0 !important;transition:transform .7s cubic-bezier(.23,1,.32,1),box-shadow .7s}
+.wc:hover{transform:translateY(-8px);box-shadow:0 24px 60px rgba(17,17,16,.08)}
+
+
+/* modal */
+.mdl{position:fixed;inset:0;z-index:90;display:flex;justify-content:flex-end}
+.mbg{position:absolute;inset:0;background:rgba(17,17,16,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:mbg .5s ease both;cursor:pointer}
+.mpanel{position:relative;width:min(600px,100%);height:100%;overflow-y:auto;overscroll-behavior:contain;background:#F3F1EC;color:#111110;display:flex;flex-direction:column;animation:mIn .8s cubic-bezier(.16,1,.3,1) both;outline:none}
+.mx{position:absolute;top:20px;right:20px;z-index:2;width:48px;height:48px;border-radius:50%;border:0;background:#FFFFFF;color:#111110;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .5s cubic-bezier(.23,1,.32,1)}
+.mx:hover{transform:rotate(90deg)}
+.mpanel .mbody>*{animation:ld .9s cubic-bezier(.16,1,.3,1) both}
+.mpanel .mbody>*:nth-child(1){animation-delay:.15s}.mpanel .mbody>*:nth-child(2){animation-delay:.22s}.mpanel .mbody>*:nth-child(3){animation-delay:.29s}.mpanel .mbody>*:nth-child(4){animation-delay:.36s}
+@keyframes mIn{from{transform:translateX(100%)}to{transform:none}}
+@keyframes mbg{from{opacity:0}to{opacity:1}}
+@media (max-width:900px){.mpanel .mimg{min-height:180px !important}.mpanel .mbody{padding:28px 20px 32px !important}.mpanel h2{font-size:44px !important}}
+
+/* preloader */
+.pre{position:fixed;inset:0;z-index:100;background:#F3F1EC;color:#111110;display:flex;flex-direction:column;justify-content:space-between;padding:28px 40px;animation:preUp .9s cubic-bezier(.76,0,.24,1) 1.3s both}
+.pre .stk{position:absolute;left:50%;top:50%;transform:translate(-50%,-58%);width:120px;height:188px}
+.pre .stk i{position:absolute;display:block;height:40px;border:1px solid #111110;transform:scaleX(0);transform-origin:left;animation:tierIn .5s cubic-bezier(.23,1,.32,1) both}
+.pre .stk i:nth-child(1){left:14px;width:96px;top:144px;animation-delay:.1s}
+.pre .stk i:nth-child(2){left:0;width:92px;top:98px;animation-delay:.25s}
+.pre .stk i:nth-child(3){left:24px;width:96px;top:52px;animation-delay:.4s}
+.pre .stk i:nth-child(4){left:6px;width:88px;top:6px;animation-delay:.55s}
+.pre .nm{position:absolute;left:50%;top:calc(50% + 86px);transform:translateX(-50%);font-size:13px;font-weight:500;letter-spacing:.42em;padding-left:.42em;animation:fadeIn .6s ease .7s both}
+@keyframes tierIn{to{transform:scaleX(1)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes preUp{to{transform:translateY(-100%)}}
+
+/* intro + scroll */
+@keyframes ld{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+@keyframes ldl{from{transform:translateY(105%)}to{transform:none}}
+@keyframes ldz{from{transform:scale(1.14)}to{transform:none}}
+.l1{animation:ldl 1.4s cubic-bezier(.23,1,.32,1) 1.6s both}
+.l2{animation:ld 1.1s cubic-bezier(.23,1,.32,1) 2s both}
+.l3{animation:ldz 2.6s cubic-bezier(.23,1,.32,1) 1.3s both}
+.C.noi .l1{animation-delay:.1s}.C.noi .l2{animation-delay:.4s}.C.noi .l3{animation-delay:0s}
+@supports (animation-timeline: view()){
+.rv{animation:rv linear both;animation-timeline:view();animation-range:entry 0% entry 70%}
+@keyframes rv{from{opacity:0;transform:translateY(48px)}to{opacity:1;transform:none}}
+.ln.sv>span{animation:svl linear both;animation-timeline:view();animation-range:entry 10% entry 80%}
+@keyframes svl{from{transform:translateY(105%)}to{transform:none}}
+.grow{animation:grow linear both;animation-timeline:view();animation-range:entry 0% entry 90%}
+@keyframes grow{from{clip-path:inset(0 22% 0 22%)}to{clip-path:inset(0 0 0 0)}}
+.gs{animation:gs linear both;animation-timeline:view();animation-range:entry 0% entry 90%}
+@keyframes gs{from{clip-path:inset(16% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
+}
+@media (prefers-reduced-motion: reduce){
+.C *,.C *::before,.C *::after{animation:none !important;transition:none !important}
+.pre{display:none !important}
+}
+@media (min-width:901px) and (max-width:1280px){.band .bl{left:auto;right:calc(100% + 14px)}.band .bl::before{display:none}}
+@media (max-width:900px){
+.C{--tx:14px}
+.trow{grid-template-columns:56px minmax(0,1fr) !important;row-gap:4px}.trow>span:nth-child(3){grid-column:2}
+.pline{left:6px !important;right:auto !important;top:6px !important;bottom:0;width:1px;height:auto !important}
+.pgrid{grid-template-columns:minmax(0,1fr) !important}.stp{padding-left:28px}.stp .dotp{position:absolute;left:0;top:0}
+.fp>div:first-child{order:2;padding-right:0 !important;margin-top:40px}
+footer a{padding:6px 0}
+.g2,.g4{grid-template-columns:minmax(0,1fr) !important;row-gap:32px}
+.g4.k2{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+.sec,.hd{padding-left:20px !important;padding-right:20px !important}
+.hd{grid-template-columns:1fr auto !important;height:64px;margin-bottom:-64px}
+.wd{font-size:40px !important}.sub{font-size:26px !important}
+.nav,.mid{display:none !important}
+.name{font-size:24vw !important}
+.side{justify-self:start !important;max-width:none !important;padding-top:20px !important}
+.tw{position:relative !important;top:auto !important}.tsk{position:static !important;gap:32px !important}.tst{grid-template-columns:repeat(2,minmax(0,1fr))}.acc{flex-direction:column;height:auto;align-items:stretch;gap:40px}.acc>.gp{flex:none !important;height:360px}.acc>.gp .im{height:100% !important}.acc{gap:12px !important}.acc .cap em{opacity:.92 !important;transform:none !important}.gh b{font-size:64px}
+.tall{height:420px !important}.full{min-height:600px !important}
+.row>span:first-child{font-size:26px !important}
+.stp>.nm{font-size:26px !important}.pbar{display:none}.pgrid .stp{min-height:0 !important;gap:8px !important}.pviz{display:none}
+.fp{padding:28px 20px !important;margin-top:-80px !important}
+.stc>div:first-child{font-size:64px !important}.stc>div:first-child>span:first-child:not(.cnt){display:block;margin:6px 0 0 !important;font-size:18px !important;letter-spacing:0}.wc>div:first-child{font-size:110px !important}
+.wmk{font-size:41vw !important}
+.pre{padding:24px 20px}
+.band .bl{display:none}
+.hgr{background:linear-gradient(180deg,rgba(20,22,26,.55) 0%,rgba(20,22,26,.35) 45%,rgba(20,22,26,.1) 62%,rgba(20,22,26,.6) 100%) !important}
+}
+
+@media (max-width:900px){.C h1.name{font-size:41.19vw !important;margin-left:-0.03em !important}}
+</style>
+</helmet>
+<main class="{{ mainCls }}" style="width: 100%; background: #F3F1EC; color: #111110; font-family: 'Manrope', system-ui, sans-serif">
+
+<!-- Preloader -->
+
+
+<sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}">
+  <div class="pre" aria-hidden="true">
+    <div style="display: flex; justify-content: space-between; font-size: 12px"><span>Residences by the lake</span><span>Kyiv</span></div>
+    <div class="stk"><i></i><i></i><i></i><i></i></div>
+    <div class="nm">YARUS</div>
+    <div style="display: flex; justify-content: space-between; align-items: flex-end"><span style="font-size: 12px">Four tiers, four gardens</span><span style="font-weight: 300; font-size: 112px; line-height: 0.8; letter-spacing: -0.025em; font-variant-numeric: tabular-nums">{{ pct }}</span></div>
+  </div>
+</sc-if>
+
+<!-- Header -->
+<header class="{{ headCls }}">
+  <a class="lg" href="#top" aria-label="Yarus"><svg class="mk" viewBox="0 0 120 190" aria-hidden="true"><rect x="6" y="6" width="88" height="40"/><rect x="24" y="52" width="96" height="40"/><rect x="0" y="98" width="92" height="40"/><rect x="14" y="144" width="96" height="40"/></svg><span>YARUS</span></a>
+  <nav class="nav" style="display: flex; gap: 36px"><a class="ul" href="#about">Why now</a><a class="ul" href="#location">Location</a><a class="ul" href="#residences">Residences</a><a class="ul" href="#terms">Terms</a></nav>
+  <div style="justify-self: end; display: flex; align-items: center; gap: 24px"><span class="mid">Kyiv {{ time }}</span><nav class="lang" aria-label="Language"><a href="#top" aria-current="page" lang="en">EN</a><span aria-hidden="true">/</span><a href="/ua/" hreflang="uk" lang="uk">UA</a></nav><a class="hb" href="#contact" onClick="{{ openGen }}">Get prices</a></div>
+</header>
+
+<!-- 1 Hero -->
+<section id="top" class="full" style="position: relative; min-height: 900px; overflow: hidden; background: #2A2C2E; color: #FFFFFF">
+  <img class="l3" src="assets/img/hero-tower.jpg" alt="Yarus at sunset, gardens on every tier, the lake and Kyiv beyond" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% 40%; display: block">
+  <div class="hgr" aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20, 22, 26, 0.5) 0%, rgba(20, 22, 26, 0) 32%, rgba(20, 22, 26, 0.05) 50%, rgba(20, 22, 26, 0.65) 100%)"></div>
+  <div class="hgrid" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="hgrid hi" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="flr" aria-hidden="true"><span></span></div>
+  <div class="sec" style="position: relative; min-height: 900px; padding: 0 40px 12px; display: flex; flex-direction: column">
+    <div class="g2" style="padding-top: 116px; align-items: start">
+      <h1 class="name" style="margin: 0 0 0 -0.04em; font-weight: 300; font-size: 13.5vw; line-height: 0.8; letter-spacing: -0.045em"><span class="ln"><span class="l1">Yarus</span></span></h1>
+
+    </div>
+    <div style="flex-grow: 1"></div>
+    <div class="g2 l2">
+      <div></div>
+      <div class="side" style="max-width: 460px; display: flex; flex-direction: column; gap: 22px; font-size: 18px; line-height: 1.45; text-shadow: 0 1px 14px rgba(0, 0, 0, 0.3)">
+        <p style="margin: 0">A 34-floor residence by the lake in Kyiv. Join early access to see prices and floor plans before public sales open in Q1 2027.</p>
+        <a class="rnd" href="#contact" onClick="{{ openGen }}" style="color: #FFFFFF"><span class="c" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>Get pre-launch prices</a>
+      </div>
+    </div>
+    <div style="flex-grow: 1; min-height: 40px"></div>
+    <div class="g4 k2 l2" style="row-gap: 12px; column-gap: 12px">
+      <div class="stc"><div style="position: relative; font-weight: 300; font-size: 72px; line-height: 0.92; letter-spacing: -0.025em"><span class="cnt hero" style="--to: 34;" aria-hidden="true"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">34</span></div><div style="font-size: 13px; margin-top: 10px; color: #55534E">floors</div></div>
+      <div class="stc"><div style="position: relative; font-weight: 300; font-size: 72px; line-height: 0.92; letter-spacing: -0.025em"><span class="cnt hero" style="--to: 4;" aria-hidden="true"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">4</span></div><div style="font-size: 13px; margin-top: 10px; color: #55534E">sky gardens</div></div>
+      <div class="stc"><div style="position: relative; font-weight: 300; font-size: 72px; line-height: 0.92; letter-spacing: -0.025em"><span class="cnt hero" style="--to: 1;" aria-hidden="true"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">1</span></div><div style="font-size: 13px; margin-top: 10px; color: #55534E">minute to the lake</div></div>
+      <div class="stc"><div style="position: relative; font-weight: 300; font-size: 72px; line-height: 0.92; letter-spacing: -0.025em">Q4<span style="font-size: 30px; margin-left: 8px"><span class="cnt hero" style="--to: 2028; --from: 2020;" aria-hidden="true"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">2028</span></span></div><div style="font-size: 13px; margin-top: 10px; color: #55534E">completion</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 Why now -->
+<section id="about" class="sec" style="padding: 160px 40px 0">
+  <h2 class="wd"><span class="ln sv"><span>Why now</span></span></h2>
+  <div class="g2 why" style="margin-top: 64px; align-items: stretch">
+    <div class="im tall gs" style="height: 100%; min-height: 640px"><img src="assets/img/skyline.jpg" alt="Yarus at golden hour above the rooftops of Kyiv" style="object-position: 60% 40%"></div>
+    <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 56px">
+      <div class="rv" style="border-top: 1px solid #111110; padding-top: 20px; display: flex; flex-direction: column; gap: 24px">
+        <h3 class="sub">The first in line choose first, and pay less</h3>
+        <div class="g2" style="font-size: var(--tx); line-height: 1.55; row-gap: 16px; color: #55534E"><p style="margin: 0">Early access opens before public sales. Members see every floor plan and the pre-launch price list ahead of everyone else.</p><p style="margin: 0">The price is reviewed at each construction stage. Upper-tier and garden-side homes go to the list first.</p></div>
+        <a class="pill" href="#contact" onClick="{{ openGen }}" style="align-self: flex-start">Get pre-launch prices <span class="ar" aria-hidden="true"><i>→</i><i>→</i></span></a>
+      </div>
+    <div class="g2 rv" style="row-gap: 12px; column-gap: 12px">
+      <div class="card wc"><div style="position: relative; font-weight: 300; font-size: 168px; line-height: 0.84; letter-spacing: -0.025em"><span class="cnt sc" style="--to: 1;" aria-hidden="true"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">1</span><span style="font-size: 48px; margin-left: 4px">st</span></div><p style="margin: 18px 0 0; font-size: var(--tx); line-height: 1.5"><span style="font-weight: 500">Price list.</span> The first and lowest price list of the project, for early access members only.</p></div>
+      <div class="card wc"><div style="position: relative; font-weight: 300; font-size: 168px; line-height: 0.84; letter-spacing: -0.025em"><span class="cnt sc" style="--to: 40;" aria-hidden="true"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">40</span></div><p style="margin: 18px 0 0; font-size: var(--tx); line-height: 1.5"><span style="font-weight: 500">Homes held for the list.</span> Upper-tier and garden-side homes, offered to members before anyone else.</p></div>
+      <div class="card wc"><div style="position: relative; font-weight: 300; font-size: 168px; line-height: 0.84; letter-spacing: -0.025em"><span class="cnt sc" style="--to: 30;" aria-hidden="true"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">30</span></div><p style="margin: 18px 0 0; font-size: var(--tx); line-height: 1.5"><span style="font-weight: 500">Days of price lock.</span> A fully refundable reservation holds your price while you check everything.</p></div>
+      <div class="card wc"><div style="position: relative; font-weight: 300; font-size: 168px; line-height: 0.84; letter-spacing: -0.025em"><span class="cnt sc" style="--to: 0;" aria-hidden="true"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">0</span><span style="font-size: 48px; margin-left: 4px">₴</span></div><p style="margin: 18px 0 0; font-size: var(--tx); line-height: 1.5"><span style="font-weight: 500">To join the list.</span> No payment and no obligation until you choose a home.</p></div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 Location -->
+<section id="location" style="padding-top: 160px">
+  <div class="g2 sec" style="padding: 0 40px; margin-bottom: 64px">
+    <h2 class="wd"><span class="ln sv"><span>Location</span></span></h2>
+    <div class="rv" style="display: flex; flex-direction: column; gap: 16px; padding-top: 14px">
+      <h3 class="sub">An old park and a lake at the door</h3>
+      <p style="margin: 0; max-width: 460px; font-size: var(--tx); line-height: 1.55">The centre of Kyiv is twelve minutes away. Morning runs by the water, meetings downtown by ten.</p>
+    </div>
+  </div>
+  <div class="im full grow" style="height: 760px"><img class="plx" src="assets/img/park-wide.jpg" alt="A park path leading to Yarus at golden hour" style="object-position: 50% 55%"></div>
+  <div class="g2 sec locg" style="padding: 64px 40px 0; align-items: stretch">
+    <div class="rv" style="display: flex; flex-direction: column; gap: 16px">
+      <h3 class="sub">Everything within a short walk</h3>
+      <p style="margin: 0; max-width: 420px; font-size: var(--tx); line-height: 1.55; color: #55534E">{{ locNote }}</p>
+      <div class="lv"><img class="{{ lc0 }}" src="assets/img/promenade.jpg" alt="The lakeside promenade below Yarus" loading="lazy"><img class="{{ lc1 }}" src="assets/img/school.jpg" alt="A school on the avenue, Yarus behind the trees" loading="lazy"><img class="{{ lc2 }}" src="assets/img/metro.jpg" alt="Metro entrance on the avenue, Yarus behind the trees" loading="lazy"><img class="{{ lc3 }}" src="assets/img/cafe.jpg" alt="The café on the ground floor of the tower at dusk" loading="lazy"><img class="{{ lc4 }}" src="assets/img/kyiv-sunset.jpg" alt="Central Kyiv and the Lavra at sunset" loading="lazy"></div>
+    </div>
+    <div class="ln2">
+      <sc-for list="{{ locs }}" as="l" hint-placeholder-count="5">
+        <button type="button" class="{{ l.cls }}" aria-pressed="{{ l.on }}" onMouseEnter="{{ l.pick }}" onClick="{{ l.pick }}" onFocus="{{ l.pick }}">
+          <span style="font-size: 44px; font-weight: 300; letter-spacing: -0.035em"><span class="dash"></span>{{ l.lower }}</span>
+          <span style="font-size: 13px">{{ l.dist }}</span>
+        </button>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- 4 Gardens -->
+<section id="gardens" class="sec" style="padding: 160px 40px 0">
+  <div class="g2" style="margin-bottom: 64px">
+    <h2 class="wd"><span class="ln sv"><span>Gardens</span></span></h2>
+    <div class="rv" style="display: flex; flex-direction: column; gap: 16px; padding-top: 14px">
+      <h3 class="sub">Four tiers, four gardens in the sky</h3>
+      <p style="margin: 0; max-width: 460px; font-size: var(--tx); line-height: 1.55">Every tier ends in a garden shared by its residents: trees, lawn and a view over Kyiv, high above the street.</p>
+    </div>
+  </div>
+  <div class="acc rv">
+    <div class="gp"><div class="gh"><b>0<small>m</small></b><span>Tier I</span></div><div class="im"><img src="assets/img/garden-court.jpg" alt="The courtyard garden at the foot of the tower" loading="lazy"><div class="cap"><strong>Courtyard garden</strong><em>A car-free yard with lawns, benches and a playground.</em></div></div></div>
+    <div class="gp"><div class="gh"><b>36<small>m</small></b><span>Tier II</span></div><div class="im"><img src="assets/img/garden-t2.jpg" alt="Lawn and trees under the tier above" loading="lazy"><div class="cap"><strong>Sky garden</strong><em>A lawn under the tier above, for morning coffee and yoga.</em></div></div></div>
+    <div class="gp"><div class="gh"><b>72<small>m</small></b><span>Tier III</span></div><div class="im"><img src="assets/img/terrace-detail.jpg" alt="Sky garden terrace with a view over Kyiv" loading="lazy"><div class="cap"><strong>Sky garden</strong><em>Trees grow between the glass tiers, right outside your window.</em></div></div></div>
+    <div class="gp"><div class="gh"><b>118<small>m</small></b><span>Tier IV</span></div><div class="im"><img src="assets/img/garden-roof.jpg" alt="Roof garden with lounge seating above the city" loading="lazy"><div class="cap"><strong>Roof garden</strong><em>A dining terrace with all of Kyiv around you.</em></div></div></div>
+  </div>
+  <div class="g4 rv" style="margin-top: 64px; row-gap: 32px">
+    <div class="card"><div style="font-size: 18px; letter-spacing: -0.01em">Car-free courtyard</div><p style="margin: 8px 0 0; font-size: var(--tx); line-height: 1.5; color: #6B6964">Cars stay underground. The yard is for children, dogs and evening walks.</p></div>
+    <div class="card"><div style="font-size: 18px; letter-spacing: -0.01em">Terrace café</div><p style="margin: 8px 0 0; font-size: var(--tx); line-height: 1.5; color: #6B6964">Breakfast under the trees, on the ground floor of the tower.</p></div>
+    <div class="card"><div style="font-size: 18px; letter-spacing: -0.01em">Residents' workspace</div><p style="margin: 8px 0 0; font-size: var(--tx); line-height: 1.5; color: #6B6964">Quiet desks and meeting rooms one lift ride from home.</p></div>
+    <div class="card"><div style="font-size: 18px; letter-spacing: -0.01em">Quiet floors</div><p style="margin: 8px 0 0; font-size: var(--tx); line-height: 1.5; color: #6B6964">Acoustic insulation between homes and between floors.</p></div>
+  </div>
+</section>
+
+<!-- 5 Autonomy -->
+<section class="sec" style="margin-top: 160px; padding: 120px 40px; background: #EDE3D3">
+  <div class="g2" style="margin-bottom: 64px">
+    <h2 class="wd"><span class="ln sv"><span>Autonomy</span></span></h2>
+    <div class="rv" style="display: flex; flex-direction: column; gap: 16px; padding-top: 14px">
+      <h3 class="sub">Heat, water and light, even when the city has none</h3>
+      <p style="margin: 0; max-width: 440px; font-size: var(--tx); line-height: 1.55">Yarus is designed for the reality we live in. Four systems keep the building running on its own.</p>
+    </div>
+  </div>
+  <div class="g2" style="align-items: end">
+    <div class="im tall gs" style="height: 640px"><img src="assets/img/boiler.jpg" alt="The building’s own boiler house and water treatment"></div>
+    <div class="rv" style="border-top: 1px solid #CDBFAB">
+      <div style="padding: 24px 0; border-bottom: 1px solid #CDBFAB; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 16px"><span style="font-size: 12px; color: #55534E; padding-top: 10px">01</span><div><div style="font-size: 34px; font-weight: 300; letter-spacing: -0.035em">own boiler house</div><p style="margin: 6px 0 0; font-size: var(--tx); color: #55534E">Heating and hot water independent of city networks.</p></div></div>
+      <div style="padding: 24px 0; border-bottom: 1px solid #CDBFAB; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 16px"><span style="font-size: 12px; color: #55534E; padding-top: 10px">02</span><div><div style="font-size: 34px; font-weight: 300; letter-spacing: -0.035em">artesian well</div><p style="margin: 6px 0 0; font-size: var(--tx); color: #55534E">A backup water supply for the whole building.</p></div></div>
+      <div style="padding: 24px 0; border-bottom: 1px solid #CDBFAB; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 16px"><span style="font-size: 12px; color: #55534E; padding-top: 10px">03</span><div><div style="font-size: 34px; font-weight: 300; letter-spacing: -0.035em">backup power</div><p style="margin: 6px 0 0; font-size: var(--tx); color: #55534E">Lifts, stairwell lights and pumps keep working during outages.</p></div></div>
+      <div style="padding: 24px 0; border-bottom: 1px solid #CDBFAB; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 16px"><span style="font-size: 12px; color: #55534E; padding-top: 10px">04</span><div><div style="font-size: 34px; font-weight: 300; letter-spacing: -0.035em">shelter</div><p style="margin: 6px 0 0; font-size: var(--tx); color: #55534E">On the underground level, with ventilation and connectivity.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 Residences: tier picker on the real tower -->
+<section id="residences">
+  <div class="full" style="position: relative; min-height: 820px; overflow: hidden; color: #FFFFFF">
+    <img class="plx" src="assets/img/living.jpg" alt="Open living room and kitchen with a view of the lake and Kyiv" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 40% 55%; display: block">
+    <div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20, 22, 26, 0) 45%, rgba(20, 22, 26, 0.5) 100%)"></div>
+    <div class="g2 sec" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 0 40px 44px; align-items: end">
+      <h2 class="wd"><span class="ln sv"><span>Residences</span></span></h2>
+      <p style="margin: 0; max-width: 380px; font-size: 18px; line-height: 1.35; letter-spacing: -0.01em">168 homes from 46 m². Floor-to-ceiling windows, ceilings from&nbsp;3&nbsp;m, a view in every room.</p>
+    </div>
+  </div>
+  <div class="g2 sec" style="padding: 160px 40px 0; align-items: start">
+    <div class="tw">
+      <img src="assets/img/lake-trees.jpg" alt="Yarus, its four tiers seen across the lake"><span class="rsl" aria-hidden="true">Floors</span><i class="{{ rs3 }}" data-f="28–34" aria-hidden="true" style="top: 28.6%; height: 10.4%"></i><i class="{{ rs2 }}" data-f="19–27" aria-hidden="true" style="top: 39%; height: 11.2%"></i><i class="{{ rs1 }}" data-f="10–18" aria-hidden="true" style="top: 50.2%; height: 9.4%"></i><i class="{{ rs0 }}" data-f="2–9" aria-hidden="true" style="top: 59.6%; height: 10.6%"></i>
+      <button type="button" class="{{ bc3 }}" aria-pressed="{{ ap3 }}" onClick="{{ p3 }}" onMouseEnter="{{ p3 }}" aria-label="Show tier IV" style="top: 28.6%; height: 10.4%"><span class="bn" aria-hidden="true">IV</span><span class="bl">Tier IV · floors 28–34</span></button>
+      <button type="button" class="{{ bc2 }}" aria-pressed="{{ ap2 }}" onClick="{{ p2 }}" onMouseEnter="{{ p2 }}" aria-label="Show tier III" style="top: 39%; height: 11.2%"><span class="bn" aria-hidden="true">III</span><span class="bl">Tier III · floors 19–27</span></button>
+      <button type="button" class="{{ bc1 }}" aria-pressed="{{ ap1 }}" onClick="{{ p1 }}" onMouseEnter="{{ p1 }}" aria-label="Show tier II" style="top: 50.2%; height: 9.4%"><span class="bn" aria-hidden="true">II</span><span class="bl">Tier II · floors 10–18</span></button>
+      <button type="button" class="{{ bc0 }}" aria-pressed="{{ ap0 }}" onClick="{{ p0 }}" onMouseEnter="{{ p0 }}" aria-label="Show tier I" style="top: 59.6%; height: 10.6%"><span class="bn" aria-hidden="true">I</span><span class="bl">Tier I · floors 2–9</span></button>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 24px">
+      <div>
+        <h3 class="sub">Choose your height</h3>
+        <p style="margin: 16px 0 0; max-width: 440px; font-size: var(--tx); line-height: 1.55; color: #55534E">Four tiers, each with its own garden. The higher the tier, the wider the view. Select a tier on the photo or in the list.</p>
+      </div>
+      <div class="ln2">
+        <sc-for list="{{ tiers }}" as="t" hint-placeholder-count="4">
+          <button type="button" class="{{ t.cls }}" onClick="{{ t.pick }}" onMouseEnter="{{ t.pick }}" aria-pressed="{{ t.on }}">
+            <span style="font-size: 34px; font-weight: 300; letter-spacing: -0.035em">{{ t.short }}</span>
+            <span style="font-size: 15px">floors {{ t.floors }} · {{ t.garden }}</span>
+            <span style="font-size: 15px">from {{ t.from }} m²</span>
+          </button>
+        </sc-for>
+      </div>
+      <div style="background: #FFFFFF; padding: 32px; display: flex; flex-direction: column; gap: 24px">
+        <div class="vw"><img class="{{ vc0 }}" src="assets/img/bedroom.jpg" alt="View from a tier I bedroom" loading="lazy"><img class="{{ vc1 }}" src="assets/img/view-lake.jpg" alt="Living room on tier II overlooking the park and lake" loading="lazy"><img class="{{ vc2 }}" src="assets/img/view-lavra.jpg" alt="Living room on tier III with the lake and Kyiv at sunset" loading="lazy"><img class="{{ vc3 }}" src="assets/img/terrace-ph.jpg" alt="Penthouse terrace on tier IV above Kyiv at sunset" loading="lazy"><img class="{{ pc0 }}" src="assets/img/plan-1.jpg" alt="Typical one-bedroom floor plan" loading="lazy"><img class="{{ pc1 }}" src="assets/img/plan-2.jpg" alt="Typical two-bedroom floor plan" loading="lazy"><img class="{{ pc2 }}" src="assets/img/plan-3.jpg" alt="Typical three-bedroom floor plan" loading="lazy"><img class="{{ pc3 }}" src="assets/img/plan-ph.jpg" alt="Penthouse floor plan with a wraparound terrace" loading="lazy"><div class="vt" role="group"><button type="button" class="{{ vtV }}" aria-pressed="{{ vtVp }}" onClick="{{ showView }}">View</button><button type="button" class="{{ vtP }}" aria-pressed="{{ vtPp }}" onClick="{{ showPlan }}">Floor plan</button></div><div class="{{ pcapCls }}">{{ planCap }}</div></div>
+        <div class="tch"><div class="tnm">{{ tier.name }}</div><span>floors {{ tier.floors }} · from {{ tier.from }} m²</span></div>
+        <div class="tst">
+          <div><span>Homes</span><div class="big">{{ tier.homes }}</div></div>
+          <div><span>Ceilings</span><div class="big">{{ tier.ceil }}</div></div>
+          <div><span>Layouts</span><div class="tx">{{ tier.mix }}</div></div>
+          <div><span>View</span><div class="tx">{{ tier.view }}</div></div>
+        </div>
+        <div class="tcta"><a class="pill solid" href="#contact" onClick="{{ openTier }}"><span>Get {{ tier.name }} floor plans</span> <span class="ar" aria-hidden="true"><i>→</i><i>→</i></span></a><p>Floor plans and prices within one working day.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="hs">
+    <div class="hs-pin">
+      <div class="hs-track">
+      <div class="hs-intro"><h2 class="wd"><span class="ln sv"><span>Inside</span></span></h2><h3 class="sub">Stone, oak, linen and a view from every room</h3><p style="margin: 0; max-width: 420px; font-size: var(--tx); line-height: 1.55; color: #55534E">Natural materials, ceilings from 3 m and windows from floor to ceiling. Every home is handed over ready for your furniture.</p><span class="hint"><i></i><span class="dsk">Keep scrolling →</span><span class="mob">Swipe →</span></span></div>
+      <figure class="hs-item" style="width: calc(min(64vh, 640px) * 1.5)"><div class="im"><img src="assets/img/living.jpg" alt="Living room and kitchen" loading="lazy"></div><figcaption><b>Living room and kitchen</b><span>01 / 06</span></figcaption></figure>
+      <figure class="hs-item" style="width: calc(min(64vh, 640px) * 1.2)"><div class="im"><img src="assets/img/bath.jpg" alt="Stone and oak bathroom" loading="lazy"></div><figcaption><b>Stone and oak bathroom</b><span>02 / 06</span></figcaption></figure>
+      <figure class="hs-item" style="width: calc(min(64vh, 640px) * 1.5)"><div class="im"><img src="assets/img/bedroom.jpg" alt="Bedroom above the city" loading="lazy"></div><figcaption><b>Bedroom above the city</b><span>03 / 06</span></figcaption></figure>
+      <figure class="hs-item" style="width: calc(min(64vh, 640px) * 1.5)"><div class="im"><img src="assets/img/view-penthouse.jpg" alt="Living room opening onto the terrace" loading="lazy"></div><figcaption><b>Living room opening onto the terrace</b><span>04 / 06</span></figcaption></figure>
+      <figure class="hs-item" style="width: calc(min(64vh, 640px) * 1.0)"><div class="im"><img src="assets/img/lobby.jpg" alt="Lobby and concierge" loading="lazy"></div><figcaption><b>Lobby and concierge</b><span>05 / 06</span></figcaption></figure>
+      <figure class="hs-item" style="width: calc(min(64vh, 640px) * 1.5)"><div class="im"><img src="assets/img/terrace-walk.jpg" alt="Garden terrace, tier I" loading="lazy"></div><figcaption><b>Garden terrace, tier I</b><span>06 / 06</span></figcaption></figure>
+      </div>
+      <div class="hs-bar" aria-hidden="true"><i></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 Trust -->
+<section id="trust" class="sec" style="padding: 160px 40px 0">
+  <div class="g2" style="align-items: start">
+    <div class="tsk" style="position: sticky; top: 96px; display: flex; flex-direction: column; gap: 40px"><h2 class="wd"><span class="ln sv"><span>Trust</span></span></h2><figure class="rv" style="margin: 0; max-width: 560px"><div class="im" style="aspect-ratio: 3 / 2"><img src="assets/img/construction.jpg" alt="The construction site at golden hour" loading="lazy"></div><figcaption style="margin-top: 14px; font-size: 13px; color: #55534E">Site camera 24/7 · a photo report every month</figcaption></figure></div>
+    <div style="display: flex; flex-direction: column; gap: 24px; padding-top: 14px">
+      <h3 class="sub rv">Check us before you leave your number</h3>
+      <p class="rv" style="margin: 0; max-width: 460px; font-size: var(--tx); line-height: 1.55">The building is not built yet. So everything that can be verified is published in advance.</p>
+      <div class="ln2 rv" style="margin-top: 16px">
+        <div style="padding: 22px 0; border-bottom: 1px solid #CFCCC4"><div style="display: flex; justify-content: space-between; gap: 16px; align-items: baseline"><span style="font-size: 22px; letter-spacing: -0.02em">Documents, open</span><a class="ul" href="#documents" style="font-size: 12px; font-weight: 500">Check in the register →</a></div><p style="margin: 8px 0 0; font-size: var(--tx); line-height: 1.5; color: #6B6964">Land title, planning conditions, building permit No. [permit number], expert report. Every document can be checked in the state register.</p></div>
+        <div style="padding: 22px 0; border-bottom: 1px solid #CFCCC4"><span style="font-size: 22px; letter-spacing: -0.02em">Separate financing</span><p style="margin: 8px 0 0; font-size: var(--tx); line-height: 1.5; color: #6B6964">Money from Yarus buyers goes to Yarus only.</p></div>
+        <div style="padding: 22px 0; border-bottom: 1px solid #CFCCC4"><span style="font-size: 22px; letter-spacing: -0.02em">Your right, registered</span><p style="margin: 8px 0 0; font-size: var(--tx); line-height: 1.5; color: #6B6964">Your right to the future home is entered in the state register before completion.</p></div>
+        <div style="padding: 22px 0; border-bottom: 1px solid #CFCCC4"><span style="font-size: 22px; letter-spacing: -0.02em">Construction, live</span><p style="margin: 8px 0 0; font-size: var(--tx); line-height: 1.5; color: #6B6964">A 24/7 site camera and a photo report every month.</p></div>
+        <div style="padding: 22px 0; border-bottom: 1px solid #CFCCC4"><span style="font-size: 22px; letter-spacing: -0.02em">An honest schedule</span><p style="margin: 8px 0 0; font-size: var(--tx); line-height: 1.5; color: #6B6964">The works schedule is public. If a date moves, we say so first and explain why.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 Developer -->
+<section class="sec" style="margin-top: 160px; padding: 120px 40px; background: #EDE3D3">
+  <div class="g2" style="align-items: stretch">
+    <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 40px">
+      <h2 class="wd"><span class="ln sv"><span>Developer</span></span></h2>
+      <div class="rv" style="display: flex; flex-direction: column; gap: 16px">
+        <h3 class="sub">Meridian builds one building at a time</h3>
+        <p style="margin: 0; max-width: 460px; font-size: var(--tx); line-height: 1.55">Our own technical supervision team, open reporting, and a founding team behind every decision.</p>
+      </div>
+      <div class="g2 rv" style="row-gap: 12px; column-gap: 12px">
+        <div class="card wc"><div style="position: relative; font-weight: 300; font-size: 128px; line-height: 0.88; letter-spacing: -0.025em"><span class="cnt sc" style="--to: 14;" aria-hidden="true"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">14</span></div><div style="font-size: 12px; margin-top: 10px">years in Kyiv</div></div>
+        <div class="card wc"><div style="position: relative; font-weight: 300; font-size: 128px; line-height: 0.88; letter-spacing: -0.025em"><span class="cnt sc" style="--to: 9;" aria-hidden="true"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">9</span></div><div style="font-size: 12px; margin-top: 10px">buildings delivered on schedule</div></div>
+      </div>
+    </div>
+    <div class="im tall gs" style="height: 760px"><img src="assets/img/office.jpg" alt="Meridian's studio with a view over Kyiv" style="object-position: 60% 50%"></div>
+  </div>
+</section>
+
+<!-- 8 Price -->
+<section class="sec" style="padding: 120px 40px; background: #FFFFFF">
+  <div class="g2" style="margin-bottom: 64px">
+    <h2 class="wd"><span class="ln sv"><span>Price</span></span></h2>
+    <h3 class="sub rv" style="padding-top: 14px">rises with the building. The lowest it will ever be is now.</h3>
+  </div>
+  <div class="{{ pgCls }}" onMouseEnter="{{ stIn }}" onMouseLeave="{{ stOut }}" style="position: relative; row-gap: 32px; align-items: stretch">
+    <div class="pvm" aria-hidden="true"><div class="{{ pm0 }}"><svg class="pvz2" viewBox="0 0 200 214" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><line x1="0" y1="210" x2="200" y2="210" stroke="currentColor" stroke-width="1"/><rect x="70" y="160" width="60" height="50" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity=".45"/><rect x="58" y="115" width="66" height="45" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity=".45"/><rect x="74" y="70" width="66" height="45" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity=".45"/><rect x="64" y="25" width="62" height="45" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity=".45"/><rect x="66" y="204" width="68" height="6" fill="currentColor" opacity=".35"/><g stroke="currentColor" stroke-width="1" fill="none"><line x1="168" y1="210" x2="168" y2="120"/><line x1="150" y1="126" x2="196" y2="126"/><line x1="168" y1="120" x2="152" y2="126"/><line x1="186" y1="126" x2="186" y2="146" stroke-width=".6"/></g></svg></div><div class="{{ pm1 }}"><svg class="pvz2" viewBox="0 0 200 214" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><line x1="0" y1="210" x2="200" y2="210" stroke="currentColor" stroke-width="1"/><rect x="70" y="160" width="60" height="50" fill="none" stroke="currentColor" stroke-width="1.2"/><line x1="70" y1="170.0" x2="130" y2="170.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="180.0" x2="130" y2="180.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="190.0" x2="130" y2="190.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="200.0" x2="130" y2="200.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="85.0" y1="160" x2="85.0" y2="210" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="100.0" y1="160" x2="100.0" y2="210" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="115.0" y1="160" x2="115.0" y2="210" stroke="currentColor" stroke-width=".6" opacity=".6"/><rect x="58" y="115" width="66" height="45" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity=".45"/><rect x="74" y="70" width="66" height="45" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity=".45"/><rect x="64" y="25" width="62" height="45" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity=".45"/><g stroke="currentColor" stroke-width="1" fill="none"><line x1="168" y1="210" x2="168" y2="95"/><line x1="150" y1="101" x2="196" y2="101"/><line x1="168" y1="95" x2="152" y2="101"/><line x1="186" y1="101" x2="186" y2="121" stroke-width=".6"/></g></svg></div><div class="{{ pm2 }}"><svg class="pvz2" viewBox="0 0 200 214" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><line x1="0" y1="210" x2="200" y2="210" stroke="currentColor" stroke-width="1"/><rect x="70" y="160" width="60" height="50" fill="none" stroke="currentColor" stroke-width="1.2"/><line x1="70" y1="170.0" x2="130" y2="170.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="180.0" x2="130" y2="180.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="190.0" x2="130" y2="190.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="200.0" x2="130" y2="200.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="85.0" y1="160" x2="85.0" y2="210" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="100.0" y1="160" x2="100.0" y2="210" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="115.0" y1="160" x2="115.0" y2="210" stroke="currentColor" stroke-width=".6" opacity=".6"/><rect x="58" y="115" width="66" height="45" fill="none" stroke="currentColor" stroke-width="1.2"/><line x1="58" y1="124.0" x2="124" y2="124.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="58" y1="133.0" x2="124" y2="133.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="58" y1="142.0" x2="124" y2="142.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="58" y1="151.0" x2="124" y2="151.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="74.5" y1="115" x2="74.5" y2="160" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="91.0" y1="115" x2="91.0" y2="160" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="107.5" y1="115" x2="107.5" y2="160" stroke="currentColor" stroke-width=".6" opacity=".6"/><rect x="74" y="70" width="66" height="45" fill="none" stroke="currentColor" stroke-width="1.2"/><line x1="74" y1="79.0" x2="140" y2="79.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="74" y1="88.0" x2="140" y2="88.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="74" y1="97.0" x2="140" y2="97.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="74" y1="106.0" x2="140" y2="106.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="90.5" y1="70" x2="90.5" y2="115" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="107.0" y1="70" x2="107.0" y2="115" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="123.5" y1="70" x2="123.5" y2="115" stroke="currentColor" stroke-width=".6" opacity=".6"/><rect x="64" y="25" width="62" height="45" fill="none" stroke="currentColor" stroke-width="1.2"/><line x1="64" y1="34.0" x2="126" y2="34.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="64" y1="43.0" x2="126" y2="43.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="64" y1="52.0" x2="126" y2="52.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="64" y1="61.0" x2="126" y2="61.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="79.5" y1="25" x2="79.5" y2="70" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="95.0" y1="25" x2="95.0" y2="70" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="110.5" y1="25" x2="110.5" y2="70" stroke="currentColor" stroke-width=".6" opacity=".6"/><g stroke="currentColor" stroke-width="1" fill="none"><line x1="168" y1="210" x2="168" y2="12"/><line x1="150" y1="18" x2="196" y2="18"/><line x1="168" y1="12" x2="152" y2="18"/><line x1="186" y1="18" x2="186" y2="38" stroke-width=".6"/></g></svg></div><div class="{{ pm3 }}"><svg class="pvz2" viewBox="0 0 200 214" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><line x1="0" y1="210" x2="200" y2="210" stroke="currentColor" stroke-width="1"/><rect x="70" y="160" width="60" height="50" fill="currentColor" fill-opacity=".1" stroke="currentColor" stroke-width="1.2"/><line x1="70" y1="170.0" x2="130" y2="170.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="180.0" x2="130" y2="180.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="190.0" x2="130" y2="190.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="200.0" x2="130" y2="200.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="80.0" y1="160" x2="80.0" y2="210" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="90.0" y1="160" x2="90.0" y2="210" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="100.0" y1="160" x2="100.0" y2="210" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="110.0" y1="160" x2="110.0" y2="210" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="120.0" y1="160" x2="120.0" y2="210" stroke="currentColor" stroke-width=".4" opacity=".45"/><circle cx="78.0" cy="157" r="3.2" fill="currentColor" opacity=".55"/><circle cx="92.7" cy="157" r="3.2" fill="currentColor" opacity=".55"/><circle cx="107.3" cy="157" r="3.2" fill="currentColor" opacity=".55"/><circle cx="122.0" cy="157" r="3.2" fill="currentColor" opacity=".55"/><rect x="58" y="115" width="66" height="45" fill="currentColor" fill-opacity=".1" stroke="currentColor" stroke-width="1.2"/><line x1="58" y1="124.0" x2="124" y2="124.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="58" y1="133.0" x2="124" y2="133.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="58" y1="142.0" x2="124" y2="142.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="58" y1="151.0" x2="124" y2="151.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="69.0" y1="115" x2="69.0" y2="160" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="80.0" y1="115" x2="80.0" y2="160" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="91.0" y1="115" x2="91.0" y2="160" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="102.0" y1="115" x2="102.0" y2="160" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="113.0" y1="115" x2="113.0" y2="160" stroke="currentColor" stroke-width=".4" opacity=".45"/><circle cx="66.0" cy="112" r="3.2" fill="currentColor" opacity=".55"/><circle cx="82.7" cy="112" r="3.2" fill="currentColor" opacity=".55"/><circle cx="99.3" cy="112" r="3.2" fill="currentColor" opacity=".55"/><circle cx="116.0" cy="112" r="3.2" fill="currentColor" opacity=".55"/><rect x="74" y="70" width="66" height="45" fill="currentColor" fill-opacity=".1" stroke="currentColor" stroke-width="1.2"/><line x1="74" y1="79.0" x2="140" y2="79.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="74" y1="88.0" x2="140" y2="88.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="74" y1="97.0" x2="140" y2="97.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="74" y1="106.0" x2="140" y2="106.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="85.0" y1="70" x2="85.0" y2="115" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="96.0" y1="70" x2="96.0" y2="115" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="107.0" y1="70" x2="107.0" y2="115" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="118.0" y1="70" x2="118.0" y2="115" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="129.0" y1="70" x2="129.0" y2="115" stroke="currentColor" stroke-width=".4" opacity=".45"/><circle cx="82.0" cy="67" r="3.2" fill="currentColor" opacity=".55"/><circle cx="98.7" cy="67" r="3.2" fill="currentColor" opacity=".55"/><circle cx="115.3" cy="67" r="3.2" fill="currentColor" opacity=".55"/><circle cx="132.0" cy="67" r="3.2" fill="currentColor" opacity=".55"/><rect x="64" y="25" width="62" height="45" fill="currentColor" fill-opacity=".1" stroke="currentColor" stroke-width="1.2"/><line x1="64" y1="34.0" x2="126" y2="34.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="64" y1="43.0" x2="126" y2="43.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="64" y1="52.0" x2="126" y2="52.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="64" y1="61.0" x2="126" y2="61.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="74.3" y1="25" x2="74.3" y2="70" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="84.7" y1="25" x2="84.7" y2="70" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="95.0" y1="25" x2="95.0" y2="70" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="105.3" y1="25" x2="105.3" y2="70" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="115.7" y1="25" x2="115.7" y2="70" stroke="currentColor" stroke-width=".4" opacity=".45"/><circle cx="72.0" cy="22" r="3.2" fill="currentColor" opacity=".55"/><circle cx="87.3" cy="22" r="3.2" fill="currentColor" opacity=".55"/><circle cx="102.7" cy="22" r="3.2" fill="currentColor" opacity=".55"/><circle cx="118.0" cy="22" r="3.2" fill="currentColor" opacity=".55"/><circle cx="30" cy="40" r="10" fill="none" stroke="currentColor" stroke-width="1"/></svg></div></div>
+    <div class="pline" aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 6px; height: 1px; background: #CFCCC4"></div>
+    <button type="button" class="{{ sc0 }}" aria-pressed="{{ sp0 }}" onMouseEnter="{{ ss0 }}" onFocus="{{ ss0 }}" onClick="{{ ss0 }}" style="position: relative; display: flex; flex-direction: column; gap: 14px; min-height: 400px"><i class="prg" aria-hidden="true"></i><span class="dotp"></span><span class="nm">early access</span><span class="dt">now, until Q1 2027</span><span class="pc">today’s price</span><svg class="pviz" viewBox="0 0 200 214" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><line x1="0" y1="210" x2="200" y2="210" stroke="currentColor" stroke-width="1"/><rect x="70" y="160" width="60" height="50" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity=".45"/><rect x="58" y="115" width="66" height="45" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity=".45"/><rect x="74" y="70" width="66" height="45" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity=".45"/><rect x="64" y="25" width="62" height="45" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity=".45"/><rect x="66" y="204" width="68" height="6" fill="currentColor" opacity=".35"/><g stroke="currentColor" stroke-width="1" fill="none"><line x1="168" y1="210" x2="168" y2="120"/><line x1="150" y1="126" x2="196" y2="126"/><line x1="168" y1="120" x2="152" y2="126"/><line x1="186" y1="126" x2="186" y2="146" stroke-width=".6"/></g></svg></button>
+    <button type="button" class="{{ sc1 }}" aria-pressed="{{ sp1 }}" onMouseEnter="{{ ss1 }}" onFocus="{{ ss1 }}" onClick="{{ ss1 }}" style="position: relative; display: flex; flex-direction: column; gap: 14px; min-height: 400px"><i class="prg" aria-hidden="true"></i><span class="dotp"></span><span class="nm">public sales</span><span class="dt">Q1 2027</span><span class="pc">+10%</span><svg class="pviz" viewBox="0 0 200 214" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><line x1="0" y1="210" x2="200" y2="210" stroke="currentColor" stroke-width="1"/><rect x="70" y="160" width="60" height="50" fill="none" stroke="currentColor" stroke-width="1.2"/><line x1="70" y1="170.0" x2="130" y2="170.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="180.0" x2="130" y2="180.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="190.0" x2="130" y2="190.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="200.0" x2="130" y2="200.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="85.0" y1="160" x2="85.0" y2="210" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="100.0" y1="160" x2="100.0" y2="210" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="115.0" y1="160" x2="115.0" y2="210" stroke="currentColor" stroke-width=".6" opacity=".6"/><rect x="58" y="115" width="66" height="45" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity=".45"/><rect x="74" y="70" width="66" height="45" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity=".45"/><rect x="64" y="25" width="62" height="45" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" opacity=".45"/><g stroke="currentColor" stroke-width="1" fill="none"><line x1="168" y1="210" x2="168" y2="95"/><line x1="150" y1="101" x2="196" y2="101"/><line x1="168" y1="95" x2="152" y2="101"/><line x1="186" y1="101" x2="186" y2="121" stroke-width=".6"/></g></svg></button>
+    <button type="button" class="{{ sc2 }}" aria-pressed="{{ sp2 }}" onMouseEnter="{{ ss2 }}" onFocus="{{ ss2 }}" onClick="{{ ss2 }}" style="position: relative; display: flex; flex-direction: column; gap: 14px; min-height: 400px"><i class="prg" aria-hidden="true"></i><span class="dotp"></span><span class="nm">frame</span><span class="dt">Q2 2028</span><span class="pc">+20%</span><svg class="pviz" viewBox="0 0 200 214" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><line x1="0" y1="210" x2="200" y2="210" stroke="currentColor" stroke-width="1"/><rect x="70" y="160" width="60" height="50" fill="none" stroke="currentColor" stroke-width="1.2"/><line x1="70" y1="170.0" x2="130" y2="170.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="180.0" x2="130" y2="180.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="190.0" x2="130" y2="190.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="200.0" x2="130" y2="200.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="85.0" y1="160" x2="85.0" y2="210" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="100.0" y1="160" x2="100.0" y2="210" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="115.0" y1="160" x2="115.0" y2="210" stroke="currentColor" stroke-width=".6" opacity=".6"/><rect x="58" y="115" width="66" height="45" fill="none" stroke="currentColor" stroke-width="1.2"/><line x1="58" y1="124.0" x2="124" y2="124.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="58" y1="133.0" x2="124" y2="133.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="58" y1="142.0" x2="124" y2="142.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="58" y1="151.0" x2="124" y2="151.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="74.5" y1="115" x2="74.5" y2="160" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="91.0" y1="115" x2="91.0" y2="160" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="107.5" y1="115" x2="107.5" y2="160" stroke="currentColor" stroke-width=".6" opacity=".6"/><rect x="74" y="70" width="66" height="45" fill="none" stroke="currentColor" stroke-width="1.2"/><line x1="74" y1="79.0" x2="140" y2="79.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="74" y1="88.0" x2="140" y2="88.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="74" y1="97.0" x2="140" y2="97.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="74" y1="106.0" x2="140" y2="106.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="90.5" y1="70" x2="90.5" y2="115" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="107.0" y1="70" x2="107.0" y2="115" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="123.5" y1="70" x2="123.5" y2="115" stroke="currentColor" stroke-width=".6" opacity=".6"/><rect x="64" y="25" width="62" height="45" fill="none" stroke="currentColor" stroke-width="1.2"/><line x1="64" y1="34.0" x2="126" y2="34.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="64" y1="43.0" x2="126" y2="43.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="64" y1="52.0" x2="126" y2="52.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="64" y1="61.0" x2="126" y2="61.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="79.5" y1="25" x2="79.5" y2="70" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="95.0" y1="25" x2="95.0" y2="70" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="110.5" y1="25" x2="110.5" y2="70" stroke="currentColor" stroke-width=".6" opacity=".6"/><g stroke="currentColor" stroke-width="1" fill="none"><line x1="168" y1="210" x2="168" y2="12"/><line x1="150" y1="18" x2="196" y2="18"/><line x1="168" y1="12" x2="152" y2="18"/><line x1="186" y1="18" x2="186" y2="38" stroke-width=".6"/></g></svg></button>
+    <button type="button" class="{{ sc3 }}" aria-pressed="{{ sp3 }}" onMouseEnter="{{ ss3 }}" onFocus="{{ ss3 }}" onClick="{{ ss3 }}" style="position: relative; display: flex; flex-direction: column; gap: 14px; min-height: 400px"><i class="prg" aria-hidden="true"></i><span class="dotp"></span><span class="nm">completion</span><span class="dt">Q4 2028</span><span class="pc">+30%</span><svg class="pviz" viewBox="0 0 200 214" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><line x1="0" y1="210" x2="200" y2="210" stroke="currentColor" stroke-width="1"/><rect x="70" y="160" width="60" height="50" fill="currentColor" fill-opacity=".1" stroke="currentColor" stroke-width="1.2"/><line x1="70" y1="170.0" x2="130" y2="170.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="180.0" x2="130" y2="180.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="190.0" x2="130" y2="190.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="70" y1="200.0" x2="130" y2="200.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="80.0" y1="160" x2="80.0" y2="210" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="90.0" y1="160" x2="90.0" y2="210" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="100.0" y1="160" x2="100.0" y2="210" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="110.0" y1="160" x2="110.0" y2="210" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="120.0" y1="160" x2="120.0" y2="210" stroke="currentColor" stroke-width=".4" opacity=".45"/><circle cx="78.0" cy="157" r="3.2" fill="currentColor" opacity=".55"/><circle cx="92.7" cy="157" r="3.2" fill="currentColor" opacity=".55"/><circle cx="107.3" cy="157" r="3.2" fill="currentColor" opacity=".55"/><circle cx="122.0" cy="157" r="3.2" fill="currentColor" opacity=".55"/><rect x="58" y="115" width="66" height="45" fill="currentColor" fill-opacity=".1" stroke="currentColor" stroke-width="1.2"/><line x1="58" y1="124.0" x2="124" y2="124.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="58" y1="133.0" x2="124" y2="133.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="58" y1="142.0" x2="124" y2="142.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="58" y1="151.0" x2="124" y2="151.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="69.0" y1="115" x2="69.0" y2="160" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="80.0" y1="115" x2="80.0" y2="160" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="91.0" y1="115" x2="91.0" y2="160" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="102.0" y1="115" x2="102.0" y2="160" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="113.0" y1="115" x2="113.0" y2="160" stroke="currentColor" stroke-width=".4" opacity=".45"/><circle cx="66.0" cy="112" r="3.2" fill="currentColor" opacity=".55"/><circle cx="82.7" cy="112" r="3.2" fill="currentColor" opacity=".55"/><circle cx="99.3" cy="112" r="3.2" fill="currentColor" opacity=".55"/><circle cx="116.0" cy="112" r="3.2" fill="currentColor" opacity=".55"/><rect x="74" y="70" width="66" height="45" fill="currentColor" fill-opacity=".1" stroke="currentColor" stroke-width="1.2"/><line x1="74" y1="79.0" x2="140" y2="79.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="74" y1="88.0" x2="140" y2="88.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="74" y1="97.0" x2="140" y2="97.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="74" y1="106.0" x2="140" y2="106.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="85.0" y1="70" x2="85.0" y2="115" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="96.0" y1="70" x2="96.0" y2="115" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="107.0" y1="70" x2="107.0" y2="115" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="118.0" y1="70" x2="118.0" y2="115" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="129.0" y1="70" x2="129.0" y2="115" stroke="currentColor" stroke-width=".4" opacity=".45"/><circle cx="82.0" cy="67" r="3.2" fill="currentColor" opacity=".55"/><circle cx="98.7" cy="67" r="3.2" fill="currentColor" opacity=".55"/><circle cx="115.3" cy="67" r="3.2" fill="currentColor" opacity=".55"/><circle cx="132.0" cy="67" r="3.2" fill="currentColor" opacity=".55"/><rect x="64" y="25" width="62" height="45" fill="currentColor" fill-opacity=".1" stroke="currentColor" stroke-width="1.2"/><line x1="64" y1="34.0" x2="126" y2="34.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="64" y1="43.0" x2="126" y2="43.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="64" y1="52.0" x2="126" y2="52.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="64" y1="61.0" x2="126" y2="61.0" stroke="currentColor" stroke-width=".6" opacity=".6"/><line x1="74.3" y1="25" x2="74.3" y2="70" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="84.7" y1="25" x2="84.7" y2="70" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="95.0" y1="25" x2="95.0" y2="70" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="105.3" y1="25" x2="105.3" y2="70" stroke="currentColor" stroke-width=".4" opacity=".45"/><line x1="115.7" y1="25" x2="115.7" y2="70" stroke="currentColor" stroke-width=".4" opacity=".45"/><circle cx="72.0" cy="22" r="3.2" fill="currentColor" opacity=".55"/><circle cx="87.3" cy="22" r="3.2" fill="currentColor" opacity=".55"/><circle cx="102.7" cy="22" r="3.2" fill="currentColor" opacity=".55"/><circle cx="118.0" cy="22" r="3.2" fill="currentColor" opacity=".55"/><circle cx="30" cy="40" r="10" fill="none" stroke="currentColor" stroke-width="1"/></svg></button>
+  </div>
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; margin-top: 64px">
+    <div style="display: flex; flex-direction: column; gap: 8px"><p class="pnote" aria-live="polite">{{ stgNote }}</p><p style="margin: 0; font-size: 12px; color: #6B6964">Indicative growth; exact figures are in the price list.</p></div>
+    <a class="pill" href="#contact" onClick="{{ openPrice }}">Get the price list <span class="ar" aria-hidden="true"><i>→</i><i>→</i></span></a>
+  </div>
+</section>
+
+<!-- 10 Terms -->
+<section id="terms" class="sec trm" style="padding: 120px 40px">
+  <div class="g2">
+    <div style="display: flex; flex-direction: column; gap: 24px"><h2 class="wd"><span class="ln sv"><span>Terms</span></span></h2><p class="tsub rv">Three ways to pay. Every term is written into the contract, with no hidden fees.</p></div>
+    <div class="ln2 rv" style="margin-top: 14px">
+      <div style="padding: 26px 0; border-bottom: 1px solid #CFCCC4; display: flex; justify-content: space-between; align-items: baseline; gap: 24px"><div><div style="font-size: 22px; letter-spacing: -0.02em">Instalments to completion</div><p style="margin: 6px 0 0; font-size: var(--tx); color: #6B6964">From 30% upfront, the rest in equal parts until Q4 2028.</p></div><span style="position: relative; font-weight: 300; font-size: 72px; line-height: 0.9; letter-spacing: -0.025em"><span class="cnt sc" style="--to: 30;" aria-hidden="true"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">30</span>%</span></div>
+      <div style="padding: 26px 0; border-bottom: 1px solid #CFCCC4; display: flex; justify-content: space-between; align-items: baseline; gap: 24px"><div><div style="font-size: 22px; letter-spacing: -0.02em">Full payment</div><p style="margin: 6px 0 0; font-size: var(--tx); color: #6B6964">An additional discount when you pay 100% upfront.</p></div><span style="position: relative; font-weight: 300; font-size: 72px; line-height: 0.9; letter-spacing: -0.025em">−<span class="cnt sc" style="--to: 5;" aria-hidden="true"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">5</span>%</span></div>
+      <div style="padding: 26px 0; border-bottom: 1px solid #CFCCC4; display: flex; justify-content: space-between; align-items: baseline; gap: 24px"><div><div style="font-size: 22px; letter-spacing: -0.02em">Mortgage</div><p style="margin: 6px 0 0; font-size: var(--tx); color: #6B6964">With four partner banks; our adviser helps with the paperwork.</p></div><span style="position: relative; font-weight: 300; font-size: 72px; line-height: 0.9; letter-spacing: -0.025em"><span class="cnt sc" style="--to: 4;" aria-hidden="true"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">4</span><span style="font-size: 15px; letter-spacing: 0; margin-left: 8px">banks</span></span></div>
+      <a class="pill" href="#contact" onClick="{{ openPay }}" style="margin-top: 40px">Get a payment plan <span class="ar" aria-hidden="true"><i>→</i><i>→</i></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 9 Steps -->
+<section class="sec" style="padding: 160px 40px 0">
+  <div class="g2" style="margin-bottom: 64px">
+    <h2 class="wd"><span class="ln sv"><span>4 steps</span></span></h2>
+    <h3 class="sub rv" style="padding-top: 14px">from your request to a signed contract</h3>
+  </div>
+  <div class="g4 k2 rv" style="row-gap: 12px; column-gap: 12px">
+    <div class="card wc"><div style="position: relative; font-weight: 300; font-size: 128px; line-height: 0.88; letter-spacing: -0.025em"><span class="cnt sc z2" style="--to: 1;" aria-hidden="true"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">1</span></div><div style="font-size: 18px; margin-top: 40px">Leave a request</div><p style="margin: 8px 0 0; font-size: var(--tx); line-height: 1.5; color: #6B6964">Name, phone and the home you are after. Thirty seconds, no obligation.</p></div>
+    <div class="card wc"><div style="position: relative; font-weight: 300; font-size: 128px; line-height: 0.88; letter-spacing: -0.025em"><span class="cnt sc z2" style="--to: 2;" aria-hidden="true"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">2</span></div><div style="font-size: 18px; margin-top: 40px">Get the catalogue</div><p style="margin: 8px 0 0; font-size: var(--tx); line-height: 1.5; color: #6B6964">Floor plans and pre-launch prices in your messenger within one working day.</p></div>
+    <div class="card wc"><div style="position: relative; font-weight: 300; font-size: 128px; line-height: 0.88; letter-spacing: -0.025em"><span class="cnt sc z2" style="--to: 3;" aria-hidden="true"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">3</span></div><div style="font-size: 18px; margin-top: 40px">Choose your home</div><p style="margin: 8px 0 0; font-size: var(--tx); line-height: 1.5; color: #6B6964">Online with an adviser, or on site at a private presentation.</p></div>
+    <div class="card wc"><div style="position: relative; font-weight: 300; font-size: 128px; line-height: 0.88; letter-spacing: -0.025em"><span class="cnt sc z2" style="--to: 4;" aria-hidden="true"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">4</span></div><div style="font-size: 18px; margin-top: 40px">Lock the price</div><p style="margin: 8px 0 0; font-size: var(--tx); line-height: 1.5; color: #6B6964">A refundable deposit of ₴50,000 holds your price for 30 days.</p></div>
+  </div>
+</section>
+
+<!-- 12 FAQ -->
+<section class="sec" style="padding: 160px 40px 0">
+  <div class="g2">
+    <h2 class="wd"><span class="ln sv"><span>FAQ</span></span></h2>
+    <div class="ln2" style="margin-top: 14px">
+      <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="6">
+        <div class="{{ q.cls }}">
+          <button type="button" onClick="{{ q.toggle }}" aria-expanded="{{ q.exp }}"><span>{{ q.q }}</span><span class="pm" aria-hidden="true"></span></button>
+          <sc-if value="{{ q.open }}" hint-placeholder-val="{{ false }}"><p style="margin: 0 0 24px; max-width: 560px; font-size: 15px; line-height: 1.55; color: #6B6964">{{ q.a }}</p></sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- 13 Form -->
+<section id="contact" style="padding-top: 160px; padding-bottom: 40px">
+  <div class="full" style="position: relative; min-height: 600px; overflow: hidden; color: #FFFFFF">
+    <img class="plx" src="assets/img/tower-lake.jpg" alt="Yarus above the lake at dawn" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 38% 55%; display: block">
+    <div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20, 22, 26, 0.6) 0%, rgba(20, 22, 26, 0.35) 45%, rgba(20, 22, 26, 0) 75%)"></div>
+    <div class="g2 sec" style="position: relative; padding: 160px 40px 0">
+      <h2 class="wd" aria-label="Early access"><span class="ln sv"><span>Early</span></span> <span class="ln sv"><span>access</span></span></h2>
+      <p style="margin: 0; padding-top: 14px; max-width: 380px; font-size: 18px; line-height: 1.35; text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35)">Pre-launch prices and floor plans, before public sales.</p>
+    </div>
+  </div>
+  <div class="sec" style="padding: 0 40px">
+    <div class="g2 fp" style="position: relative; margin-top: -180px; background: #FFFFFF; padding: 56px 48px; align-items: start">
+      <div style="display: flex; flex-direction: column; gap: 24px; padding-right: 32px">
+        <h3 class="sub">What you get</h3>
+        <div class="ln2">
+          <div style="padding: 18px 0; border-bottom: 1px solid #E2DFD8; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; font-size: 15px"><span style="color: #8A8781">01</span><span>The full catalogue of 14 floor plans</span></div>
+          <div style="padding: 18px 0; border-bottom: 1px solid #E2DFD8; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; font-size: 15px"><span style="color: #8A8781">02</span><span>Pre-launch prices, lower than at public sales</span></div>
+          <div style="padding: 18px 0; border-bottom: 1px solid #E2DFD8; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; font-size: 15px"><span style="color: #8A8781">03</span><span>First choice of upper-tier homes</span></div>
+          <div style="padding: 18px 0; border-bottom: 1px solid #E2DFD8; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; font-size: 15px"><span style="color: #8A8781">04</span><span>An invitation to the private presentation</span></div>
+        </div>
+        <p style="margin: 0; font-size: 12px; line-height: 1.5; color: #6B6964">No payment, no obligation. An adviser replies within one working day.</p>
+      </div>
+      <div>
+        <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+          <form novalidate onSubmit="{{ send }}" style="display: flex; flex-direction: column; gap: 36px">
+            <fieldset style="border: 0; padding: 0; margin: 0">
+              <legend style="padding: 0; margin-bottom: 14px; font-size: 13px; font-weight: 500">Which home are you interested in?</legend>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px"><sc-for list="{{ oTypes }}" as="o" hint-placeholder-count="5"><button type="button" class="{{ o.cls }}" onClick="{{ o.pick }}" aria-pressed="{{ o.on }}">{{ o.v }}</button></sc-for></div>
+            </fieldset>
+            <div class="g2" style="row-gap: 24px">
+              <label class="fld">Your name<input type="text" name="name" autocomplete="name" required minlength="2" placeholder="Olena" value="{{ name }}" onInput="{{ setName }}" aria-invalid="{{ nameBad }}"><sc-if value="{{ showNameErr }}" hint-placeholder-val="{{ false }}"><span class="err">Please enter your name</span></sc-if></label>
+              <label class="fld">Phone<input type="tel" name="phone" autocomplete="tel" inputmode="tel" required placeholder="+380" value="{{ phone }}" onInput="{{ setPhone }}" aria-invalid="{{ phoneBad }}"><sc-if value="{{ showPhoneErr }}" hint-placeholder-val="{{ false }}"><span class="err">Please enter a valid phone number</span></sc-if></label>
+            </div>
+            <fieldset style="border: 0; padding: 0; margin: 0">
+              <legend style="padding: 0; margin-bottom: 14px; font-size: 13px; font-weight: 500">How should we contact you?</legend>
+              <div role="radiogroup" aria-label="Contact method" style="display: flex; flex-wrap: wrap; gap: 8px"><sc-for list="{{ oContact }}" as="o" hint-placeholder-count="4"><button type="button" role="radio" class="{{ o.cls }}" onClick="{{ o.pick }}" aria-checked="{{ o.on }}">{{ o.v }}</button></sc-for></div>
+            </fieldset>
+            <label class="chk"><input type="checkbox" name="consent" required checked="{{ consent }}" onChange="{{ toggleConsent }}">I agree to the processing of my personal data to receive the catalogue and prices.</label><sc-if value="{{ showConsentErr }}" hint-placeholder-val="{{ false }}"><span class="err">Please confirm consent to continue</span></sc-if>
+            <button type="submit" class="pill solid" style="align-self: stretch; min-height: 60px; font-size: 12px">Get pre-launch prices <span class="ar" aria-hidden="true"><i>→</i><i>→</i></span></button>
+          </form>
+        </sc-if>
+        <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 24px">
+            <div style="font-weight: 300; font-size: 64px; line-height: 0.95; letter-spacing: -0.035em">You are on the list.</div>
+            <p style="margin: 0; max-width: 440px; font-size: 16px; line-height: 1.5">Within one working day an adviser will send the catalogue and pre-launch prices{{ forType }} {{ contactLine }}.</p>
+            <button type="button" class="pill" onClick="{{ reset }}" style="align-self: flex-start">Edit request</button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 Footer -->
+<footer class="f2">
+  <div class="g2" style="align-items: end; row-gap: 40px">
+    <h2 class="st">Live above<br>the city.</h2>
+    <div style="display: flex; flex-direction: column; gap: 16px; align-items: flex-start"><span class="dim" style="font-size: 12px">Sales office · 12 Lakeside Ave, Kyiv · daily 10:00–20:00</span><a class="ph" href="tel:+380442203434">+380 44 220 34 34</a><a class="pill solid" href="#contact" onClick="{{ openGen }}" style="margin-top: 6px">Get pre-launch prices <span class="ar" aria-hidden="true"><i>→</i><i>→</i></span></a></div>
+  </div>
+  <div class="mq" aria-hidden="true"><div><span>Early access is open</span><span>Homes from 46 m²</span><span>Four sky gardens</span><span>Public sales in Q1 2027</span><span>Price locked for 30 days</span><span>Early access is open</span><span>Homes from 46 m²</span><span>Four sky gardens</span><span>Public sales in Q1 2027</span><span>Price locked for 30 days</span></div></div>
+  <div class="f2c"><div><b>Explore</b><a class="ul" href="#about">Why now</a><a class="ul" href="#location">Location</a><a class="ul" href="#residences">Residences</a><a class="ul" href="#terms">Terms</a></div><div><b>Contact</b><a class="ul" href="tel:+380442203434">+380 44 220 34 34</a><a class="ul" href="#telegram">Telegram</a><a class="ul" href="mailto:hello@yarus.example">hello@yarus</a></div><div><b>Developer</b><span>Meridian Development</span><a class="ul" href="#documents">Documents</a><span class="dim">Permit No. [—]</span></div><div><b>Kyiv</b><span style="font-weight: 300; font-size: 34px; letter-spacing: -0.02em">{{ time }}</span></div></div>
+  <div class="f2b"><a class="lg" href="#top" aria-label="Yarus"><svg class="mk" viewBox="0 0 120 190" aria-hidden="true"><rect x="6" y="6" width="88" height="40"/><rect x="24" y="52" width="96" height="40"/><rect x="0" y="98" width="92" height="40"/><rect x="14" y="144" width="96" height="40"/></svg><span>YARUS</span></a><span>© 2026 Meridian Development</span><span><a class="ul" href="#privacy">Privacy</a></span><a class="ul" href="#top">Back to top ↑</a></div>
+</footer>
+
+<!-- Modal form -->
+<sc-if value="{{ mOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="mdl">
+    <div class="mbg" onClick="{{ closeM }}" aria-hidden="true"></div>
+    <div class="mpanel" role="dialog" aria-modal="true" aria-labelledby="mtitle" tabindex="-1" onKeyDown="{{ mKey }}">
+      <button type="button" class="mx" onClick="{{ closeM }}" aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <div class="mimg" style="position: relative; flex: 1 1 auto; min-height: 200px; overflow: hidden"><img src="assets/img/tower-lake.jpg" alt="Yarus above the lake" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 40% 45%; display: block"></div>
+      <div class="mbody" style="flex: none; padding: 40px 48px 48px; display: flex; flex-direction: column; gap: 24px">
+        <div style="display: flex; flex-direction: column; gap: 12px">
+          <h2 id="mtitle" style="margin: 0; font-weight: 400; font-size: 48px; line-height: 0.95; letter-spacing: -0.035em">{{ mTitle }}</h2>
+          <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #55534E">{{ mSub }}</p>
+        </div>
+        <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+          <form novalidate onSubmit="{{ sendQuick }}" style="display: flex; flex-direction: column; gap: 24px">
+            <div style="display: flex; flex-direction: column; gap: 24px">
+              <label class="fld">Your name<input id="mname" type="text" name="name" autocomplete="name" required minlength="2" placeholder="Olena" value="{{ name }}" onInput="{{ setName }}" aria-invalid="{{ nameBad }}"><sc-if value="{{ showNameErr }}" hint-placeholder-val="{{ false }}"><span class="err">Please enter your name</span></sc-if></label>
+              <label class="fld">Phone<input type="tel" name="phone" autocomplete="tel" inputmode="tel" required placeholder="+380" value="{{ phone }}" onInput="{{ setPhone }}" aria-invalid="{{ phoneBad }}"><sc-if value="{{ showPhoneErr }}" hint-placeholder-val="{{ false }}"><span class="err">Please enter a valid phone number</span></sc-if></label>
+            </div>
+            <button type="submit" class="pill solid" style="min-height: 60px; font-size: 12px">Send request <span class="ar" aria-hidden="true"><i>→</i><i>→</i></span></button>
+            <p style="margin: 0; font-size: 12px; line-height: 1.5; color: #6B6964">By sending, you agree to the processing of your data to receive the catalogue and prices. No payment, no obligation.</p>
+          </form>
+        </sc-if>
+        <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 24px; border-top: 1px solid #111110; padding-top: 24px">
+            <div style="font-weight: 300; font-size: 48px; line-height: 0.95; letter-spacing: -0.05em">You are on the list.</div>
+            <p style="margin: 0; font-size: 16px; line-height: 1.5">Within one working day an adviser will call you with the catalogue and pre-launch prices{{ forType }}.</p>
+            <button type="button" class="pill" onClick="{{ closeM }}" style="align-self: flex-start">Done</button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<a class="{{ mctaCls }}" href="#contact" onClick="{{ openGen }}">Get pre-launch prices<i aria-hidden="true">→</i></a>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":14600}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tier: 2, loc: 0, faq: 0, types: {}, contact: 'Telegram', sent: false, time: '', pct: 0, mOpen: false, mKind: 'gen', loading: true, intro: true, scrolled: false, name: '', phone: '', consent: false, tried: false, reqTier: '', vt: 'view', stg: 0, stHold: false };
+  }
+  componentDidMount() {
+    var self = this;
+    var tick = function () {
+      try { self.setState({ time: new Date().toLocaleTimeString('en-GB', { timeZone: 'Europe/Kyiv', hour: '2-digit', minute: '2-digit' }) }); } catch (e) {}
+    };
+    tick();
+    this.timer = setInterval(tick, 30000);
+    var skip = false;
+    try { skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    try { if (window.sessionStorage.getItem('yarus-pre')) skip = true; else window.sessionStorage.setItem('yarus-pre', '1'); } catch (e) {}
+    try { if (window.location.hash && window.location.hash.length > 1) skip = true; } catch (e) {}
+    if (skip) { this.setState({ loading: true, intro: true, pct: 100 }); }
+    else {
+      var root = document.documentElement;
+      root.style.overflow = 'hidden';
+      var t0 = Date.now(), dur = 1200, last = -1;
+      var step = function () {
+        var k = Math.min(1, (Date.now() - t0) / dur);
+        var v = Math.round((1 - Math.pow(1 - k, 3)) * 100);
+        if (v !== last && (v - last >= 3 || v === 100)) { last = v; self.setState({ pct: v }); }
+        if (k < 1) self.raf = requestAnimationFrame(step);
+      };
+      this.raf = requestAnimationFrame(step);
+      this.hide = setTimeout(function () { root.style.overflow = ''; self.setState({ loading: false }); }, 2300);
+    }
+    this.plxOff = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.plx = function () {
+      self.plxQ = 0;
+      var hs = document.querySelector('.hs'), tr = hs && hs.querySelector('.hs-track'), bar = hs && hs.querySelector('.hs-bar i');
+      if (hs && tr) {
+        if (window.innerWidth <= 900) { hs.style.height = ''; tr.style.transform = ''; }
+        else {
+          var dist = Math.max(0, tr.scrollWidth - window.innerWidth);
+          var want = (window.innerHeight + dist) + 'px'; if (hs.style.height !== want) hs.style.height = want;
+          var hb = hs.getBoundingClientRect(); var q = dist ? Math.max(0, Math.min(1, -hb.top / dist)) : 0;
+          tr.style.transform = 'translate3d(' + (-q * dist).toFixed(1) + 'px,0,0)'; if (bar) bar.style.transform = 'scaleX(' + q.toFixed(4) + ')';
+        }
+      }
+      if (self.plxOff) return;
+      var vh = window.innerHeight;
+      document.querySelectorAll('img.plx').forEach(function (im) {
+        var b = im.parentElement.getBoundingClientRect();
+        if (b.bottom < -200 || b.top > vh + 200) return;
+        var k = (b.top + b.height / 2 - vh / 2) / (vh / 2 + b.height / 2);
+        k = Math.max(-1, Math.min(1, k));
+        im.style.transform = 'translate3d(0,' + (-k * b.height * 0.14).toFixed(1) + 'px,0)';
+      });
+    };
+    this.onScroll = function () {
+      var y = window.scrollY || document.documentElement.scrollTop || 0;
+      var on = y > 60;
+      if (on !== self.state.scrolled) self.setState({ scrolled: on });
+      if (!self.plxQ) { self.plxQ = requestAnimationFrame(self.plx); }
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onScroll);
+    var reduce = false; try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    var cs = function (el, n) { var v = String(n); if (el.classList.contains('z2') && n < 10) v = '0' + v; el.setAttribute('data-v', v); };
+    var runCnt = function (el, dur) {
+      if (el.dataset.ran) return; el.dataset.ran = '1';
+      var st = el.style, to = parseInt(st.getPropertyValue('--to'), 10) || 0, from = parseInt(st.getPropertyValue('--from'), 10) || 0;
+      if (reduce) { cs(el, to); return; }
+      var t0 = performance.now();
+      var step = function (now) { var k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 4); cs(el, Math.round(from + (to - from) * e)); if (k < 1) requestAnimationFrame(step); };
+      requestAnimationFrame(step);
+    };
+    document.querySelectorAll('.cnt').forEach(function (el) { el.classList.add('js'); var st = el.style; cs(el, reduce ? (parseInt(st.getPropertyValue('--to'), 10) || 0) : (parseInt(st.getPropertyValue('--from'), 10) || 0)); });
+    this.cntHero = setTimeout(function () { document.querySelectorAll('.cnt.hero').forEach(function (el) { runCnt(el, 2000); }); }, self.state.intro ? 1900 : 400);
+    this.runCnt = runCnt;
+    this.cntT = setTimeout(function () {
+      var els = document.querySelectorAll('.cnt.sc');
+      if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('go'); runCnt(e, 1); }); return; }
+      self.io = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('go'); runCnt(en.target, 1900); self.io.unobserve(en.target); } }); }, { threshold: 0.6 });
+      els.forEach(function (e) { self.io.observe(e); });
+    }, 300);
+    var top = document.getElementById('top'), flr = top && top.querySelector('.flr');
+    if (top && flr) {
+      var FL = ['Floor', 'm'];
+      top.style.setProperty('--fl', (top.offsetHeight / 34).toFixed(2) + 'px');
+      this.gMove = function (e) {
+        var b = top.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top;
+        var f = Math.max(1, Math.min(34, 34 - Math.floor(y / b.height * 34)));
+        top.style.setProperty('--mx', x + 'px'); top.style.setProperty('--my', y + 'px');
+        top.style.setProperty('--lx', (x + 18) + 'px'); top.style.setProperty('--ly', (y - 6) + 'px');
+        if (flr.dataset.f !== String(f)) { flr.dataset.f = f; flr.lastChild.textContent = FL[0] + ' ' + f + ' · ' + Math.round(f * 3.5) + ' ' + FL[1]; }
+        top.classList.add('gon');
+      };
+      this.gOut = function () { top.classList.remove('gon'); };
+      top.addEventListener('mousemove', this.gMove); top.addEventListener('mouseleave', this.gOut);
+    }
+    this.stT = setInterval(function () { if (!self.state.stHold && !document.hidden) self.setState({ stg: (self.state.stg + 1) % 4 }); }, 3000);
+    if ('IntersectionObserver' in window) {
+      var vis = {};
+      this.ctaIO = new IntersectionObserver(function (es) { es.forEach(function (en) { vis[en.target.tagName + (en.target.id || '')] = en.isIntersecting; }); var h = false; for (var k in vis) if (vis[k]) h = true; if (h !== self.state.ctaHide) self.setState({ ctaHide: h }); }, { threshold: 0 });
+      ['contact'].forEach(function (id) { var el = document.getElementById(id); if (el) self.ctaIO.observe(el); });
+      var ft = document.querySelector('footer'); if (ft) this.ctaIO.observe(ft);
+    }
+    this.onScroll();
+  }
+  componentWillUnmount() {
+    clearInterval(this.timer); clearTimeout(this.hide); cancelAnimationFrame(this.raf);
+    document.documentElement.style.overflow = '';
+    window.removeEventListener('scroll', this.onScroll); if (this.ctaIO) this.ctaIO.disconnect(); clearInterval(this.stT); var tp = document.getElementById('top'); if (tp && this.gMove) { tp.removeEventListener('mousemove', this.gMove); tp.removeEventListener('mouseleave', this.gOut); } window.removeEventListener('resize', this.onScroll); cancelAnimationFrame(this.plxQ);
+    clearTimeout(this.cntT); if (this.io) this.io.disconnect();
+  }
+  openM(e, kind) {
+    if (e && e.preventDefault) e.preventDefault();
+    this.lastFocus = document.activeElement;
+    document.documentElement.style.overflow = 'hidden';
+    this.setState({ mOpen: true, mKind: kind, sent: false, tried: false }, function () {
+      setTimeout(function () { var el = document.getElementById('mname'); if (el) el.focus({ preventScroll: true }); }, 400);
+    });
+  }
+  closeM() {
+    document.documentElement.style.overflow = '';
+    this.setState({ mOpen: false });
+    try { if (this.lastFocus && this.lastFocus.focus) this.lastFocus.focus({ preventScroll: true }); } catch (e) {}
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var T = [
+      { name: 'Tier I', short: 'I', floors: '2–9', homes: '52', mix: '1–2 bedrooms', garden: 'courtyard garden', view: 'Park and avenue', from: '46', ceil: '3.0 m', types: ['1 bedroom', '2 bedrooms'] },
+      { name: 'Tier II', short: 'II', floors: '10–18', homes: '48', mix: '1–3 bedrooms', garden: 'garden at 36 m', view: 'Park and lake', from: '52', ceil: '3.1 m', types: ['2 bedrooms'] },
+      { name: 'Tier III', short: 'III', floors: '19–27', homes: '44', mix: '2–3 bedrooms', garden: 'garden at 72 m', view: 'Lake and the city centre', from: '72', ceil: '3.1 m', types: ['2 bedrooms', '3 bedrooms'] },
+      { name: 'Tier IV', short: 'IV', floors: '28–34', homes: '24', mix: '3 bedrooms, 2 penthouses', garden: 'roof garden', view: 'All of Kyiv, 360°', from: '118', ceil: '3.4 m', types: ['3 bedrooms', 'Penthouse'] }
+    ];
+    var L = [
+      { name: 'Park & lake', dist: '1 min walk', note: 'Walking paths, boating and an open-air cinema in summer, one minute from the lobby.' },
+      { name: 'Schools', dist: '5 min walk', note: 'Two lyceums and an international school within a five-minute walk.' },
+      { name: 'Metro', dist: '7 min walk', note: 'Red line station, direct to the centre in fifteen minutes.' },
+      { name: 'Cafés', dist: 'in the building', note: 'A café and bakery on the ground floor, and more along the avenue.' },
+      { name: 'City centre', dist: '12 min drive', note: 'Twelve minutes by car outside rush hour.' }
+    ];
+    var Q = [
+      { q: 'Is there a building permit?', a: 'Yes. The permit number and every document are published and can be checked in the state register.' },
+      { q: 'Is early access already a purchase?', a: 'No. It gives you prices and floor plans before public sales. You pay nothing and commit to nothing.' },
+      { q: 'Is the reservation refundable?', a: 'In full, if you change your mind before signing the contract.' },
+      { q: 'What if construction runs late?', a: 'The schedule is public, and dates and liability for delays are written into the contract.' },
+      { q: 'How does the building run during outages?', a: 'Its own boiler house, an artesian well and backup power for lifts, lighting and pumps.' },
+      { q: 'Can I visit the site?', a: 'Yes. Early access members are invited to the site and a private presentation.' }
+    ];
+    var oTypes = ['1 bedroom', '2 bedrooms', '3 bedrooms', 'Penthouse', 'Not sure yet'].map(function (v) {
+      var on = !!s.types[v];
+      return { v: v, on: on ? 'true' : 'false', cls: on ? 'opt on' : 'opt', pick: function () { var t = Object.assign({}, self.state.types); t[v] = !t[v]; self.setState({ types: t }); } };
+    });
+    var oContact = ['Telegram', 'WhatsApp', 'Viber', 'Phone call'].map(function (v) {
+      var on = s.contact === v;
+      return { v: v, on: on ? 'true' : 'false', cls: on ? 'opt on' : 'opt', pick: function () { self.setState({ contact: v }); } };
+    });
+    var nameOk = s.name.trim().length >= 2;
+    var phoneOk = s.phone.replace(/\D/g, '').length >= 9;
+    var picked = Object.keys(s.types).filter(function (k) { return s.types[k] && k !== 'Not sure yet'; });
+    var forType = picked.length ? ' for ' + picked.join(', ').toLowerCase() : '';
+    if (s.reqTier) forType += (picked.length ? ' on ' : ' for ') + s.reqTier;
+    var t = T[s.tier], l = L[s.loc];
+    var bc = function (i) { return s.tier === i ? 'band on' : 'band'; };
+    var ap = function (i) { return s.tier === i ? 'true' : 'false'; };
+    var pt = function (i) { return function () { self.setState({ tier: i }); }; };
+    return {
+      mOpen: s.mOpen,
+      mTitle: s.mKind === 'tier' ? t.name + ' floor plans' : s.mKind === 'price' ? 'The price list' : s.mKind === 'pay' ? 'A payment plan' : 'Get pre-launch prices',
+      mSub: s.mKind === 'tier' ? 'Floor plans and prices for homes on ' + t.name + ', floors ' + t.floors + '.' : s.mKind === 'price' ? 'Phase-one prices and the date of the next review.' : s.mKind === 'pay' ? 'We will calculate instalments for the home you choose.' : 'The full catalogue of floor plans and the price list, before public sales.',
+      openGen: function (e) { self.openM(e, 'gen'); },
+      openPrice: function (e) { self.openM(e, 'price'); },
+      openPay: function (e) { self.openM(e, 'pay'); },
+      openTier: function (e) { var ty = {}; t.types.forEach(function (x) { ty[x] = true; }); self.setState({ reqTier: t.name, types: ty }); self.openM(e, 'tier'); },
+      closeM: function () { self.closeM(); },
+      mKey: function (e) { if (e.key === 'Escape') self.closeM(); },
+      mainCls: s.intro ? 'C' : 'C noi',
+      loading: s.loading, pct: String(s.pct).padStart(3, '0'),
+      headCls: s.scrolled ? 'hd on' : 'hd',
+      time: s.time || '—',
+      sc0: s.stg === 0 ? 'stp on' : 'stp', sc1: s.stg === 1 ? 'stp on' : 'stp', sc2: s.stg === 2 ? 'stp on' : 'stp', sc3: s.stg === 3 ? 'stp on' : 'stp',
+      sp0: s.stg === 0 ? 'true' : 'false', sp1: s.stg === 1 ? 'true' : 'false', sp2: s.stg === 2 ? 'true' : 'false', sp3: s.stg === 3 ? 'true' : 'false',
+      ss0: function () { if (self.state.stg !== 0) self.setState({ stg: 0 }); }, ss1: function () { if (self.state.stg !== 1) self.setState({ stg: 1 }); }, ss2: function () { if (self.state.stg !== 2) self.setState({ stg: 2 }); }, ss3: function () { if (self.state.stg !== 3) self.setState({ stg: 3 }); },
+      pm0: s.stg === 0 ? 'on' : '', pm1: s.stg === 1 ? 'on' : '', pm2: s.stg === 2 ? 'on' : '', pm3: s.stg === 3 ? 'on' : '',
+      pgCls: s.stHold ? 'g4 pgrid rv held' : 'g4 pgrid rv',
+      stIn: function () { self.setState({ stHold: true }); }, stOut: function () { self.setState({ stHold: false }); },
+      stgNote: ['The lowest price Yarus will ever have. A refundable reservation locks it for 30 days.', 'Public sales open with a new price list — about 10% above early access.', 'When the frame is complete, the price is reviewed again — about 20% above today.', 'At completion homes sell at full market price — about 30% above today.'][s.stg],
+      vc0: s.vt === 'view' && s.tier === 0 ? 'on' : '', vc1: s.vt === 'view' && s.tier === 1 ? 'on' : '', vc2: s.vt === 'view' && s.tier === 2 ? 'on' : '', vc3: s.vt === 'view' && s.tier === 3 ? 'on' : '',
+      pc0: s.vt === 'plan' && s.tier === 0 ? 'pl on' : 'pl', pc1: s.vt === 'plan' && s.tier === 1 ? 'pl on' : 'pl', pc2: s.vt === 'plan' && s.tier === 2 ? 'pl on' : 'pl', pc3: s.vt === 'plan' && s.tier === 3 ? 'pl on' : 'pl',
+      vtV: s.vt === 'view' ? 'on' : '', vtP: s.vt === 'plan' ? 'on' : '', vtVp: s.vt === 'view' ? 'true' : 'false', vtPp: s.vt === 'plan' ? 'true' : 'false',
+      showView: function () { self.setState({ vt: 'view' }); }, showPlan: function () { self.setState({ vt: 'plan' }); },
+      pcapCls: s.vt === 'plan' ? 'pcap on' : 'pcap', planCap: ['Typical layout · 1 bedroom', 'Typical layout · 2 bedrooms', 'Typical layout · 3 bedrooms', 'Penthouse · wraparound terrace'][s.tier],
+      lc0: s.loc === 0 ? 'on' : '', lc1: s.loc === 1 ? 'on' : '', lc2: s.loc === 2 ? 'on' : '', lc3: s.loc === 3 ? 'on' : '', lc4: s.loc === 4 ? 'on' : '',
+      ftiers: T.slice().reverse().map(function (x) { var i = T.indexOf(x); return { short: x.short, floors: x.floors, garden: x.garden, from: x.from, open: function (e) { var ty = {}; x.types.forEach(function (k) { ty[k] = true; }); self.setState({ tier: i, reqTier: x.name, types: ty }); self.openM(e, 'tier'); } }; }),
+      rs0: s.tier === 0 ? 'rs on' : 'rs', rs1: s.tier === 1 ? 'rs on' : 'rs', rs2: s.tier === 2 ? 'rs on' : 'rs', rs3: s.tier === 3 ? 'rs on' : 'rs',
+      tier: t, bc0: bc(0), bc1: bc(1), bc2: bc(2), bc3: bc(3), ap0: ap(0), ap1: ap(1), ap2: ap(2), ap3: ap(3), p0: pt(0), p1: pt(1), p2: pt(2), p3: pt(3),
+      askTier: function () { var ty = {}; t.types.forEach(function (x) { ty[x] = true; }); self.setState({ reqTier: t.name, types: ty }); },
+      tiers: T.slice().reverse().map(function (x) { var i = T.indexOf(x); var on = s.tier === i; return { short: x.short, floors: x.floors, garden: x.garden, from: x.from, on: on ? 'true' : 'false', cls: on ? 'trow on' : 'trow', pick: function () { self.setState({ tier: i }); } }; }),
+      locs: L.map(function (x, i) { var on = s.loc === i; return { lower: x.name.toLowerCase(), dist: x.dist, on: on ? 'true' : 'false', cls: on ? 'row on' : 'row', pick: function () { if (self.state.loc !== i) self.setState({ loc: i }); } }; }),
+      locNote: l.note,
+      faqs: Q.map(function (x, i) { var o = s.faq === i; return { q: x.q, a: x.a, open: o, exp: o ? 'true' : 'false', cls: o ? 'qa on' : 'qa', toggle: function () { self.setState({ faq: o ? -1 : i }); } }; }),
+      oTypes: oTypes, oContact: oContact,
+      name: s.name, phone: s.phone,
+      setName: function (e) { self.setState({ name: e.target.value }); },
+      setPhone: function (e) { self.setState({ phone: e.target.value }); },
+      nameBad: s.tried && !nameOk ? 'true' : 'false', phoneBad: s.tried && !phoneOk ? 'true' : 'false',
+      showConsentErr: s.tried && !s.consent, mctaCls: s.scrolled && !s.mOpen && !s.ctaHide ? 'mcta on' : 'mcta',
+      showNameErr: s.tried && !nameOk, showPhoneErr: s.tried && !phoneOk,
+      consent: s.consent, noConsent: !s.consent,
+      toggleConsent: function (e) { self.setState({ consent: !!e.target.checked }); },
+      contactLine: s.contact === 'Phone call' ? 'and call you on the number you left' : 'to your ' + s.contact,
+      forType: forType,
+      sent: s.sent, notSent: !s.sent,
+      sendQuick: function (e) { if (e && e.preventDefault) e.preventDefault(); if (!nameOk || !phoneOk) { self.setState({ tried: true }); return; } self.setState({ sent: true, tried: false, consent: true }); },
+      send: function (e) { if (e && e.preventDefault) e.preventDefault(); if (!nameOk || !phoneOk || !self.state.consent) { self.setState({ tried: true }); return; } self.setState({ sent: true, tried: false }); },
+      reset: function () { self.setState({ sent: false }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
