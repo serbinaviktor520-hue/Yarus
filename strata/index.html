@@ -539,6 +539,15 @@ html.infr .S .rv{opacity:1 !important;transform:none !important}
 .S .hz .ln:nth-child(odd){text-align:right}.S .hz .ln:nth-child(even){text-align:left}
 @media (max-width:900px){.S .hx.hz{grid-template-columns:minmax(0,1fr);font-size:14vw;line-height:.86}.S .hz .ln:nth-child(odd){text-align:left}.S .hz .ln:nth-child(even){text-align:right}}
 #top .hrow,#top .hadv,#top .hs2{position:relative;z-index:4}
+.hfirst{display:contents}
+@media (max-width:900px){
+.S .hs1{padding-top:80px;gap:0}
+.S .hfirst{display:flex;flex-direction:column;gap:20px;min-height:calc(100svh - 80px);padding-bottom:20px}
+.S .hx.hz{margin-top:0}
+.S .hrow{flex:1;gap:0}
+.S .hrow .sbtn{margin-top:auto;width:100%}
+.S .hadv{margin-top:32px}
+}
 /* striped CTA (logo motif) */
 .sbtn{position:relative;display:inline-flex;align-items:center;gap:14px;min-height:60px;padding:0 26px 0 20px;color:var(--acx);font-size:15px;font-weight:600;isolation:isolate;cursor:pointer}
 .sbtn::before,.sbtn::after{content:"";position:absolute;inset:0;z-index:-1;background:var(--ac);transition:transform .7s var(--e)}
@@ -661,10 +670,12 @@ html[data-ac="off"] .S{--ac:#FFFFFF;--acx:#7A7975}
   <div aria-hidden="true" class="hfade2"></div>
   <div class="sec" style="position: relative">
     <div class="hs1">
+      <div class="hfirst">
       <h1 class="hx hz"><span class="ln"><span>Offices</span></span><span class="ln"><span>above</span></span><span class="ln"><span class="k">the</span></span><span class="ln"><span class="k">park</span></span></h1>
       <div class="hrow l2">
         <p>A 34-floor Class A tower by the lake in Kyiv. Four stacked blocks, a garden on every setback and power that stays on. Pre-launch prices until the public release.</p>
         <a class="sbtn" href="#memo" onClick="{{ openM }}"><span class="mk sbm" aria-hidden="true"></span><span>Request the investment memo</span><span class="ar" aria-hidden="true"><i>→</i><i>→</i></span></a>
+      </div>
       </div>
       <div class="hadv g4 k2"><div class="ha"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><g class="sa"><g mask="url(#stma)"><path d="M3 22V9h6V3h12v19z"/></g></g><g class="sb"><g mask="url(#stmb)"><path d="M3 22V9h6V3h12v19z"/></g></g></svg><b>We keep what we build</b><p>The offices stay on our own balance sheet, so we build for decades, not for the sale.</p></div><div class="ha"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><g class="sa"><g mask="url(#stma)"><path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1.4 13.8L6.4 11.6 8 10l2.6 2.6L16 7.2l1.6 1.6z"/></g></g><g class="sb"><g mask="url(#stmb)"><path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1.4 13.8L6.4 11.6 8 10l2.6 2.6L16 7.2l1.6 1.6z"/></g></g></svg><b>Delivered on time</b><p>Six office buildings out of six handed over in the quarter we promised.</p></div><div class="ha"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><g class="sa"><g mask="url(#stma)"><path d="M12 2l8 3v6c0 5.2-3.4 9.4-8 11-4.6-1.6-8-5.8-8-11V5z"/></g></g><g class="sb"><g mask="url(#stmb)"><path d="M12 2l8 3v6c0 5.2-3.4 9.4-8 11-4.6-1.6-8-5.8-8-11V5z"/></g></g></svg><b>Money under bank control</b><p>Every payment goes to a project account and works for this building only.</p></div><div class="ha"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><g class="sa"><g mask="url(#stma)"><path d="M2 11l10-8 10 8v11h-7v-7H9v7H2z"/></g></g><g class="sb"><g mask="url(#stmb)"><path d="M2 11l10-8 10 8v11h-7v-7H9v7H2z"/></g></g></svg><b>In-house operations</b><p>After delivery, our own facility management team runs the building.</p></div></div>
     </div>
