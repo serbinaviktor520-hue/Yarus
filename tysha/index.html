@@ -569,13 +569,13 @@ if (active.length) requestAnimationFrame(tick); else ticking = false;
 };
 const run = (a) => { a.t0 = performance.now(); active.push(a); if (!ticking) { ticking = true; requestAnimationFrame(tick); } };
 const scramble = (el) => {
-el._done = true; el.style.opacity = '1';
+el._sc = true; el.style.opacity = '1';
 const len = el._tn.reduce((s2, t) => s2 + t.o.length, 0) || 1;
 const rev = []; for (let i = 0; i < len; i++) rev.push((i / len) * 0.6 + Math.random() * 0.4);
 run({ type: 's', el: el, dur: 650 + Math.min(900, len * 16), rev: rev });
 };
 const countUp = (el) => {
-el._done = true;
+el._ct = true;
 let n = null; for (const c of el.childNodes) { if (c.nodeType === 3 && c.nodeValue.trim()) { n = c; break; } }
 if (!n) return;
 const to = parseFloat(el.getAttribute('data-count')); const from = parseFloat(el.getAttribute('data-from') || '0');
@@ -596,10 +596,10 @@ const frame = () => {
 self._raf = 0;
 if (self._dead) return;
 const ih = window.innerHeight;
-reveals.forEach((el) => { if (el._done) return; const r = el.getBoundingClientRect(); if (r.top < ih * 0.9 && r.bottom > -100) { el._done = true; el.style.opacity = '1'; el.style.transform = 'none'; if (el._blur) el.style.filter = 'none'; setTimeout(() => { el.style.transition = ''; el.style.transform = ''; el.style.filter = ''; el.style.opacity = ''; }, (el._d + 1.5) * 1000); } });
+reveals.forEach((el) => { if (el._rv) return; const r = el.getBoundingClientRect(); if (r.top < ih * 0.9 && r.bottom > -100) { el._rv = true; el.style.opacity = '1'; el.style.transform = 'none'; if (el._blur) el.style.filter = 'none'; setTimeout(() => { el.style.transition = ''; el.style.transform = ''; el.style.filter = ''; el.style.opacity = ''; }, (el._d + 1.5) * 1000); } });
 imgs.forEach((im) => { if (im._done) return; const r = im.getBoundingClientRect(); if (r.top < ih * 0.92 && r.bottom > 0) { im._done = true; im.style.clipPath = 'inset(0% 0 0 0)'; im.style.transform = 'scale(1)'; } });
-scr.forEach((el) => { if (el._done) return; const r = el.getBoundingClientRect(); if (r.top < ih * 0.96 && r.bottom > 0) scramble(el); });
-counts.forEach((el) => { if (el._done) return; const r = el.getBoundingClientRect(); if (r.top < ih * 0.88 && r.bottom > 0) countUp(el); });
+scr.forEach((el) => { if (el._sc) return; const r = el.getBoundingClientRect(); if (r.top < ih * 0.96 && r.bottom > 0) scramble(el); });
+counts.forEach((el) => { if (el._ct) return; const r = el.getBoundingClientRect(); if (r.top < ih * 0.88 && r.bottom > 0) countUp(el); });
 
 if (hero) {
 const r = hero.getBoundingClientRect(); const p = clamp(-r.top / r.height);
