@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lull House — TYSHA</title>
+<meta name="theme-color" content="#111110">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500&amp;family=Geist+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#111110}
+a{color:inherit;text-decoration:none}a:hover{color:#C2AE8E}
+input{color:#EAE6DE}
+input::placeholder{color:rgba(234,230,222,0.62)}
+@media (max-width: 1100px) and (min-width: 761px){
+[style*="font-size: 72px"]{font-size:56px!important}
+[style*="font-size: 160px"]{font-size:120px!important}
+[style*="repeat(4, minmax(0"]{grid-template-columns:repeat(2,minmax(0,1fr))!important;row-gap:64px!important}
+[style*="repeat(4, minmax(0"]>article{margin-top:0!important}
+}
+@media (max-width: 760px){
+[data-axis]{left:10px!important}
+[data-dbline]{left:10px!important}
+[data-dbfix]{left:auto!important;right:20px!important;top:auto!important;bottom:20px!important;transform:none!important}
+[style*="104px)"]{font-size:44px!important;line-height:1.06!important}
+[style*="font-size: 72px"]{font-size:40px!important;line-height:1!important}
+[style*="font-size: 56px"]{font-size:40px!important;line-height:1!important}
+[style*="font-size: 40px"]{font-size:28px!important;line-height:1.12!important}
+[style*="font-size: 32px"]{font-size:22px!important}
+[style*="font-size: 20px"]{font-size:18px!important}
+[style*="font-size: 16px"]{font-size:15px!important}
+[style*="font-size: 160px"]{font-size:96px!important}
+[style*="font-size: 88px"]{font-size:64px!important}
+[style*="margin-top: 120px"]{margin-top:64px!important}
+[style*="margin: 120px 0"]{margin-top:64px!important}
+[style*="margin-top: 80px"]{margin-top:40px!important}
+[style*="margin: 80px 0"]{margin-top:40px!important}
+[style*="padding: 20px 20px 120px"]{padding-bottom:64px!important}
+[style*="padding-top: 120px"]{padding-top:40px!important}
+[style*="row-gap: 120px"]{row-gap:64px!important}
+[style*="max-width: 460px"]{max-width:none!important}
+[style*="repeat(12, minmax(0"]{display:flex!important;flex-direction:column!important;gap:24px!important}
+[style*="repeat(12, minmax(0"]>*{grid-column:auto!important;padding-left:0!important;justify-self:auto!important}
+[data-hero]{min-height:640px!important}
+[data-hero] header{flex-direction:row!important;flex-wrap:wrap!important;justify-content:space-between!important;row-gap:16px!important}
+[data-hero] header>nav{order:3;width:100%;justify-content:space-between}
+[data-hero] header>span:nth-of-type(1){display:none!important}
+[data-hero] header>span:last-child{text-align:right}
+[data-hero-fade][style*="align-items: end"]{display:grid!important;grid-template-columns:1fr 1fr!important;gap:16px!important}
+[data-hero-fade][style*="align-items: end"]>span:nth-child(2),[data-hero-fade][style*="align-items: end"]>span:nth-child(3){display:none!important}
+[data-hero-fade][style*="align-items: end"]>span:last-child{text-align:right}
+[data-st-over] p{max-width:none!important}
+[data-st-over]>div{flex-wrap:wrap;gap:8px 16px}
+[style*="height: 560px"]{height:440px!important}
+[style*="repeat(4, minmax(0"]{display:flex!important;flex-direction:column!important;gap:64px!important}
+[style*="repeat(4, minmax(0"]>article{margin-top:0!important;width:80%}
+[style*="repeat(4, minmax(0"]>article:nth-child(even){align-self:flex-end}
+section[aria-label="Studio in numbers"] [style*="repeat(4, minmax(0"]{display:grid!important;grid-template-columns:1fr 1fr!important;column-gap:20px!important;row-gap:40px!important}
+[data-pano]{height:440px!important;margin:64px -20px 0!important}
+[data-pano] figcaption{flex-direction:column;gap:8px}
+section[aria-label="Selected projects"] a[data-float]{margin-top:0!important}
+section[aria-label="Selected projects"] a[data-float]:nth-child(n+2){width:82%}
+section[aria-label="Selected projects"] a[data-float]:nth-child(2),section[aria-label="Selected projects"] a[data-float]:nth-child(4){align-self:flex-end}
+section[aria-label="Selected projects"] a[data-float]>div{flex-direction:column;align-items:flex-start!important;gap:8px}
+[style*="height: 780px"]{height:auto!important;aspect-ratio:4/5}
+[data-marquee]{gap:40px!important}
+[data-pin-inner]>div[style*="margin-top: auto"] [style*="repeat(5, minmax(0"]{column-gap:8px!important}
+button[aria-pressed]>span:last-child{display:none}
+button[aria-pressed]>span:first-child{font-size:18px!important}
+li[data-rise]{display:grid!important;grid-template-columns:1fr 96px!important;column-gap:16px!important;row-gap:8px!important;align-items:start!important}
+li[data-rise]>*{grid-column:1/2!important;padding-left:0!important}
+li[data-rise]>span:nth-child(1){grid-row:1}
+li[data-rise]>span:nth-child(2){grid-row:2}
+li[data-rise]>span:nth-child(3){grid-row:3}
+li[data-rise]>span:nth-child(4){grid-row:4;color:#6B665F}
+li[data-rise]>img{grid-column:2/3!important;grid-row:1/5;aspect-ratio:4/5!important}
+section[aria-label="Voices"] figure:nth-child(2){margin-left:15%!important}
+section[aria-label="Start a project"]{height:auto!important;min-height:100svh;padding-bottom:64px!important}
+footer>div:first-child{display:grid!important;grid-template-columns:1fr 1fr!important;row-gap:24px!important}
+footer>div:first-child>div{grid-column:auto!important;padding-left:0!important;text-align:left!important}
+footer svg{margin-top:64px!important}
+[data-pre-cap]{grid-template-columns:1fr 1fr!important}
+[data-pre-cap]>span:nth-child(2),[data-pre-cap]>span:nth-child(3){display:none}
+}
+h1,h2,h3,blockquote{text-wrap:balance}p{text-wrap:pretty}
+</style>
+
+
+<style>html,body{margin:0;background:#111110;-webkit-text-size-adjust:100%}</style>
+</head>
+<body>
+<div data-t-root style="width: 100%; background: #111110; color: #EAE6DE; font-family: 'Inter Tight', sans-serif; overflow: hidden">
+<svg width="0" height="0" aria-hidden="true" style="position: absolute">
+<defs>
+<mask id="lm-wm" maskUnits="userSpaceOnUse" x="0" y="0" width="1056" height="240">
+<rect width="1056" height="240" fill="black"></rect>
+<rect x="0" y="0" width="200" height="240" rx="12" fill="white"></rect>
+<rect x="0" y="92" width="56" height="148" fill="black"></rect>
+<rect x="144" y="92" width="56" height="148" fill="black"></rect>
+<rect x="214" y="0" width="200" height="240" rx="12" fill="white"></rect>
+<polygon points="280,0 348,0 314,118" fill="black"></polygon>
+<rect x="214" y="150" width="56" height="90" fill="black"></rect>
+<rect x="358" y="150" width="56" height="90" fill="black"></rect>
+<rect x="428" y="0" width="200" height="240" rx="40" fill="white"></rect>
+<rect x="484" y="74" width="144" height="12" fill="black"></rect>
+<rect x="428" y="154" width="144" height="12" fill="black"></rect>
+<rect x="642" y="0" width="200" height="240" rx="12" fill="white"></rect>
+<rect x="732" y="0" width="20" height="96" fill="black"></rect>
+<rect x="732" y="144" width="20" height="96" fill="black"></rect>
+<path d="M856 240 V70 Q856 0 926 0 H986 Q1056 0 1056 70 V240 Z" fill="white"></path>
+<polygon points="926,240 986,240 966,170 946,170" fill="black"></polygon>
+<rect x="948" y="84" width="16" height="44" fill="black"></rect>
+</mask>
+<g id="l-wm"><rect width="1056" height="240" fill="currentColor" mask="url(#lm-wm)"></rect></g>
+<mask id="lm-arch" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="240">
+<rect width="200" height="240" fill="black"></rect>
+<path d="M0 240 V70 Q0 0 70 0 H130 Q200 0 200 70 V240 Z" fill="white"></path>
+<polygon points="70,240 130,240 110,170 90,170" fill="black"></polygon>
+<rect x="92" y="84" width="16" height="44" fill="black"></rect>
+</mask>
+<g id="l-arch"><rect width="200" height="240" fill="currentColor" mask="url(#lm-arch)"></rect></g>
+</defs>
+</svg>
+<div data-dbline aria-hidden="true" style="display: none; position: fixed; top: 0; left: calc(20px + (100vw - 40px) * 5 / 12); width: 1px; height: 0; background: #FFFFFF; mix-blend-mode: difference; z-index: 60; pointer-events: none"></div>
+<div data-dbfix aria-hidden="true" style="display: none; position: fixed; top: 50%; left: calc(20px + (100vw - 40px) * 5 / 12); transform: translate(-50%, -50%); z-index: 61; padding: 6px 12px; border: 1px solid #FFFFFF; border-radius: 999px; color: #FFFFFF; mix-blend-mode: difference; white-space: nowrap; pointer-events: none; font-variant-numeric: tabular-nums; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">68 dB</div>
+
+<!-- HERO -->
+<section data-hero data-noreveal aria-label="Lull House" style="position: relative; height: 900px; box-sizing: border-box; padding: 20px; display: flex; flex-direction: column">
+<img data-hero-img src="../img/g16.jpg" alt="Lull House, a timber and rammed earth house in a misty beech forest" style="will-change: transform; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 55%; display: block">
+<div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(17,17,16,0.55) 0%, rgba(17,17,16,0.05) 35%, rgba(17,17,16,0.15) 60%, rgba(17,17,16,0.8) 100%)"></div>
+<div data-axis aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: calc(20px + (100% - 40px) * 5 / 12); width: 1px; background: rgba(234, 230, 222, 0.4)"></div>
+<header style="position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.45">
+<a href="../" style="grid-column: 1 / 4; display: flex; align-items: center; gap: 16px"><svg width="20" height="24" viewBox="0 0 200 240" aria-hidden="true"><use href="#l-arch"></use></svg><span>Tysha<br><span style="color: #C9C3B8">Architecture</span></span></a>
+<span style="grid-column: 4 / 6">Lviv — Warsaw<br><span style="color: #C9C3B8">Est. 2014</span></span>
+<nav aria-label="Main" style="grid-column: 6 / 10; display: flex; gap: 24px; flex-wrap: wrap; padding-left: 20px"><a href="../project/" style="text-decoration: underline">Projects</a><a href="../method/">Method</a><a href="../#">Studio</a><a href="../#contact">Contact</a></nav>
+<span style="grid-column: 10 / 13; text-align: right">Now: 23 dB<br><span style="color: #C9C3B8">Inside Lull House</span></span>
+</header>
+<div data-hero-fade style="position: relative; margin-top: auto; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; align-items: end">
+<h1 style="grid-column: 1 / 9; margin: 0; font-size: 160px; font-weight: 300; line-height: 0.85; letter-spacing: -0.05em">Lull<br><span style="padding-left: 0.7em">House</span></h1>
+<div style="grid-column: 10 / 13; display: flex; flex-direction: column; gap: 16px; padding-bottom: 12px">
+<p style="margin: 0; font-size: 20px; line-height: 1.45">A house that listens to the forest.</p>
+<span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.6">Carpathian foothills · 2025<br>240 m² · Private house</span>
+</div>
+</div>
+<div data-hero-fade style="position: relative; margin-top: 40px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; border-top: 1px solid rgba(234,230,222,0.4); padding-top: 16px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">
+<span style="grid-column: 1 / 4">23 dB inside</span><span style="grid-column: 4 / 6">25 min to Lviv</span><span style="grid-column: 6 / 10; padding-left: 20px">1.2 km to the nearest road</span><span style="grid-column: 10 / 13; text-align: right">01 / 04 projects</span>
+</div>
+</section>
+
+<!-- BRIEF -->
+<section aria-label="The brief" style="position: relative; box-sizing: border-box; padding: 20px 20px 120px; background: #EAE6DE; color: #2E2D2B">
+<div data-axis aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: calc(20px + (100% - 40px) * 5 / 12); width: 1px; background: #C2AE8E"></div>
+<div style="position: relative; display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><span>01 · The brief</span><span>41 → 21 dB</span></div>
+<p style="position: relative; margin: 120px 0 0; font-size: clamp(48px, 6.6vw, 104px); font-weight: 500; line-height: 1.02; letter-spacing: -0.045em; max-width: 1240px">They asked for one thing: <span style="color: #7F7A73">to sleep without earplugs.</span></p>
+<div style="position: relative; margin-top: 120px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px">
+<span style="grid-column: 1 / 4; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.6">The family<br><span style="color: #6B665F">Olena, Mark, two kids</span></span>
+<p style="grid-column: 6 / 10; margin: 0; padding-left: 20px; font-size: 20px; line-height: 1.45">A family of four, a fourth-floor flat above a tram line, eleven years of 41 dB nights. They wanted forest, quiet and a twenty-five-minute drive to school and work.</p>
+</div>
+</section>
+
+<!-- PLOT -->
+<section aria-label="The plot" style="position: relative; box-sizing: border-box; padding: 20px 20px 120px; background: #111110; color: #EAE6DE">
+<div data-axis aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: calc(20px + (100% - 40px) * 5 / 12); width: 1px; background: rgba(234, 230, 222, 0.22)"></div>
+<div style="position: relative; display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><span>02 · The plot</span><span>24 dB at night</span></div>
+<div style="position: relative; margin-top: 120px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px">
+<div style="grid-column: 1 / 5; display: flex; flex-direction: column; gap: 24px">
+<h2 style="margin: 0; font-size: 72px; font-weight: 500; line-height: 0.96; letter-spacing: -0.04em">We listened for seven days before we said yes.</h2>
+<p style="margin: 0; font-size: 20px; line-height: 1.45; max-width: 460px; color: #C9C3B8">Four plots were on the table. Two had better views. Only this one stayed under 25 dB at night.</p>
+</div>
+<figure style="grid-column: 6 / 13; margin: 0 0 0 20px; display: flex; flex-direction: column; gap: 8px">
+<img src="../img/g07.jpg" alt="A sound meter on a tripod in a forest clearing at dawn, seen from above" style="width: 100%; height: 620px; object-fit: cover; display: block">
+<figcaption style="display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><span style="text-decoration: underline; text-transform: none">SILENCE_AUDIT_DAY_04.JPG</span><span>06:10 · 24 dB</span></figcaption>
+</figure>
+</div>
+<div style="position: relative; margin-top: 80px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 20px">
+<div data-rise style="border-top: 1px solid rgba(234,230,222,0.4); padding-top: 16px; display: flex; flex-direction: column; gap: 16px"><span style="font-size: 88px; font-weight: 300; letter-spacing: -0.05em; line-height: 1">1.2<span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; margin-left: 8px">km</span></span><span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">To the nearest road</span></div>
+<div data-rise style="border-top: 1px solid rgba(234,230,222,0.4); padding-top: 16px; display: flex; flex-direction: column; gap: 16px"><span data-count="24" style="font-size: 88px; font-weight: 300; letter-spacing: -0.05em; line-height: 1">24<span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; margin-left: 8px">dB</span></span><span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">Average night</span></div>
+<div data-rise style="border-top: 1px solid rgba(234,230,222,0.4); padding-top: 16px; display: flex; flex-direction: column; gap: 16px"><span data-count="41" style="font-size: 88px; font-weight: 300; letter-spacing: -0.05em; line-height: 1">41<span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; margin-left: 8px">dB</span></span><span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">Loudest sound: a woodpecker</span></div>
+</div>
+</section>
+
+<!-- FORM -->
+<section aria-label="The form" style="position: relative; box-sizing: border-box; padding: 20px 20px 120px; background: #EAE6DE; color: #2E2D2B">
+<div data-axis aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: calc(20px + (100% - 40px) * 5 / 12); width: 1px; background: #C2AE8E"></div>
+<div style="position: relative; display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><span>03 · The form</span><span>L-shaped · 60 cm walls</span></div>
+<div style="position: relative; margin-top: 120px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; align-items: start">
+<img src="../img/h04.jpg" alt="Aerial view of the L-shaped house around a courtyard with one pine" style="grid-column: 1 / 6; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block">
+<div style="grid-column: 6 / 13; padding-left: 20px; display: flex; flex-direction: column; gap: 24px">
+<h2 style="margin: 0; font-size: 72px; font-weight: 500; line-height: 0.96; letter-spacing: -0.04em">Turned away<br>from the road.</h2>
+<p style="margin: 0; font-size: 20px; line-height: 1.45; max-width: 460px">An L-shaped house wraps around a courtyard. To the road it shows one wall of rammed earth, 60 cm thick. To the forest, it opens completely.</p>
+<img src="../img/g03.jpg" alt="Pencil drawing of the house seen from above" style="margin-top: 56px; width: 70%; aspect-ratio: 4 / 5; object-fit: cover; display: block; align-self: flex-end">
+</div>
+</div>
+</section>
+
+<!-- PLAN -->
+<section aria-label="The plan" style="position: relative; box-sizing: border-box; padding: 20px 20px 120px; background: #DCD5C9; color: #2E2D2B">
+<div data-axis aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: calc(20px + (100% - 40px) * 5 / 12); width: 1px; background: #B8A78A"></div>
+<div style="position: relative; display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><span>04 · The plan</span><span>Loud → quiet</span></div>
+<div style="position: relative; margin-top: 120px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px">
+<h2 style="grid-column: 1 / 6; margin: 0; font-size: 72px; font-weight: 500; line-height: 0.96; letter-spacing: -0.04em">Loud at the door, quiet at the core.</h2>
+</div>
+<ol style="position: relative; margin: 80px 0 0; padding: 0; list-style: none">
+<li data-rise style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; align-items: center; border-top: 1px solid #2E2D2B; padding: 24px 0"><span style="grid-column: 1 / 2; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">01</span><span style="grid-column: 2 / 6; font-size: 40px; font-weight: 500; letter-spacing: -0.03em">Entrance and garage</span><span style="grid-column: 6 / 10; padding-left: 20px; font-size: 16px; line-height: 1.45">A sound buffer facing the road.</span><span style="grid-column: 10 / 12; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">38 dB</span><img src="../img/g02.jpg" alt="The house at sunset" style="grid-column: 12 / 13; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block"></li>
+<li data-rise style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; align-items: center; border-top: 1px solid #2E2D2B; padding: 24px 0"><span style="grid-column: 1 / 2; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">02</span><span style="grid-column: 2 / 6; font-size: 40px; font-weight: 500; letter-spacing: -0.03em">Kitchen and living</span><span style="grid-column: 6 / 10; padding-left: 20px; font-size: 16px; line-height: 1.45">East-facing, for morning light.</span><span style="grid-column: 10 / 12; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">31 dB</span><img src="../img/h03.jpg" alt="Living room in morning light" style="grid-column: 12 / 13; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block"></li>
+<li data-rise style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; align-items: center; border-top: 1px solid #2E2D2B; padding: 24px 0"><span style="grid-column: 1 / 2; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">03</span><span style="grid-column: 2 / 6; font-size: 40px; font-weight: 500; letter-spacing: -0.03em">Quiet room</span><span style="grid-column: 6 / 10; padding-left: 20px; font-size: 16px; line-height: 1.45">No screens, one window to the beeches.</span><span style="grid-column: 10 / 12; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">26 dB</span><img src="../img/g14.jpg" alt="Empty living room with a long window" style="grid-column: 12 / 13; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block"></li>
+<li data-rise style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; align-items: center; border-top: 1px solid #2E2D2B; padding: 24px 0"><span style="grid-column: 1 / 2; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">04</span><span style="grid-column: 2 / 6; font-size: 40px; font-weight: 500; letter-spacing: -0.03em">Main bedroom</span><span style="grid-column: 6 / 10; padding-left: 20px; font-size: 16px; line-height: 1.45">The deepest point of the house.</span><span style="grid-column: 10 / 12; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">21 dB</span><img src="../img/g11.jpg" alt="Bedroom with a narrow vertical window" style="grid-column: 12 / 13; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block"></li>
+</ol>
+</section>
+
+<!-- MATERIALS -->
+<section aria-label="Materials" style="position: relative; box-sizing: border-box; padding: 20px 20px 120px; background: #111110; color: #EAE6DE">
+<div data-axis aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: calc(20px + (100% - 40px) * 5 / 12); width: 1px; background: rgba(234, 230, 222, 0.22)"></div>
+<div style="position: relative; display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><span>05 · Materials</span><span>Absorb, not echo</span></div>
+<div style="position: relative; margin-top: 120px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px">
+<h2 style="grid-column: 1 / 6; margin: 0; font-size: 72px; font-weight: 500; line-height: 0.96; letter-spacing: -0.04em">Materials that absorb, not echo.</h2>
+</div>
+<div style="position: relative; margin-top: 80px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 20px; align-items: start">
+<article data-float="40" style="display: flex; flex-direction: column; gap: 16px"><img src="../img/h02.jpg" alt="Rammed earth wall" style="width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block"><h3 style="margin: 0; font-size: 32px; font-weight: 500; letter-spacing: -0.03em">Rammed earth</h3><p style="margin: 0; font-size: 16px; line-height: 1.45; color: #C9C3B8">60 cm walls of local clay.</p></article>
+<article data-float="120" style="margin-top: 80px; display: flex; flex-direction: column; gap: 16px"><img src="../img/h05.jpg" alt="Rammed earth block, larch board, sheep's wool and stone" style="width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block"><h3 style="margin: 0; font-size: 32px; font-weight: 500; letter-spacing: -0.03em">Larch &amp; wool</h3><p style="margin: 0; font-size: 16px; line-height: 1.45; color: #C9C3B8">Larch ceilings soften the room; wool fills every partition.</p></article>
+<article data-float="200" style="margin-top: 160px; display: flex; flex-direction: column; gap: 16px"><img src="../img/h01.jpg" alt="Travertine corridor" style="width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block"><h3 style="margin: 0; font-size: 32px; font-weight: 500; letter-spacing: -0.03em">Carpathian stone</h3><p style="margin: 0; font-size: 16px; line-height: 1.45; color: #C9C3B8">Floors and the courtyard.</p></article>
+<article data-float="280" style="margin-top: 240px; display: flex; flex-direction: column; gap: 16px"><img src="../img/h03.jpg" alt="Window to the beech forest" style="width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block"><h3 style="margin: 0; font-size: 32px; font-weight: 500; letter-spacing: -0.03em">Triple glazing</h3><p style="margin: 0; font-size: 16px; line-height: 1.45; color: #C9C3B8">Acoustic laminated glass on the forest side.</p></article>
+</div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section aria-label="Before and after" style="position: relative; box-sizing: border-box; padding: 20px 20px 120px; background: #EAE6DE; color: #2E2D2B">
+<div data-axis aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: calc(20px + (100% - 40px) * 5 / 12); width: 1px; background: #C2AE8E"></div>
+<div style="position: relative; display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><span>06 · Measured</span><span>The first night</span></div>
+<div style="position: relative; margin-top: 120px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; align-items: end">
+<div data-rise style="grid-column: 1 / 6; display: flex; flex-direction: column; gap: 16px"><span data-count="41" style="font-size: 160px; font-weight: 300; letter-spacing: -0.05em; line-height: 0.85; color: #7F7A73">41</span><span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">dB · their old bedroom, above a tram line</span></div>
+<div data-rise style="grid-column: 6 / 13; padding-left: 20px; display: flex; flex-direction: column; gap: 16px"><span data-count="21" data-from="41" style="font-size: 160px; font-weight: 300; letter-spacing: -0.05em; line-height: 0.85">21</span><span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">dB · the new one, measured with the family</span></div>
+</div>
+<figure style="position: relative; margin: 80px -20px 0; height: 560px">
+<img src="../img/h09.jpg" alt="The living room of Lull House at night" style="width: 100%; height: 100%; object-fit: cover; display: block">
+</figure>
+</section>
+
+<!-- NEXT -->
+<section aria-label="Next project" style="position: relative; height: 640px; box-sizing: border-box; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; color: #EAE6DE; overflow: hidden">
+<img data-zoom src="../img/g01.jpg" alt="Pine Court, low houses among pines" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block">
+<div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(11,11,10,0.4)"></div>
+<div style="position: relative; display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><span>Next · Pine Court</span><span>26 dB · 20 min</span></div>
+<a href="#" style="position: relative; display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap"><span style="font-size: 160px; font-weight: 300; letter-spacing: -0.05em; line-height: 0.85">Pine Court →</span><span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">Six houses near Lviv · 2024</span></a>
+</section>
+
+<footer style="position: relative; box-sizing: border-box; padding: 20px; background: #111110; color: #EAE6DE">
+<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.6">
+<div style="grid-column: 1 / 4; display: flex; flex-direction: column"><a href="#" style="text-transform: none">hello@tysha.studio</a><span>+48 22 000 00 00</span></div>
+<div style="grid-column: 4 / 6; display: flex; flex-direction: column"><span>Lviv — Rynok Square</span><span>Warsaw — Mokotów</span></div>
+<div style="grid-column: 6 / 10; padding-left: 20px; display: flex; gap: 20px; flex-wrap: wrap"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">Pinterest</a></div>
+<div style="grid-column: 10 / 13; text-align: right; display: flex; flex-direction: column"><span>Now: 25 dB</span><span style="color: #7F7A73">Welcome home.</span></div>
+</div>
+<svg data-rise viewBox="0 0 1056 240" role="img" aria-label="TYSHA" style="margin-top: 120px; width: 100%; height: auto; display: block; color: #1F1E1C"><use href="#l-wm"></use></svg>
+<div style="margin-top: 20px; display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: #7F7A73"><span>© 2026 Tysha Architecture</span><span>Designed in silence</span></div>
+</footer>
+</div>
+<script>
+const ROOT = document.querySelector('[data-t-root]');
+let curSel = 0; function setSel() {}
+document.querySelectorAll('a[href="#"]').forEach((a) => a.addEventListener('click', (e) => e.preventDefault()));
+function prep() {
+const root = ROOT;
+root.style.overflow = 'visible'; root.style.overflowX = 'clip';
+const hero = root.querySelector('[data-hero]');
+const VH = (window.CSS && CSS.supports && CSS.supports('height', '100svh')) ? '100svh' : '100vh';
+if (hero) { hero.style.height = VH; if (window.innerWidth > 760) hero.style.minHeight = '720px'; }
+const hp = root.querySelector('[data-hero-pill]'); if (hp) hp.style.display = 'none';
+root.querySelectorAll('[data-pin]').forEach((sec) => {
+sec.style.height = sec.getAttribute('data-pin') + 'vh';
+const inner = sec.querySelector('[data-pin-inner]');
+if (inner) { inner.style.position = 'sticky'; inner.style.top = '0'; inner.style.height = VH; inner.style.overflow = 'hidden'; }
+});
+const f = root.querySelector('[data-dbfix]'); if (f) f.style.display = 'block';
+const l = root.querySelector('[data-dbline]'); if (l) l.style.display = 'block';
+}
+
+function startEngine() {
+const self = {}; const root = ROOT;
+const qa = (sel) => Array.from(root.querySelectorAll(sel));
+const q = (sel) => root.querySelector(sel);
+const clamp = (x) => Math.max(0, Math.min(1, x));
+const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const GL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/·—';
+const EZ = 'cubic-bezier(.16,.84,.24,1)';
+
+const reveals = qa('h1, h2, h3, blockquote, [data-rise]').filter((el) => !el.closest('[data-st-layer]'));
+reveals.forEach((el) => {
+let i = 0;
+if (el.hasAttribute('data-rise')) i = Array.from(el.parentElement.children).filter((c) => c.hasAttribute('data-rise')).indexOf(el);
+el._d = Math.max(0, i) * 0.09;
+el._blur = !el.hasAttribute('data-rise');
+el.style.transition = 'none'; el.style.opacity = '0'; el.style.transform = 'translateY(56px)'; if (el._blur) el.style.filter = 'blur(12px)';
+});
+const imgs = qa('img').filter((im) => !im.closest('[data-noreveal]'));
+imgs.forEach((im) => { im.style.transition = 'none'; im.style.clipPath = 'inset(100% 0 0 0)'; im.style.transform = 'scale(1.25)'; });
+const scr = qa('[style*="Geist Mono"], [data-scramble]').filter((el) => {
+const par = el.parentElement && el.parentElement.closest('[style*="Geist Mono"], [data-scramble]');
+return !par && !el.closest('[data-dbfix]') && !el.closest('[data-noscramble]') && !el.hasAttribute('data-noscramble');
+});
+scr.forEach((el) => {
+const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+const nodes = []; let n;
+while ((n = w.nextNode())) { if (n.nodeValue.trim() && !(n.parentElement && n.parentElement.closest('[data-noscramble]'))) nodes.push({ n: n, o: n.nodeValue }); }
+el._tn = nodes; el.style.opacity = '0';
+});
+const counts = qa('[data-count]');
+const floats = qa('[data-float]');
+root.getBoundingClientRect();
+requestAnimationFrame(() => {
+reveals.forEach((el) => { el.style.transition = 'opacity 1.1s ' + EZ + ' ' + el._d + 's, transform 1.3s ' + EZ + ' ' + el._d + 's, filter 1.1s ' + EZ + ' ' + el._d + 's'; });
+imgs.forEach((im) => { im.style.transition = 'clip-path 1.5s cubic-bezier(.77,0,.18,1), transform 1.9s ' + EZ; });
+});
+
+const active = []; let ticking = false;
+const tick = () => {
+if (self._dead) return;
+const now = performance.now();
+for (let k = active.length - 1; k >= 0; k--) {
+const a = active[k]; const p = (now - a.t0) / a.dur;
+if (a.type === 's') {
+let gi = 0;
+a.el._tn.forEach((t) => {
+let out = '';
+for (let i = 0; i < t.o.length; i++, gi++) {
+const ch = t.o[i];
+out += (ch === ' ' || p >= a.rev[gi]) ? ch : GL[(Math.random() * GL.length) | 0];
+}
+t.n.nodeValue = out;
+});
+if (p >= 1) { a.el._tn.forEach((t) => { t.n.nodeValue = t.o; }); active.splice(k, 1); }
+} else {
+const e = 1 - Math.pow(1 - clamp(p), 3);
+a.n.nodeValue = String(Math.round(a.from + (a.to - a.from) * e));
+if (p >= 1) active.splice(k, 1);
+}
+}
+if (active.length) requestAnimationFrame(tick); else ticking = false;
+};
+const run = (a) => { a.t0 = performance.now(); active.push(a); if (!ticking) { ticking = true; requestAnimationFrame(tick); } };
+const scramble = (el) => {
+el._sc = true; el.style.opacity = '1';
+const len = el._tn.reduce((s2, t) => s2 + t.o.length, 0) || 1;
+const rev = []; for (let i = 0; i < len; i++) rev.push((i / len) * 0.6 + Math.random() * 0.4);
+run({ type: 's', el: el, dur: 650 + Math.min(900, len * 16), rev: rev });
+};
+const countUp = (el) => {
+el._ct = true;
+let n = null; for (const c of el.childNodes) { if (c.nodeType === 3 && c.nodeValue.trim()) { n = c; break; } }
+if (!n) return;
+const to = parseFloat(el.getAttribute('data-count')); const from = parseFloat(el.getAttribute('data-from') || '0');
+n.nodeValue = String(from);
+run({ type: 'c', n: n, to: to, from: from, dur: 1700 });
+};
+counts.forEach((el) => { for (const c of el.childNodes) { if (c.nodeType === 3 && c.nodeValue.trim()) { c.nodeValue = el.getAttribute('data-from') || '0'; break; } } });
+
+const hero = q('[data-hero]'), heroImg = q('[data-hero-img]'), heroFade = qa('[data-hero-fade]'), heroWm = q('[data-hero-wm]');
+const st = q('[data-pin="320"]');
+const stInner = st && st.querySelector('[data-pin-inner]'), stPill = q('[data-st-pill]'), stLayer = q('[data-st-layer]'), stLayerImg = q('[data-st-layer-img]'), stOver = q('[data-st-over]'), stFade = qa('[data-st-fade]');
+const day = q('[data-pin="460"]'), dayBar = q('[data-day-bar]');
+const pano = q('[data-pano]'), panoImg = q('[data-pano-img]');
+const marq = q('[data-marquee]'), zoom = q('[data-zoom]');
+const dbfix = q('[data-dbfix]'), dbline = q('[data-dbline]');
+
+const frame = () => {
+self._raf = 0;
+if (self._dead) return;
+const ih = window.innerHeight;
+reveals.forEach((el) => { if (el._rv) return; const r = el.getBoundingClientRect(); if (r.top < ih * 0.9 && r.bottom > -100) { el._rv = true; el.style.opacity = '1'; el.style.transform = 'none'; if (el._blur) el.style.filter = 'none'; setTimeout(() => { el.style.transition = ''; el.style.transform = ''; el.style.filter = ''; el.style.opacity = ''; }, (el._d + 1.5) * 1000); } });
+imgs.forEach((im) => { if (im._done) return; const r = im.getBoundingClientRect(); if (r.top < ih * 0.92 && r.bottom > 0) { im._done = true; im.style.clipPath = 'inset(0% 0 0 0)'; im.style.transform = 'scale(1)'; } });
+scr.forEach((el) => { if (el._sc) return; const r = el.getBoundingClientRect(); if (r.top < ih * 0.96 && r.bottom > 0) scramble(el); });
+counts.forEach((el) => { if (el._ct) return; const r = el.getBoundingClientRect(); if (r.top < ih * 0.88 && r.bottom > 0) countUp(el); });
+
+if (hero) {
+const r = hero.getBoundingClientRect(); const p = clamp(-r.top / r.height);
+if (heroImg) heroImg.style.transform = 'translateY(' + (p * 30) + '%) scale(' + (1 + p * 0.18) + ')';
+heroFade.forEach((el) => { el.style.opacity = p > 0 ? String(1 - p * 1.6) : ''; el.style.filter = p > 0 ? 'blur(' + (p * 10) + 'px)' : ''; });
+if (heroWm) heroWm.style.transform = 'translateY(' + (-p * 120) + 'px)';
+}
+if (st && stInner) {
+const r = st.getBoundingClientRect(); const p = clamp(-r.top / (r.height - ih)); const e = clamp((ih - r.top) / ih);
+const fade = 1 - clamp((p - 0.2) / 0.18);
+stFade.forEach((el) => { const bl = (1 - e) * 14 + (1 - fade) * 8; el.style.opacity = String(Math.min(e, fade)); el.style.filter = bl > 0.05 ? 'blur(' + bl + 'px)' : ''; });
+const a = ease(clamp((p - 0.14) / 0.42));
+if (a <= 0.001) { stLayer.style.visibility = 'hidden'; stPill.style.opacity = '1'; }
+else {
+const ir = stInner.getBoundingClientRect(), pr = stPill.getBoundingClientRect(), k = 1 - a;
+stLayer.style.visibility = 'visible'; stPill.style.opacity = '0';
+stLayer.style.clipPath = 'inset(' + ((pr.top - ir.top) * k) + 'px ' + ((ir.right - pr.right) * k) + 'px ' + ((ir.bottom - pr.bottom) * k) + 'px ' + ((pr.left - ir.left) * k) + 'px round ' + ((pr.height / 2) * k) + 'px)';
+stLayerImg.style.transform = 'scale(' + (1.35 - 0.35 * a) + ')';
+}
+const o = clamp((p - 0.6) / 0.2);
+stOver.style.opacity = String(o); stOver.style.transform = 'translateY(' + ((1 - o) * 60) + 'px)'; stOver.style.filter = o < 0.99 ? 'blur(' + ((1 - o) * 12) + 'px)' : '';
+}
+if (day) {
+const r = day.getBoundingClientRect(); const p = clamp(-r.top / (r.height - ih));
+if (dayBar) dayBar.style.transform = 'scaleX(' + p + ')';
+if (r.top < ih && r.bottom > 0) { const idx = Math.min(4, Math.floor(p * 5)); if (idx !== curSel) setSel(idx); }
+}
+floats.forEach((el) => { const r = el.getBoundingClientRect(); const k = parseFloat(el.getAttribute('data-float')) * (window.innerWidth <= 760 ? 0.35 : 1); const qq = clamp((ih - r.top) / (ih + r.height)); el.style.transform = 'translateY(' + ((0.5 - qq) * k) + 'px)'; });
+if (pano) { const r = pano.getBoundingClientRect(); const qq = clamp((ih - r.top) / (ih * 0.85)); const x = 24 * (1 - ease(qq)); pano.style.clipPath = 'inset(0 ' + x + '% 0 ' + x + '%)'; if (panoImg) panoImg.style.transform = 'scale(' + (1.3 - 0.3 * qq) + ')'; }
+if (marq) { const r = marq.parentElement.getBoundingClientRect(); const qq = clamp((ih - r.top) / (ih + r.height)); marq.style.transform = 'translateX(' + (-qq * 38) + '%)'; }
+if (zoom) { const r = zoom.getBoundingClientRect(); const qq = clamp((ih - r.top) / (ih + r.height)); zoom.style.transform = 'scale(' + (1.25 - 0.25 * qq) + ')'; }
+const rr = root.getBoundingClientRect(); const fr = clamp(-rr.top / (rr.height - ih));
+if (dbfix) dbfix.textContent = Math.round(68 - 43 * fr) + ' dB';
+if (dbfix && hero) { const hr = hero.getBoundingClientRect(); dbfix.style.opacity = window.innerWidth <= 760 ? String(clamp((-hr.top / hr.height - 0.35) / 0.25)) : ''; }
+if (dbline) dbline.style.height = (fr * 100) + 'vh';
+};
+
+const onScroll = () => { if (!self._raf) self._raf = requestAnimationFrame(frame); };
+window.addEventListener('scroll', onScroll, true);
+window.addEventListener('resize', onScroll);
+requestAnimationFrame(() => requestAnimationFrame(frame));
+}
+
+prep(); startEngine();
+</script>
+</body>
+</html>
