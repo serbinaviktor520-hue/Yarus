@@ -122,6 +122,9 @@ header>span:last-of-type{display:none!important}
 .t-menu-btn{display:inline-flex!important}
 .t-note{left:20px;right:20px;width:auto;bottom:72px}
 [style*="font-size: 104px"]{font-size:56px!important;line-height:0.95!important}
+footer [style*="grid-column: 10 / 13; text-align: right; font-size: 20px"]{text-align:left!important}
+footer [style*="grid-column: 10 / 13; text-align: right"]{text-align:left!important}
+footer [style*="last baseline"]{align-items:flex-start!important}
 [data-sent] p[style*="font-size: 104px"]{font-size:64px!important}
 }
 </style>
@@ -282,15 +285,37 @@ header>span:last-of-type{display:none!important}
 <a href="#" style="position: relative; display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap"><span style="font-size: 160px; font-weight: 300; letter-spacing: -0.05em; line-height: 0.85">Pine Court →</span><span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">Six houses near Lviv · 2024</span></a>
 </section>
 
-<footer style="position: relative; box-sizing: border-box; padding: 20px; background: #111110; color: #EAE6DE">
-<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.6">
-<div style="grid-column: 1 / 4; display: flex; flex-direction: column"><a href="mailto:hello@tysha.studio" style="text-transform: none">hello@tysha.studio</a><span>+48 22 000 00 00</span></div>
-<div style="grid-column: 4 / 6; display: flex; flex-direction: column"><span>Lviv — Rynok Square</span><span>Warsaw — Mokotów</span></div>
-<div style="grid-column: 6 / 10; padding-left: 20px; display: flex; gap: 20px; flex-wrap: wrap"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">Pinterest</a></div>
-<div style="grid-column: 10 / 13; text-align: right; display: flex; flex-direction: column"><span>Now: 25 dB</span><span style="color: #7F7A73">Welcome home.</span></div>
+<footer style="position: relative; overflow: hidden; box-sizing: border-box; padding: 20px; background: #0B0B0A; color: #EAE6DE">
+<div data-axis aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: calc(20px + (100% - 40px) * 5 / 12); width: 1px; background: rgba(234,230,222,0.18)"></div>
+<div style="position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.6">
+<div style="grid-column: 1 / 4; display: flex; flex-direction: column"><span>Lviv · <span data-noscramble data-clock="Europe/Kyiv">10:24</span></span><span style="color: #8C8781">Rynok Square 14</span></div>
+<div style="grid-column: 4 / 6; display: flex; flex-direction: column"><span>Warsaw · <span data-noscramble data-clock="Europe/Warsaw">09:24</span></span><span style="color: #8C8781">Mokotów, Puławska 2</span></div>
+<div style="grid-column: 6 / 10; padding-left: 20px; display: flex; gap: 20px; flex-wrap: wrap"><a href="https://www.instagram.com/" rel="noopener">Instagram</a><a href="https://www.behance.net/006b19c5" rel="noopener">Behance</a><a href="https://www.pinterest.com/" rel="noopener">Pinterest</a></div>
+<div style="grid-column: 10 / 13; text-align: right">Now: 25 dB<br><span style="color: #8C8781">Welcome home.</span></div>
 </div>
-<svg data-rise viewBox="0 0 1056 240" role="img" aria-label="TYSHA" style="margin-top: 120px; width: 100%; height: auto; display: block; color: #1F1E1C"><use href="#l-wm"></use></svg>
-<div style="margin-top: 20px; display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: #7F7A73"><span>© 2026 Tysha Architecture</span><a href="../privacy/">Privacy</a><span>Designed in silence</span></div>
+<div style="position: relative; margin-top: 120px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; align-items: last baseline">
+<a href="mailto:hello@tysha.studio" style="grid-column: 1 / 9; font-size: clamp(30px, 6.2vw, 88px); font-weight: 300; letter-spacing: -0.05em; line-height: 0.95">hello@tysha.studio</a>
+<span style="grid-column: 10 / 13; text-align: right; font-size: 20px; line-height: 1.45">+48 22 000 00 00<br><span style="color: #8C8781">We reply within two working days.</span></span>
+</div>
+<svg viewBox="0 0 1056 240" role="img" aria-label="TYSHA, a stone wall with a house seen through it" style="position: relative; margin-top: 40px; display: block; width: 100%; height: auto">
+<defs><mask id="fw-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1056" height="240"><rect width="1056" height="240" fill="black"></rect><rect x="0" y="0" width="200" height="240" rx="12" fill="white"></rect>
+<rect x="-4" y="92" width="60" height="152" fill="black"></rect>
+<rect x="144" y="92" width="60" height="152" fill="black"></rect>
+<rect x="214" y="0" width="200" height="240" rx="12" fill="white"></rect>
+<polygon points="279,-4 349,-4 314,118" fill="black"></polygon>
+<rect x="210" y="150" width="60" height="94" fill="black"></rect>
+<rect x="358" y="150" width="60" height="94" fill="black"></rect>
+<rect x="428" y="0" width="200" height="240" rx="40" fill="white"></rect>
+<rect x="484" y="74" width="148" height="12" fill="black"></rect>
+<rect x="424" y="154" width="148" height="12" fill="black"></rect>
+<rect x="642" y="0" width="200" height="240" rx="12" fill="white"></rect>
+<rect x="732" y="-4" width="20" height="100" fill="black"></rect>
+<rect x="732" y="144" width="20" height="100" fill="black"></rect>
+<path d="M856 240 V70 Q856 0 926 0 H986 Q1056 0 1056 70 V240 Z" fill="white"></path>
+<polygon points="925,244 987,244 966,170 946,170" fill="black"></polygon>
+<rect x="948" y="84" width="16" height="44" fill="black"></rect></mask></defs>
+<image href="../img/h08.jpg" x="0" y="-150" width="1056" height="594" preserveAspectRatio="xMidYMid slice" mask="url(#fw-mask)"></image></svg>
+<div style="position: relative; margin-top: 20px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: #8C8781"><span>© 2026 Tysha Architecture</span><a href="../privacy/">Privacy</a><span>No trackers on this site</span><span>Designed in silence</span></div>
 </footer>
 </div>
 <script>
@@ -498,6 +523,10 @@ prep(); startEngine();
     const again = q('[data-again]');
     if (again) again.addEventListener('click', () => { form.reset(); ['name', 'contact'].forEach((n) => setErr(n, '')); btn.textContent = 'Send'; sent.style.display = 'none'; form.style.display = 'flex'; F('name').focus(); });
   }
+  // ---------- live clocks in the footer ----------
+  const clocks = document.querySelectorAll('[data-clock]');
+  const tick = () => clocks.forEach((c) => { try { c.textContent = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: c.getAttribute('data-clock') }).format(new Date()); } catch (e) {} });
+  if (clocks.length) { tick(); setInterval(tick, 20000); }
   // ---------- mobile menu ----------
   const header = q('header'), nav = header && q('nav[aria-label="Main"]', header);
   if (nav) {
