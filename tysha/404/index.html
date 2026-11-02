@@ -2,138 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<!-- Served for any unknown URL, so every relative link resolves from the site root. Change this one line when the site moves to its own domain. -->
+<base href="/tysha/">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Page not found — TYSHA</title>
 <meta name="theme-color" content="#111110">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500&amp;family=Geist+Mono:wght@500&amp;display=swap" rel="stylesheet">
-<style>
-body{margin:0;background:#111110}
-a{color:inherit;text-decoration:none}a:hover{color:#C2AE8E}
-input{color:#EAE6DE}
-input::placeholder{color:rgba(234,230,222,0.62)}
-@media (max-width: 1100px) and (min-width: 761px){
-[style*="font-size: 72px"]{font-size:56px!important}
-[style*="font-size: 160px"]{font-size:120px!important}
-[style*="repeat(4, minmax(0"]{grid-template-columns:repeat(2,minmax(0,1fr))!important;row-gap:64px!important}
-[style*="repeat(4, minmax(0"]>article{margin-top:0!important}
-}
-@media (max-width: 760px){
-[data-axis]{left:10px!important}
-[data-dbline]{left:10px!important}
-[data-dbfix]{left:auto!important;right:20px!important;top:auto!important;bottom:20px!important;transform:none!important}
-[style*="104px)"]{font-size:44px!important;line-height:1.06!important}
-[style*="font-size: 72px"]{font-size:40px!important;line-height:1!important}
-[style*="font-size: 56px"]{font-size:40px!important;line-height:1!important}
-[style*="font-size: 40px"]{font-size:28px!important;line-height:1.12!important}
-[style*="font-size: 32px"]{font-size:22px!important}
-[style*="font-size: 20px"]{font-size:18px!important}
-[style*="font-size: 16px"]{font-size:15px!important}
-[style*="font-size: 160px"]{font-size:96px!important}
-[style*="font-size: 88px"]{font-size:64px!important}
-[style*="margin-top: 120px"]{margin-top:64px!important}
-[style*="margin: 120px 0"]{margin-top:64px!important}
-[style*="margin-top: 80px"]{margin-top:40px!important}
-[style*="margin: 80px 0"]{margin-top:40px!important}
-[style*="padding: 20px 20px 120px"]{padding-bottom:64px!important}
-[style*="padding-top: 120px"]{padding-top:40px!important}
-[style*="row-gap: 120px"]{row-gap:64px!important}
-[style*="max-width: 460px"]{max-width:none!important}
-[style*="repeat(12, minmax(0"]{display:flex!important;flex-direction:column!important;gap:24px!important}
-[style*="repeat(12, minmax(0"]>*{grid-column:auto!important;padding-left:0!important;justify-self:auto!important}
-[data-hero]{min-height:640px!important}
-[data-hero] header{flex-direction:row!important;flex-wrap:wrap!important;justify-content:space-between!important;row-gap:16px!important}
-[data-hero] header>nav{order:3;width:100%;justify-content:space-between}
-[data-hero] header>span:nth-of-type(1){display:none!important}
-[data-hero] header>span:last-child{text-align:right}
-[data-hero-fade][style*="align-items: end"]{display:grid!important;grid-template-columns:1fr 1fr!important;gap:16px!important}
-[data-hero-fade][style*="align-items: end"]>span:nth-child(2),[data-hero-fade][style*="align-items: end"]>span:nth-child(3){display:none!important}
-[data-hero-fade][style*="align-items: end"]>span:last-child{text-align:right}
-[data-st-over] p{max-width:none!important}
-[data-st-over]>div{flex-wrap:wrap;gap:8px 16px}
-[style*="height: 560px"]{height:440px!important}
-[style*="repeat(4, minmax(0"]{display:flex!important;flex-direction:column!important;gap:64px!important}
-[style*="repeat(4, minmax(0"]>article{margin-top:0!important;width:80%}
-[style*="repeat(4, minmax(0"]>article:nth-child(even){align-self:flex-end}
-section[aria-label="Studio in numbers"] [style*="repeat(4, minmax(0"]{display:grid!important;grid-template-columns:1fr 1fr!important;column-gap:20px!important;row-gap:40px!important}
-[data-pano]{height:440px!important;margin:64px -20px 0!important}
-[data-pano] figcaption{flex-direction:column;gap:8px}
-section[aria-label="Selected projects"] a[data-float]{margin-top:0!important}
-section[aria-label="Selected projects"] a[data-float]:nth-child(n+2){width:82%}
-section[aria-label="Selected projects"] a[data-float]:nth-child(2),section[aria-label="Selected projects"] a[data-float]:nth-child(4){align-self:flex-end}
-section[aria-label="Selected projects"] a[data-float]>div{flex-direction:column;align-items:flex-start!important;gap:8px}
-[style*="height: 780px"]{height:auto!important;aspect-ratio:4/5}
-[data-marquee]{gap:40px!important}
-[data-pin-inner]>div[style*="margin-top: auto"] [style*="repeat(5, minmax(0"]{column-gap:8px!important}
-button[aria-pressed]>span:last-child{display:none}
-button[aria-pressed]>span:first-child{font-size:18px!important}
-li[data-rise]{display:grid!important;grid-template-columns:1fr 96px!important;column-gap:16px!important;row-gap:8px!important;align-items:start!important}
-li[data-rise]>*{grid-column:1/2!important;padding-left:0!important}
-li[data-rise]>span:nth-child(1){grid-row:1}
-li[data-rise]>span:nth-child(2){grid-row:2}
-li[data-rise]>span:nth-child(3){grid-row:3}
-li[data-rise]>span:nth-child(4){grid-row:4;color:#6B665F}
-li[data-rise]>img{grid-column:2/3!important;grid-row:1/5;aspect-ratio:4/5!important}
-section[aria-label="Voices"] figure:nth-child(2){margin-left:15%!important}
-section[aria-label="Start a project"]{height:auto!important;min-height:100svh;padding-bottom:64px!important}
-footer>div:first-child{display:grid!important;grid-template-columns:1fr 1fr!important;row-gap:24px!important}
-footer>div:first-child>div{grid-column:auto!important;padding-left:0!important;text-align:left!important}
-footer svg{margin-top:64px!important}
-[data-pre-cap]{grid-template-columns:1fr 1fr!important}
-[data-pre-cap]>span:nth-child(2),[data-pre-cap]>span:nth-child(3){display:none}
-}
-h1,h2,h3,blockquote{text-wrap:balance}p{text-wrap:pretty}
-</style>
-
-
-<style>html,body{margin:0;background:#111110;-webkit-text-size-adjust:100%}</style>
-<style>
-a:focus-visible,button:focus-visible{outline:2px solid #C2AE8E;outline-offset:4px}
-[data-form] input[type=text]:focus{border-bottom-color:#C2AE8E!important}
-[data-form] input[type=text][aria-invalid=true]{border-bottom-color:#E8A68C!important}
-[data-send]:hover,[data-form][aria-busy=true] [data-send]{background:#EAE6DE;color:#111110}
-[data-form][aria-busy=true] label,[data-form][aria-busy=true] fieldset{opacity:.45;transition:opacity .3s}
-.t-pill{all:unset;cursor:pointer;box-sizing:border-box;display:inline-flex;align-items:center;min-height:40px;padding:0 18px;border:1px solid currentColor;border-radius:999px;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
-.t-pill:hover{background:#EAE6DE;color:#111110}
-.t-menu-btn{display:none!important;margin-left:auto;padding:0 18px!important}
-.t-menu{position:fixed;inset:0;z-index:3000;background:#0B0B0A;color:#EAE6DE;display:flex;flex-direction:column;padding:20px;box-sizing:border-box;font-family:'Inter Tight',sans-serif;opacity:0;transition:opacity .4s cubic-bezier(.2,.7,.2,1)}
-.t-menu[hidden]{display:none}
-.t-menu.on{opacity:1}
-.t-menu-axis{position:absolute;top:0;bottom:0;left:10px;width:1px;background:rgba(234,230,222,.2)}
-.t-menu-top{position:relative;display:flex;justify-content:space-between;align-items:flex-start;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase;line-height:1.45}
-.t-mute{color:#7F7A73}
-.t-menu-list{position:relative;margin-top:auto;display:flex;flex-direction:column;border-top:1px solid rgba(234,230,222,.28)}
-.t-menu-list a{display:grid;grid-template-columns:40px 1fr auto;align-items:baseline;padding:18px 0;border-bottom:1px solid rgba(234,230,222,.28);opacity:0;transform:translateY(24px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.2,1)}
-.t-menu.on .t-menu-list a{opacity:1;transform:none}
-.t-menu-list a:nth-child(2){transition-delay:.05s}.t-menu-list a:nth-child(3){transition-delay:.1s}.t-menu-list a:nth-child(4){transition-delay:.15s}
-.t-menu-list .n,.t-menu-list .d{font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
-.t-menu-list .d{color:#C9C3B8}
-.t-menu-list .t{font-size:44px;font-weight:400;letter-spacing:-.04em;line-height:1}
-.t-menu-foot{position:relative;margin-top:40px;display:flex;flex-direction:column;gap:4px;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase;line-height:1.6}
-.t-note{position:fixed;right:20px;bottom:20px;z-index:2500;width:360px;box-sizing:border-box;padding:16px;background:#1C1B19;color:#EAE6DE;border:1px solid rgba(234,230,222,.2);display:flex;flex-direction:column;gap:12px;font-family:'Inter Tight',sans-serif;opacity:0;transform:translateY(16px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.2,1)}
-.t-note.on{opacity:1;transform:none}
-.t-note .k{font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#C9C3B8}
-.t-note p{margin:0;font-size:15px;line-height:1.45}
-.t-note .row{display:flex;justify-content:space-between;align-items:center;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
-.t-note .row a{text-decoration:underline}
-@media (max-width:760px){
-header>nav[aria-label="Main"]{display:none!important}
-header>span:last-of-type{display:none!important}
-.t-menu-btn{display:inline-flex!important}
-.t-note{left:20px;right:20px;width:auto;bottom:72px}
-[style*="font-size: 104px"]{font-size:56px!important;line-height:0.95!important}
-footer [style*="grid-column: 10 / 13; text-align: right; font-size: 20px"]{text-align:left!important}
-footer [style*="grid-column: 10 / 13; text-align: right"]{text-align:left!important}
-[style*="last baseline"]{align-items:flex-start!important}
-[data-sent] p[style*="font-size: 104px"]{font-size:64px!important}
-[data-pre-cap]{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;column-gap:16px!important;font-size:11px!important}
-[data-pre-cap]>span:nth-child(2),[data-pre-cap]>span:nth-child(3){display:none!important}
-}
-</style>
+<link rel="stylesheet" href="assets/site.css">
 </head>
-<body>
-<div data-t-root style="width: 100%; background: #111110; color: #EAE6DE; font-family: 'Inter Tight', sans-serif; overflow: hidden">
-<svg width="0" height="0" aria-hidden="true" style="position: absolute">
+<body data-no-note>
+<div data-t-root class="site">
+<svg width="0" height="0" aria-hidden="true" class="abs">
 <defs>
 <mask id="lm-wm" maskUnits="userSpaceOnUse" x="0" y="0" width="1056" height="240">
 <rect width="1056" height="240" fill="black"></rect>
@@ -164,43 +44,43 @@ footer [style*="grid-column: 10 / 13; text-align: right"]{text-align:left!import
 <g id="l-arch"><rect width="200" height="240" fill="currentColor" mask="url(#lm-arch)"></rect></g>
 </defs>
 </svg>
-<div data-dbline aria-hidden="true" style="display: none; position: fixed; top: 0; left: calc(20px + (100vw - 40px) * 5 / 12); width: 1px; height: 0; background: #FFFFFF; mix-blend-mode: difference; z-index: 60; pointer-events: none"></div>
-<div data-dbfix aria-hidden="true" style="display: none; position: fixed; top: 50%; left: calc(20px + (100vw - 40px) * 5 / 12); transform: translate(-50%, -50%); z-index: 61; padding: 6px 12px; border: 1px solid #FFFFFF; border-radius: 999px; color: #FFFFFF; mix-blend-mode: difference; white-space: nowrap; pointer-events: none; font-variant-numeric: tabular-nums; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">68 dB</div>
+<div data-dbline aria-hidden="true" class="hidden-fix"></div>
+<div data-dbfix aria-hidden="true" class="label hidden-fix-2">68 dB</div>
 
-<section data-hero data-noreveal aria-label="Page not found" style="position: relative; min-height: 100vh; box-sizing: border-box; padding: 20px; display: flex; flex-direction: column; overflow: hidden">
-<img data-hero-img src="/tysha/img/h09.jpg" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.45">
-<div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,11,10,0.7) 0%, rgba(11,11,10,0.35) 50%, rgba(11,11,10,0.85) 100%)"></div>
-<div data-axis aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: calc(20px + (100% - 40px) * 5 / 12); width: 1px; background: rgba(234, 230, 222, 0.4)"></div>
-<header style="position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.45">
-<a href="/tysha/" style="grid-column: 1 / 4; display: flex; align-items: center; gap: 16px"><svg width="20" height="24" viewBox="0 0 200 240" aria-hidden="true"><use href="#l-arch"></use></svg><span>Tysha<br><span style="color: #C9C3B8">Architecture</span></span></a>
-<span style="grid-column: 4 / 6">Lviv — Warsaw<br><span style="color: #C9C3B8">Est. 2014</span></span>
-<nav aria-label="Main" style="grid-column: 6 / 10; display: flex; gap: 24px; flex-wrap: wrap; padding-left: 20px"><a href="/tysha/project/">Projects</a><a href="/tysha/method/">Method</a><a href="/tysha/#studio">Studio</a><a href="/tysha/#contact">Contact</a></nav>
-<span style="grid-column: 10 / 13; text-align: right">Now: 23 dB<br><span style="color: #C9C3B8">Inside Lull House</span></span>
+<section data-hero data-noreveal aria-label="Page not found" class="stack-13">
+<img data-hero-img src="img/h09.jpg" alt="" class="fill cover img-3">
+<div aria-hidden="true" class="fill bg-8"></div>
+<div data-axis aria-hidden="true" class="axis axis-light"></div>
+<header class="label grid-12 site-head">
+<a href="" class="col-1-4 brand"><svg width="20" height="24" viewBox="0 0 200 240" aria-hidden="true"><use href="#l-arch"></use></svg><span>Tysha<br><span class="tone-2">Architecture</span></span></a>
+<span class="col-4-6">Lviv — Warsaw<br><span class="tone-2">Est. 2014</span></span>
+<nav aria-label="Main" class="col-6-10 nav-main"><a href="project/">Projects</a><a href="method/">Method</a><a href="#studio">Studio</a><a href="#contact">Contact</a></nav>
+<span class="col-10-13 ta-r">Now: 23 dB<br><span class="tone-2">Inside Lull House</span></span>
 </header>
-<div aria-hidden="true" style="position: absolute; left: 10px; bottom: -0.12em; font-size: clamp(200px, 38vw, 600px); font-weight: 200; letter-spacing: -0.07em; line-height: 0.8; color: rgba(234,230,222,0.1)">404</div>
-<div data-hero-fade style="position: relative; margin-top: auto; padding-top: 120px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px">
-<div style="grid-column: 1 / 6; margin-top: auto; display: flex; flex-direction: column; gap: 24px">
-<h1 style="margin: 0; font-size: 104px; font-weight: 300; line-height: 0.9; letter-spacing: -0.05em">This room is empty.</h1>
-<p style="margin: 0; font-size: 20px; line-height: 1.45; max-width: 460px">The page was moved, or never built. Even silence needs walls. Here is where it lives:</p>
+<div aria-hidden="true" class="fs-fluid-abs">404</div>
+<div data-hero-fade class="grid-12 div-3">
+<div class="col-1-6 stack-14">
+<h1 class="big m-0">This room is empty.</h1>
+<p class="body-l p">The page was moved, or never built. Even silence needs walls. Here is where it lives:</p>
 </div>
-<nav aria-label="Where to go" style="grid-column: 6 / 12; margin-top: auto; padding-left: 20px; display: flex; flex-direction: column; border-top: 1px solid rgba(234,230,222,0.4)"><a href="/tysha/" style="display: grid; grid-template-columns: 48px 1fr auto; align-items: baseline; padding: 18px 0; border-bottom: 1px solid rgba(234,230,222,0.4)"><span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">01</span><span style="font-size: 40px; font-weight: 400; letter-spacing: -0.04em; line-height: 1">Home</span><span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: #C9C3B8">68 → 25 dB</span></a><a href="/tysha/project/" style="display: grid; grid-template-columns: 48px 1fr auto; align-items: baseline; padding: 18px 0; border-bottom: 1px solid rgba(234,230,222,0.4)"><span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">02</span><span style="font-size: 40px; font-weight: 400; letter-spacing: -0.04em; line-height: 1">Lull House</span><span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: #C9C3B8">21 dB</span></a><a href="/tysha/method/" style="display: grid; grid-template-columns: 48px 1fr auto; align-items: baseline; padding: 18px 0; border-bottom: 1px solid rgba(234,230,222,0.4)"><span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">03</span><span style="font-size: 40px; font-weight: 400; letter-spacing: -0.04em; line-height: 1">Method</span><span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: #C9C3B8">Five steps</span></a><a href="/tysha/#contact" style="display: grid; grid-template-columns: 48px 1fr auto; align-items: baseline; padding: 18px 0; border-bottom: 1px solid rgba(234,230,222,0.4)"><span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">04</span><span style="font-size: 40px; font-weight: 400; letter-spacing: -0.04em; line-height: 1">Contact</span><span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: #C9C3B8">25 dB</span></a></nav>
+<nav aria-label="Where to go" class="col-6-12 stack-15"><a href="" class="link-row"><span class="label">01</span><span class="fs-40">Home</span><span class="label tone-2">68 → 25 dB</span></a><a href="project/" class="link-row"><span class="label">02</span><span class="fs-40">Lull House</span><span class="label tone-2">21 dB</span></a><a href="method/" class="link-row"><span class="label">03</span><span class="fs-40">Method</span><span class="label tone-2">Five steps</span></a><a href="#contact" class="link-row"><span class="label">04</span><span class="fs-40">Contact</span><span class="label tone-2">25 dB</span></a></nav>
 </div>
-<div data-hero-fade style="position: relative; margin-top: 40px; display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><span>404 · No such room</span><span>0 dB</span></div>
+<div data-hero-fade class="label row-mt-40"><span>404 · No such room</span><span>0 dB</span></div>
 </section>
 
-<footer style="position: relative; overflow: hidden; box-sizing: border-box; padding: 20px; background: #0B0B0A; color: #EAE6DE">
-<div data-axis aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: calc(20px + (100% - 40px) * 5 / 12); width: 1px; background: rgba(234,230,222,0.18)"></div>
-<div style="position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.6">
-<div style="grid-column: 1 / 4; display: flex; flex-direction: column"><span>Lviv · <span data-noscramble data-clock="Europe/Kyiv">10:24</span></span><span style="color: #8C8781">Rynok Square 14</span></div>
-<div style="grid-column: 4 / 6; display: flex; flex-direction: column"><span>Warsaw · <span data-noscramble data-clock="Europe/Warsaw">09:24</span></span><span style="color: #8C8781">Mokotów, Puławska 2</span></div>
-<div style="grid-column: 6 / 10; padding-left: 20px; display: flex; gap: 20px; flex-wrap: wrap"><a href="https://www.instagram.com/" rel="noopener">Instagram</a><a href="https://www.behance.net/006b19c5" rel="noopener">Behance</a><a href="https://www.pinterest.com/" rel="noopener">Pinterest</a></div>
-<div style="grid-column: 10 / 13; text-align: right">Now: 25 dB<br><span style="color: #8C8781">Welcome home.</span></div>
+<footer class="site-foot">
+<div data-axis aria-hidden="true" class="axis axis-faint"></div>
+<div class="label grid-12 div-2">
+<div class="col-1-4 stack"><span>Lviv · <span data-noscramble data-clock="Europe/Kyiv">10:24</span></span><span class="tone-3">Rynok Square 14</span></div>
+<div class="col-4-6 stack"><span>Warsaw · <span data-noscramble data-clock="Europe/Warsaw">09:24</span></span><span class="tone-3">Mokotów, Puławska 2</span></div>
+<div class="col-6-10 row"><a href="https://www.instagram.com/" rel="noopener">Instagram</a><a href="https://www.behance.net/006b19c5" rel="noopener">Behance</a><a href="https://www.pinterest.com/" rel="noopener">Pinterest</a></div>
+<div class="col-10-13 ta-r">Now: 25 dB<br><span class="tone-3">Welcome home.</span></div>
 </div>
-<div style="position: relative; margin-top: 120px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; align-items: last baseline">
-<a href="mailto:hello@tysha.studio" style="grid-column: 1 / 9; font-size: clamp(30px, 6.2vw, 88px); font-weight: 300; letter-spacing: -0.05em; line-height: 0.95">hello@tysha.studio</a>
-<span style="grid-column: 10 / 13; text-align: right; font-size: 20px; line-height: 1.45">+48 22 000 00 00<br><span style="color: #8C8781">We reply within two working days.</span></span>
+<div class="grid-12 mt-120-2">
+<a href="mailto:hello@tysha.studio" class="col-1-9 fs-fluid">hello@tysha.studio</a>
+<span class="col-10-13 body-l ta-r">+48 22 000 00 00<br><span class="tone-3">We reply within two working days.</span></span>
 </div>
-<svg viewBox="0 0 1056 240" role="img" aria-label="TYSHA, a stone wall with a house seen through it" style="position: relative; margin-top: 40px; display: block; width: 100%; height: auto">
+<svg viewBox="0 0 1056 240" role="img" aria-label="TYSHA, a stone wall with a house seen through it" class="foot-wm">
 <defs><mask id="fw-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1056" height="240"><rect width="1056" height="240" fill="black"></rect><rect x="0" y="0" width="200" height="240" rx="12" fill="white"></rect>
 <rect x="-4" y="92" width="60" height="152" fill="black"></rect>
 <rect x="144" y="92" width="60" height="152" fill="black"></rect>
@@ -217,253 +97,10 @@ footer [style*="grid-column: 10 / 13; text-align: right"]{text-align:left!import
 <path d="M856 240 V70 Q856 0 926 0 H986 Q1056 0 1056 70 V240 Z" fill="white"></path>
 <polygon points="925,244 987,244 966,170 946,170" fill="black"></polygon>
 <rect x="948" y="84" width="16" height="44" fill="black"></rect></mask></defs>
-<image href="/tysha/img/h08.jpg" x="0" y="-150" width="1056" height="594" preserveAspectRatio="xMidYMid slice" mask="url(#fw-mask)"></image></svg>
-<div style="position: relative; margin-top: 20px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: #8C8781"><span>© 2026 Tysha Architecture</span><a href="/tysha/privacy/">Privacy</a><span>No trackers on this site</span><span>Designed in silence</span></div>
+<image href="img/h08.jpg" x="0" y="-150" width="1056" height="594" preserveAspectRatio="xMidYMid slice" mask="url(#fw-mask)"></image></svg>
+<div class="label tone-3 row-mt-20"><span>© 2026 Tysha Architecture</span><a href="privacy/">Privacy</a><span>No trackers on this site</span><span>Designed in silence</span></div>
 </footer>
 </div>
-<script>
-const ROOT = document.querySelector('[data-t-root]');
-let curSel = 0; function setSel() {}
-document.querySelectorAll('a[href="#"]').forEach((a) => a.addEventListener('click', (e) => e.preventDefault()));
-function prep() {
-const root = ROOT;
-root.style.overflow = 'visible'; root.style.overflowX = 'clip';
-const hero = root.querySelector('[data-hero]');
-const VH = (window.CSS && CSS.supports && CSS.supports('height', '100svh')) ? '100svh' : '100vh';
-if (hero) { hero.style.height = VH; if (window.innerWidth > 760) hero.style.minHeight = '720px'; }
-const hp = root.querySelector('[data-hero-pill]'); if (hp) hp.style.display = 'none';
-root.querySelectorAll('[data-pin]').forEach((sec) => {
-sec.style.height = sec.getAttribute('data-pin') + 'vh';
-const inner = sec.querySelector('[data-pin-inner]');
-if (inner) { inner.style.position = 'sticky'; inner.style.top = '0'; inner.style.height = VH; inner.style.overflow = 'hidden'; }
-});
-const f = root.querySelector('[data-dbfix]'); if (f) f.style.display = 'block';
-const l = root.querySelector('[data-dbline]'); if (l) l.style.display = 'block';
-}
-
-function startEngine() {
-const self = {}; const root = ROOT;
-const qa = (sel) => Array.from(root.querySelectorAll(sel));
-const q = (sel) => root.querySelector(sel);
-const clamp = (x) => Math.max(0, Math.min(1, x));
-const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
-const GL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/·—';
-const EZ = 'cubic-bezier(.16,.84,.24,1)';
-
-const reveals = qa('h1, h2, h3, blockquote, [data-rise]').filter((el) => !el.closest('[data-st-layer]'));
-reveals.forEach((el) => {
-let i = 0;
-if (el.hasAttribute('data-rise')) i = Array.from(el.parentElement.children).filter((c) => c.hasAttribute('data-rise')).indexOf(el);
-el._d = Math.max(0, i) * 0.09;
-el._blur = !el.hasAttribute('data-rise');
-el.style.transition = 'none'; el.style.opacity = '0'; el.style.transform = 'translateY(56px)'; if (el._blur) el.style.filter = 'blur(12px)';
-});
-const imgs = qa('img').filter((im) => !im.closest('[data-noreveal]'));
-imgs.forEach((im) => { im.style.transition = 'none'; im.style.clipPath = 'inset(100% 0 0 0)'; im.style.transform = 'scale(1.25)'; });
-const scr = qa('[style*="Geist Mono"], [data-scramble]').filter((el) => {
-const par = el.parentElement && el.parentElement.closest('[style*="Geist Mono"], [data-scramble]');
-return !par && !el.closest('[data-dbfix]') && !el.closest('[data-noscramble]') && !el.hasAttribute('data-noscramble');
-});
-scr.forEach((el) => {
-const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
-const nodes = []; let n;
-while ((n = w.nextNode())) { if (n.nodeValue.trim() && !(n.parentElement && n.parentElement.closest('[data-noscramble]'))) nodes.push({ n: n, o: n.nodeValue }); }
-el._tn = nodes; el.style.opacity = '0';
-});
-const counts = qa('[data-count]');
-const floats = qa('[data-float]');
-root.getBoundingClientRect();
-requestAnimationFrame(() => {
-reveals.forEach((el) => { el.style.transition = 'opacity 1.1s ' + EZ + ' ' + el._d + 's, transform 1.3s ' + EZ + ' ' + el._d + 's, filter 1.1s ' + EZ + ' ' + el._d + 's'; });
-imgs.forEach((im) => { im.style.transition = 'clip-path 1.5s cubic-bezier(.77,0,.18,1), transform 1.9s ' + EZ; });
-});
-
-const active = []; let ticking = false;
-const tick = () => {
-if (self._dead) return;
-const now = performance.now();
-for (let k = active.length - 1; k >= 0; k--) {
-const a = active[k]; const p = (now - a.t0) / a.dur;
-if (a.type === 's') {
-let gi = 0;
-a.el._tn.forEach((t) => {
-let out = '';
-for (let i = 0; i < t.o.length; i++, gi++) {
-const ch = t.o[i];
-out += (ch === ' ' || p >= a.rev[gi]) ? ch : GL[(Math.random() * GL.length) | 0];
-}
-t.n.nodeValue = out;
-});
-if (p >= 1) { a.el._tn.forEach((t) => { t.n.nodeValue = t.o; }); active.splice(k, 1); }
-} else {
-const e = 1 - Math.pow(1 - clamp(p), 3);
-a.n.nodeValue = String(Math.round(a.from + (a.to - a.from) * e));
-if (p >= 1) active.splice(k, 1);
-}
-}
-if (active.length) requestAnimationFrame(tick); else ticking = false;
-};
-const run = (a) => { a.t0 = performance.now(); active.push(a); if (!ticking) { ticking = true; requestAnimationFrame(tick); } };
-const scramble = (el) => {
-el._sc = true; el.style.opacity = '1';
-const len = el._tn.reduce((s2, t) => s2 + t.o.length, 0) || 1;
-const rev = []; for (let i = 0; i < len; i++) rev.push((i / len) * 0.6 + Math.random() * 0.4);
-run({ type: 's', el: el, dur: 650 + Math.min(900, len * 16), rev: rev });
-};
-const countUp = (el) => {
-el._ct = true;
-let n = null; for (const c of el.childNodes) { if (c.nodeType === 3 && c.nodeValue.trim()) { n = c; break; } }
-if (!n) return;
-const to = parseFloat(el.getAttribute('data-count')); const from = parseFloat(el.getAttribute('data-from') || '0');
-n.nodeValue = String(from);
-run({ type: 'c', n: n, to: to, from: from, dur: 1700 });
-};
-counts.forEach((el) => { for (const c of el.childNodes) { if (c.nodeType === 3 && c.nodeValue.trim()) { c.nodeValue = el.getAttribute('data-from') || '0'; break; } } });
-
-const hero = q('[data-hero]'), heroImg = q('[data-hero-img]'), heroFade = qa('[data-hero-fade]'), heroWm = q('[data-hero-wm]');
-const st = q('[data-pin="320"]');
-const stInner = st && st.querySelector('[data-pin-inner]'), stPill = q('[data-st-pill]'), stLayer = q('[data-st-layer]'), stLayerImg = q('[data-st-layer-img]'), stOver = q('[data-st-over]'), stFade = qa('[data-st-fade]');
-const day = q('[data-pin="460"]'), dayBar = q('[data-day-bar]');
-const pano = q('[data-pano]'), panoImg = q('[data-pano-img]');
-const marq = q('[data-marquee]'), zoom = q('[data-zoom]');
-const dbfix = q('[data-dbfix]'), dbline = q('[data-dbline]');
-
-const frame = () => {
-self._raf = 0;
-if (self._dead) return;
-const ih = window.innerHeight;
-reveals.forEach((el) => { if (el._rv) return; const r = el.getBoundingClientRect(); if (r.top < ih * 0.9 && r.bottom > -100) { el._rv = true; el.style.opacity = '1'; el.style.transform = 'none'; if (el._blur) el.style.filter = 'none'; setTimeout(() => { el.style.transition = ''; el.style.transform = ''; el.style.filter = ''; el.style.opacity = ''; }, (el._d + 1.5) * 1000); } });
-imgs.forEach((im) => { if (im._done) return; const r = im.getBoundingClientRect(); if (r.top < ih * 0.92 && r.bottom > 0) { im._done = true; im.style.clipPath = 'inset(0% 0 0 0)'; im.style.transform = 'scale(1)'; } });
-scr.forEach((el) => { if (el._sc) return; const r = el.getBoundingClientRect(); if (r.top < ih * 0.96 && r.bottom > 0) scramble(el); });
-counts.forEach((el) => { if (el._ct) return; const r = el.getBoundingClientRect(); if (r.top < ih * 0.88 && r.bottom > 0) countUp(el); });
-
-if (hero) {
-const r = hero.getBoundingClientRect(); const p = clamp(-r.top / r.height);
-if (heroImg) heroImg.style.transform = 'translateY(' + (p * 30) + '%) scale(' + (1 + p * 0.18) + ')';
-heroFade.forEach((el) => { el.style.opacity = p > 0 ? String(1 - p * 1.6) : ''; el.style.filter = p > 0 ? 'blur(' + (p * 10) + 'px)' : ''; });
-if (heroWm) heroWm.style.transform = 'translateY(' + (-p * 120) + 'px)';
-}
-if (st && stInner) {
-const r = st.getBoundingClientRect(); const p = clamp(-r.top / (r.height - ih)); const e = clamp((ih - r.top) / ih);
-const fade = 1 - clamp((p - 0.2) / 0.18);
-stFade.forEach((el) => { const bl = (1 - e) * 14 + (1 - fade) * 8; el.style.opacity = String(Math.min(e, fade)); el.style.filter = bl > 0.05 ? 'blur(' + bl + 'px)' : ''; });
-const a = ease(clamp((p - 0.14) / 0.42));
-if (a <= 0.001) { stLayer.style.visibility = 'hidden'; stPill.style.opacity = '1'; }
-else {
-const ir = stInner.getBoundingClientRect(), pr = stPill.getBoundingClientRect(), k = 1 - a;
-stLayer.style.visibility = 'visible'; stPill.style.opacity = '0';
-stLayer.style.clipPath = 'inset(' + ((pr.top - ir.top) * k) + 'px ' + ((ir.right - pr.right) * k) + 'px ' + ((ir.bottom - pr.bottom) * k) + 'px ' + ((pr.left - ir.left) * k) + 'px round ' + ((pr.height / 2) * k) + 'px)';
-stLayerImg.style.transform = 'scale(' + (1.35 - 0.35 * a) + ')';
-}
-const o = clamp((p - 0.6) / 0.2);
-stOver.style.opacity = String(o); stOver.style.transform = 'translateY(' + ((1 - o) * 60) + 'px)'; stOver.style.filter = o < 0.99 ? 'blur(' + ((1 - o) * 12) + 'px)' : '';
-}
-if (day) {
-const r = day.getBoundingClientRect(); const p = clamp(-r.top / (r.height - ih));
-if (dayBar) dayBar.style.transform = 'scaleX(' + p + ')';
-if (r.top < ih && r.bottom > 0) { const idx = Math.min(4, Math.floor(p * 5)); if (idx !== curSel) setSel(idx); }
-}
-floats.forEach((el) => { const r = el.getBoundingClientRect(); const k = parseFloat(el.getAttribute('data-float')) * (window.innerWidth <= 760 ? 0.35 : 1); const qq = clamp((ih - r.top) / (ih + r.height)); el.style.transform = 'translateY(' + ((0.5 - qq) * k) + 'px)'; });
-if (pano) { const r = pano.getBoundingClientRect(); const qq = clamp((ih - r.top) / (ih * 0.85)); const x = 24 * (1 - ease(qq)); pano.style.clipPath = 'inset(0 ' + x + '% 0 ' + x + '%)'; if (panoImg) panoImg.style.transform = 'scale(' + (1.3 - 0.3 * qq) + ')'; }
-if (marq) { const r = marq.parentElement.getBoundingClientRect(); const qq = clamp((ih - r.top) / (ih + r.height)); marq.style.transform = 'translateX(' + (-qq * 38) + '%)'; }
-if (zoom) { const r = zoom.getBoundingClientRect(); const qq = clamp((ih - r.top) / (ih + r.height)); zoom.style.transform = 'scale(' + (1.25 - 0.25 * qq) + ')'; }
-const rr = root.getBoundingClientRect(); const fr = clamp(-rr.top / (rr.height - ih));
-if (dbfix) dbfix.textContent = Math.round(68 - 43 * fr) + ' dB';
-if (dbfix && hero) { const hr = hero.getBoundingClientRect(); dbfix.style.opacity = window.innerWidth <= 760 ? String(clamp((-hr.top / hr.height - 0.35) / 0.25)) : ''; }
-if (dbline) dbline.style.height = (fr * 100) + 'vh';
-};
-
-const onScroll = () => { if (!self._raf) self._raf = requestAnimationFrame(frame); };
-window.addEventListener('scroll', onScroll, true);
-window.addEventListener('resize', onScroll);
-requestAnimationFrame(() => requestAnimationFrame(frame));
-}
-
-prep(); startEngine();
-</script>
-<script>window.T_BASE = '/tysha/'; window.T_NO_NOTE = true;
-(function () {
-  const BASE = window.T_BASE || '';
-  const q = (s, r) => (r || document).querySelector(s);
-  // ---------- contact form: validate, send, fail, received ----------
-  const form = q('[data-form]');
-  if (form) {
-    const sent = q('[data-sent]'), fail = q('[data-fail]', form), btn = q('[data-send]', form);
-    const F = (n) => q('[name="' + n + '"]', form);
-    const MSG = { name: 'Tell us your name, so we know who to answer.', empty: 'We need a phone or an email to reply.', bad: "That doesn't look like a phone or an email." };
-    const setErr = (n, m) => { const i = F(n), e = document.getElementById('err-' + n); i.setAttribute('aria-invalid', m ? 'true' : 'false'); if (e) { if (m) e.textContent = m; e.style.display = m ? 'block' : 'none'; } };
-    const check = (focus) => {
-      let first = null;
-      const nm = F('name').value.trim();
-      if (!nm) { setErr('name', MSG.name); first = F('name'); } else setErr('name', '');
-      const c = F('contact').value.trim();
-      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(c) || /^\+?[\d\s().-]{7,}$/.test(c);
-      if (!c) { setErr('contact', MSG.empty); first = first || F('contact'); } else if (!ok) { setErr('contact', MSG.bad); first = first || F('contact'); } else setErr('contact', '');
-      if (first && focus) first.focus();
-      return !first;
-    };
-    ['name', 'contact'].forEach((n) => F(n).addEventListener('input', () => { if (F(n).getAttribute('aria-invalid') === 'true') check(false); }));
-    let busy = false;
-    form.addEventListener('submit', (ev) => {
-      ev.preventDefault();
-      if (busy) return;
-      fail.style.display = 'none';
-      if (!check(true)) return;
-      busy = true; form.setAttribute('aria-busy', 'true');
-      let db = 68; btn.textContent = 'Sending · 68 dB';
-      const iv = setInterval(() => { db = Math.max(25, db - 3); btn.textContent = 'Sending · ' + db + ' dB'; }, 70);
-      // no backend in this concept: the request is simulated. Offline (or a region containing "fail") shows the error state.
-      setTimeout(() => {
-        clearInterval(iv); busy = false; form.removeAttribute('aria-busy');
-        if (navigator.onLine === false || /fail/i.test(F('region').value)) { fail.style.display = 'block'; btn.textContent = 'Try again'; return; }
-        const name = F('name').value.trim().split(/\s+/)[0];
-        const find = (q('input[name="plot"]:checked', form) || {}).value === 'find';
-        q('[data-sent-id]', sent).textContent = 'Request TY-' + (1000 + Math.floor(Math.random() * 9000)) + ' · Received · 25 dB';
-        q('[data-sent-msg]', sent).textContent = 'Thank you, ' + name + ". We'll reply within two working days from hello@tysha.studio. " + (find ? "We'll start by looking for a quiet plot together." : "First we'll ask for the plot's address, to plan the audit.");
-        form.style.display = 'none'; sent.style.display = 'flex'; sent.setAttribute('tabindex', '-1'); sent.focus({ preventScroll: true });
-      }, 1600);
-    });
-    const again = q('[data-again]');
-    if (again) again.addEventListener('click', () => { form.reset(); ['name', 'contact'].forEach((n) => setErr(n, '')); btn.textContent = 'Send'; sent.style.display = 'none'; form.style.display = 'flex'; F('name').focus(); });
-  }
-  // ---------- live clocks in the footer ----------
-  const clocks = document.querySelectorAll('[data-clock]');
-  const tick = () => clocks.forEach((c) => { try { c.textContent = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: c.getAttribute('data-clock') }).format(new Date()); } catch (e) {} });
-  if (clocks.length) { tick(); setInterval(tick, 20000); }
-  // ---------- mobile menu ----------
-  const header = q('header'), nav = header && q('nav[aria-label="Main"]', header);
-  if (nav) {
-    const DB = { Projects: '40 dB', Method: '33 dB', Studio: '27 dB', Contact: '25 dB' };
-    const b = document.createElement('button');
-    b.type = 'button'; b.className = 't-pill t-menu-btn'; b.textContent = 'Menu';
-    b.setAttribute('aria-expanded', 'false'); b.setAttribute('aria-controls', 't-menu');
-    header.appendChild(b);
-    const ov = document.createElement('div');
-    ov.id = 't-menu'; ov.className = 't-menu'; ov.hidden = true;
-    ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', 'Menu');
-    ov.innerHTML = '<div class="t-menu-axis"></div><div class="t-menu-top"><span>Tysha<br><span class="t-mute">Architecture</span></span><button type="button" class="t-pill" data-close>Close</button></div>'
-      + '<nav class="t-menu-list" aria-label="Menu">' + [...nav.querySelectorAll('a')].map((a, i) => '<a href="' + a.getAttribute('href') + '"><span class="n">0' + (i + 1) + '</span><span class="t">' + a.textContent + '</span><span class="d">' + (DB[a.textContent] || '') + '</span></a>').join('') + '</nav>'
-      + '<div class="t-menu-foot"><a href="mailto:hello@tysha.studio" style="text-transform:none">hello@tysha.studio</a><span>+48 22 000 00 00</span><span class="t-mute">Lviv — Warsaw · Now: 25 dB</span></div>';
-    document.body.appendChild(ov);
-    const de = document.documentElement;
-    const open = () => { ov.hidden = false; requestAnimationFrame(() => ov.classList.add('on')); b.setAttribute('aria-expanded', 'true'); de.style.overflow = 'hidden'; q('[data-close]', ov).focus(); };
-    const close = () => { ov.classList.remove('on'); b.setAttribute('aria-expanded', 'false'); de.style.overflow = ''; setTimeout(() => { ov.hidden = true; }, 400); b.focus(); };
-    b.addEventListener('click', open);
-    q('[data-close]', ov).addEventListener('click', close);
-    ov.querySelectorAll('.t-menu-list a').forEach((a) => a.addEventListener('click', close));
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !ov.hidden) close(); });
-  }
-  // ---------- privacy note (no trackers; remembered in this browser only) ----------
-  let seen = false;
-  try { seen = !!localStorage.getItem('tysha-quiet'); } catch (e) {}
-  if (!seen && !window.T_NO_NOTE) {
-    const n = document.createElement('div');
-    n.className = 't-note'; n.setAttribute('role', 'region'); n.setAttribute('aria-label', 'Privacy note');
-    n.innerHTML = '<span class="k">No trackers</span><p>This site keeps no cookies and no analytics. As quiet as our houses.</p><div class="row"><a href="' + BASE + 'privacy/">Privacy notice</a><button type="button" class="t-pill">Good</button></div>';
-    setTimeout(() => { document.body.appendChild(n); requestAnimationFrame(() => n.classList.add('on')); }, window.T_NOTE_DELAY || 1500);
-    q('button', n).addEventListener('click', () => { try { localStorage.setItem('tysha-quiet', '1'); } catch (e) {} n.classList.remove('on'); setTimeout(() => n.remove(), 600); });
-  }
-})();
-</script>
+<script src="assets/site.js"></script>
 </body>
 </html>
