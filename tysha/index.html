@@ -15,7 +15,8 @@
 <link rel="preload" href="assets/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/site.css">
 </head>
-<body data-preloader data-note-delay="7600">
+<body data-preloader>
+<a class="skip-link" href="#main">Skip to content</a>
 
 <div data-t-root class="site">
 
@@ -51,54 +52,52 @@
 </defs>
 </svg>
 
-<!-- PRELOADER (Play only) -->
-<div id="pre-host"></div>
-
-<div data-dbline aria-hidden="true" class="hidden-fix"></div>
-<div data-dbfix aria-hidden="true" class="label hidden-fix-2">68 dB</div>
-
-<!-- 01 HERO -->
-<section data-hero data-noreveal aria-label="Hero" class="stack-h-900">
-<img data-hero-img src="img/h08.jpg" alt="A travertine house on a still lake at sunset, two people sitting on the stone steps" class="fill cover hero-img">
-<div aria-hidden="true" class="fill shade-hero"></div>
-<div data-axis aria-hidden="true" class="axis axis-light"></div>
-<div data-hero-pill class="mono fs-12-abs">68 dB</div>
 
 <header class="label grid-12 site-head">
-<a href="#" class="col-1-4 brand"><svg width="20" height="24" viewBox="0 0 200 240" aria-hidden="true"><use href="#l-arch"></use></svg><span>Tysha<br><span class="tone-2">Architecture</span></span></a>
+<a href="./" class="col-1-4 brand" aria-label="TYSHA Architecture, home"><svg width="20" height="24" viewBox="0 0 200 240" aria-hidden="true"><use href="#l-arch"></use></svg><span>Tysha<br><span class="tone-2">Architecture</span></span></a>
 <span class="col-4-6">Lviv — Warsaw<br><span class="tone-2">Est. 2014</span></span>
 <nav aria-label="Main" class="col-6-10 nav-main"><a href="project/">Projects</a><a href="method/">Method</a><a href="#studio">Studio</a><a href="#contact">Contact</a></nav>
 <span class="col-10-13 ta-r">Now: 68 dB<br><span class="tone-2">Your city, right now</span></span>
 </header>
 
+<div class="db-badge" data-db-badge aria-hidden="true" hidden></div>
+
+<main id="main" tabindex="-1">
+<!-- 01 HERO -->
+<section data-hero data-noreveal aria-label="Hero" class="stack-h-900">
+<img data-hero-img src="img/h08.jpg" alt="A travertine house on a still lake at sunset, two people sitting on the stone steps" class="fill cover hero-img">
+<div aria-hidden="true" class="fill shade-hero"></div>
+<div data-axis aria-hidden="true" class="axis axis-light"></div>
+
+
 <div data-hero-fade class="grid-12 mt-120">
 <h1 class="col-1-5 h-l m-0 serif">Architecture<br>of silence.</h1>
 <div class="col-6-10 stack-3">
 <p class="body-l p">We design homes where the loudest thing is the rain. In quiet places, thirty minutes from everything.</p>
-<div class="label row-6"><a href="#" class="link-line">See the projects</a><a href="#" class="link-line">Start a project</a></div>
+<div class="label row-6"><a href="project/" class="link-line">See the projects</a><a href="#contact" class="link-line">Start a project</a></div>
 </div>
 </div>
 
 <div data-hero-fade class="label grid-12 div-5">
 <span class="col-1-4">25 dB inside<br><span class="tone-2">30 min to everything</span></span>
 <span class="col-4-6">49.8397° N<br>24.0297° E</span>
-<span class="col-6-10 row-7"><a href="#" class="u">LULL_HOUSE.JPG</a><a href="#" class="u">PINE_COURT.JPG</a><a href="#" class="u">HOLLOW.JPG</a></span>
+<span class="col-6-10 row-7"><a href="project/" class="u">LULL_HOUSE.JPG</a><span class="u">PINE_COURT.JPG</span><span class="u">HOLLOW.JPG</span></span>
 <span class="col-10-13 ta-r">Scroll ↓<br><span class="tone-2">68 → 25 dB</span></span>
 </div>
 <svg data-hero-wm viewBox="0 0 1056 240" role="img" aria-label="TYSHA" class="hero-wm"><use href="#l-wm"></use></svg>
 </section>
 
 <!-- 02 STATEMENT -->
-<section data-pin="320" data-noreveal aria-label="Statement" class="bg-c">
-<div data-axis aria-hidden="true" class="axis axis-tan"></div>
+<section id="statement" data-pin="320" data-noreveal aria-label="Statement" class="bg-c">
 <div data-pin-inner class="stack-5">
+<div data-axis aria-hidden="true" class="axis axis-tan"></div>
 <div class="label sec-head"><span>02 / 11 · Statement</span><span>62 dB</span></div>
 <p data-st-fade class="display p-4 serif">We don't build <img data-st-pill src="img/g16.jpg" alt="A stone house in a misty beech forest" class="pill-img"> far from the city. We build <img src="img/h02.jpg" alt="Layers of a rammed earth wall" class="pill-img-s"> far from the <img src="img/g04.jpg" alt="An empty road disappearing into misty hills" class="pill-img-m"> noise.</p>
 <div data-st-fade class="grid-12 div-3">
 <div aria-hidden="true" class="col-1-13 div-6"></div>
 <span class="col-1-4 label lh-145">Silence is not a location<br><span class="tone-4">It is a decision</span></span>
 <p class="col-6-10 body-l p-2">Silence is not a location. It is a decision made at every step: which plot, which way the house turns, how thick the walls are, where you sleep.</p>
-<a href="#" class="col-11-13 mono u fs-12-5">STATEMENT.TXT</a>
+<a href="#statement" class="col-11-13 mono u fs-12-5">STATEMENT.TXT</a>
 </div>
 <div data-st-layer data-noscramble aria-hidden="true" class="fill st-layer">
 <img data-st-layer-img src="img/g16.jpg" alt="" class="fill cover img-2">
@@ -141,7 +140,7 @@
 <div class="label sec-head"><span>04 / 11 · Method</span><span>49 dB</span></div>
 <div class="grid-12 mt-120-3">
 <h2 class="col-1-6 h-xl m-0 serif">Silence is built<br>in four layers.</h2>
-<a href="#" class="col-11-13 label link-line-end">How we work →</a>
+<a href="method/" class="col-11-13 label link-line-end">How we work →</a>
 </div>
 <div class="grid-4-mt-80">
 <article data-float="40" class="stack-16">
@@ -200,29 +199,29 @@
 <div class="label sec-head"><span>06 / 11 · Projects</span><span>40 dB</span></div>
 <div class="grid-12 mt-120-3">
 <h2 class="col-1-6 h-xl m-0 serif">Selected<br>silence.</h2>
-<a href="#" class="col-11-13 label link-line-dark-end">All projects →</a>
+<a href="project/" class="col-11-13 label link-line-dark-end">All projects →</a>
 </div>
 <div class="grid-12 mt-80">
-<a href="project/" data-float="60" class="col-1-7 stack-16">
-<img src="img/g16.jpg" alt="Lull House, a timber and rammed earth house among beech trees in morning mist" class="cover img-h-780">
+<a href="project/" data-float="60" class="col-1-7 stack-16 card">
+<div class="card-media"><img src="img/g16.jpg" alt="Lull House, a timber and rammed earth house among beech trees in morning mist" class="cover img-h-780"><span class="card-cta label" data-noscramble aria-hidden="true">View case →</span></div>
 <div class="split-base"><span data-scramble class="h-s">Lull House</span><span class="mono fs-12">23 dB inside · 25 min to Lviv</span></div>
 <span class="mono tone-6 fs-12">Carpathian foothills · 2025 · 240 m²</span>
 </a>
-<a href="#" data-float="200" class="col-8-12 stack-mt-240">
-<img src="img/g01.jpg" alt="Pine Court, low stone houses among tall pines with a woman sitting on the steps" class="cover ar-45">
+<article data-float="200" class="col-8-12 stack-mt-240 card-soon">
+<div class="card-media"><img src="img/g01.jpg" alt="Pine Court, low stone houses among tall pines with a woman sitting on the steps" class="cover ar-45"><span class="card-soon-tag label">Case · Coming 2027</span></div>
 <div class="split-base"><span data-scramble class="h-s">Pine Court</span><span class="mono fs-12">26 dB · 20 min</span></div>
 <span class="mono tone-6 fs-12">Six houses near Lviv · 2024 · 6 × 180 m²</span>
-</a>
-<a href="#" data-float="120" class="col-3-7 stack-16">
-<img src="img/h00.jpg" alt="Hollow Retreat, a travertine house cantilevered over a lake, a woman on the glass balcony" class="cover ar-45">
+</article>
+<article data-float="120" class="col-3-7 stack-16 card-soon">
+<div class="card-media"><img src="img/h00.jpg" alt="Hollow Retreat, a travertine house cantilevered over a lake, a woman on the glass balcony" class="cover ar-45"><span class="card-soon-tag label">Case · Coming 2027</span></div>
 <div class="split-base"><span data-scramble class="h-s">Hollow Retreat</span><span class="mono fs-12">22 dB · 30 min</span></div>
 <span class="mono tone-6 fs-12">Lake shore, Masuria · 2023 · 160 m²</span>
-</a>
-<a href="#" data-float="260" class="col-9-13 stack-mt-160">
-<img src="img/g13.jpg" alt="Stone Breath, a rammed earth house under construction among vineyards" class="cover ar-45">
+</article>
+<article data-float="260" class="col-9-13 stack-mt-160 card-soon">
+<div class="card-media"><img src="img/g13.jpg" alt="Stone Breath, a rammed earth house under construction among vineyards" class="cover ar-45"><span class="card-soon-tag label">Case · Coming 2027</span></div>
 <div class="split-base"><span data-scramble class="h-s">Stone Breath</span><span class="mono fs-12">In progress</span></div>
 <span class="mono tone-6 fs-12">Vineyard house, Transcarpathia · 2026</span>
-</a>
+</article>
 </div>
 </section>
 
@@ -237,7 +236,7 @@
 <section data-pin="460" data-noreveal aria-label="A day at Lull House, measured" class="bg-c-2">
 <div data-pin-inner class="stack-h-920">
 <div class="fill">
-<img data-day-img="0" src="img/g15.jpg" alt="The living room at blue dawn, forest outside the long window" class="fill cover day-img-on">
+<img data-day-img="0" src="img/g15.jpg" alt="The living room at blue dawn, forest outside the long window" class="fill cover day-img on">
 <img data-day-img="1" src="img/h03.jpg" alt="" class="fill cover day-img">
 <img data-day-img="2" src="img/g14.jpg" alt="" class="fill cover day-img">
 <img data-day-img="3" src="img/h06.jpg" alt="" class="fill cover day-img">
@@ -257,7 +256,7 @@
 <div class="div-4">
 <div aria-hidden="true" class="day-track"><div data-day-bar class="fill day-bar"></div></div>
 <div class="day-grid">
-<button data-day-btn="0" type="button" aria-pressed="true" class="day-btn-on">
+<button data-day-btn="0" type="button" aria-pressed="true" class="day-btn">
 <span class="time">06:10</span>
 <span data-noscramble class="label lh-145">Birds in the beech trees<br>31 dB</span>
 </button>
@@ -331,7 +330,8 @@
 </section>
 
 <!-- 09 VOICES -->
-<section aria-label="Voices" class="sec-paper-rule">
+<section aria-labelledby="h-voices" class="sec-paper-rule">
+<h2 id="h-voices" class="sr-only">Voices</h2>
 <div data-axis aria-hidden="true" class="axis axis-tan"></div>
 <div class="label sec-head"><span>09 / 11 · Voices</span><span>30 dB</span></div>
 <div class="grid-12 mt-120-4">
@@ -347,7 +347,8 @@
 </section>
 
 <!-- 10 NUMBERS -->
-<section id="studio" aria-label="Studio in numbers" class="sec-ink">
+<section id="studio" aria-labelledby="h-studio" class="sec-ink">
+<h2 id="h-studio" class="sr-only">Studio in numbers</h2>
 <div class="label sec-head"><span>10 / 11 · Studio</span><span>27 dB</span></div>
 <div class="grid-4-mt-120">
 <div data-rise class="stack-2"><span data-count="12" class="num-xl lh-085">12</span><span class="mono fs-12">Years of quiet work</span></div>
@@ -369,14 +370,15 @@
 <p class="body-l p">Tell us where you want to live. We'll tell you how quiet it can be.</p>
 </div>
 <form data-form novalidate class="col-6-11 stack-3">
-<label data-rise data-field="name" class="label stack-8"><span>Name</span><input name="name" type="text" placeholder="Your name" autocomplete="name" required aria-describedby="err-name" class="field"><span data-err id="err-name" class="field-err">Tell us your name, so we know who to answer.</span></label>
-<label data-rise data-field="contact" class="label stack-8"><span>Phone or email</span><input name="contact" type="text" placeholder="+48 / name@mail.com" autocomplete="email" required aria-describedby="err-contact" class="field"><span data-err id="err-contact" class="field-err">We need a phone or an email to reply.</span></label>
-<label data-rise data-field="region" class="label stack-8"><span>Region<span class="tone-dim"> · optional</span></span><input name="region" type="text" placeholder="Where you want to live" autocomplete="address-level1" class="field"></label>
+<div data-rise data-field="name" class="label stack-8"><label for="f-name">Name</label><input id="f-name" name="name" type="text" placeholder="Your name" autocomplete="name" required aria-describedby="err-name" class="field"><span data-err id="err-name" class="field-err">Tell us your name, so we know who to answer.</span></div>
+<div data-rise data-field="contact" class="label stack-8"><label for="f-contact">Phone or email</label><input id="f-contact" name="contact" type="text" placeholder="+48 / name@mail.com" autocomplete="email" required aria-describedby="err-contact" class="field"><span data-err id="err-contact" class="field-err">We need a phone or an email to reply.</span></div>
+<div data-rise data-field="region" class="label stack-8"><label for="f-region">Region<span class="tone-dim"> · optional</span></label><input id="f-region" name="region" type="text" placeholder="Where you want to live" autocomplete="address-level1" class="field"></div>
 <fieldset data-rise class="label fieldset">
 <legend class="legend">Plot</legend>
 <label class="radio-label"><input type="radio" name="plot" value="have" checked class="radio">I have one</label>
 <label class="radio-label"><input type="radio" name="plot" value="find" class="radio">Help me find one</label>
 </fieldset>
+<p class="sr-only" data-form-status role="status"></p>
 <p data-fail role="alert" class="form-fail">The line is noisy: your request didn't reach us. Nothing is lost. Try again, or write to <a href="mailto:hello@tysha.studio" class="u">hello@tysha.studio</a>.</p>
 <div data-rise class="row-11">
 <button data-send type="submit" class="fs-12-7">Send</button>
@@ -397,6 +399,8 @@
 </div>
 </div>
 </section>
+
+</main>
 
 <!-- FOOTER -->
 <footer class="site-foot">
