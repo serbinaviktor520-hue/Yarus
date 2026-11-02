@@ -87,6 +87,44 @@ h1,h2,h3,blockquote{text-wrap:balance}p{text-wrap:pretty}
 
 
 <style>html,body{margin:0;background:#111110;-webkit-text-size-adjust:100%}</style>
+<style>
+a:focus-visible,button:focus-visible{outline:2px solid #C2AE8E;outline-offset:4px}
+[data-form] input[type=text]:focus{border-bottom-color:#C2AE8E!important}
+[data-form] input[type=text][aria-invalid=true]{border-bottom-color:#E8A68C!important}
+[data-send]:hover,[data-form][aria-busy=true] [data-send]{background:#EAE6DE;color:#111110}
+[data-form][aria-busy=true] label,[data-form][aria-busy=true] fieldset{opacity:.45;transition:opacity .3s}
+.t-pill{all:unset;cursor:pointer;box-sizing:border-box;display:inline-flex;align-items:center;min-height:40px;padding:0 18px;border:1px solid currentColor;border-radius:999px;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.t-pill:hover{background:#EAE6DE;color:#111110}
+.t-menu-btn{display:none!important;margin-left:auto;padding:0 18px!important}
+.t-menu{position:fixed;inset:0;z-index:3000;background:#0B0B0A;color:#EAE6DE;display:flex;flex-direction:column;padding:20px;box-sizing:border-box;font-family:'Inter Tight',sans-serif;opacity:0;transition:opacity .4s cubic-bezier(.2,.7,.2,1)}
+.t-menu[hidden]{display:none}
+.t-menu.on{opacity:1}
+.t-menu-axis{position:absolute;top:0;bottom:0;left:10px;width:1px;background:rgba(234,230,222,.2)}
+.t-menu-top{position:relative;display:flex;justify-content:space-between;align-items:flex-start;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase;line-height:1.45}
+.t-mute{color:#7F7A73}
+.t-menu-list{position:relative;margin-top:auto;display:flex;flex-direction:column;border-top:1px solid rgba(234,230,222,.28)}
+.t-menu-list a{display:grid;grid-template-columns:40px 1fr auto;align-items:baseline;padding:18px 0;border-bottom:1px solid rgba(234,230,222,.28);opacity:0;transform:translateY(24px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.2,1)}
+.t-menu.on .t-menu-list a{opacity:1;transform:none}
+.t-menu-list a:nth-child(2){transition-delay:.05s}.t-menu-list a:nth-child(3){transition-delay:.1s}.t-menu-list a:nth-child(4){transition-delay:.15s}
+.t-menu-list .n,.t-menu-list .d{font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.t-menu-list .d{color:#C9C3B8}
+.t-menu-list .t{font-size:44px;font-weight:400;letter-spacing:-.04em;line-height:1}
+.t-menu-foot{position:relative;margin-top:40px;display:flex;flex-direction:column;gap:4px;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase;line-height:1.6}
+.t-note{position:fixed;right:20px;bottom:20px;z-index:2500;width:360px;box-sizing:border-box;padding:16px;background:#1C1B19;color:#EAE6DE;border:1px solid rgba(234,230,222,.2);display:flex;flex-direction:column;gap:12px;font-family:'Inter Tight',sans-serif;opacity:0;transform:translateY(16px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.2,1)}
+.t-note.on{opacity:1;transform:none}
+.t-note .k{font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#C9C3B8}
+.t-note p{margin:0;font-size:15px;line-height:1.45}
+.t-note .row{display:flex;justify-content:space-between;align-items:center;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.t-note .row a{text-decoration:underline}
+@media (max-width:760px){
+header>nav[aria-label="Main"]{display:none!important}
+header>span:last-of-type{display:none!important}
+.t-menu-btn{display:inline-flex!important}
+.t-note{left:20px;right:20px;width:auto;bottom:72px}
+[style*="font-size: 104px"]{font-size:56px!important;line-height:0.95!important}
+[data-sent] p[style*="font-size: 104px"]{font-size:64px!important}
+}
+</style>
 </head>
 <body>
 <div data-t-root style="width: 100%; background: #111110; color: #EAE6DE; font-family: 'Inter Tight', sans-serif; overflow: hidden">
@@ -95,27 +133,27 @@ h1,h2,h3,blockquote{text-wrap:balance}p{text-wrap:pretty}
 <mask id="lm-wm" maskUnits="userSpaceOnUse" x="0" y="0" width="1056" height="240">
 <rect width="1056" height="240" fill="black"></rect>
 <rect x="0" y="0" width="200" height="240" rx="12" fill="white"></rect>
-<rect x="0" y="92" width="56" height="148" fill="black"></rect>
-<rect x="144" y="92" width="56" height="148" fill="black"></rect>
+<rect x="-4" y="92" width="60" height="152" fill="black"></rect>
+<rect x="144" y="92" width="60" height="152" fill="black"></rect>
 <rect x="214" y="0" width="200" height="240" rx="12" fill="white"></rect>
-<polygon points="280,0 348,0 314,118" fill="black"></polygon>
-<rect x="214" y="150" width="56" height="90" fill="black"></rect>
-<rect x="358" y="150" width="56" height="90" fill="black"></rect>
+<polygon points="279,-4 349,-4 314,118" fill="black"></polygon>
+<rect x="210" y="150" width="60" height="94" fill="black"></rect>
+<rect x="358" y="150" width="60" height="94" fill="black"></rect>
 <rect x="428" y="0" width="200" height="240" rx="40" fill="white"></rect>
-<rect x="484" y="74" width="144" height="12" fill="black"></rect>
-<rect x="428" y="154" width="144" height="12" fill="black"></rect>
+<rect x="484" y="74" width="148" height="12" fill="black"></rect>
+<rect x="424" y="154" width="148" height="12" fill="black"></rect>
 <rect x="642" y="0" width="200" height="240" rx="12" fill="white"></rect>
-<rect x="732" y="0" width="20" height="96" fill="black"></rect>
-<rect x="732" y="144" width="20" height="96" fill="black"></rect>
+<rect x="732" y="-4" width="20" height="100" fill="black"></rect>
+<rect x="732" y="144" width="20" height="100" fill="black"></rect>
 <path d="M856 240 V70 Q856 0 926 0 H986 Q1056 0 1056 70 V240 Z" fill="white"></path>
-<polygon points="926,240 986,240 966,170 946,170" fill="black"></polygon>
+<polygon points="925,244 987,244 966,170 946,170" fill="black"></polygon>
 <rect x="948" y="84" width="16" height="44" fill="black"></rect>
 </mask>
 <g id="l-wm"><rect width="1056" height="240" fill="currentColor" mask="url(#lm-wm)"></rect></g>
 <mask id="lm-arch" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="240">
 <rect width="200" height="240" fill="black"></rect>
 <path d="M0 240 V70 Q0 0 70 0 H130 Q200 0 200 70 V240 Z" fill="white"></path>
-<polygon points="70,240 130,240 110,170 90,170" fill="black"></polygon>
+<polygon points="69,244 131,244 110,170 90,170" fill="black"></polygon>
 <rect x="92" y="84" width="16" height="44" fill="black"></rect>
 </mask>
 <g id="l-arch"><rect width="200" height="240" fill="currentColor" mask="url(#lm-arch)"></rect></g>
@@ -132,7 +170,7 @@ h1,h2,h3,blockquote{text-wrap:balance}p{text-wrap:pretty}
 <header style="position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.45">
 <a href="../" style="grid-column: 1 / 4; display: flex; align-items: center; gap: 16px"><svg width="20" height="24" viewBox="0 0 200 240" aria-hidden="true"><use href="#l-arch"></use></svg><span>Tysha<br><span style="color: #C9C3B8">Architecture</span></span></a>
 <span style="grid-column: 4 / 6">Lviv — Warsaw<br><span style="color: #C9C3B8">Est. 2014</span></span>
-<nav aria-label="Main" style="grid-column: 6 / 10; display: flex; gap: 24px; flex-wrap: wrap; padding-left: 20px"><a href="../project/">Projects</a><a href="../method/" style="text-decoration: underline">Method</a><a href="../#">Studio</a><a href="../#contact">Contact</a></nav>
+<nav aria-label="Main" style="grid-column: 6 / 10; display: flex; gap: 24px; flex-wrap: wrap; padding-left: 20px"><a href="../project/">Projects</a><a href="../method/" style="text-decoration: underline">Method</a><a href="../#studio">Studio</a><a href="../#contact">Contact</a></nav>
 <span style="grid-column: 10 / 13; text-align: right">Now: 23 dB<br><span style="color: #C9C3B8">Inside Lull House</span></span>
 </header>
 <div data-hero-fade style="position: relative; margin-top: 120px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px">
@@ -213,18 +251,18 @@ h1,h2,h3,blockquote{text-wrap:balance}p{text-wrap:pretty}
 <img data-zoom src="../img/g07.jpg" alt="A sound meter in a forest clearing" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block">
 <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(11,11,10,0.45)"></div>
 <div style="position: relative; display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><span>Next · Silence audit</span><span>7 days</span></div>
-<a href="#" style="position: relative; display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap"><span style="font-size: 160px; font-weight: 300; letter-spacing: -0.05em; line-height: 0.85">Book an audit →</span><span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">From €1,200</span></a>
+<a href="../#contact" style="position: relative; display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap"><span style="font-size: 160px; font-weight: 300; letter-spacing: -0.05em; line-height: 0.85">Book an audit →</span><span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">From €1,200</span></a>
 </section>
 
 <footer style="position: relative; box-sizing: border-box; padding: 20px; background: #111110; color: #EAE6DE">
 <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.6">
-<div style="grid-column: 1 / 4; display: flex; flex-direction: column"><a href="#" style="text-transform: none">hello@tysha.studio</a><span>+48 22 000 00 00</span></div>
+<div style="grid-column: 1 / 4; display: flex; flex-direction: column"><a href="mailto:hello@tysha.studio" style="text-transform: none">hello@tysha.studio</a><span>+48 22 000 00 00</span></div>
 <div style="grid-column: 4 / 6; display: flex; flex-direction: column"><span>Lviv — Rynok Square</span><span>Warsaw — Mokotów</span></div>
 <div style="grid-column: 6 / 10; padding-left: 20px; display: flex; gap: 20px; flex-wrap: wrap"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">Pinterest</a></div>
 <div style="grid-column: 10 / 13; text-align: right; display: flex; flex-direction: column"><span>Now: 25 dB</span><span style="color: #7F7A73">Welcome home.</span></div>
 </div>
 <svg data-rise viewBox="0 0 1056 240" role="img" aria-label="TYSHA" style="margin-top: 120px; width: 100%; height: auto; display: block; color: #1F1E1C"><use href="#l-wm"></use></svg>
-<div style="margin-top: 20px; display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: #7F7A73"><span>© 2026 Tysha Architecture</span><span>Designed in silence</span></div>
+<div style="margin-top: 20px; display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: #7F7A73"><span>© 2026 Tysha Architecture</span><a href="../privacy/">Privacy</a><span>Designed in silence</span></div>
 </footer>
 </div>
 <script>
@@ -386,6 +424,86 @@ requestAnimationFrame(() => requestAnimationFrame(frame));
 }
 
 prep(); startEngine();
+</script>
+<script>window.T_BASE = '../';
+(function () {
+  const BASE = window.T_BASE || '';
+  const q = (s, r) => (r || document).querySelector(s);
+  // ---------- contact form: validate, send, fail, received ----------
+  const form = q('[data-form]');
+  if (form) {
+    const sent = q('[data-sent]'), fail = q('[data-fail]', form), btn = q('[data-send]', form);
+    const F = (n) => q('[name="' + n + '"]', form);
+    const MSG = { name: 'Tell us your name, so we know who to answer.', empty: 'We need a phone or an email to reply.', bad: "That doesn't look like a phone or an email." };
+    const setErr = (n, m) => { const i = F(n), e = document.getElementById('err-' + n); i.setAttribute('aria-invalid', m ? 'true' : 'false'); if (e) { if (m) e.textContent = m; e.style.display = m ? 'block' : 'none'; } };
+    const check = (focus) => {
+      let first = null;
+      const nm = F('name').value.trim();
+      if (!nm) { setErr('name', MSG.name); first = F('name'); } else setErr('name', '');
+      const c = F('contact').value.trim();
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(c) || /^\+?[\d\s().-]{7,}$/.test(c);
+      if (!c) { setErr('contact', MSG.empty); first = first || F('contact'); } else if (!ok) { setErr('contact', MSG.bad); first = first || F('contact'); } else setErr('contact', '');
+      if (first && focus) first.focus();
+      return !first;
+    };
+    ['name', 'contact'].forEach((n) => F(n).addEventListener('input', () => { if (F(n).getAttribute('aria-invalid') === 'true') check(false); }));
+    let busy = false;
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      if (busy) return;
+      fail.style.display = 'none';
+      if (!check(true)) return;
+      busy = true; form.setAttribute('aria-busy', 'true');
+      let db = 68; btn.textContent = 'Sending · 68 dB';
+      const iv = setInterval(() => { db = Math.max(25, db - 3); btn.textContent = 'Sending · ' + db + ' dB'; }, 70);
+      // no backend in this concept: the request is simulated. Offline (or a region containing "fail") shows the error state.
+      setTimeout(() => {
+        clearInterval(iv); busy = false; form.removeAttribute('aria-busy');
+        if (navigator.onLine === false || /fail/i.test(F('region').value)) { fail.style.display = 'block'; btn.textContent = 'Try again'; return; }
+        const name = F('name').value.trim().split(/\s+/)[0];
+        const find = (q('input[name="plot"]:checked', form) || {}).value === 'find';
+        q('[data-sent-id]', sent).textContent = 'Request TY-' + (1000 + Math.floor(Math.random() * 9000)) + ' · Received · 25 dB';
+        q('[data-sent-msg]', sent).textContent = 'Thank you, ' + name + ". We'll reply within two working days from hello@tysha.studio. " + (find ? "We'll start by looking for a quiet plot together." : "First we'll ask for the plot's address, to plan the audit.");
+        form.style.display = 'none'; sent.style.display = 'flex'; sent.setAttribute('tabindex', '-1'); sent.focus({ preventScroll: true });
+      }, 1600);
+    });
+    const again = q('[data-again]');
+    if (again) again.addEventListener('click', () => { form.reset(); ['name', 'contact'].forEach((n) => setErr(n, '')); btn.textContent = 'Send'; sent.style.display = 'none'; form.style.display = 'flex'; F('name').focus(); });
+  }
+  // ---------- mobile menu ----------
+  const header = q('header'), nav = header && q('nav[aria-label="Main"]', header);
+  if (nav) {
+    const DB = { Projects: '40 dB', Method: '33 dB', Studio: '27 dB', Contact: '25 dB' };
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 't-pill t-menu-btn'; b.textContent = 'Menu';
+    b.setAttribute('aria-expanded', 'false'); b.setAttribute('aria-controls', 't-menu');
+    header.appendChild(b);
+    const ov = document.createElement('div');
+    ov.id = 't-menu'; ov.className = 't-menu'; ov.hidden = true;
+    ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', 'Menu');
+    ov.innerHTML = '<div class="t-menu-axis"></div><div class="t-menu-top"><span>Tysha<br><span class="t-mute">Architecture</span></span><button type="button" class="t-pill" data-close>Close</button></div>'
+      + '<nav class="t-menu-list" aria-label="Menu">' + [...nav.querySelectorAll('a')].map((a, i) => '<a href="' + a.getAttribute('href') + '"><span class="n">0' + (i + 1) + '</span><span class="t">' + a.textContent + '</span><span class="d">' + (DB[a.textContent] || '') + '</span></a>').join('') + '</nav>'
+      + '<div class="t-menu-foot"><a href="mailto:hello@tysha.studio" style="text-transform:none">hello@tysha.studio</a><span>+48 22 000 00 00</span><span class="t-mute">Lviv — Warsaw · Now: 25 dB</span></div>';
+    document.body.appendChild(ov);
+    const de = document.documentElement;
+    const open = () => { ov.hidden = false; requestAnimationFrame(() => ov.classList.add('on')); b.setAttribute('aria-expanded', 'true'); de.style.overflow = 'hidden'; q('[data-close]', ov).focus(); };
+    const close = () => { ov.classList.remove('on'); b.setAttribute('aria-expanded', 'false'); de.style.overflow = ''; setTimeout(() => { ov.hidden = true; }, 400); b.focus(); };
+    b.addEventListener('click', open);
+    q('[data-close]', ov).addEventListener('click', close);
+    ov.querySelectorAll('.t-menu-list a').forEach((a) => a.addEventListener('click', close));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !ov.hidden) close(); });
+  }
+  // ---------- privacy note (no trackers; remembered in this browser only) ----------
+  let seen = false;
+  try { seen = !!localStorage.getItem('tysha-quiet'); } catch (e) {}
+  if (!seen && !window.T_NO_NOTE) {
+    const n = document.createElement('div');
+    n.className = 't-note'; n.setAttribute('role', 'region'); n.setAttribute('aria-label', 'Privacy note');
+    n.innerHTML = '<span class="k">No trackers</span><p>This site keeps no cookies and no analytics. As quiet as our houses.</p><div class="row"><a href="' + BASE + 'privacy/">Privacy notice</a><button type="button" class="t-pill">Good</button></div>';
+    setTimeout(() => { document.body.appendChild(n); requestAnimationFrame(() => n.classList.add('on')); }, window.T_NOTE_DELAY || 1500);
+    q('button', n).addEventListener('click', () => { try { localStorage.setItem('tysha-quiet', '1'); } catch (e) {} n.classList.remove('on'); setTimeout(() => n.remove(), 600); });
+  }
+})();
 </script>
 </body>
 </html>

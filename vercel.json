@@ -11,5 +11,11 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/tysha/:path*",
+      "destination": "/tysha/404/"
+    }
   ]
 }

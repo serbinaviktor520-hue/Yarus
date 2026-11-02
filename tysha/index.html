@@ -91,6 +91,44 @@ h1,h2,h3,blockquote{text-wrap:balance}p{text-wrap:pretty}
 </style>
 
 <style>html,body{margin:0;background:#111110;-webkit-text-size-adjust:100%}</style>
+<style>
+a:focus-visible,button:focus-visible{outline:2px solid #C2AE8E;outline-offset:4px}
+[data-form] input[type=text]:focus{border-bottom-color:#C2AE8E!important}
+[data-form] input[type=text][aria-invalid=true]{border-bottom-color:#E8A68C!important}
+[data-send]:hover,[data-form][aria-busy=true] [data-send]{background:#EAE6DE;color:#111110}
+[data-form][aria-busy=true] label,[data-form][aria-busy=true] fieldset{opacity:.45;transition:opacity .3s}
+.t-pill{all:unset;cursor:pointer;box-sizing:border-box;display:inline-flex;align-items:center;min-height:40px;padding:0 18px;border:1px solid currentColor;border-radius:999px;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.t-pill:hover{background:#EAE6DE;color:#111110}
+.t-menu-btn{display:none!important;margin-left:auto;padding:0 18px!important}
+.t-menu{position:fixed;inset:0;z-index:3000;background:#0B0B0A;color:#EAE6DE;display:flex;flex-direction:column;padding:20px;box-sizing:border-box;font-family:'Inter Tight',sans-serif;opacity:0;transition:opacity .4s cubic-bezier(.2,.7,.2,1)}
+.t-menu[hidden]{display:none}
+.t-menu.on{opacity:1}
+.t-menu-axis{position:absolute;top:0;bottom:0;left:10px;width:1px;background:rgba(234,230,222,.2)}
+.t-menu-top{position:relative;display:flex;justify-content:space-between;align-items:flex-start;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase;line-height:1.45}
+.t-mute{color:#7F7A73}
+.t-menu-list{position:relative;margin-top:auto;display:flex;flex-direction:column;border-top:1px solid rgba(234,230,222,.28)}
+.t-menu-list a{display:grid;grid-template-columns:40px 1fr auto;align-items:baseline;padding:18px 0;border-bottom:1px solid rgba(234,230,222,.28);opacity:0;transform:translateY(24px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.2,1)}
+.t-menu.on .t-menu-list a{opacity:1;transform:none}
+.t-menu-list a:nth-child(2){transition-delay:.05s}.t-menu-list a:nth-child(3){transition-delay:.1s}.t-menu-list a:nth-child(4){transition-delay:.15s}
+.t-menu-list .n,.t-menu-list .d{font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.t-menu-list .d{color:#C9C3B8}
+.t-menu-list .t{font-size:44px;font-weight:400;letter-spacing:-.04em;line-height:1}
+.t-menu-foot{position:relative;margin-top:40px;display:flex;flex-direction:column;gap:4px;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase;line-height:1.6}
+.t-note{position:fixed;right:20px;bottom:20px;z-index:2500;width:360px;box-sizing:border-box;padding:16px;background:#1C1B19;color:#EAE6DE;border:1px solid rgba(234,230,222,.2);display:flex;flex-direction:column;gap:12px;font-family:'Inter Tight',sans-serif;opacity:0;transform:translateY(16px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.2,1)}
+.t-note.on{opacity:1;transform:none}
+.t-note .k{font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#C9C3B8}
+.t-note p{margin:0;font-size:15px;line-height:1.45}
+.t-note .row{display:flex;justify-content:space-between;align-items:center;font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.t-note .row a{text-decoration:underline}
+@media (max-width:760px){
+header>nav[aria-label="Main"]{display:none!important}
+header>span:last-of-type{display:none!important}
+.t-menu-btn{display:inline-flex!important}
+.t-note{left:20px;right:20px;width:auto;bottom:72px}
+[style*="font-size: 104px"]{font-size:56px!important;line-height:0.95!important}
+[data-sent] p[style*="font-size: 104px"]{font-size:64px!important}
+}
+</style>
 </head>
 <body>
 
@@ -101,27 +139,27 @@ h1,h2,h3,blockquote{text-wrap:balance}p{text-wrap:pretty}
 <mask id="lm-wm" maskUnits="userSpaceOnUse" x="0" y="0" width="1056" height="240">
 <rect width="1056" height="240" fill="black"></rect>
 <rect x="0" y="0" width="200" height="240" rx="12" fill="white"></rect>
-<rect x="0" y="92" width="56" height="148" fill="black"></rect>
-<rect x="144" y="92" width="56" height="148" fill="black"></rect>
+<rect x="-4" y="92" width="60" height="152" fill="black"></rect>
+<rect x="144" y="92" width="60" height="152" fill="black"></rect>
 <rect x="214" y="0" width="200" height="240" rx="12" fill="white"></rect>
-<polygon points="280,0 348,0 314,118" fill="black"></polygon>
-<rect x="214" y="150" width="56" height="90" fill="black"></rect>
-<rect x="358" y="150" width="56" height="90" fill="black"></rect>
+<polygon points="279,-4 349,-4 314,118" fill="black"></polygon>
+<rect x="210" y="150" width="60" height="94" fill="black"></rect>
+<rect x="358" y="150" width="60" height="94" fill="black"></rect>
 <rect x="428" y="0" width="200" height="240" rx="40" fill="white"></rect>
-<rect x="484" y="74" width="144" height="12" fill="black"></rect>
-<rect x="428" y="154" width="144" height="12" fill="black"></rect>
+<rect x="484" y="74" width="148" height="12" fill="black"></rect>
+<rect x="424" y="154" width="148" height="12" fill="black"></rect>
 <rect x="642" y="0" width="200" height="240" rx="12" fill="white"></rect>
-<rect x="732" y="0" width="20" height="96" fill="black"></rect>
-<rect x="732" y="144" width="20" height="96" fill="black"></rect>
+<rect x="732" y="-4" width="20" height="100" fill="black"></rect>
+<rect x="732" y="144" width="20" height="100" fill="black"></rect>
 <path d="M856 240 V70 Q856 0 926 0 H986 Q1056 0 1056 70 V240 Z" fill="white"></path>
-<polygon points="926,240 986,240 966,170 946,170" fill="black"></polygon>
+<polygon points="925,244 987,244 966,170 946,170" fill="black"></polygon>
 <rect x="948" y="84" width="16" height="44" fill="black"></rect>
 </mask>
 <g id="l-wm"><rect width="1056" height="240" fill="currentColor" mask="url(#lm-wm)"></rect></g>
 <mask id="lm-arch" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="240">
 <rect width="200" height="240" fill="black"></rect>
 <path d="M0 240 V70 Q0 0 70 0 H130 Q200 0 200 70 V240 Z" fill="white"></path>
-<polygon points="70,240 130,240 110,170 90,170" fill="black"></polygon>
+<polygon points="69,244 131,244 110,170 90,170" fill="black"></polygon>
 <rect x="92" y="84" width="16" height="44" fill="black"></rect>
 </mask>
 <g id="l-arch"><rect width="200" height="240" fill="currentColor" mask="url(#lm-arch)"></rect></g>
@@ -144,7 +182,7 @@ h1,h2,h3,blockquote{text-wrap:balance}p{text-wrap:pretty}
 <header style="position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 1.45; letter-spacing: 0.04em; text-transform: uppercase">
 <a href="#" style="grid-column: 1 / 4; display: flex; align-items: center; gap: 16px"><svg width="20" height="24" viewBox="0 0 200 240" aria-hidden="true"><use href="#l-arch"></use></svg><span>Tysha<br><span style="color: #C9C3B8">Architecture</span></span></a>
 <span style="grid-column: 4 / 6">Lviv — Warsaw<br><span style="color: #C9C3B8">Est. 2014</span></span>
-<nav aria-label="Main" style="grid-column: 6 / 10; display: flex; gap: 24px; flex-wrap: wrap; padding-left: 20px"><a href="project/">Projects</a><a href="method/">Method</a><a href="#">Studio</a><a href="#">Contact</a></nav>
+<nav aria-label="Main" style="grid-column: 6 / 10; display: flex; gap: 24px; flex-wrap: wrap; padding-left: 20px"><a href="project/">Projects</a><a href="method/">Method</a><a href="#studio">Studio</a><a href="#contact">Contact</a></nav>
 <span style="grid-column: 10 / 13; text-align: right">Now: 68 dB<br><span style="color: #C9C3B8">Your city, right now</span></span>
 </header>
 
@@ -424,7 +462,7 @@ h1,h2,h3,blockquote{text-wrap:balance}p{text-wrap:pretty}
 </section>
 
 <!-- 10 NUMBERS -->
-<section aria-label="Studio in numbers" style="position: relative; box-sizing: border-box; padding: 20px 20px 120px; background: #111110; color: #EAE6DE">
+<section id="studio" aria-label="Studio in numbers" style="position: relative; box-sizing: border-box; padding: 20px 20px 120px; background: #111110; color: #EAE6DE">
 <div style="position: relative; display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><span>10 / 11 · Studio</span><span>27 dB</span></div>
 <div style="position: relative; margin-top: 120px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 20px">
 <div data-rise style="border-top: 1px solid rgba(234,230,222,0.4); padding-top: 16px; display: flex; flex-direction: column; gap: 16px"><span data-count="12" style="font-size: 160px; font-weight: 300; letter-spacing: -0.05em; line-height: 0.85">12</span><span style="font-family: 'Geist Mono', monospace; font-size: 12px; text-transform: uppercase">Years of quiet work</span></div>
@@ -435,7 +473,7 @@ h1,h2,h3,blockquote{text-wrap:balance}p{text-wrap:pretty}
 </section>
 
 <!-- 11 START -->
-<section data-noreveal aria-label="Start a project" style="position: relative; overflow: hidden; height: 940px; box-sizing: border-box; padding: 20px; display: flex; flex-direction: column; color: #EAE6DE">
+<section id="contact" data-noreveal aria-label="Start a project" style="position: relative; overflow: hidden; height: 940px; box-sizing: border-box; padding: 20px; display: flex; flex-direction: column; color: #EAE6DE">
 <img data-zoom src="img/g09.jpg" alt="A stone house at blue hour with one warm window lit" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block">
 <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(11, 11, 10, 0.35)"></div>
 <div data-axis aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: calc(20px + (100% - 40px) * 5 / 12); width: 1px; background: rgba(234, 230, 222, 0.4)"></div>
@@ -445,33 +483,46 @@ h1,h2,h3,blockquote{text-wrap:balance}p{text-wrap:pretty}
 <h2 style="margin: 0; font-size: 72px; font-weight: 500; line-height: 0.96; letter-spacing: -0.04em">Start with a quiet conversation.</h2>
 <p style="margin: 0; font-size: 20px; line-height: 1.45; max-width: 460px">Tell us where you want to live. We'll tell you how quiet it can be.</p>
 </div>
-<form style="grid-column: 6 / 11; padding-left: 20px; display: flex; flex-direction: column; gap: 24px">
-<label data-rise style="display: flex; flex-direction: column; gap: 8px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">Name<input type="text" placeholder="Your name" style="all: unset; border-bottom: 1px solid #EAE6DE; padding: 10px 0; font-family: 'Inter Tight', sans-serif; font-size: 20px; text-transform: none; letter-spacing: 0; min-height: 28px"></label>
-<label data-rise style="display: flex; flex-direction: column; gap: 8px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">Phone or email<input type="text" placeholder="+48 / name@mail.com" style="all: unset; border-bottom: 1px solid #EAE6DE; padding: 10px 0; font-family: 'Inter Tight', sans-serif; font-size: 20px; text-transform: none; letter-spacing: 0; min-height: 28px"></label>
-<label data-rise style="display: flex; flex-direction: column; gap: 8px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">Region<input type="text" placeholder="Where you want to live" style="all: unset; border-bottom: 1px solid #EAE6DE; padding: 10px 0; font-family: 'Inter Tight', sans-serif; font-size: 20px; text-transform: none; letter-spacing: 0; min-height: 28px"></label>
+<form data-form novalidate style="grid-column: 6 / 11; padding-left: 20px; display: flex; flex-direction: column; gap: 24px">
+<label data-rise data-field="name" style="display: flex; flex-direction: column; gap: 8px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><span>Name</span><input name="name" type="text" placeholder="Your name" autocomplete="name" required aria-describedby="err-name" style="all: unset; border-bottom: 1px solid #EAE6DE; padding: 10px 0; font-family: 'Inter Tight', sans-serif; font-size: 20px; text-transform: none; letter-spacing: 0; min-height: 28px; transition: border-color 0.3s"><span data-err id="err-name" style="display: none; color: #E8A68C; text-transform: none; letter-spacing: 0; font-family: 'Inter Tight', sans-serif; font-size: 15px">Tell us your name, so we know who to answer.</span></label>
+<label data-rise data-field="contact" style="display: flex; flex-direction: column; gap: 8px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><span>Phone or email</span><input name="contact" type="text" placeholder="+48 / name@mail.com" autocomplete="email" required aria-describedby="err-contact" style="all: unset; border-bottom: 1px solid #EAE6DE; padding: 10px 0; font-family: 'Inter Tight', sans-serif; font-size: 20px; text-transform: none; letter-spacing: 0; min-height: 28px; transition: border-color 0.3s"><span data-err id="err-contact" style="display: none; color: #E8A68C; text-transform: none; letter-spacing: 0; font-family: 'Inter Tight', sans-serif; font-size: 15px">We need a phone or an email to reply.</span></label>
+<label data-rise data-field="region" style="display: flex; flex-direction: column; gap: 8px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><span>Region<span style="color: rgba(234,230,222,0.62)"> · optional</span></span><input name="region" type="text" placeholder="Where you want to live" autocomplete="address-level1" style="all: unset; border-bottom: 1px solid #EAE6DE; padding: 10px 0; font-family: 'Inter Tight', sans-serif; font-size: 20px; text-transform: none; letter-spacing: 0; min-height: 28px; transition: border-color 0.3s"></label>
 <fieldset data-rise style="border: 0; margin: 0; padding: 0; display: flex; gap: 24px; flex-wrap: wrap; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">
 <legend style="padding: 0; margin-bottom: 12px">Plot</legend>
-<label style="display: flex; align-items: center; gap: 8px; min-height: 44px"><input type="radio" name="plot" checked style="accent-color: #C2AE8E; width: 16px; height: 16px; margin: 0">I have one</label>
-<label style="display: flex; align-items: center; gap: 8px; min-height: 44px"><input type="radio" name="plot" style="accent-color: #C2AE8E; width: 16px; height: 16px; margin: 0">Help me find one</label>
+<label style="display: flex; align-items: center; gap: 8px; min-height: 44px"><input type="radio" name="plot" value="have" checked style="accent-color: #C2AE8E; width: 16px; height: 16px; margin: 0">I have one</label>
+<label style="display: flex; align-items: center; gap: 8px; min-height: 44px"><input type="radio" name="plot" value="find" style="accent-color: #C2AE8E; width: 16px; height: 16px; margin: 0">Help me find one</label>
 </fieldset>
+<p data-fail role="alert" style="display: none; margin: 0; padding: 16px 0 0; border-top: 1px solid #E8A68C; font-size: 17px; line-height: 1.45; color: #EAE6DE">The line is noisy: your request didn't reach us. Nothing is lost. Try again, or write to <a href="mailto:hello@tysha.studio" style="text-decoration: underline">hello@tysha.studio</a>.</p>
 <div data-rise style="display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap">
-<button type="button" style="all: unset; cursor: pointer; padding: 16px 36px; border: 1px solid #EAE6DE; border-radius: 999px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase">Send</button>
+<button data-send type="submit" style="all: unset; cursor: pointer; padding: 16px 36px; border: 1px solid #EAE6DE; border-radius: 999px; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; font-variant-numeric: tabular-nums; transition: background 0.3s, color 0.3s">Send</button>
 <span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: #C9C3B8">We reply within two working days.<br>No calls unless you ask.</span>
 </div>
+<span data-rise style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(234,230,222,0.62)">By sending, you agree to our <a href="privacy/" style="text-decoration: underline">privacy notice</a>.</span>
 </form>
+<div data-sent data-noscramble aria-live="polite" style="display: none; grid-column: 6 / 13; padding-left: 20px; flex-direction: column; gap: 24px">
+<span data-sent-id style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: #C9C3B8">Request TY-0412 · Received</span>
+<p style="margin: 0; font-size: 104px; font-weight: 300; line-height: 0.9; letter-spacing: -0.05em">Received.</p>
+<p data-sent-msg style="margin: 0; font-size: 20px; line-height: 1.45; max-width: 520px">Thank you. We'll reply within two working days from hello@tysha.studio.</p>
+<div style="display: flex; flex-direction: column; border-top: 1px solid rgba(234,230,222,0.4); max-width: 640px">
+<div style="display: grid; grid-template-columns: 48px 1fr auto; gap: 16px; padding: 14px 0; border-bottom: 1px solid rgba(234,230,222,0.4); font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><span>01</span><span>We read your request</span><span style="color: #C9C3B8">Today</span></div>
+<div style="display: grid; grid-template-columns: 48px 1fr auto; gap: 16px; padding: 14px 0; border-bottom: 1px solid rgba(234,230,222,0.4); font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><span>02</span><span>A 20-minute call, if you want one</span><span style="color: #C9C3B8">This week</span></div>
+<div style="display: grid; grid-template-columns: 48px 1fr auto; gap: 16px; padding: 14px 0; border-bottom: 1px solid rgba(234,230,222,0.4); font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><span>03</span><span>A silence audit of the plot</span><span style="color: #C9C3B8">7 days</span></div>
+</div>
+<div style="display: flex; gap: 32px; flex-wrap: wrap; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase"><a href="method/" style="border-bottom: 1px solid #EAE6DE; padding-bottom: 4px">While you wait: the Method →</a><button data-again type="button" style="all: unset; cursor: pointer; color: #C9C3B8; border-bottom: 1px solid rgba(234,230,222,0.4); padding-bottom: 4px">Send another</button></div>
+</div>
 </div>
 </section>
 
 <!-- FOOTER -->
 <footer style="position: relative; box-sizing: border-box; padding: 20px; background: #111110; color: #EAE6DE">
 <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 1.6; letter-spacing: 0.04em; text-transform: uppercase">
-<div style="grid-column: 1 / 4; display: flex; flex-direction: column"><a href="#" style="text-transform: none">hello@tysha.studio</a><span>+48 22 000 00 00</span></div>
+<div style="grid-column: 1 / 4; display: flex; flex-direction: column"><a href="mailto:hello@tysha.studio" style="text-transform: none">hello@tysha.studio</a><span>+48 22 000 00 00</span></div>
 <div style="grid-column: 4 / 6; display: flex; flex-direction: column"><span>Lviv — Rynok Square</span><span>Warsaw — Mokotów</span></div>
 <div style="grid-column: 6 / 10; padding-left: 20px; display: flex; gap: 20px; flex-wrap: wrap"><a href="#">Instagram</a><a href="#">Behance</a><a href="#">Pinterest</a></div>
 <div style="grid-column: 10 / 13; text-align: right; display: flex; flex-direction: column"><span>Now: 25 dB</span><span style="color: #7F7A73">Welcome home.</span></div>
 </div>
 <svg data-rise viewBox="0 0 1056 240" role="img" aria-label="TYSHA" style="margin-top: 120px; width: 100%; height: auto; display: block; color: #1F1E1C"><use href="#l-wm"></use></svg>
-<div style="margin-top: 20px; display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: #7F7A73"><span>© 2026 Tysha Architecture</span><span>Designed in silence</span></div>
+<div style="margin-top: 20px; display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: #7F7A73"><span>© 2026 Tysha Architecture</span><a href="privacy/">Privacy</a><span>Designed in silence</span></div>
 </footer>
 
 </div>
@@ -649,24 +700,29 @@ const r = (x) => Math.round(x * 100) / 100;
 const P = {};
 for (let i = 0; i < 5; i++) { const s = e(c((t - 300 - i * 220) / 500)); P['s' + i + 'o'] = r(s); P['s' + i + 'y'] = r((1 - s) * 40); }
 const k = e(c((t - 1700) / 1200));
-P.tH = r(148 * k); P.tY = r(240 - 148 * k);
-P.yV = r(314 - 34 * k) + ',0 ' + r(314 + 34 * k) + ',0 314,' + r(118 * k);
-P.yH = r(90 * k); P.yY = r(240 - 90 * k);
-P.sW = r(144 * k); P.sX = r(628 - 144 * k);
-P.hH = r(96 * k); P.hY = r(240 - 96 * k);
-P.aD = r(956 - 30 * k) + ',240 ' + r(956 + 30 * k) + ',240 ' + r(956 + 10 * k) + ',' + r(240 - 70 * k) + ' ' + r(956 - 10 * k) + ',' + r(240 - 70 * k);
+P.tH = r(152 * k); P.tY = r(240 - 148 * k);
+P.yV = r(314 - 35 * k) + ',-4 ' + r(314 + 35 * k) + ',-4 314,' + r(118 * k);
+P.yH = r(94 * k); P.yY = r(240 - 90 * k);
+P.sW = r(144 * k); P.sW2 = r(148 * k); P.sX = r(628 - 144 * k);
+P.hH = r(96 * k); P.hH2 = r(100 * k); P.hY = r(240 - 96 * k);
+P.aD = r(956 - 31 * k) + ',244 ' + r(956 + 31 * k) + ',244 ' + r(956 + 10 * k) + ',' + r(240 - 70 * k) + ' ' + r(956 - 10 * k) + ',' + r(240 - 70 * k);
 P.aWh = r(44 * k); P.aWy = r(106 - 22 * k);
 P.ph = r(100 * e(c((t - 3200) / 600)));
 P.pw = r(100 * e(c((t - 3800) / 900)));
 const m = e(c((t - 4700) / 1000));
 const w0 = (typeof window !== 'undefined' && window.innerWidth <= 760) ? 80 : 38.9;
-P.mv = r(m); P.ws = r(w0 + (100 - w0) * m); P.wp = r(40 * m); P.ty = r(50 + 50 * m);
+const VW = (typeof window !== 'undefined') ? window.innerWidth : 1440, VH = (typeof window !== 'undefined') ? window.innerHeight : 900;
+const sw = VW * w0 / 100, sh = sw * 240 / 1056, sx = (VW - sw) / 2, sy = VH / 2 - sh / 2;
+let ex = 20, ew = VW - 40, ey = VH - 20 - (VW - 40) * 240 / 1056;
+if (typeof document !== 'undefined') { const hw = document.querySelector('[data-hero-wm]'); if (hw) { const hr = hw.getBoundingClientRect(); if (hr.width > 0) { ex = hr.left; ew = hr.width; ey = hr.top; } } }
+const ww = sw + (ew - sw) * m;
+P.ww = r(ww); P.wh = r(ww * 240 / 1056); P.wx = r(sx + (ex - sx) * m); P.wy = r(sy + (ey - sy) * m);
 P.capO = r(c(t / 400) * (1 - c((t - 4500) / 400)));
 P.db = Math.round(68 - 43 * c((t - 300) / 3000));
 P.pct = String(Math.round(100 * c((t - 300) / 3000))).padStart(3, '0');
 P.globalO = r(1 - c((t - 6200) / 650));
  return P; }
-const PRE_TPL = "\n<div aria-hidden=\"true\" style=\"position: fixed; inset: 0; z-index: 1000; background: #0B0B0A; color: #EAE6DE; overflow: hidden; opacity: {{P.globalO}}\">\n<div style=\"position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: calc({{P.pw}}vw + 2px); height: {{P.ph}}vh; overflow: hidden; background: #1C1B19\">\n<img src=\"img/h08.jpg\" alt=\"\" style=\"position: absolute; left: 50%; top: 50%; width: 100vw; height: 100vh; transform: translate(-50%, -50%); object-fit: cover; object-position: center 30%; display: block\">\n<div style=\"position: absolute; left: 50%; top: 50%; width: 100vw; height: 100vh; transform: translate(-50%, -50%); background: linear-gradient(180deg, rgba(17,17,16,0.55) 0%, rgba(17,17,16,0.05) 35%, rgba(17,17,16,0.1) 60%, rgba(17,17,16,0.75) 100%)\"></div>\n</div>\n<svg viewBox=\"0 0 1056 240\" style=\"position: absolute; left: 50%; top: calc(50% + {{P.mv}} * (50% - 20px)); width: calc({{P.ws}}vw - {{P.wp}}px); height: auto; transform: translate(-50%, -{{P.ty}}%); overflow: visible\">\n<defs>\n<mask id=\"pm-pre\" maskUnits=\"userSpaceOnUse\" x=\"0\" y=\"-40\" width=\"1056\" height=\"320\">\n<rect x=\"0\" y=\"-40\" width=\"1056\" height=\"320\" fill=\"black\"></rect>\n<g transform=\"translate(0 {{P.s0y}})\" opacity=\"{{P.s0o}}\"><rect x=\"0\" y=\"0\" width=\"200\" height=\"240\" rx=\"12\" fill=\"white\"></rect></g>\n<g transform=\"translate(0 {{P.s1y}})\" opacity=\"{{P.s1o}}\"><rect x=\"214\" y=\"0\" width=\"200\" height=\"240\" rx=\"12\" fill=\"white\"></rect></g>\n<g transform=\"translate(0 {{P.s2y}})\" opacity=\"{{P.s2o}}\"><rect x=\"428\" y=\"0\" width=\"200\" height=\"240\" rx=\"40\" fill=\"white\"></rect></g>\n<g transform=\"translate(0 {{P.s3y}})\" opacity=\"{{P.s3o}}\"><rect x=\"642\" y=\"0\" width=\"200\" height=\"240\" rx=\"12\" fill=\"white\"></rect></g>\n<g transform=\"translate(0 {{P.s4y}})\" opacity=\"{{P.s4o}}\"><path d=\"M856 240 V70 Q856 0 926 0 H986 Q1056 0 1056 70 V240 Z\" fill=\"white\"></path></g>\n<rect x=\"0\" y=\"{{P.tY}}\" width=\"56\" height=\"{{P.tH}}\" fill=\"black\"></rect>\n<rect x=\"144\" y=\"{{P.tY}}\" width=\"56\" height=\"{{P.tH}}\" fill=\"black\"></rect>\n<polygon points=\"{{P.yV}}\" fill=\"black\"></polygon>\n<rect x=\"214\" y=\"{{P.yY}}\" width=\"56\" height=\"{{P.yH}}\" fill=\"black\"></rect>\n<rect x=\"358\" y=\"{{P.yY}}\" width=\"56\" height=\"{{P.yH}}\" fill=\"black\"></rect>\n<rect x=\"{{P.sX}}\" y=\"74\" width=\"{{P.sW}}\" height=\"12\" fill=\"black\"></rect>\n<rect x=\"428\" y=\"154\" width=\"{{P.sW}}\" height=\"12\" fill=\"black\"></rect>\n<rect x=\"732\" y=\"0\" width=\"20\" height=\"{{P.hH}}\" fill=\"black\"></rect>\n<rect x=\"732\" y=\"{{P.hY}}\" width=\"20\" height=\"{{P.hH}}\" fill=\"black\"></rect>\n<polygon points=\"{{P.aD}}\" fill=\"black\"></polygon>\n<rect x=\"948\" y=\"{{P.aWy}}\" width=\"16\" height=\"{{P.aWh}}\" fill=\"black\"></rect>\n</mask>\n</defs>\n<rect x=\"0\" y=\"-40\" width=\"1056\" height=\"320\" fill=\"#EAE6DE\" mask=\"url(#pm-pre)\"></rect>\n</svg>\n<div data-pre-cap style=\"position: absolute; left: 20px; right: 20px; top: 20px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 20px; line-height: 1.45; opacity: {{P.capO}}; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase\">\n<span>Tysha Architecture<br><span style=\"color: #7F7A73\">Lviv \u2014 Warsaw</span></span>\n<span>Architecture of silence<br><span style=\"color: #7F7A73\">Est. 2014</span></span>\n<span>Private houses<br><span style=\"color: #7F7A73\">2 \u2014 8 homes, 6 a year</span></span>\n<span style=\"text-align: right; font-variant-numeric: tabular-nums\">Now: {{P.db}} dB<br><span style=\"color: #7F7A73\">Turning the city down</span></span>\n</div>\n<div data-pre-cap style=\"position: absolute; left: 20px; right: 20px; bottom: 20px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 20px; align-items: end; line-height: 1.45; opacity: {{P.capO}}; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase\">\n<span>We design homes where<br>the loudest thing is the rain.</span>\n<span style=\"color: #7F7A73\">49.8397\u00b0 N<br>24.0297\u00b0 E</span>\n<span style=\"display: flex; gap: 16px; flex-wrap: wrap; text-transform: none\"><span style=\"text-decoration: underline\">LULL_HOUSE.JPG</span><span style=\"text-decoration: underline\">PINE_COURT.JPG</span><span style=\"text-decoration: underline\">HOLLOW.JPG</span></span>\n<span style=\"text-align: right; font-variant-numeric: tabular-nums\">Loading quiet<br>{{P.pct}} / 100</span>\n</div>\n</div>\n";
+const PRE_TPL = "\n<div aria-hidden=\"true\" style=\"position: fixed; inset: 0; z-index: 1000; background: #0B0B0A; color: #EAE6DE; overflow: hidden; opacity: {{P.globalO}}\">\n<div style=\"position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: {{P.pw}}vw; height: {{P.ph}}vh; overflow: hidden; background: #1C1B19\">\n<img src=\"img/h08.jpg\" alt=\"\" style=\"position: absolute; left: 50%; top: 50%; width: 100vw; height: 100vh; transform: translate(-50%, -50%); object-fit: cover; object-position: center 30%; display: block\">\n<div style=\"position: absolute; left: 50%; top: 50%; width: 100vw; height: 100vh; transform: translate(-50%, -50%); background: linear-gradient(180deg, rgba(17,17,16,0.55) 0%, rgba(17,17,16,0.05) 35%, rgba(17,17,16,0.1) 60%, rgba(17,17,16,0.75) 100%)\"></div>\n</div>\n<svg viewBox=\"0 0 1056 240\" style=\"position: absolute; left: 0; top: 0; width: {{P.ww}}px; height: {{P.wh}}px; transform: translate3d({{P.wx}}px, {{P.wy}}px, 0); overflow: visible; will-change: transform\">\n<defs>\n<mask id=\"pm-pre\" maskUnits=\"userSpaceOnUse\" x=\"0\" y=\"-40\" width=\"1056\" height=\"320\">\n<rect x=\"0\" y=\"-40\" width=\"1056\" height=\"320\" fill=\"black\"></rect>\n<g transform=\"translate(0 {{P.s0y}})\" opacity=\"{{P.s0o}}\"><rect x=\"0\" y=\"0\" width=\"200\" height=\"240\" rx=\"12\" fill=\"white\"></rect></g>\n<g transform=\"translate(0 {{P.s1y}})\" opacity=\"{{P.s1o}}\"><rect x=\"214\" y=\"0\" width=\"200\" height=\"240\" rx=\"12\" fill=\"white\"></rect></g>\n<g transform=\"translate(0 {{P.s2y}})\" opacity=\"{{P.s2o}}\"><rect x=\"428\" y=\"0\" width=\"200\" height=\"240\" rx=\"40\" fill=\"white\"></rect></g>\n<g transform=\"translate(0 {{P.s3y}})\" opacity=\"{{P.s3o}}\"><rect x=\"642\" y=\"0\" width=\"200\" height=\"240\" rx=\"12\" fill=\"white\"></rect></g>\n<g transform=\"translate(0 {{P.s4y}})\" opacity=\"{{P.s4o}}\"><path d=\"M856 240 V70 Q856 0 926 0 H986 Q1056 0 1056 70 V240 Z\" fill=\"white\"></path></g>\n<rect x=\"-4\" y=\"{{P.tY}}\" width=\"60\" height=\"{{P.tH}}\" fill=\"black\"></rect>\n<rect x=\"144\" y=\"{{P.tY}}\" width=\"60\" height=\"{{P.tH}}\" fill=\"black\"></rect>\n<polygon points=\"{{P.yV}}\" fill=\"black\"></polygon>\n<rect x=\"210\" y=\"{{P.yY}}\" width=\"60\" height=\"{{P.yH}}\" fill=\"black\"></rect>\n<rect x=\"358\" y=\"{{P.yY}}\" width=\"60\" height=\"{{P.yH}}\" fill=\"black\"></rect>\n<rect x=\"{{P.sX}}\" y=\"74\" width=\"{{P.sW2}}\" height=\"12\" fill=\"black\"></rect>\n<rect x=\"424\" y=\"154\" width=\"{{P.sW2}}\" height=\"12\" fill=\"black\"></rect>\n<rect x=\"732\" y=\"-4\" width=\"20\" height=\"{{P.hH2}}\" fill=\"black\"></rect>\n<rect x=\"732\" y=\"{{P.hY}}\" width=\"20\" height=\"{{P.hH2}}\" fill=\"black\"></rect>\n<polygon points=\"{{P.aD}}\" fill=\"black\"></polygon>\n<rect x=\"948\" y=\"{{P.aWy}}\" width=\"16\" height=\"{{P.aWh}}\" fill=\"black\"></rect>\n</mask>\n</defs>\n<rect x=\"0\" y=\"-40\" width=\"1056\" height=\"320\" fill=\"#EAE6DE\" mask=\"url(#pm-pre)\"></rect>\n</svg>\n<div data-pre-cap style=\"position: absolute; left: 20px; right: 20px; top: 20px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 20px; line-height: 1.45; opacity: {{P.capO}}; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase\">\n<span>Tysha Architecture<br><span style=\"color: #7F7A73\">Lviv \u2014 Warsaw</span></span>\n<span>Architecture of silence<br><span style=\"color: #7F7A73\">Est. 2014</span></span>\n<span>Private houses<br><span style=\"color: #7F7A73\">2 \u2014 8 homes, 6 a year</span></span>\n<span style=\"text-align: right; font-variant-numeric: tabular-nums\">Now: {{P.db}} dB<br><span style=\"color: #7F7A73\">Turning the city down</span></span>\n</div>\n<div data-pre-cap style=\"position: absolute; left: 20px; right: 20px; bottom: 20px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 20px; align-items: end; line-height: 1.45; opacity: {{P.capO}}; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase\">\n<span>We design homes where<br>the loudest thing is the rain.</span>\n<span style=\"color: #7F7A73\">49.8397\u00b0 N<br>24.0297\u00b0 E</span>\n<span style=\"display: flex; gap: 16px; flex-wrap: wrap; text-transform: none\"><span style=\"text-decoration: underline\">LULL_HOUSE.JPG</span><span style=\"text-decoration: underline\">PINE_COURT.JPG</span><span style=\"text-decoration: underline\">HOLLOW.JPG</span></span>\n<span style=\"text-align: right; font-variant-numeric: tabular-nums\">Loading quiet<br>{{P.pct}} / 100</span>\n</div>\n</div>\n";
 (function () {
   try { history.scrollRestoration = 'manual'; } catch (e) {}
   window.scrollTo(0, 0);
@@ -686,6 +742,86 @@ const PRE_TPL = "\n<div aria-hidden=\"true\" style=\"position: fixed; inset: 0; 
   requestAnimationFrame(loop);
 })();
 
+</script>
+<script>window.T_BASE = ''; window.T_NOTE_DELAY = 7600;
+(function () {
+  const BASE = window.T_BASE || '';
+  const q = (s, r) => (r || document).querySelector(s);
+  // ---------- contact form: validate, send, fail, received ----------
+  const form = q('[data-form]');
+  if (form) {
+    const sent = q('[data-sent]'), fail = q('[data-fail]', form), btn = q('[data-send]', form);
+    const F = (n) => q('[name="' + n + '"]', form);
+    const MSG = { name: 'Tell us your name, so we know who to answer.', empty: 'We need a phone or an email to reply.', bad: "That doesn't look like a phone or an email." };
+    const setErr = (n, m) => { const i = F(n), e = document.getElementById('err-' + n); i.setAttribute('aria-invalid', m ? 'true' : 'false'); if (e) { if (m) e.textContent = m; e.style.display = m ? 'block' : 'none'; } };
+    const check = (focus) => {
+      let first = null;
+      const nm = F('name').value.trim();
+      if (!nm) { setErr('name', MSG.name); first = F('name'); } else setErr('name', '');
+      const c = F('contact').value.trim();
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(c) || /^\+?[\d\s().-]{7,}$/.test(c);
+      if (!c) { setErr('contact', MSG.empty); first = first || F('contact'); } else if (!ok) { setErr('contact', MSG.bad); first = first || F('contact'); } else setErr('contact', '');
+      if (first && focus) first.focus();
+      return !first;
+    };
+    ['name', 'contact'].forEach((n) => F(n).addEventListener('input', () => { if (F(n).getAttribute('aria-invalid') === 'true') check(false); }));
+    let busy = false;
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      if (busy) return;
+      fail.style.display = 'none';
+      if (!check(true)) return;
+      busy = true; form.setAttribute('aria-busy', 'true');
+      let db = 68; btn.textContent = 'Sending · 68 dB';
+      const iv = setInterval(() => { db = Math.max(25, db - 3); btn.textContent = 'Sending · ' + db + ' dB'; }, 70);
+      // no backend in this concept: the request is simulated. Offline (or a region containing "fail") shows the error state.
+      setTimeout(() => {
+        clearInterval(iv); busy = false; form.removeAttribute('aria-busy');
+        if (navigator.onLine === false || /fail/i.test(F('region').value)) { fail.style.display = 'block'; btn.textContent = 'Try again'; return; }
+        const name = F('name').value.trim().split(/\s+/)[0];
+        const find = (q('input[name="plot"]:checked', form) || {}).value === 'find';
+        q('[data-sent-id]', sent).textContent = 'Request TY-' + (1000 + Math.floor(Math.random() * 9000)) + ' · Received · 25 dB';
+        q('[data-sent-msg]', sent).textContent = 'Thank you, ' + name + ". We'll reply within two working days from hello@tysha.studio. " + (find ? "We'll start by looking for a quiet plot together." : "First we'll ask for the plot's address, to plan the audit.");
+        form.style.display = 'none'; sent.style.display = 'flex'; sent.setAttribute('tabindex', '-1'); sent.focus({ preventScroll: true });
+      }, 1600);
+    });
+    const again = q('[data-again]');
+    if (again) again.addEventListener('click', () => { form.reset(); ['name', 'contact'].forEach((n) => setErr(n, '')); btn.textContent = 'Send'; sent.style.display = 'none'; form.style.display = 'flex'; F('name').focus(); });
+  }
+  // ---------- mobile menu ----------
+  const header = q('header'), nav = header && q('nav[aria-label="Main"]', header);
+  if (nav) {
+    const DB = { Projects: '40 dB', Method: '33 dB', Studio: '27 dB', Contact: '25 dB' };
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 't-pill t-menu-btn'; b.textContent = 'Menu';
+    b.setAttribute('aria-expanded', 'false'); b.setAttribute('aria-controls', 't-menu');
+    header.appendChild(b);
+    const ov = document.createElement('div');
+    ov.id = 't-menu'; ov.className = 't-menu'; ov.hidden = true;
+    ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', 'Menu');
+    ov.innerHTML = '<div class="t-menu-axis"></div><div class="t-menu-top"><span>Tysha<br><span class="t-mute">Architecture</span></span><button type="button" class="t-pill" data-close>Close</button></div>'
+      + '<nav class="t-menu-list" aria-label="Menu">' + [...nav.querySelectorAll('a')].map((a, i) => '<a href="' + a.getAttribute('href') + '"><span class="n">0' + (i + 1) + '</span><span class="t">' + a.textContent + '</span><span class="d">' + (DB[a.textContent] || '') + '</span></a>').join('') + '</nav>'
+      + '<div class="t-menu-foot"><a href="mailto:hello@tysha.studio" style="text-transform:none">hello@tysha.studio</a><span>+48 22 000 00 00</span><span class="t-mute">Lviv — Warsaw · Now: 25 dB</span></div>';
+    document.body.appendChild(ov);
+    const de = document.documentElement;
+    const open = () => { ov.hidden = false; requestAnimationFrame(() => ov.classList.add('on')); b.setAttribute('aria-expanded', 'true'); de.style.overflow = 'hidden'; q('[data-close]', ov).focus(); };
+    const close = () => { ov.classList.remove('on'); b.setAttribute('aria-expanded', 'false'); de.style.overflow = ''; setTimeout(() => { ov.hidden = true; }, 400); b.focus(); };
+    b.addEventListener('click', open);
+    q('[data-close]', ov).addEventListener('click', close);
+    ov.querySelectorAll('.t-menu-list a').forEach((a) => a.addEventListener('click', close));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !ov.hidden) close(); });
+  }
+  // ---------- privacy note (no trackers; remembered in this browser only) ----------
+  let seen = false;
+  try { seen = !!localStorage.getItem('tysha-quiet'); } catch (e) {}
+  if (!seen && !window.T_NO_NOTE) {
+    const n = document.createElement('div');
+    n.className = 't-note'; n.setAttribute('role', 'region'); n.setAttribute('aria-label', 'Privacy note');
+    n.innerHTML = '<span class="k">No trackers</span><p>This site keeps no cookies and no analytics. As quiet as our houses.</p><div class="row"><a href="' + BASE + 'privacy/">Privacy notice</a><button type="button" class="t-pill">Good</button></div>';
+    setTimeout(() => { document.body.appendChild(n); requestAnimationFrame(() => n.classList.add('on')); }, window.T_NOTE_DELAY || 1500);
+    q('button', n).addEventListener('click', () => { try { localStorage.setItem('tysha-quiet', '1'); } catch (e) {} n.classList.remove('on'); setTimeout(() => n.remove(), 600); });
+  }
+})();
 </script>
 </body>
 </html>
