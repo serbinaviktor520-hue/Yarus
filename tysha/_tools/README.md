@@ -39,6 +39,31 @@ the `sizes` attribute on its `<source>` tags; the script keeps whatever is there
 To add a new photo to a page, write a plain `<img src="img/<name>.jpg" alt="…" class="…"
 sizes="…">` (or `../img/` in a subpage) and run the script: it becomes a `<picture>`.
 
+## Film grade: `grade.py`
+
+The photos share one "film" look. `grade.py` makes `img/src/<slot>.jpg` from the raw renders:
+
+```sh
+python3 tysha/_tools/grade.py --raw /path/to/raw          # every slot, or name slots: ... h08 g16
+python3 tysha/_tools/images.py --force
+```
+
+The raw PNGs are not committed (large; only this script reads them). `SLOTS` at the top of the script maps
+each slot to its raw file, crop box, white-balance shift and saturation. The chain: slot fixes at raw size
+(crops, the calm 14:30 lake patched into the 09:00 frame, a softer 23:40 moon, the scribbled notes on the
+pencil plan inpainted), Lanczos upscale to 2560 px (3200 for the hero) with a light unsharp mask, cooling of
+the warmest renders, a tone curve with blacks lifted to ~12/255 and a soft shoulder, slightly lower
+clarity, a subtle vignette and fine monochrome grain. It only crops and scales, never rotates, so masks
+drawn on a raw frame map onto the output (`live_masks.py`).
+
+## Phone crops: `<name>m`
+
+A source named `<name>m.jpg` (for example `h08m.jpg`, the portrait hero) is an art-directed version of
+`<name>` for screens up to 760 px. `images.py` encodes it like any other source and adds it to every
+`<picture data-img="<name>">` as the first `<source media="(max-width: 760px)">` pair, so phones never
+download the wide photo. For the page hero it writes two preloads with `media` attributes, one per crop.
+Other photos keep one file and get a phone `object-position` in `site.css` (section 11).
+
 ## Icons: `icons.py`
 
 `python3 tysha/_tools/icons.py` draws `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`,

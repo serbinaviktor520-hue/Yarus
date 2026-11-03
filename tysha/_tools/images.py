@@ -32,6 +32,8 @@ PAGES = {'index.html': '', 'project/index.html': '../', 'method/index.html': '..
 WIDTHS = [480, 960, 1600, 2560]
 FMT = {'avif': dict(format='AVIF', quality=52, speed=6), 'webp': dict(format='WEBP', quality=78, method=6), 'jpg': dict(format='JPEG', quality=80, progressive=True, optimize=True)}
 OG_FROM, OG_FOCUS_Y = 'h08', 0.30
+MQ = '(max-width: 760px)'
+MOBILE = lambda name, man: (name + 'm') if (name + 'm') in man and not name.endswith('m') else None
 PLACEHOLDER = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='
 FORCE = '--force' in sys.argv
 
@@ -109,8 +111,14 @@ def picture(name, img_attrs, prefix, man):
     ss = lambda e: ', '.join(f'{prefix}img/{name}-{w}.{e} {w}w' for w in ws)
     fallback = jpg_width(ws)
     sattr = 'data-srcset' if defer else 'srcset'
-    parts = [f'<picture data-img="{name}">',
-             f'<source type="image/avif" {sattr}="{ss("avif")}" sizes="{sizes}">',
+    parts = [f'<picture data-img="{name}">']
+    mob = MOBILE(name, man)
+    if mob:
+        # art-directed phone crop first: the browser takes the first <source> whose media matches
+        ms = lambda e: ', '.join(f'{prefix}img/{mob}-{w}.{e} {w}w' for w in man[mob]['widths'])
+        parts += [f'<source media="{MQ}" type="image/avif" {sattr}="{ms("avif")}" sizes="100vw">',
+                  f'<source media="{MQ}" type="image/webp" {sattr}="{ms("webp")}" sizes="100vw">']
+    parts += [f'<source type="image/avif" {sattr}="{ss("avif")}" sizes="{sizes}">',
              f'<source type="image/webp" {sattr}="{ss("webp")}" sizes="{sizes}">']
     tag = ['<img']
     if defer:
@@ -141,7 +149,7 @@ def rewrite(man):
             name = m.group(1)
             img = re.search(imgrx, m.group(0)).group(0)
             at = _attrs(img)
-            sz = re.search(r'<source[^>]*\bsizes="([^"]*)"', m.group(0))
+            sz = re.search(r'<source type="[^"]*"[^>]*\bsizes="([^"]*)"', m.group(0))
             if sz and 'sizes' not in dict(at):
                 at.append(('sizes', sz.group(1)))
             return picture(name, at, prefix, man) if name in man else m.group(0)
@@ -163,9 +171,15 @@ def rewrite(man):
         hm = re.search(r'<picture data-img="([\w-]+)">(?:(?!</picture>).)*data-hero-img', t, flags=re.S)
         if hm:
             name = hm.group(1); ws = man[name]['widths']
-            sizes = re.search(r'sizes="([^"]*)"', hm.group(0)).group(1)
-            link = (f'<link rel="preload" as="image" type="image/avif" fetchpriority="high" imagesrcset="'
+            sizes = re.search(r'<source type="[^"]*"[^>]*\bsizes="([^"]*)"', hm.group(0)).group(1)
+            mob = MOBILE(name, man)
+            # with a phone crop, each viewport preloads only the file it will show
+            media = f' media="(min-width: 761px)"' if mob else ''
+            link = (f'<link rel="preload" as="image" type="image/avif" fetchpriority="high"{media} imagesrcset="'
                     + ', '.join(f'{prefix}img/{name}-{w}.avif {w}w' for w in ws) + f'" imagesizes="{sizes}" data-img-preload>\n')
+            if mob:
+                link = (f'<link rel="preload" as="image" type="image/avif" fetchpriority="high" media="{MQ}" imagesrcset="'
+                        + ', '.join(f'{prefix}img/{mob}-{w}.avif {w}w' for w in man[mob]['widths']) + '" imagesizes="100vw" data-img-preload>\n') + link
             t = t.replace('<link rel="stylesheet"', link + '<link rel="stylesheet"', 1)
         open(path, 'w', encoding='utf-8').write(t)
         print('rewrote', page)
