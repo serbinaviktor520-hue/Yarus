@@ -7,7 +7,8 @@
   const T = window.TYSHA = window.TYSHA || {};
   const AC = window.AudioContext || window.webkitAudioContext;
   if (!AC) return;
-  let ctx, master, B, timer = 0, on = false;
+  let ctx, master, B, timer = 0, on = false, B_an = null, fbuf = null;
+  const BANDS = [[40, 220], [220, 700], [700, 1800], [1800, 4500], [4500, 11000]];
   const R = Math.random;
   const home = !!document.querySelector('[data-hero] [data-hero-wm]');
   const day = document.querySelector('[data-pin="400"]');
@@ -32,6 +33,9 @@
     master = gain(0);
     const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -18; comp.ratio.value = 3;
     chain(master, comp, ctx.destination);
+    // a tap on the output for the cursor's equalizer
+    B_an = ctx.createAnalyser(); B_an.fftSize = 512; B_an.smoothingTimeConstant = 0.5; B_an.minDecibels = -92; B_an.maxDecibels = -28;
+    comp.connect(B_an); fbuf = new Uint8Array(B_an.frequencyBinCount);
     const white = noise('white'), brown = noise('brown');
     B = {};
     // city: low traffic rumble, cars passing by, a mains hum
@@ -130,6 +134,13 @@
       setTimeout(() => { if (!on) { clearInterval(timer); timer = 0; ctx.suspend && ctx.suspend(); } }, 700);
     },
     click,
+    // five bands of what is playing now, 0..1 (null while silent or suspended)
+    bands() {
+      if (!on || !B_an || ctx.state !== 'running') return null;
+      B_an.getByteFrequencyData(fbuf);
+      const hz = ctx.sampleRate / B_an.fftSize;
+      return BANDS.map(([a, b]) => { let s = 0, n = 0; for (let k = Math.max(1, Math.floor(a / hz)); k <= Math.min(fbuf.length - 1, Math.ceil(b / hz)); k++) { s += fbuf[k]; n++; } return n ? Math.pow(s / n / 255, 0.8) : 0; });
+    },
     level: () => (master ? +master.gain.value.toFixed(3) : 0),   // for testing
     state: () => (ctx ? ctx.state : 'none'),
   };

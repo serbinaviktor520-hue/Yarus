@@ -568,8 +568,9 @@
     const text = () => (mode === 'db' ? (dayDb ? dayDb.textContent : T.pageDb()) + ' dB' : mode);
     const eq = () => pick === 'a' || pick === 'e';
     const still = () => RM.matches;
-    let lastDb = -1, lastXY = '';
+    let lastDb = -1, lastXY = '', lastEq = 0, lastMove = 0; const eqH = [0.2, 0.2, 0.2, 0.2, 0.2], eqS = [0, 0, 0, 0, 0];
     const step = (now) => {
+      now = now || performance.now();
       raf = 0;
       const k = still() ? 1 : 0.2;
       cx += (x - cx) * k; cy += (y - cy) * k;
@@ -579,15 +580,35 @@
       if (seen && (eq() || pick === 'b')) {
         const db = T.pageDb(); const loud = Math.max(0, Math.min(1, (db - 20) / 48));
         if (eq()) {
-          const on = T.soundOn(); const t = (now || performance.now()) / 1000;
-          bars.forEach((bar, i) => {
-            let h;
-            if (!on) h = 0.08;                                       // a flat line: silence
-            else if (still()) h = 0.15 + 0.7 * loud * [0.55, 0.9, 1, 0.75, 0.5][i];
-            else h = 0.14 + 0.86 * loud * (0.5 + 0.5 * Math.abs(Math.sin(t * (2.1 + i * 0.73) + i * 1.7) * Math.sin(t * (1.3 + i * 0.41))));
-            bar.style.transform = 'scaleY(' + h.toFixed(3) + ')';
-          });
-          busy = busy || (on && !still());
+          // a living equalizer: each bar its own slow organic motion (three incommensurate sines), eased; the page's
+          // dB sets how lively (68 dB tall and busy, 25 dB low and calm, never still). With the sound on, the bars
+          // follow the real output (sound.js analyser, five bands). Reduced motion: still bars at the dB height.
+          const t = (now || performance.now()) / 1000;
+          const amp = 0.28 + 0.72 * Math.max(0, Math.min(1, (db - 25) / 43));
+          const live = !still() && T.sound && T.sound.bands && T.soundOn() ? T.sound.bands() : null;
+          const idle = performance.now() - lastMove > 2000;
+          if (!still() && idle && now - lastEq < 50) { busy = true; }             // idle pointer: ~20 fps is plenty
+          else {
+            const dt = lastEq ? Math.min(0.1, (now - lastEq) / 1000) : 0.016; lastEq = now;
+            bars.forEach((bar, i) => {
+              let target;
+              if (still()) target = 0.18 + 0.82 * amp * [0.5, 0.85, 1, 0.7, 0.45][i];
+              else {
+                const n = 0.5 + 0.22 * Math.sin(t * (1.7 + i * 0.61) + i * 2.1) + 0.18 * Math.sin(t * (3.9 + i * 1.13) + i * 0.7) + 0.1 * Math.sin(t * (7.3 + i * 0.37) + i * 4.2);
+                target = 0.14 + 0.86 * amp * n;
+                if (live) {
+                  // sound on: the band's energy, its changes against its own slow average (birds, drops, a passing
+                  // car jump out), the organic motion riding on top; an empty band still breathes at the floor
+                  eqS[i] += (live[i] - eqS[i]) * 0.04;
+                  const lev = live[i] * (0.5 + 0.7 * n) + Math.max(0, live[i] - eqS[i]) * 5;
+                  target = Math.max(0.12 + 0.88 * Math.min(1, lev), 0.14 + 0.86 * amp * n * 0.55);
+                }
+              }
+              eqH[i] += (target - eqH[i]) * (still() ? 1 : 1 - Math.exp(-dt * (live ? 18 : 9)));
+              bar.style.transform = 'scaleY(' + eqH[i].toFixed(3) + ')';
+            });
+            busy = busy || !still();
+          }
         }
         if (pick === 'b' && db !== lastDb) { lastDb = db; num.textContent = db; arc.style.strokeDasharray = (loud * 100).toFixed(1) + ' 100'; }
         if (pick === 'b') busy = true;
@@ -598,7 +619,7 @@
     const PHOTO = 'picture, img, .card-media, .day-frame, [data-pano], [data-hero], #contact [data-zoom]';
     const move = (e) => {
       if (e.pointerType && e.pointerType !== 'mouse') return;
-      x = e.clientX; y = e.clientY;
+      x = e.clientX; y = e.clientY; lastMove = performance.now();
       if (!seen) { cx = x; cy = y; seen = true; c.classList.add('on'); }
       c.classList.toggle('flip', x > window.innerWidth - 160);   // keep the label inside the window
       const t = e.target.closest ? e.target : document.body;

@@ -674,8 +674,8 @@ main:focus{outline:none}
 
 /* cursor variants (14 holds the default dot; see site.js 3f) */
 .t-cursor>:not(.tc-lab){position:absolute;display:none}
-.t-cursor .tc-eq{left:12px;top:6px;height:14px;gap:2px;align-items:flex-end}
-.t-cursor .tc-eq b{display:block;width:2px;height:14px;background:#fff;transform-origin:50% 100%;transform:scaleY(.08)}
+.t-cursor .tc-eq{left:12px;top:0;height:20px;gap:3px;align-items:flex-end}
+.t-cursor .tc-eq b{display:block;width:2px;height:20px;border-radius:1px;background:#fff;transform-origin:50% 100%;transform:scaleY(.2);will-change:transform}
 .t-cursor.tc-a:not(.pill) .tc-eq,.t-cursor.tc-e:not(.pill) .tc-eq{display:flex}
 .t-cursor:is(.tc-a,.tc-e,.tc-b,.tc-d):not(.pill) .tc-lab{opacity:0}
 .t-cursor .tc-ring{left:10px;top:10px;overflow:visible;transform:rotate(-90deg)}
