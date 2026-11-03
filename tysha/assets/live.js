@@ -27,6 +27,12 @@
     + 'c*=1.+P.y*m.r*smoothstep(.3,.85,l)*sin(u.x*R.x*.3+u.y*R.y*.8-t*2.4)*sin(u.y*R.y*.19+t*1.5);'
     + 'c*=1.+P.w*m.b*(.55+.45*sin(t*.85))*(.75+.25*sin(t*.31));gl_FragColor=vec4(c,1);}';
 
+  // no GPU (a software rasteriser draws every frame on the CPU): the photos simply stay still
+  const software = (gl) => {
+    const ext = gl.getExtension('WEBGL_debug_renderer_info');
+    const r = ext ? String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : '';
+    return /swiftshader|llvmpipe|softpipe|software|basic render/i.test(r);
+  };
   const slotOf = (im) => { const m = (im.currentSrc || im.src).match(/img\/(\w+?)-\d+\./); return m && m[1]; };
   const loadImg = (src) => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
 
@@ -34,8 +40,8 @@
     const cv = document.createElement('canvas');
     cv.className = 'fill live-c'; cv.setAttribute('aria-hidden', 'true');
     after.after(cv);   // above the photo, under shade and text
-    const gl = cv.getContext('webgl', { alpha: false, antialias: false, depth: false, powerPreference: 'low-power' });
-    if (!gl) { cv.remove(); return null; }
+    const gl = cv.getContext('webgl', { alpha: false, antialias: false, depth: false, powerPreference: 'low-power', failIfMajorPerformanceCaveat: true });
+    if (!gl || software(gl)) { cv.remove(); return null; }
     const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
     const pr = gl.createProgram();
     gl.attachShader(pr, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS));
@@ -95,14 +101,19 @@
 
   const lives = [];
   let raf = 0, last = 0;
+  // watchdog: if the page cannot keep ~20 fps while a living photo draws, the effect stops for good
+  let slow = 0, prev = 0;
   const loop = (now) => {
     raf = 0;
     const act = lives.filter((L) => L.on && L.ready && !L.dead);
-    if (!act.length) return;
+    if (!act.length) { prev = 0; return; }
+    if (prev && !document.hidden) { slow = now - prev > 50 ? slow + 1 : Math.max(0, slow - 1); }
+    prev = now;
+    if (slow > 30) { lives.forEach((L) => { L.dead = true; L.cv.remove(); }); return; }
     if (now - last > 30) { last = now; act.forEach((L) => L.draw(now)); }
     raf = requestAnimationFrame(loop);
   };
-  const wake = () => { if (!raf) raf = requestAnimationFrame(loop); };
+  const wake = () => { if (!raf) { prev = 0; raf = requestAnimationFrame(loop); } };
 
   function add(host, after, imgs, pick) {
     const L = Live(after, imgs); if (!L) return null;

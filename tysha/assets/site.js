@@ -572,7 +572,7 @@
             let h;
             if (!on) h = 0.08;                                       // a flat line: silence
             else if (still()) h = 0.15 + 0.7 * loud * [0.55, 0.9, 1, 0.75, 0.5][i];
-            else h = 0.1 + 0.9 * loud * (0.5 + 0.5 * Math.abs(Math.sin(t * (2.1 + i * 0.73) + i * 1.7) * Math.sin(t * (1.3 + i * 0.41))));
+            else h = 0.14 + 0.86 * loud * (0.5 + 0.5 * Math.abs(Math.sin(t * (2.1 + i * 0.73) + i * 1.7) * Math.sin(t * (1.3 + i * 0.41))));
             bar.style.transform = 'scaleY(' + h.toFixed(3) + ')';
           });
           busy = busy || (on && !still());
@@ -580,7 +580,7 @@
         if (pick === 'b' && db !== lastDb) { lastDb = db; num.textContent = db; arc.style.strokeDasharray = (loud * 100).toFixed(1) + ' 100'; }
         if (pick === 'b') busy = true;
       }
-      if (pick === 'd') { const s = 'X ' + String(Math.round(x)).padStart(4, '0') + ' · Y ' + String(Math.round(y + window.scrollY)).padStart(5, '0'); if (s !== lastXY) { lastXY = s; xy.textContent = s; } }
+      if (pick === 'd') { const s = photo ? T.pageDb() + ' dB' : 'X ' + String(Math.round(x)).padStart(4, '0') + ' · Y ' + String(Math.round(y + window.scrollY)).padStart(5, '0'); if (s !== lastXY) { lastXY = s; xy.textContent = s; } }
       if (busy && seen && !document.hidden) raf = requestAnimationFrame(step);
     };
     const PHOTO = 'picture, img, .card-media, .day-frame, [data-pano], [data-hero], #contact [data-zoom]';
