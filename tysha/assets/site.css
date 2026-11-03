@@ -43,9 +43,9 @@ input::placeholder{color:rgba(234,230,222,0.62)}
 :is(.mt-120-4){row-gap:64px!important}
 :is(.p){max-width:none!important}
 :is(.div,.div-2,.div-3,.div-5,.div-7,.grid-12,.li,.li-2,.li-3,.mt-120-2,.mt-120-3,.mt-120-4,.mt-120-5,.mt-40,.mt-40-2,.mt-80,.site-head){display:flex!important;flex-direction:column!important;gap:24px!important}
-:is(.div,.div-2,.div-3,.div-5,.div-7,.grid-12,.li,.li-2,.li-3,.mt-120-2,.mt-120-3,.mt-120-4,.mt-120-5,.mt-40,.mt-40-2,.mt-80,.site-head)>*{grid-column:auto!important;padding-left:0!important;justify-self:auto!important}
+:is(.div,.div-2,.div-3,.div-5,.div-7,.grid-12,.li,.li-2,.li-3,.mt-120-2,.mt-120-3,.mt-120-4,.mt-120-5,.mt-40,.mt-40-2,.mt-80)>*,.site-head>:not(.t-pill){grid-column:auto!important;padding-left:0!important;justify-self:auto!important}
 [data-hero]{min-height:640px!important}
-.site-head{flex-direction:row!important;flex-wrap:wrap!important;justify-content:space-between!important;row-gap:16px!important}
+.site-head{flex-direction:row!important;flex-wrap:nowrap!important;justify-content:space-between!important;align-items:flex-start!important;gap:8px!important}
 .site-head>nav{order:3;width:100%;justify-content:space-between}
 .site-head>span:nth-of-type(1){display:none!important}
 .site-head>span:last-child{text-align:right}
@@ -68,8 +68,8 @@ section[aria-label="Selected projects"] [data-float]>.split-base{flex-direction:
 :is(.img-h-780){height:auto!important;aspect-ratio:4/5}
 [data-marquee]{gap:40px!important}
 [data-pin-inner]>div:is(.div-3,.div-4,.div-5,.div-7,.stack-14,.stack-15) :is(.day-grid){column-gap:8px!important}
-button[aria-pressed]>span:last-child{display:none}
-button[aria-pressed]>span:first-child{font-size:18px!important}
+.day-btn>span:last-child{display:none}
+.day-btn>span:first-child{font-size:18px!important}
 li[data-rise]{display:grid!important;grid-template-columns:1fr 96px!important;column-gap:16px!important;row-gap:8px!important;align-items:start!important}
 li[data-rise]>*{grid-column:1/2!important;padding-left:0!important}
 li[data-rise]>span:nth-child(1){grid-row:1}
@@ -431,7 +431,7 @@ main:focus{outline:none}
 .pre-cuts{fill:#0B0B0A}
 .pre-cap{position:absolute;left:20px;right:20px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:20px;line-height:1.45;font-variant-numeric:tabular-nums}
 .pre-cap-t{top:20px}.pre-cap-b{bottom:20px;align-items:end}
-.pre-cap .u{margin-right:12px}
+.pre-cap .f{margin-right:12px}
 @media (max-width:760px){.pre-cap{grid-template-columns:minmax(0,1fr) auto;column-gap:16px;font-size:11px}.pre-cap>span:nth-child(2),.pre-cap>span:nth-child(3){display:none}}
 
 /* ---- 10. reduced motion: no movement, plain fades only ---- */
@@ -523,3 +523,135 @@ main:focus{outline:none}
   #contact [data-zoom]{top:auto;height:calc(96vw + 80px);transform-origin:50% 80%}
   #contact .bg-3{background:linear-gradient(180deg,#111110 0%,#111110 calc(100% - 96vw - 90px),rgba(11,11,10,.25) calc(100% - 96vw + 10px),rgba(11,11,10,.12) 100%)}
 }
+
+/* ---- 17. final QA pass ---- */
+/* day section: photo (and its WebGL layer) < scrim and axis < text and buttons; on wider screens the
+   photo stops above the hour buttons, bottom-aligned, so the rug and the slippers stay in every frame */
+[data-pin="400"] [data-pin-inner]>.fill:first-child{z-index:0}
+[data-pin="400"] [data-pin-inner]>:is(.bg-2,[data-axis]){z-index:1}
+[data-pin="400"] [data-pin-inner]>:is(.sec-head,.grid-12,.div-4){position:relative;z-index:2}
+@media (min-width:761px){
+  [data-pin="400"]{--day-foot:132px}
+  [data-pin="400"] [data-pin-inner]>:is(.fill:first-child,.bg-2){bottom:var(--day-foot)}
+  [data-pin="400"] .day-img{object-position:50% 100%}
+  [data-pin="400"] .bg-2{background:linear-gradient(180deg,rgba(11,11,10,.8) 0%,rgba(11,11,10,.7) 24%,rgba(11,11,10,.5) 40%,rgba(11,11,10,0) 58%,rgba(11,11,10,0) 90%,rgba(17,17,16,.5) 100%)}
+}
+
+/* dB badge: phones have no free gutter for it */
+@media (max-width:760px){.db-badge{display:none!important}}
+
+/* header buttons: real padding, one row, a sound toggle that keeps its width */
+.site-head>.t-sound{padding:0 14px}
+.t-sound-s{display:inline-block;width:3.3ch;text-align:left}
+@media (max-width:760px){.site-head>.t-sound{flex:none}.site-head>.t-menu-btn{flex:none}.site-head>.brand{flex:none;min-width:0}}
+@media (max-width:360px){.site-head .brand br,.site-head .brand .tone-2{display:none}.site-head .brand{align-self:center}}
+
+/* (inside the base layer: these override its own !important phone rules) */
+@layer base {
+/* short phones: the home hero text stays above the house */
+@media (max-width:760px) and (max-height:720px){
+  section[aria-label="Hero"] .mt-120{margin-top:20px!important;gap:14px!important}
+  section[aria-label="Hero"] .h-l{font-size:34px!important}
+  section[aria-label="Hero"] .body-l{font-size:16px!important}
+}
+/* Method hero on phones: the title first, inside the first screen, the photo below it */
+@media (max-width:760px){
+  section[aria-label="Method"] .mt-120{margin-top:20px!important}
+}
+/* the header pills sit in a .grid-12, whose phone rule zeroes the children's left padding */
+.site-head>.t-sound{padding:0 14px!important}
+.site-head>.t-menu-btn{padding:0 18px!important}
+}
+@media (max-width:760px) and (max-height:720px){section[aria-label="Hero"] .stack-3{gap:14px}}
+@media (max-width:760px){
+  section[aria-label="Method"] .h-fs-21vw{order:-1;z-index:1;margin:12px 0 0;font-size:27vw}  /* order also moves it back in painting order */
+  .mt-120-3{align-items:flex-start!important}
+}
+/* tablet and small laptop: a wider intro so it ends above the house */
+/* the intro ends above the roof: on wide, short windows the photo (fitted to the width) puts the house higher */
+@media (min-width:761px){section[aria-label="Hero"] .mt-120{margin-top:clamp(16px,calc(100svh - 40vw - 210px),120px)}}
+@media (min-width:761px) and (max-width:1439px){
+  section[aria-label="Hero"] .mt-120{margin-top:clamp(16px,calc(100svh - 40vw - 210px),88px)}
+  section[aria-label="Hero"] .mt-120>.stack-3{grid-column:6/13}
+  section[aria-label="Hero"] .mt-120>.stack-3>.p{max-width:540px}
+}
+
+/* home hero: the file names only where they fit; the photo sits so the captions fall on the water */
+@media (max-width:1279px){[data-hero] .row-7{display:none!important}}
+@media (min-width:761px){.hero-img{object-position:50% 100%}}
+
+/* contact: the lit house on the left under the heading, the form on dark ground right of the axis */
+@media (min-width:1025px){#contact [data-zoom]{left:-41.5%;right:auto;width:133%;max-width:none}}
+@media (min-width:761px) and (max-width:1024px){#contact [data-zoom]{object-position:91% 50%}}
+@media (min-width:761px){#contact .bg-3{background:linear-gradient(90deg,rgba(11,11,10,.28) 0%,rgba(11,11,10,.28) calc(20px + (100% - 40px) * 5 / 12 - 170px),rgba(11,11,10,.82) calc(20px + (100% - 40px) * 5 / 12 - 10px),rgba(11,11,10,.86) 100%)}}
+
+/* reveals: shorter clip; the "coming" tag waits for its photo */
+.rv-img.in{transition:clip-path 1.1s cubic-bezier(.65,0,.25,1),transform 1.4s var(--ez)}
+.card-soon-tag{transition:opacity .5s ease .55s}
+.card-media:has(img.rv-img:not(.in)) .card-soon-tag{opacity:0;transition:none}
+
+/* tablet: projects in two columns split at the axis (5 : 7), so the line runs in the gutter */
+@media (min-width:761px) and (max-width:1024px){
+  #projects .mt-80{grid-template-columns:minmax(0,5fr) minmax(0,7fr);row-gap:80px;align-items:start}
+  #projects .mt-80>*{grid-column:auto!important;margin-top:0!important}
+  #projects .mt-80>:nth-child(even){margin-top:120px!important}
+  #projects .img-h-780{height:auto;aspect-ratio:4/5}
+  #projects .split-base{flex-direction:column;align-items:flex-start;gap:6px}
+  /* process / plan thumbnails would be ~20px tall here */
+  :is(.ol,.ol-2)>li>picture>img{display:none}
+  /* footer: two columns on the same 5 : 7 split */
+  footer .div-2{grid-template-columns:minmax(0,5fr) minmax(0,7fr);row-gap:28px}
+  footer .div-2>div{grid-column:auto!important;padding-left:0!important;text-align:left!important}
+  footer .mt-120-2{grid-template-columns:minmax(0,5fr) minmax(0,7fr);row-gap:24px;align-items:end}
+  footer .mt-120-2>a{grid-column:1/-1!important}
+  footer .mt-120-2>span{grid-column:2/3!important;text-align:left!important}
+}
+.foot-tel .label{margin-left:6px}
+
+/* keep the second sentence of a two-part line together */
+@media (min-width:761px){.nw{white-space:nowrap}}
+
+/* large screens: type grows with the window, gaps tighten */
+@media (min-width:1101px){
+  .h-xl{font-size:clamp(72px,calc(26px + 3.2vw),104px)}
+  .h-l{font-size:clamp(56px,calc(20px + 2.5vw),80px)}
+  .num-xl{font-size:clamp(160px,calc(64px + 6.67vw),208px)}
+  .quote{font-size:clamp(40px,calc(16px + 1.67vw),52px)}
+  .h-m{font-size:clamp(40px,calc(16px + 1.67vw),50px)}
+  .body-l{font-size:clamp(20px,calc(14px + .42vw),23px)}
+  .display{font-size:clamp(48px,6.6vw,132px)}
+}
+@media (min-width:1600px){
+  :is(.mt-120,.mt-120-2,.mt-120-3,.mt-120-5,.p-3,.p-4){margin-top:96px}
+  :is(.sec-ink,.sec-paper,.sec-paper-rule,.sec-sand){padding-bottom:104px}
+}
+
+/* project page: the case ends with a way on */
+.case-cta{display:inline-block;align-self:end}
+.case-cta:hover{color:#C2AE8E}
+
+/* cards: on a mouse with motion, the cursor says "View"; the in-card label stays for touch and keyboard */
+@media (pointer:fine) and (prefers-reduced-motion:no-preference){.card:not(:focus-visible) .card-cta{display:none}}
+
+/* page transitions: the old page leaves before the new one arrives, so two titles never overlap */
+::view-transition-old(root){animation:t-vt-out .26s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:t-vt-in .45s cubic-bezier(.2,.7,.2,1) .26s both}
+@media (prefers-reduced-motion:reduce){
+  ::view-transition-old(root){animation:t-vt-fade .2s linear both!important}
+  ::view-transition-new(root){animation:t-vt-fade .2s linear .2s reverse both!important}
+}
+@keyframes t-vt-fade{to{opacity:0}}
+
+/* text over photos: every line at least 4.5:1 (3:1 for large type) against the brightest part behind it */
+[data-pin="400"] :is(h2,.span-2,.fs-12){text-shadow:0 0 18px rgba(11,11,10,.55)}
+@media (min-width:761px){
+  .shade-hero{background:linear-gradient(180deg,rgba(11,11,10,.66) 0%,rgba(11,11,10,.5) 24%,rgba(11,11,10,.12) 40%,rgba(11,11,10,.06) 52%,rgba(11,11,10,.42) 60%,rgba(11,11,10,.8) 100%)}
+  [data-hero] :is(h1,.body-l,.label){text-shadow:0 0 16px rgba(11,11,10,.6)}
+  .bg-4{background:linear-gradient(180deg,rgba(11,11,10,.6) 0%,rgba(11,11,10,.1) 30%,rgba(11,11,10,.22) 50%,rgba(11,11,10,.72) 70%,rgba(11,11,10,.86) 100%)}
+}
+@media (max-width:760px){
+  .shade-hero{background:linear-gradient(180deg,rgba(11,11,10,.78) 0%,rgba(11,11,10,.72) 38%,rgba(11,11,10,0) 46%,rgba(11,11,10,0) 56%,rgba(11,11,10,.78) 70%,rgba(11,11,10,.86) 100%)}
+  .bg-6{background:linear-gradient(180deg,rgba(17,17,16,.88) 0%,rgba(17,17,16,.8) 32%,rgba(17,17,16,0) 50%,rgba(17,17,16,0) 72%,rgba(17,17,16,.55) 100%)}
+  .bg-4{background:linear-gradient(180deg,rgba(11,11,10,.74) 0%,rgba(11,11,10,.68) 36%,rgba(11,11,10,.45) 42%,rgba(11,11,10,0) 48%,rgba(11,11,10,0) 66%,rgba(17,17,16,.85) 82%,rgba(17,17,16,.9) 100%)}
+}
+.link-line-end,.link-line-dark-end{white-space:nowrap}

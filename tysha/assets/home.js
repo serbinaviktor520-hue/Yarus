@@ -21,7 +21,7 @@
     const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); loadDays(); } }, { rootMargin: '150% 0px' });
     io.observe(daySec);
   } else loadDays();
-  T.day = 0;
+  T.day = 0; T.dayDb = DAYS[0][1];
   // the big dB number counts to its new value instead of jumping
   const dayDb = q("#day-db"); let dbNow = DAYS[0][1], dbRaf = 0;
   const countTo = (to) => {
@@ -36,7 +36,7 @@
     dbRaf = requestAnimationFrame(step);
   };
   T.setDay = (i) => {
-    T.day = i;
+    T.day = i; T.dayDb = DAYS[i][1];
     dayImgs.forEach((im) => { const on = +im.dataset.dayImg === i; im.classList.toggle('on', on); im.alt = on ? DAYS[i][2] : ''; });
     dayBtns.forEach((bt) => bt.setAttribute('aria-pressed', String(+bt.dataset.dayBtn === i)));
     countTo(DAYS[i][1]);
@@ -82,8 +82,8 @@
     + SLABS.map((s) => '<g class="pre-slab">' + s + '</g>').join('')
     + '<g class="pre-cuts">' + CUTS.map(([s, o]) => s.replace('/>', ' style="transform-origin:' + o + '"/>')).join('') + '</g></g>'
     + '<use class="pre-final" href="#l-wm"/></svg>'
-    + '<div class="pre-cap pre-cap-t label"><span>Tysha Architecture<br><span class="tone-5">Lviv — Warsaw</span></span><span>Architecture of silence<br><span class="tone-5">Est. 2014</span></span><span>Private houses<br><span class="tone-5">2 — 8 homes, 6 a year</span></span><span class="ta-r">Now: <span data-pre-db>68</span> dB<br><span class="tone-5">Turning the city down</span></span></div>'
-    + '<div class="pre-cap pre-cap-b label"><span>We design homes where<br>the loudest thing is the rain.</span><span class="tone-5">49.8397° N<br>24.0297° E</span><span class="case-none"><span class="u">LULL_HOUSE.JPG</span> <span class="u">PINE_COURT.JPG</span> <span class="u">HOLLOW.JPG</span></span><span class="ta-r">Loading quiet<br><span data-pre-pct>000</span> / 100</span></div>';
+    + '<div class="pre-cap pre-cap-t label"><span>Tysha Architecture<br><span class="tone-5">Lviv — Warsaw</span></span><span>Architecture of silence<br><span class="tone-5">Est. 2014</span></span><span>Private houses<br><span class="tone-5">38 built, 6 a year</span></span><span class="ta-r">Now: <span data-pre-db>68</span> dB<br><span class="tone-5">Turning the city down</span></span></div>'
+    + '<div class="pre-cap pre-cap-b label"><span>We design homes where<br>the loudest thing is the rain.</span><span class="tone-5">49.8397° N<br>24.0297° E</span><span class="case-none"><span class="f">LULL_HOUSE.JPG</span> <span class="f">PINE_COURT.JPG</span> <span class="f">HOLLOW.JPG</span></span><span class="ta-r">Loading quiet<br><span data-pre-pct>000</span> / 100</span></div>';
   document.body.appendChild(pre);
   root.inert = true; de.style.overflow = 'hidden';
 
