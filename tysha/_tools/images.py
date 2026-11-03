@@ -1,0 +1,177 @@
+#!/usr/bin/env python3
+"""TYSHA image pipeline: source photos -> responsive AVIF / WebP / JPEG + <picture> markup.
+
+    python3 tysha/_tools/images.py            # from the repo root (or anywhere)
+    python3 tysha/_tools/images.py --force    # re-encode everything
+
+1. Every tysha/img/src/<name>.jpg (or .jpeg/.png) is encoded to tysha/img/<name>-<width>.{avif,webp,jpg}
+   at 480 / 960 / 1600 / 2560 px wide (AVIF and WebP), never upscaled; when the source is wider
+   than the last step that fits, its own width is added so the sharpest version is kept. One JPEG
+   (the largest width up to 1600) is the fallback for browsers without AVIF/WebP. Files are only
+   re-encoded when the source is newer; outputs for widths that no longer apply are deleted.
+2. Every page is rewritten: a plain <img src="img/<name>.jpg"> becomes a <picture>, and an
+   existing <picture data-img="<name>"> is refreshed (srcset, width/height). Attributes you set on
+   the <img> (class, alt, sizes, data-*, loading) are kept.
+     - images marked data-hero-img load eagerly with fetchpriority="high" and get a
+       <link rel="preload"> in the page head;
+     - images marked data-defer get data-srcset only (site JS loads them when needed);
+     - everything else gets loading="lazy" decoding="async".
+3. The footer wordmark (<svg><image>) points at the 1600 px JPEG of its photo, and
+   img/og.jpg (1200x630, for social cards) is cut from the home hero photo.
+
+To swap photos: drop the new files into tysha/img/src/ under the same names and run the script.
+"""
+import html, os, re, sys
+from PIL import Image, ImageOps
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+SITE = os.path.normpath(os.path.join(HERE, '..'))
+SRC = os.path.join(SITE, 'img', 'src')
+OUT = os.path.join(SITE, 'img')
+PAGES = {'index.html': '', 'project/index.html': '../', 'method/index.html': '../', 'privacy/index.html': '../', '404/index.html': ''}
+WIDTHS = [480, 960, 1600, 2560]
+FMT = {'avif': dict(format='AVIF', quality=52, speed=6), 'webp': dict(format='WEBP', quality=78, method=6), 'jpg': dict(format='JPEG', quality=80, progressive=True, optimize=True)}
+OG_FROM, OG_FOCUS_Y = 'h08', 0.30
+PLACEHOLDER = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='
+FORCE = '--force' in sys.argv
+
+
+def widths_for(w):
+    ws = [x for x in WIDTHS if x <= w]
+    if not ws or max(ws) < 0.9 * w:
+        ws.append(w)
+    return ws
+
+
+def jpg_width(ws):
+    return max([w for w in ws if w <= 1600] or [ws[0]])
+
+
+def encode():
+    manifest = {}
+    for f in sorted(os.listdir(SRC)):
+        name, ext = os.path.splitext(f)
+        if ext.lower() not in ('.jpg', '.jpeg', '.png'):
+            continue
+        src = os.path.join(SRC, f)
+        im = ImageOps.exif_transpose(Image.open(src)).convert('RGB')
+        ws = widths_for(im.width)
+        manifest[name] = {'w': im.width, 'h': im.height, 'widths': ws}
+        fb = jpg_width(ws)
+        for w in ws:
+            small = im if w == im.width else im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)
+            for e, opts in FMT.items():
+                if e == 'jpg' and w != fb:
+                    continue
+                dst = os.path.join(OUT, f'{name}-{w}.{e}')
+                if FORCE or not os.path.exists(dst) or os.path.getmtime(dst) < os.path.getmtime(src):
+                    small.save(dst, **opts)
+        # drop outputs for widths that no longer apply
+        for g in os.listdir(OUT):
+            m = re.fullmatch(re.escape(name) + r'-(\d+)\.(avif|webp|jpg)', g)
+            if m and (int(m.group(1)) not in ws or (m.group(2) == 'jpg' and int(m.group(1)) != fb)):
+                os.remove(os.path.join(OUT, g))
+        print(f'{name}: {im.width}x{im.height} -> {ws}')
+    return manifest
+
+
+def og(manifest):
+    src = next(os.path.join(SRC, f) for f in os.listdir(SRC) if os.path.splitext(f)[0] == OG_FROM)
+    im = ImageOps.exif_transpose(Image.open(src)).convert('RGB')
+    W, H = 1200, 630
+    s = max(W / im.width, H / im.height)
+    r = im.resize((round(im.width * s), round(im.height * s)), Image.LANCZOS)
+    top = min(max(0, round(r.height * OG_FOCUS_Y - H / 2)), r.height - H)
+    left = (r.width - W) // 2
+    r.crop((left, top, left + W, top + H)).save(os.path.join(OUT, 'og.jpg'), quality=82, progressive=True, optimize=True)
+
+
+def _attrs(tag):
+    out = []
+    for m in re.finditer(r'([\w:-]+)(?:="([^"]*)")?', tag[len('<img'):-1]):
+        out.append((m.group(1), m.group(2)))
+    return out
+
+
+def picture(name, img_attrs, prefix, man):
+    info = man[name]
+    ws = info['widths']
+    a = [(k, v) for k, v in img_attrs if k not in ('src', 'srcset', 'width', 'height', 'data-srcset', 'data-src', 'fetchpriority', 'decoding')]
+    keys = [k for k, _ in a]
+    sizes = dict(a).get('sizes') or '100vw'
+    a = [(k, v) for k, v in a if k != 'sizes']
+    keys = [k for k, _ in a]
+    hero, defer = 'data-hero-img' in keys, 'data-defer' in keys
+    if hero:
+        a = [(k, v) for k, v in a if k != 'loading']
+    elif 'loading' not in keys and not defer:
+        a.append(('loading', 'lazy'))
+    ss = lambda e: ', '.join(f'{prefix}img/{name}-{w}.{e} {w}w' for w in ws)
+    fallback = jpg_width(ws)
+    sattr = 'data-srcset' if defer else 'srcset'
+    parts = [f'<picture data-img="{name}">',
+             f'<source type="image/avif" {sattr}="{ss("avif")}" sizes="{sizes}">',
+             f'<source type="image/webp" {sattr}="{ss("webp")}" sizes="{sizes}">']
+    tag = ['<img']
+    if defer:
+        tag.append(f'src="{PLACEHOLDER}" data-src="{prefix}img/{name}-{fallback}.jpg"')
+    else:
+        tag.append(f'src="{prefix}img/{name}-{fallback}.jpg"')
+    tag.append(f'width="{info["w"]}" height="{info["h"]}"')
+    for k, v in a:
+        tag.append(k if v is None else f'{k}="{v}"')
+    tag.append('fetchpriority="high"' if hero else 'decoding="async"')
+    parts.append(' '.join(tag) + '>')
+    parts.append('</picture>')
+    return ''.join(parts)
+
+
+def rewrite(man):
+    for page, prefix in PAGES.items():
+        path = os.path.join(SITE, page)
+        t = open(path, encoding='utf-8').read()
+        imgrx = r'<img\b[^>]*>'
+
+        def name_from(tag):
+            m = re.search(r'\b(?:data-)?src="(?:\.\./)?img/([\w-]+?)(?:-\d+)?\.(?:jpg|jpeg|png)"', tag)
+            return m.group(1) if m and m.group(1) in man else None
+
+        # refresh existing pictures
+        def refresh(m):
+            name = m.group(1)
+            img = re.search(imgrx, m.group(0)).group(0)
+            at = _attrs(img)
+            sz = re.search(r'<source[^>]*\bsizes="([^"]*)"', m.group(0))
+            if sz and 'sizes' not in dict(at):
+                at.append(('sizes', sz.group(1)))
+            return picture(name, at, prefix, man) if name in man else m.group(0)
+        t = re.sub(r'<picture data-img="([\w-]+)">.*?</picture>', refresh, t, flags=re.S)
+        # convert plain images (outside pictures and scripts)
+        out, pos = [], 0
+        for m in re.finditer(r'<picture\b.*?</picture>|<script\b.*?</script>|' + imgrx, t, flags=re.S):
+            out.append(t[pos:m.start()]); pos = m.end(); s = m.group(0)
+            if s.startswith('<img'):
+                n = name_from(s)
+                s = picture(n, _attrs(s), prefix, man) if n else s
+            out.append(s)
+        out.append(t[pos:]); t = ''.join(out)
+        # footer wordmark photo
+        t = re.sub(r'(<image\b[^>]*\bhref=")(?:\.\./)?img/([\w-]+?)(?:-\d+)?\.jpg"',
+                   lambda m: f'{m.group(1)}{prefix}img/{m.group(2)}-{jpg_width(man[m.group(2)]["widths"])}.jpg"' if m.group(2) in man else m.group(0), t)
+        # preload the hero image
+        t = re.sub(r'<link rel="preload" as="image"[^>]*data-img-preload[^>]*>\n', '', t)
+        hm = re.search(r'<picture data-img="([\w-]+)">(?:(?!</picture>).)*data-hero-img', t, flags=re.S)
+        if hm:
+            name = hm.group(1); ws = man[name]['widths']
+            sizes = re.search(r'sizes="([^"]*)"', hm.group(0)).group(1)
+            link = (f'<link rel="preload" as="image" type="image/avif" fetchpriority="high" imagesrcset="'
+                    + ', '.join(f'{prefix}img/{name}-{w}.avif {w}w' for w in ws) + f'" imagesizes="{sizes}" data-img-preload>\n')
+            t = t.replace('<link rel="stylesheet"', link + '<link rel="stylesheet"', 1)
+        open(path, 'w', encoding='utf-8').write(t)
+        print('rewrote', page)
+
+
+if __name__ == '__main__':
+    man = encode()
+    og(man)
+    rewrite(man)

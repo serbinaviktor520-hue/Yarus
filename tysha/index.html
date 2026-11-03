@@ -13,6 +13,7 @@
 <link rel="preload" href="assets/fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/geist-mono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" type="image/avif" fetchpriority="high" imagesrcset="img/h08-480.avif 480w, img/h08-960.avif 960w, img/h08-1600.avif 1600w" imagesizes="100vw" data-img-preload>
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body data-preloader>
@@ -65,7 +66,7 @@
 <main id="main" tabindex="-1">
 <!-- 01 HERO -->
 <section data-hero data-noreveal aria-label="Hero" class="stack-h-900">
-<img data-hero-img src="img/h08.jpg" alt="A travertine house on a still lake at sunset, two people sitting on the stone steps" class="fill cover hero-img">
+<picture data-img="h08"><source type="image/avif" srcset="img/h08-480.avif 480w, img/h08-960.avif 960w, img/h08-1600.avif 1600w" sizes="100vw"><source type="image/webp" srcset="img/h08-480.webp 480w, img/h08-960.webp 960w, img/h08-1600.webp 1600w" sizes="100vw"><img src="img/h08-1600.jpg" width="1672" height="941" data-hero-img alt="A travertine house on a still lake at sunset, two people sitting on the stone steps" class="fill cover hero-img" fetchpriority="high"></picture>
 <div aria-hidden="true" class="fill shade-hero"></div>
 <div data-axis aria-hidden="true" class="axis axis-light"></div>
 
@@ -92,7 +93,7 @@
 <div data-pin-inner class="stack-5">
 <div data-axis aria-hidden="true" class="axis axis-tan"></div>
 <div class="label sec-head"><span>02 / 11 · Statement</span><span>62 dB</span></div>
-<p data-st-fade class="display p-4 serif">We don't build <img data-st-pill src="img/g16.jpg" alt="A stone house in a misty beech forest" class="pill-img"> far from the city. We build <img src="img/h02.jpg" alt="Layers of a rammed earth wall" class="pill-img-s"> far from the <img src="img/g04.jpg" alt="An empty road disappearing into misty hills" class="pill-img-m"> noise.</p>
+<p data-st-fade class="display p-4 serif">We don't build <picture data-img="g16"><source type="image/avif" srcset="img/g16-480.avif 480w, img/g16-960.avif 960w, img/g16-1122.avif 1122w" sizes="(max-width: 760px) 25vw, 14vw"><source type="image/webp" srcset="img/g16-480.webp 480w, img/g16-960.webp 960w, img/g16-1122.webp 1122w" sizes="(max-width: 760px) 25vw, 14vw"><img src="img/g16-1122.jpg" width="1122" height="1402" data-st-pill alt="A stone house in a misty beech forest" class="pill-img" loading="lazy" decoding="async"></picture> far from the city. We build <picture data-img="h02"><source type="image/avif" srcset="img/h02-480.avif 480w, img/h02-960.avif 960w, img/h02-1536.avif 1536w" sizes="(max-width: 760px) 19vw, 11vw"><source type="image/webp" srcset="img/h02-480.webp 480w, img/h02-960.webp 960w, img/h02-1536.webp 1536w" sizes="(max-width: 760px) 19vw, 11vw"><img src="img/h02-1536.jpg" width="1536" height="1024" alt="Layers of a rammed earth wall" class="pill-img-s" loading="lazy" decoding="async"></picture> far from the <picture data-img="g04"><source type="image/avif" srcset="img/g04-480.avif 480w, img/g04-960.avif 960w, img/g04-1536.avif 1536w" sizes="(max-width: 760px) 23vw, 13vw"><source type="image/webp" srcset="img/g04-480.webp 480w, img/g04-960.webp 960w, img/g04-1536.webp 1536w" sizes="(max-width: 760px) 23vw, 13vw"><img src="img/g04-1536.jpg" width="1536" height="1024" alt="An empty road disappearing into misty hills" class="pill-img-m" loading="lazy" decoding="async"></picture> noise.</p>
 <div data-st-fade class="grid-12 div-3">
 <div aria-hidden="true" class="col-1-13 div-6"></div>
 <span class="col-1-4 label lh-145">Silence is not a location<br><span class="tone-4">It is a decision</span></span>
@@ -100,7 +101,7 @@
 <a href="#statement" class="col-11-13 mono u fs-12-5">STATEMENT.TXT</a>
 </div>
 <div data-st-layer data-noscramble aria-hidden="true" class="fill st-layer">
-<img data-st-layer-img src="img/g16.jpg" alt="" class="fill cover img-2">
+<picture data-img="g16"><source type="image/avif" srcset="img/g16-480.avif 480w, img/g16-960.avif 960w, img/g16-1122.avif 1122w" sizes="100vw"><source type="image/webp" srcset="img/g16-480.webp 480w, img/g16-960.webp 960w, img/g16-1122.webp 1122w" sizes="100vw"><img src="img/g16-1122.jpg" width="1122" height="1402" data-st-layer-img alt="" class="fill cover img-2" loading="lazy" decoding="async"></picture>
 <div class="fill bg"></div>
 <div data-st-over class="st-over">
 <div class="label split"><span>02 / 11 · Lull House, forest edge</span><span>62 → 55 dB</span></div>
@@ -128,7 +129,7 @@
 <div data-rise class="row-9"><span data-count="25" data-from="70" class="num-xl lh-09">25<span class="mono fs-12-6">dB</span></span><span class="mono fs-12-2">A TYSHA bedroom<br><span class="tone-4">Written in the contract</span></span></div>
 </div>
 <figure class="col-10-13 stack-7">
-<img src="img/h01.jpg" alt="A long travertine corridor with a single figure in black at the far end" class="cover img-h-560">
+<picture data-img="h01"><source type="image/avif" srcset="img/h01-480.avif 480w, img/h01-960.avif 960w, img/h01-1122.avif 1122w" sizes="(max-width: 760px) 90vw, 24vw"><source type="image/webp" srcset="img/h01-480.webp 480w, img/h01-960.webp 960w, img/h01-1122.webp 1122w" sizes="(max-width: 760px) 90vw, 24vw"><img src="img/h01-1122.jpg" width="1122" height="1402" alt="A long travertine corridor with a single figure in black at the far end" class="cover img-h-560" loading="lazy" decoding="async"></picture>
 <figcaption class="mono fs-12-row"><span class="u">CORRIDOR.JPG</span><span>21 dB</span></figcaption>
 </figure>
 </div>
@@ -144,25 +145,25 @@
 </div>
 <div class="grid-4-mt-80">
 <article data-float="40" class="stack-16">
-<img src="img/g07.jpg" alt="A sound meter on a tripod in a sunlit forest clearing, seen from above" class="cover ar-45">
+<picture data-img="g07"><source type="image/avif" srcset="img/g07-480.avif 480w, img/g07-960.avif 960w, img/g07-1122.avif 1122w" sizes="(max-width: 760px) 72vw, 24vw"><source type="image/webp" srcset="img/g07-480.webp 480w, img/g07-960.webp 960w, img/g07-1122.webp 1122w" sizes="(max-width: 760px) 72vw, 24vw"><img src="img/g07-1122.jpg" width="1122" height="1402" alt="A sound meter on a tripod in a sunlit forest clearing, seen from above" class="cover ar-45" loading="lazy" decoding="async"></picture>
 <div class="mono fs-12-row"><span>01</span><span class="u">LAND.JPG</span></div>
 <h3 class="h-s m-0">Land</h3>
 <p class="body tone-2 m-0">We find quiet before you buy it. Every plot gets a seven-day silence audit: mornings, nights, weekends.</p>
 </article>
 <article data-float="120" class="stack-mt-80">
-<img src="img/h04.jpg" alt="Aerial view of an L-shaped travertine house around a courtyard with one pine" class="cover ar-45">
+<picture data-img="h04"><source type="image/avif" srcset="img/h04-480.avif 480w, img/h04-960.avif 960w, img/h04-1122.avif 1122w" sizes="(max-width: 760px) 72vw, 24vw"><source type="image/webp" srcset="img/h04-480.webp 480w, img/h04-960.webp 960w, img/h04-1122.webp 1122w" sizes="(max-width: 760px) 72vw, 24vw"><img src="img/h04-1122.jpg" width="1122" height="1402" alt="Aerial view of an L-shaped travertine house around a courtyard with one pine" class="cover ar-45" loading="lazy" decoding="async"></picture>
 <div class="mono fs-12-row"><span>02</span><span class="u">FORM.JPG</span></div>
 <h3 class="h-s m-0">Form</h3>
 <p class="body tone-2 m-0">The house turns its back to the road. Courtyards, folds and deep walls stop sound before it reaches you.</p>
 </article>
 <article data-float="200" class="stack-mt-160">
-<img src="img/h05.jpg" alt="A rammed earth block, a larch board, raw wool and a stone on a travertine shelf" class="cover ar-45">
+<picture data-img="h05"><source type="image/avif" srcset="img/h05-480.avif 480w, img/h05-960.avif 960w, img/h05-1122.avif 1122w" sizes="(max-width: 760px) 72vw, 24vw"><source type="image/webp" srcset="img/h05-480.webp 480w, img/h05-960.webp 960w, img/h05-1122.webp 1122w" sizes="(max-width: 760px) 72vw, 24vw"><img src="img/h05-1122.jpg" width="1122" height="1402" alt="A rammed earth block, a larch board, raw wool and a stone on a travertine shelf" class="cover ar-45" loading="lazy" decoding="async"></picture>
 <div class="mono fs-12-row"><span>03</span><span class="u">MATTER.JPG</span></div>
 <h3 class="h-s m-0">Matter</h3>
 <p class="body tone-2 m-0">Rammed earth, timber, stone, wool. Materials that absorb, not echo.</p>
 </article>
 <article data-float="280" class="stack-mt-240">
-<img src="img/g11.jpg" alt="A bedroom of rammed earth with one narrow vertical window to a pine forest" class="cover ar-45">
+<picture data-img="g11"><source type="image/avif" srcset="img/g11-480.avif 480w, img/g11-960.avif 960w, img/g11-1122.avif 1122w" sizes="(max-width: 760px) 72vw, 24vw"><source type="image/webp" srcset="img/g11-480.webp 480w, img/g11-960.webp 960w, img/g11-1122.webp 1122w" sizes="(max-width: 760px) 72vw, 24vw"><img src="img/g11-1122.jpg" width="1122" height="1402" alt="A bedroom of rammed earth with one narrow vertical window to a pine forest" class="cover ar-45" loading="lazy" decoding="async"></picture>
 <div class="mono fs-12-row"><span>04</span><span class="u">RHYTHM.JPG</span></div>
 <h3 class="h-s m-0">Rhythm</h3>
 <p class="body tone-2 m-0">Bedrooms deep inside, the kitchen facing morning light, one quiet room in every home.</p>
@@ -188,7 +189,7 @@
 </div>
 </div>
 <figure data-pano data-noreveal class="h-680">
-<img data-pano-img src="img/g06.jpg" alt="A woman in a cream coat walking along a stone path from the house towards the valley, a road far below" class="cover img">
+<picture data-img="g06"><source type="image/avif" srcset="img/g06-480.avif 480w, img/g06-960.avif 960w, img/g06-1600.avif 1600w, img/g06-1800.avif 1800w" sizes="100vw"><source type="image/webp" srcset="img/g06-480.webp 480w, img/g06-960.webp 960w, img/g06-1600.webp 1600w, img/g06-1800.webp 1800w" sizes="100vw"><img src="img/g06-1600.jpg" width="1800" height="773" data-pano-img alt="A woman in a cream coat walking along a stone path from the house towards the valley, a road far below" class="cover img" loading="lazy" decoding="async"></picture>
 <figcaption class="label row-abs"><span>The road is there. You just can't hear it.</span><span class="u case-none">PATH_TO_VALLEY.JPG</span></figcaption>
 </figure>
 </section>
@@ -203,22 +204,22 @@
 </div>
 <div class="grid-12 mt-80">
 <a href="project/" data-float="60" class="col-1-7 stack-16 card">
-<div class="card-media"><img src="img/g16.jpg" alt="Lull House, a timber and rammed earth house among beech trees in morning mist" class="cover img-h-780"><span class="card-cta label" data-noscramble aria-hidden="true">View case →</span></div>
+<div class="card-media"><picture data-img="g16"><source type="image/avif" srcset="img/g16-480.avif 480w, img/g16-960.avif 960w, img/g16-1122.avif 1122w" sizes="(max-width: 760px) 90vw, 48vw"><source type="image/webp" srcset="img/g16-480.webp 480w, img/g16-960.webp 960w, img/g16-1122.webp 1122w" sizes="(max-width: 760px) 90vw, 48vw"><img src="img/g16-1122.jpg" width="1122" height="1402" alt="Lull House, a timber and rammed earth house among beech trees in morning mist" class="cover img-h-780" loading="lazy" decoding="async"></picture><span class="card-cta label" data-noscramble aria-hidden="true">View case →</span></div>
 <div class="split-base"><span data-scramble class="h-s">Lull House</span><span class="mono fs-12">23 dB inside · 25 min to Lviv</span></div>
 <span class="mono tone-6 fs-12">Carpathian foothills · 2025 · 240 m²</span>
 </a>
 <article data-float="200" class="col-8-12 stack-mt-240 card-soon">
-<div class="card-media"><img src="img/g01.jpg" alt="Pine Court, low stone houses among tall pines with a woman sitting on the steps" class="cover ar-45"><span class="card-soon-tag label">Case · Coming 2027</span></div>
+<div class="card-media"><picture data-img="g01"><source type="image/avif" srcset="img/g01-480.avif 480w, img/g01-960.avif 960w, img/g01-1122.avif 1122w" sizes="(max-width: 760px) 74vw, 32vw"><source type="image/webp" srcset="img/g01-480.webp 480w, img/g01-960.webp 960w, img/g01-1122.webp 1122w" sizes="(max-width: 760px) 74vw, 32vw"><img src="img/g01-1122.jpg" width="1122" height="1402" alt="Pine Court, low stone houses among tall pines with a woman sitting on the steps" class="cover ar-45" loading="lazy" decoding="async"></picture><span class="card-soon-tag label">Case · Coming 2027</span></div>
 <div class="split-base"><span data-scramble class="h-s">Pine Court</span><span class="mono fs-12">26 dB · 20 min</span></div>
 <span class="mono tone-6 fs-12">Six houses near Lviv · 2024 · 6 × 180 m²</span>
 </article>
 <article data-float="120" class="col-3-7 stack-16 card-soon">
-<div class="card-media"><img src="img/h00.jpg" alt="Hollow Retreat, a travertine house cantilevered over a lake, a woman on the glass balcony" class="cover ar-45"><span class="card-soon-tag label">Case · Coming 2027</span></div>
+<div class="card-media"><picture data-img="h00"><source type="image/avif" srcset="img/h00-480.avif 480w, img/h00-960.avif 960w, img/h00-1122.avif 1122w" sizes="(max-width: 760px) 74vw, 32vw"><source type="image/webp" srcset="img/h00-480.webp 480w, img/h00-960.webp 960w, img/h00-1122.webp 1122w" sizes="(max-width: 760px) 74vw, 32vw"><img src="img/h00-1122.jpg" width="1122" height="1402" alt="Hollow Retreat, a travertine house cantilevered over a lake, a woman on the glass balcony" class="cover ar-45" loading="lazy" decoding="async"></picture><span class="card-soon-tag label">Case · Coming 2027</span></div>
 <div class="split-base"><span data-scramble class="h-s">Hollow Retreat</span><span class="mono fs-12">22 dB · 30 min</span></div>
 <span class="mono tone-6 fs-12">Lake shore, Masuria · 2023 · 160 m²</span>
 </article>
 <article data-float="260" class="col-9-13 stack-mt-160 card-soon">
-<div class="card-media"><img src="img/g13.jpg" alt="Stone Breath, a rammed earth house under construction among vineyards" class="cover ar-45"><span class="card-soon-tag label">Case · Coming 2027</span></div>
+<div class="card-media"><picture data-img="g13"><source type="image/avif" srcset="img/g13-480.avif 480w, img/g13-960.avif 960w, img/g13-1122.avif 1122w" sizes="(max-width: 760px) 74vw, 32vw"><source type="image/webp" srcset="img/g13-480.webp 480w, img/g13-960.webp 960w, img/g13-1122.webp 1122w" sizes="(max-width: 760px) 74vw, 32vw"><img src="img/g13-1122.jpg" width="1122" height="1402" alt="Stone Breath, a rammed earth house under construction among vineyards" class="cover ar-45" loading="lazy" decoding="async"></picture><span class="card-soon-tag label">Case · Coming 2027</span></div>
 <div class="split-base"><span data-scramble class="h-s">Stone Breath</span><span class="mono fs-12">In progress</span></div>
 <span class="mono tone-6 fs-12">Vineyard house, Transcarpathia · 2026</span>
 </article>
@@ -236,11 +237,11 @@
 <section data-pin="460" data-noreveal aria-label="A day at Lull House, measured" class="bg-c-2">
 <div data-pin-inner class="stack-h-920">
 <div class="fill">
-<img data-day-img="0" src="img/g15.jpg" alt="The living room at blue dawn, forest outside the long window" class="fill cover day-img on">
-<img data-day-img="1" src="img/h03.jpg" alt="" class="fill cover day-img">
-<img data-day-img="2" src="img/g14.jpg" alt="" class="fill cover day-img">
-<img data-day-img="3" src="img/h06.jpg" alt="" class="fill cover day-img">
-<img data-day-img="4" src="img/h09.jpg" alt="" class="fill cover day-img">
+<picture data-img="g15"><source type="image/avif" srcset="img/g15-480.avif 480w, img/g15-960.avif 960w, img/g15-1122.avif 1122w" sizes="100vw"><source type="image/webp" srcset="img/g15-480.webp 480w, img/g15-960.webp 960w, img/g15-1122.webp 1122w" sizes="100vw"><img src="img/g15-1122.jpg" width="1122" height="1402" data-day-img="0" alt="The living room at blue dawn, forest outside the long window" class="fill cover day-img on" loading="lazy" decoding="async"></picture>
+<picture data-img="h03"><source type="image/avif" data-srcset="img/h03-480.avif 480w, img/h03-960.avif 960w, img/h03-1122.avif 1122w" sizes="100vw"><source type="image/webp" data-srcset="img/h03-480.webp 480w, img/h03-960.webp 960w, img/h03-1122.webp 1122w" sizes="100vw"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="img/h03-1122.jpg" width="1122" height="1402" data-defer data-day-img="1" alt="" class="fill cover day-img" decoding="async"></picture>
+<picture data-img="g14"><source type="image/avif" data-srcset="img/g14-480.avif 480w, img/g14-960.avif 960w, img/g14-1122.avif 1122w" sizes="100vw"><source type="image/webp" data-srcset="img/g14-480.webp 480w, img/g14-960.webp 960w, img/g14-1122.webp 1122w" sizes="100vw"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="img/g14-1122.jpg" width="1122" height="1402" data-defer data-day-img="2" alt="" class="fill cover day-img" decoding="async"></picture>
+<picture data-img="h06"><source type="image/avif" data-srcset="img/h06-480.avif 480w, img/h06-960.avif 960w, img/h06-1122.avif 1122w" sizes="100vw"><source type="image/webp" data-srcset="img/h06-480.webp 480w, img/h06-960.webp 960w, img/h06-1122.webp 1122w" sizes="100vw"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="img/h06-1122.jpg" width="1122" height="1402" data-defer data-day-img="3" alt="" class="fill cover day-img" decoding="async"></picture>
+<picture data-img="h09"><source type="image/avif" data-srcset="img/h09-480.avif 480w, img/h09-960.avif 960w, img/h09-1122.avif 1122w" sizes="100vw"><source type="image/webp" data-srcset="img/h09-480.webp 480w, img/h09-960.webp 960w, img/h09-1122.webp 1122w" sizes="100vw"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="img/h09-1122.jpg" width="1122" height="1402" data-defer data-day-img="4" alt="" class="fill cover day-img" decoding="async"></picture>
 
 </div>
 <div aria-hidden="true" class="fill bg-2"></div>
@@ -296,35 +297,35 @@
 <span class="col-2-6 h-m serif">Silence audit</span>
 <span class="col-6-10 body pl-20">Sound meters on the plot, day and night. You get a sound map and an honest answer.</span>
 <span class="col-10-12 mono fs-12">7 days</span>
-<img src="img/g08.jpg" alt="An architect crouching beside a sound meter in a misty meadow" class="col-12-13 cover ar-43">
+<picture data-img="g08"><source type="image/avif" srcset="img/g08-480.avif 480w, img/g08-960.avif 960w, img/g08-1600.avif 1600w" sizes="(max-width: 760px) 26vw, 7vw"><source type="image/webp" srcset="img/g08-480.webp 480w, img/g08-960.webp 960w, img/g08-1600.webp 1600w" sizes="(max-width: 760px) 26vw, 7vw"><img src="img/g08-1600.jpg" width="1672" height="941" alt="An architect crouching beside a sound meter in a misty meadow" class="col-12-13 cover ar-43" loading="lazy" decoding="async"></picture>
 </li>
 <li data-rise class="grid-12 li">
 <span class="col-1-2 mono fs-12-3">02</span>
 <span class="col-2-6 h-m serif">Concept</span>
 <span class="col-6-10 body pl-20">We turn the house away from noise and towards light. You see it in drawings and models.</span>
 <span class="col-10-12 mono fs-12">6 weeks</span>
-<img src="img/g03.jpg" alt="A pencil drawing of an L-shaped house around a courtyard, seen from above" class="col-12-13 cover ar-43">
+<picture data-img="g03"><source type="image/avif" srcset="img/g03-480.avif 480w, img/g03-960.avif 960w, img/g03-1122.avif 1122w" sizes="(max-width: 760px) 26vw, 7vw"><source type="image/webp" srcset="img/g03-480.webp 480w, img/g03-960.webp 960w, img/g03-1122.webp 1122w" sizes="(max-width: 760px) 26vw, 7vw"><img src="img/g03-1122.jpg" width="1122" height="1402" alt="A pencil drawing of an L-shaped house around a courtyard, seen from above" class="col-12-13 cover ar-43" loading="lazy" decoding="async"></picture>
 </li>
 <li data-rise class="grid-12 li">
 <span class="col-1-2 mono fs-12-3">03</span>
 <span class="col-2-6 h-m serif">Design &amp; acoustics</span>
 <span class="col-6-10 body pl-20">Architect and acoustic engineer side by side. Every wall and window checked against the number.</span>
 <span class="col-10-12 mono fs-12">4 months</span>
-<img src="img/g10.jpg" alt="A stone architectural model of a house on a table in hard sunlight" class="col-12-13 cover ar-43">
+<picture data-img="g10"><source type="image/avif" srcset="img/g10-480.avif 480w, img/g10-960.avif 960w, img/g10-1122.avif 1122w" sizes="(max-width: 760px) 26vw, 7vw"><source type="image/webp" srcset="img/g10-480.webp 480w, img/g10-960.webp 960w, img/g10-1122.webp 1122w" sizes="(max-width: 760px) 26vw, 7vw"><img src="img/g10-1122.jpg" width="1122" height="1402" alt="A stone architectural model of a house on a table in hard sunlight" class="col-12-13 cover ar-43" loading="lazy" decoding="async"></picture>
 </li>
 <li data-rise class="grid-12 li">
 <span class="col-1-2 mono fs-12-3">04</span>
 <span class="col-2-6 h-m serif">Construction</span>
 <span class="col-6-10 body pl-20">We are on site every week. Acoustic tests at three points of the build, not once at the end.</span>
 <span class="col-10-12 mono fs-12">12–18 months</span>
-<img src="img/g13.jpg" alt="Rammed earth walls rising on a building site among vineyards" class="col-12-13 cover ar-43">
+<picture data-img="g13"><source type="image/avif" srcset="img/g13-480.avif 480w, img/g13-960.avif 960w, img/g13-1122.avif 1122w" sizes="(max-width: 760px) 26vw, 7vw"><source type="image/webp" srcset="img/g13-480.webp 480w, img/g13-960.webp 960w, img/g13-1122.webp 1122w" sizes="(max-width: 760px) 26vw, 7vw"><img src="img/g13-1122.jpg" width="1122" height="1402" alt="Rammed earth walls rising on a building site among vineyards" class="col-12-13 cover ar-43" loading="lazy" decoding="async"></picture>
 </li>
 <li data-rise class="grid-12 li-3">
 <span class="col-1-2 mono fs-12-3">05</span>
 <span class="col-2-6 h-m serif">The first night</span>
 <span class="col-6-10 body pl-20">We measure the bedroom together with you. The number goes into your house file.</span>
 <span class="col-10-12 mono fs-12">25 dB</span>
-<img src="img/h09.jpg" alt="A dark living room at night with a forest behind a long window" class="col-12-13 cover ar-43">
+<picture data-img="h09"><source type="image/avif" srcset="img/h09-480.avif 480w, img/h09-960.avif 960w, img/h09-1122.avif 1122w" sizes="(max-width: 760px) 26vw, 7vw"><source type="image/webp" srcset="img/h09-480.webp 480w, img/h09-960.webp 960w, img/h09-1122.webp 1122w" sizes="(max-width: 760px) 26vw, 7vw"><img src="img/h09-1122.jpg" width="1122" height="1402" alt="A dark living room at night with a forest behind a long window" class="col-12-13 cover ar-43" loading="lazy" decoding="async"></picture>
 </li>
 </ol>
 </section>
@@ -360,7 +361,7 @@
 
 <!-- 11 START -->
 <section id="contact" data-noreveal aria-label="Start a project" class="stack-h-940">
-<img data-zoom src="img/g09.jpg" alt="A stone house at blue hour with one warm window lit" class="fill cover img">
+<picture data-img="g09"><source type="image/avif" srcset="img/g09-480.avif 480w, img/g09-960.avif 960w, img/g09-1600.avif 1600w" sizes="100vw"><source type="image/webp" srcset="img/g09-480.webp 480w, img/g09-960.webp 960w, img/g09-1600.webp 1600w" sizes="100vw"><img src="img/g09-1600.jpg" width="1672" height="941" data-zoom alt="A stone house at blue hour with one warm window lit" class="fill cover img" loading="lazy" decoding="async"></picture>
 <div aria-hidden="true" class="fill bg-3"></div>
 <div data-axis aria-hidden="true" class="axis axis-light"></div>
 <div class="label sec-head"><span>11 / 11 · Contact</span><span>25 dB · Arrived</span></div>
@@ -432,7 +433,7 @@
 <path d="M856 240 V70 Q856 0 926 0 H986 Q1056 0 1056 70 V240 Z" fill="white"></path>
 <polygon points="925,244 987,244 966,170 946,170" fill="black"></polygon>
 <rect x="948" y="84" width="16" height="44" fill="black"></rect></mask></defs>
-<image href="img/h08.jpg" x="0" y="-150" width="1056" height="594" preserveAspectRatio="xMidYMid slice" mask="url(#fw-mask)"></image></svg>
+<image href="img/h08-1600.jpg" x="0" y="-150" width="1056" height="594" preserveAspectRatio="xMidYMid slice" mask="url(#fw-mask)"></image></svg>
 <div class="label tone-3 row-mt-20"><span>© 2026 Tysha Architecture</span><a href="privacy/">Privacy</a><span>No trackers on this site</span><span>Designed in silence</span></div>
 </footer>
 

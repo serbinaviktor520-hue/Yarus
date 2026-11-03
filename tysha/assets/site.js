@@ -149,7 +149,7 @@
         day: day && box(day),
         pano: pano && box(pano),
         marq: marq && box(marq.parentElement),
-        zoom: zoom && box(zoom.parentElement),
+        zoom: zoom && box(zoom.closest("section")),
         floats: floats.map((el) => { const b = box(el); b.top -= el._ty || 0; return b; }),
       };
       if (st && stInner && stPill) {
