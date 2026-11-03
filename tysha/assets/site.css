@@ -973,3 +973,4 @@ dialog.m::backdrop{background:transparent}
 @media (min-width:2000px){#statement [data-pin-inner]>.display{margin-top:auto;margin-bottom:auto}#statement .div-3{margin-top:0}}
 /* method prices on phones: the name, then its price on one line below (no split names, no orphans) */
 @media (max-width:760px){.row-5{flex-direction:column;align-items:flex-start;gap:8px}.row-5>.h-s{white-space:nowrap}}
+@media (max-width:760px){.ol-2>li>.ta-r{text-align:left}}
