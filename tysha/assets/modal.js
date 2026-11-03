@@ -33,10 +33,9 @@
   const SAYS = (db) => (db >= 41 ? 'A quiet living room' : db >= 36 ? 'A city flat at night, windows shut' : db >= 31 ? 'A library reading room'
     : db >= 27 ? 'A whisper across the room' : db >= 24 ? 'A bedroom at night' : db >= 22 ? 'Snow falling outside' : 'Leaves, far away');
 
-  const WHAT = ['House', 'Renovation', 'Retreat', 'Something else'];
-  const BUDGET = ['Under €500k', '€500k–1M', '€1–2M', '€2M+', 'Not sure yet'];
-  const pills = (name, list, req) => list.map((t, i) => '<label class="m-pill"><input type="radio" name="' + name + '" value="' + t + '"' + (req && i === 0 ? ' required' : '') + '><span>' + t + '</span></label>').join('');
-  const bars = Array.from({ length: LOUD - QUIET + 1 }, (_, i) => '<i style="--h:' + (0.22 + 0.78 * (LOUD - QUIET - i) / (LOUD - QUIET)).toFixed(3) + '"></i>').join('');
+  const WHAT = ['House', 'Renovation', 'Retreat', 'Other'];
+  // plain words, a native radio group (arrow keys move between them)
+  const opts = (name, list) => list.map((t) => '<label class="m-opt"><input type="radio" name="' + name + '" value="' + t + '"><span>' + t + '</span></label>').join('');
 
   const dlg = document.createElement('dialog');
   dlg.className = 'm' + (PLAIN ? ' m-plain' : ''); dlg.id = 'start';
@@ -59,11 +58,11 @@
     + '<div class="m-field m-in" data-m-field="name"><label class="label" for="m-name">Name</label><input class="m-input" id="m-name" name="name" type="text" autocomplete="name" placeholder="Your name" aria-describedby="m-name-h" required><span class="m-hint" id="m-name-h"></span></div>'
     + '<div class="m-field m-in" data-m-field="email"><label class="label" for="m-email">Email</label><input class="m-input" id="m-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="name@mail.com" aria-describedby="m-email-h" required><span class="m-hint" id="m-email-h"></span></div>'
     + '<div class="m-field m-wide m-in"><label class="label" for="m-where">Where <span class="tone-dim">· city or plot</span></label><input class="m-input" id="m-where" name="where" type="text" autocomplete="address-level2" placeholder="Near Lviv, a pine slope by a lake"></div>'
-    + '<fieldset class="m-field m-wide m-in"><legend class="label">What</legend><div class="m-pills">' + pills('what', WHAT) + '</div></fieldset>'
-    + '<fieldset class="m-field m-wide m-in"><legend class="label">Budget <span class="tone-dim">· optional</span></legend><div class="m-pills">' + pills('budget', BUDGET) + '</div></fieldset>'
-    + '<div class="m-field m-wide m-q m-in"><div class="m-q-head"><span class="label" id="m-q-l">How quiet should it be?</span><span class="m-q-val" aria-hidden="true"><span class="serif" data-q-num>25</span><span class="label">dB</span></span></div>'
-    + '<div class="m-q-track" data-q role="slider" tabindex="0" aria-labelledby="m-q-l" aria-valuemin="0" aria-valuemax="' + (LOUD - QUIET) + '" aria-valuenow="20" aria-valuetext="25 dB, a bedroom at night">' + bars + '</div>'
-    + '<div class="m-q-scale label" aria-hidden="true"><span>45 dB</span><span data-q-says>A bedroom at night</span><span>20 dB</span></div></div>'
+    + '<fieldset class="m-field m-wide m-in"><legend class="label">What</legend><div class="m-opts">' + opts('what', WHAT) + '</div></fieldset>'
+    + '<div class="m-field m-wide m-q m-in"><span class="label" id="m-q-l">How quiet should it be?</span>'
+    + '<p class="m-q-read" aria-hidden="true"><span class="serif m-q-num"><span data-q-num>25</span> dB</span><span class="m-q-says" data-q-says>a bedroom at night</span></p>'
+    + '<div class="m-q-track" data-q role="slider" tabindex="0" aria-labelledby="m-q-l" aria-valuemin="20" aria-valuemax="45" aria-valuenow="25" aria-valuetext="25 dB, a bedroom at night"><i class="m-q-line"></i><i class="m-q-fill"></i><b class="m-q-thumb"></b></div>'
+    + '<div class="m-q-scale label" aria-hidden="true"><span>← Louder · 45 dB</span><span>20 dB · Quieter →</span></div></div>'
     + '<div class="m-field m-wide m-in"><label class="label" for="m-msg">Anything else <span class="tone-dim">· optional</span></label><textarea class="m-input m-msg" id="m-msg" name="message" rows="1" placeholder="The road you can hear, the view you want to keep"></textarea></div>'
     + '</div>'
     + '<div class="m-foot m-in"><button type="submit" class="m-send" data-m-send data-cursor="Send"><span data-m-send-t>Send</span><i class="m-send-bar" aria-hidden="true"></i></button>'
@@ -100,20 +99,19 @@
   idle(putPhoto, { timeout: 5000 });
 
   /* ---------- the quiet slider ---------- */
-  const track = q('[data-q]', dlg), qNum = q('[data-q-num]', dlg), qSays = q('[data-q-says]', dlg), qBars = qa('i', track);
+  const track = q('[data-q]', dlg), qNum = q('[data-q-num]', dlg), qSays = q('[data-q-says]', dlg);
   let quiet = 25;
   const setQuiet = (db, user) => {
     db = Math.max(QUIET, Math.min(LOUD, Math.round(db)));
     if (db === quiet && !user) return;
     quiet = db;
-    const k = LOUD - db;
-    qBars.forEach((b, i) => { b.classList.toggle('off', i < k); b.classList.toggle('on', i === k); });
-    qNum.textContent = db; qSays.textContent = SAYS(db);
-    track.setAttribute('aria-valuenow', String(k));
+    track.style.setProperty('--p', ((LOUD - db) / (LOUD - QUIET)).toFixed(4));   // 0 = louder (left), 1 = quieter
+    qNum.textContent = db; qSays.textContent = SAYS(db).toLowerCase();
+    track.setAttribute('aria-valuenow', String(db));
     track.setAttribute('aria-valuetext', db + ' dB, ' + SAYS(db).toLowerCase());
   };
   setQuiet(25, true);
-  const fromX = (x) => { const r = track.getBoundingClientRect(); return LOUD - ((x - r.left) / r.width) * (LOUD - QUIET + 1) + 0.5; };
+  const fromX = (x) => { const r = track.getBoundingClientRect(); return LOUD - Math.max(0, Math.min(1, (x - r.left) / r.width)) * (LOUD - QUIET); };
   track.addEventListener('pointerdown', (e) => {
     track.setPointerCapture(e.pointerId); track.classList.add('drag'); setQuiet(fromX(e.clientX), true);
     const mv = (ev) => setQuiet(fromX(ev.clientX), true);
@@ -289,7 +287,7 @@
     if (bad.length) { status.textContent = bad.length === 1 ? 'One field needs a word.' : bad.length + ' fields need a word.'; bad[0].focus(); return; }
     const data = {
       name: F('name').value.trim(), email: F('email').value.trim(), where: F('where').value.trim(),
-      what: (q('input[name="what"]:checked', form) || {}).value || '', budget: (q('input[name="budget"]:checked', form) || {}).value || '',
+      what: (q('input[name="what"]:checked', form) || {}).value || '',
       quiet: quiet + ' dB', message: F('message').value.trim(),
     };
     busy = true; form.setAttribute('aria-busy', 'true'); dlg.classList.add('m-sending'); status.textContent = 'Sending.';
@@ -298,7 +296,7 @@
     send(data).then(() => {
       clearInterval(iv); busy = false; form.removeAttribute('aria-busy'); dlg.classList.remove('m-sending'); status.textContent = '';
       q('[data-m-id]', dlg).textContent = 'Request TY-' + (1000 + Math.floor(Math.random() * 9000)) + ' · Received · 25 dB';
-      const rows = [['Name', data.name], ['Email', data.email], ['Where', data.where], ['What', data.what], ['Budget', data.budget], ['Quiet', data.quiet + ' · ' + SAYS(quiet).toLowerCase()], ['Note', data.message]].filter((r) => r[1]);
+      const rows = [['Name', data.name], ['Email', data.email], ['Where', data.where], ['What', data.what], ['Quiet', data.quiet + ' · ' + SAYS(quiet).toLowerCase()], ['Note', data.message]].filter((r) => r[1]);
       const sum = q('[data-m-sum]', dlg); sum.textContent = '';
       rows.forEach(([k, v]) => { const dt = document.createElement('dt'); dt.className = 'label'; dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; sum.append(dt, dd); });
       form.hidden = true; done.hidden = false; scroller.scrollTop = 0;

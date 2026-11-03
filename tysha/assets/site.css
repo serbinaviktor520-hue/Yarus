@@ -770,26 +770,26 @@ dialog.m::backdrop{background:transparent}
 .m-hint:empty{display:none}
 .m-hint::before{content:'— '}
 .m-field.bad .m-input{border-bottom-color:#E6C9A3}
-.m-pills{display:flex;flex-wrap:wrap;gap:8px}
-.m-pill{position:relative;cursor:pointer}
-.m-pill input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
-.m-pill span{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border:1px solid rgba(234,230,222,.35);border-radius:999px;font:500 11px/1 'Geist Mono',monospace;letter-spacing:.04em;text-transform:uppercase;transition:background-color .25s,color .25s,border-color .25s}
-.m-pill:hover span{border-color:#EAE6DE}
-.m-pill input:checked+span{background:#EAE6DE;border-color:#EAE6DE;color:#111110}
-.m-pill input:focus-visible+span{outline:2px solid #EAE6DE;outline-offset:3px}
-/* how quiet: 26 bars from 45 dB (left) to 20 dB (right); the louder ones fade as you choose a quieter room */
-.m-q-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
-.m-q-val{display:flex;align-items:baseline;gap:8px}
-.m-q-val .serif{font-size:clamp(48px,4vw,64px);line-height:.85;font-variant-numeric:tabular-nums}
-.m-q-track{position:relative;display:flex;justify-content:space-between;align-items:flex-end;height:72px;padding:10px 0;margin-top:4px;cursor:ew-resize;touch-action:pan-y;-webkit-user-select:none;user-select:none}
-.m-q-track::after{content:'';position:absolute;left:0;right:0;bottom:10px;height:1px;background:rgba(234,230,222,.22)}
-.m-q-track i{flex:0 0 2px;height:calc(var(--h) * 100%);border-radius:1px;background:#EAE6DE;transform-origin:50% 100%;transition:opacity .35s,background-color .3s,transform .4s var(--ez)}
-.m-q-track i.off{opacity:.16}
-.m-q-track i.on{background:#C2AE8E;transform:scaleY(1.14)}
-.m-q-track.drag i{transition-duration:.12s}
-.m-q-track:focus-visible{outline:2px solid #EAE6DE;outline-offset:6px}
-.m-q-scale{display:flex;justify-content:space-between;gap:12px;margin-top:10px;color:#A39E96}
-.m-q-scale [data-q-says]{color:#EAE6DE;text-align:center}
+.m-opts{display:flex;flex-wrap:wrap;column-gap:32px;row-gap:12px}
+.m-opt{position:relative;cursor:pointer}
+.m-opt input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.m-opt span{display:inline-block;padding:10px 0 6px;border-bottom:1px solid transparent;font:500 12px/1.2 'Geist Mono',monospace;letter-spacing:.04em;text-transform:uppercase;color:#A39E96;transition:color .25s,border-color .25s}
+.m-opt:hover span{color:#EAE6DE}
+.m-opt input:checked+span{color:#EAE6DE;border-bottom-color:#EAE6DE}
+.m-opt input:focus-visible+span{outline:2px solid #EAE6DE;outline-offset:4px}
+/* how quiet: the number and its line, one hairline with a thumb, the two ends named */
+.m-q-read{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin:4px 0 0}
+.m-q-num{font-size:clamp(48px,4vw,64px);line-height:.9;font-variant-numeric:tabular-nums}
+.m-q-says{font-size:clamp(18px,calc(14px + .42vw),21px);color:#C9C3B8}
+.m-q-says::before{content:'— '}
+.m-q-track{--p:.8;position:relative;height:36px;margin-top:4px;cursor:pointer;touch-action:pan-y;-webkit-user-select:none;user-select:none}
+.m-q-line,.m-q-fill{position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(234,230,222,.45)}
+.m-q-fill{right:auto;width:calc(7px + var(--p) * (100% - 14px));background:#EAE6DE}
+.m-q-thumb{position:absolute;top:50%;left:calc(7px + var(--p) * (100% - 14px));width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#EAE6DE;transition:transform .25s var(--ez)}
+.m-q-track:hover .m-q-thumb,.m-q-track.drag .m-q-thumb{transform:scale(1.25)}
+.m-q-track:focus-visible{outline:none}
+.m-q-track:focus-visible .m-q-thumb{outline:2px solid #EAE6DE;outline-offset:4px}
+.m-q-scale{display:flex;justify-content:space-between;gap:12px;margin-top:4px;color:#A39E96}
 .m-foot{position:sticky;bottom:0;z-index:2;display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin:40px -20px 0;padding:16px 20px 20px;background:#111110;border-top:1px solid rgba(234,230,222,.2)}
 .m-send{all:unset;box-sizing:border-box;cursor:pointer;position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;min-height:52px;min-width:180px;padding:0 36px;border-radius:999px;background:#EAE6DE;color:#111110;font:500 12px/1 'Geist Mono',monospace;letter-spacing:.04em;text-transform:uppercase;font-variant-numeric:tabular-nums;transition:background-color .3s}
 .m-send:hover{background:#C2AE8E}
