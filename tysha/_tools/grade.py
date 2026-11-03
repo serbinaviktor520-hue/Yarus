@@ -31,6 +31,7 @@ SLOTS = {
     'h08m': ('01_hero_mobile.png', None, 0, 1.0),   # art-directed portrait hero for phones
     'g02': ('01_hero_straight.png', (280, 300, 1290, 760), 0, 1.0),
     'g16': ('02_forest.png', None, -100, 1.0),
+    'g16w': ('02_forest_landscape.png', None, -100, 1.0),   # landscape: the project hero on every screen
     'g15': ('06_day_0610.png', None, 0, 1.0),
     'h03': ('07_day_0900.png', None, 0, 1.0),
     'g14': ('05_day_1430.png', None, 0, 1.0),
@@ -52,7 +53,7 @@ SLOTS = {
     'g08': ('g08_architect_meter.png', None, 0, 1.0),
     'g04': ('g04_road.jpg', None, -350, 0.65),   # the stage-1 photo, re-graded to match
 }
-LONG = {'h08': 3200}
+LONG = {'h08': 3200, 'g16w': 3200}
 DAY = ('g15', 'h03', 'g14', 'h06', 'h09')        # same camera: identical crop, size and chain
 
 
@@ -141,7 +142,22 @@ def paper_cover(a, boxes):
     return a * (1 - al) + (fill + tex) * al
 
 
+def soften(a, box, sigma=0.5, feather=4):
+    """Hero: the two people on the steps are a few dozen pixels tall and the render smears their faces.
+    A very slight blur inside a feathered box reads as natural softness at that distance; the grain
+    added later in the chain covers the region like the rest of the frame."""
+    x0, y0, x1, y1 = box
+    m = np.zeros(a.shape[:2], np.float32)
+    m[y0:y1, x0:x1] = 1
+    al = blur(m, feather)[..., None]
+    return a * (1 - al) + blur(a, sigma) * al
+
+
 def fixes(slot, raw_dir, a):
+    if slot == 'h08':
+        a = soften(a, (1046, 528, 1112, 600))      # raw-frame box around the couple
+    if slot == 'h08m':
+        a = soften(a, (703, 818, 774, 884))
     if slot == 'h03':
         a = lake_patch(raw_dir, a)
     if slot == 'h09':

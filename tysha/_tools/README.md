@@ -51,7 +51,7 @@ python3 tysha/_tools/images.py --force
 The raw PNGs are not committed (large; only this script reads them). `SLOTS` at the top of the script maps
 each slot to its raw file, crop box, white-balance shift and saturation. The chain: slot fixes at raw size
 (crops, the calm 14:30 lake patched into the 09:00 frame, a softer 23:40 moon, the scribbled notes on the
-pencil plan inpainted), Lanczos upscale to 2560 px (3200 for the hero) with a light unsharp mask, cooling of
+pencil plan inpainted, a very slight softening of the two tiny people on the hero steps in `h08` / `h08m`), Lanczos upscale to 2560 px (3200 for the two heroes, `h08` and `g16w`) with a light unsharp mask, cooling of
 the warmest renders, a tone curve with blacks lifted to ~12/255 and a soft shoulder, slightly lower
 clarity, a subtle vignette and fine monochrome grain. It only crops and scales, never rotates, so masks
 drawn on a raw frame map onto the output (`live_masks.py`).
@@ -63,6 +63,14 @@ A source named `<name>m.jpg` (for example `h08m.jpg`, the portrait hero) is an a
 `<picture data-img="<name>">` as the first `<source media="(max-width: 760px)">` pair, so phones never
 download the wide photo. For the page hero it writes two preloads with `media` attributes, one per crop.
 Other photos keep one file and get a phone `object-position` in `site.css` (section 11).
+
+`g16w` (the landscape view of Lull House from the forest, `02_forest_landscape.png`) is the project hero
+on every screen: phones show its centre, the door, so its `sizes` there is `220vw`. The portrait `g16` stays
+for the home card, the statement pill and the entrance row of the plan.
+
+Full-bleed photos behind the centre axis can carry `data-axis-gap="top bottom"` (fractions of the image
+height) on the `<img>`: `site.js` maps it through `object-fit: cover` and stops the line there, so it never
+crosses a building. Drawn type (`svg[role=img]`, the wordmarks) stops it too.
 
 ## Living photos: `live_masks.py`
 
@@ -91,14 +99,14 @@ it refuses to run now that the pages have no inline styles.
 
 ## Moving to tysha.studio
 
-All internal links are relative, so the site works at any path. When the domain is live:
+`https://tysha.studio/` is a placeholder domain: it is not bought yet. It is already written into
+`og:image`, `twitter:image`, `og:url` and `<link rel="canonical">` in every page head (the 404 page has
+no canonical or `og:url`, on purpose) and into `sitemap.xml`. **If the studio ends up on another domain,
+search for `tysha.studio/` and swap it everywhere** (pages, `sitemap.xml`, `robots.txt`). All internal
+links are relative, so the site works at any path. When the domain is live:
 
 - `404/index.html`: change `<base href="/tysha/">` to `<base href="/">`;
-- `og:image` / `twitter:image` in every page head use the root-relative `/tysha/img/og.jpg`:
-  change to `https://tysha.studio/img/og.jpg` (absolute URLs are best for social cards);
-- add `<link rel="canonical" href="https://tysha.studio/…">` to each page (left out on purpose
-  until the domain exists, so no page points at a URL that does not resolve);
-- `sitemap.xml` already uses `https://tysha.studio/`; move it and `robots.txt` to the domain root;
+- move `sitemap.xml` and `robots.txt` to the domain root;
 - `vercel.json` (repo root): the `/tysha/` routes become `/` routes. The last route serves
   `404/index.html` with status 404 for unknown paths; `routes` is used because `rewrites` cannot
   set a status code, and `routes` cannot be combined with `cleanUrls` / `trailingSlash` /
