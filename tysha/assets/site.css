@@ -1008,3 +1008,71 @@ dialog.m::backdrop{background:transparent}
 [data-hero].idx-hero{height:auto;min-height:0}
 @media (max-width:760px){.idx-top{flex-direction:column;gap:6px}}
 .idx-note{color:#4A4640}
+
+/* ---- 23. the contact form in three steps: one question per screen ----
+   Hierarchy: one serif question per step; inputs large; labels small, sentence case, muted sans; mono only for the
+   step counter and the slider's two ends. Buttons sit at the foot of the step (sticky on phones). */
+.m-top{gap:20px}
+.m-title{font-size:14px;color:#C9C3B8;letter-spacing:0}
+.m-count{margin-left:auto;font:500 12px/1 'Geist Mono',monospace;letter-spacing:.04em;color:#C9C3B8;font-variant-numeric:tabular-nums}
+.m-prog{position:relative;height:1px;margin:12px 0 0;background:rgba(234,230,222,.18)}
+.m-prog i{position:absolute;inset:0;background:#EAE6DE;transform-origin:left;transform:scaleX(.333);transition:transform .5s var(--ez)}
+.m-is-done .m-prog i{transform:scaleX(1)!important}
+.m-is-done .m-count{visibility:hidden}
+.m-scroll{display:flex;flex-direction:column}
+.m-form{flex:1;display:flex;flex-direction:column;max-width:720px;min-height:100%}
+.m-step{flex:1;display:flex;flex-direction:column;min-height:0}
+.m-step[hidden]{display:none}
+.m-step.m-enter>*{animation:m-step .38s cubic-bezier(.2,.7,.2,1) both}
+.m-step.m-enter>:nth-child(2){animation-delay:.04s}.m-step.m-enter>:nth-child(3){animation-delay:.08s}.m-step.m-enter>:nth-child(4){animation-delay:.12s}
+@keyframes m-step{from{opacity:0;transform:translate3d(calc(var(--dir,1) * 24px),0,0)}}
+.m-h{margin:clamp(24px,7vh,72px) 0 0;font-size:clamp(44px,calc(14px + 3.4vw),84px)}
+.m-step>.m-h+*{margin-top:48px}
+.m-field{gap:10px}
+.m-lab{font:400 14px/1.4 'Inter Tight',sans-serif;color:#A39E96;letter-spacing:0;text-transform:none}
+.m-opt-tag{color:#8C8781}
+.m-input{font-size:20px}
+.m-input-l{font-size:clamp(22px,calc(12px + 1vw),30px);padding:12px 0}
+.m-hint{font:400 14px/1.4 'Inter Tight',sans-serif;letter-spacing:0;text-transform:none}
+.m-hint::before{content:none}
+.m-kind{margin-top:32px}
+.m-opts{column-gap:28px;row-gap:8px}
+.m-opt span{font:400 16px/1.3 'Inter Tight',sans-serif;letter-spacing:0;text-transform:none;color:#8C8781;padding:8px 0 4px}
+.m-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px;row-gap:28px}
+.m-pair+.m-field{margin-top:32px}
+.m-step-foot{display:flex;align-items:center;gap:28px;margin-top:auto;padding:40px 0 24px}
+.m-step-foot .m-send{min-width:160px}
+.m-step-foot-send{flex-direction:column;align-items:flex-start;gap:14px}
+.m-send-row{display:flex;align-items:center;gap:28px}
+.m-back{all:unset;cursor:pointer;font:400 16px/1 'Inter Tight',sans-serif;color:#A39E96;padding:14px 0;text-decoration:underline;text-decoration-color:rgba(163,158,150,.4);text-underline-offset:4px}
+.m-back:hover{color:#EAE6DE}
+.m-back:focus-visible{outline:2px solid #EAE6DE;outline-offset:4px}
+.m-consent{font:400 14px/1.45 'Inter Tight',sans-serif;letter-spacing:0;text-transform:none;color:#8C8781;max-width:440px}
+.m-fail{font-size:15px}
+/* step 2: the number leads, its line below, then the hairline with its two ends */
+.m-q-read{flex-direction:column;align-items:flex-start;gap:10px}
+.m-q-num{font-size:clamp(64px,calc(20px + 4.6vw),112px);line-height:.85}
+.m-q-says{font-size:clamp(18px,calc(14px + .42vw),21px);color:#A39E96}
+.m-q-says::before{content:none}
+.m-q-track{margin-top:40px;height:44px}
+.m-q-scale{margin-top:6px;font:500 12px/1 'Geist Mono',monospace;letter-spacing:.04em;color:#8C8781}
+/* the photo's caption stays quiet */
+.m-side-cap{font-size:11px;gap:4px;color:#C9C3B8}
+.m-side-cap .tone-2{color:#A39E96}
+/* the old one-page form furniture */
+.m-at-end .m-foot::before,.m-foot::before{content:none}
+@media (max-width:1023px){
+  .m-h{margin-top:20px;font-size:clamp(36px,9.6vw,52px)}
+  .m-step>.m-h+*{margin-top:32px}
+  .m-kind{margin-top:24px}
+  .m-pair{grid-template-columns:minmax(0,1fr);row-gap:20px}
+  .m-pair+.m-field{margin-top:20px}
+  .m-step-foot{position:sticky;bottom:0;z-index:2;margin:auto -20px 0;padding:12px 20px calc(14px + env(safe-area-inset-bottom));background:#111110;gap:16px}
+  .m-step-foot>.m-send,.m-send-row>.m-send{flex:1}
+  .m-send-row{width:100%;gap:16px}
+  .m-step-foot-send{gap:8px}
+  .m-consent{font-size:13px}
+  .m-q-track{margin-top:28px}
+}
+@media (prefers-reduced-motion:reduce){.m-step.m-enter>*{animation:none}.m-prog i{transition:none}}
+.m-sum dt.m-lab{padding-top:2px}

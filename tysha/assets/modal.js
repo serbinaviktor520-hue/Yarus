@@ -39,7 +39,7 @@
 
   const dlg = document.createElement('dialog');
   dlg.className = 'm' + (PLAIN ? ' m-plain' : ''); dlg.id = 'start';
-  dlg.setAttribute('aria-labelledby', 'm-h'); dlg.setAttribute('aria-describedby', 'm-sub');
+  dlg.setAttribute('aria-labelledby', 'm-title');
   dlg.innerHTML = ''
     + '<div class="m-veil" data-m-close></div>'
     + '<div class="m-panel">'
@@ -49,26 +49,38 @@
     + '<div class="m-side-cap label"><span class="m-big num-xl" aria-hidden="true"><span data-m-big>68</span></span><span>' + (PLAIN ? 'The room, as you step in' : 'Lake shore, blue hour') + '<br><span class="tone-2">Measured inside: <span data-m-db2>68</span> dB</span></span></div>'
     + '</div>'
     + '<div class="m-body">'
-    + '<div class="m-top label" data-m-grab><span>Start a project</span><span class="m-db" aria-hidden="true"><span data-m-db>68</span> dB</span><button type="button" class="t-pill m-close" data-m-close data-noscramble>Close</button></div>'
+    + '<div class="m-top" data-m-grab><span id="m-title" class="m-title">Start a project</span><span class="m-count" aria-hidden="true"><span data-m-n>01</span> / 03</span><button type="button" class="t-pill m-close" data-m-close data-noscramble>Close</button></div>'
+    + '<div class="m-prog" aria-hidden="true"><i data-m-prog></i></div>'
     + '<div class="m-scroll" data-m-scroll>'
     + '<form class="m-form" data-m-form novalidate>'
-    + '<h2 id="m-h" class="m-h serif m-in" tabindex="-1">Tell us where it’s loud.</h2>'
-    + '<p id="m-sub" class="m-sub m-in">We reply within two working days. In quiet, of course.</p>'
-    + '<div class="m-grid">'
-    + '<div class="m-field m-in" data-m-field="name"><label class="label" for="m-name">Name</label><input class="m-input" id="m-name" name="name" type="text" autocomplete="name" placeholder="Your name" aria-describedby="m-name-h" required><span class="m-hint" id="m-name-h"></span></div>'
-    + '<div class="m-field m-in" data-m-field="email"><label class="label" for="m-email">Email</label><input class="m-input" id="m-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="name@mail.com" aria-describedby="m-email-h" required><span class="m-hint" id="m-email-h"></span></div>'
-    + '<div class="m-field m-wide m-in"><label class="label" for="m-where">Where <span class="tone-dim">· city or plot</span></label><input class="m-input" id="m-where" name="where" type="text" autocomplete="address-level2" placeholder="Near Lviv, a pine slope by a lake"></div>'
-    + '<fieldset class="m-field m-wide m-in"><legend class="label">What</legend><div class="m-opts">' + opts('what', WHAT) + '</div></fieldset>'
-    + '<div class="m-field m-wide m-q m-in"><span class="label" id="m-q-l">How quiet should it be?</span>'
-    + '<p class="m-q-read" aria-hidden="true"><span class="serif m-q-num"><span data-q-num>25</span> dB</span><span class="m-q-says" data-q-says>a bedroom at night</span></p>'
-    + '<div class="m-q-track" data-q role="slider" tabindex="0" aria-labelledby="m-q-l" aria-valuemin="0" aria-valuemax="25" aria-valuenow="20" aria-valuetext="25 dB, a bedroom at night"><i class="m-q-line"></i><i class="m-q-fill"></i><b class="m-q-thumb"></b></div>'
-    + '<div class="m-q-scale label" aria-hidden="true"><span>← Louder · 45 dB</span><span>20 dB · Quieter →</span></div></div>'
-    + '<div class="m-field m-wide m-in"><label class="label" for="m-msg">Anything else <span class="tone-dim">· optional</span></label><textarea class="m-input m-msg" id="m-msg" name="message" rows="1" placeholder="The road you hear, the view you keep"></textarea></div>'
+    // step 1: where
+    + '<section class="m-step" data-step="1" aria-labelledby="m-h1">'
+    + '<h2 id="m-h1" class="m-h serif m-in" tabindex="-1">Where is it loud?</h2>'
+    + '<div class="m-field m-in"><label class="m-lab" for="m-where">City or plot</label><input class="m-input m-input-l" id="m-where" name="where" type="text" autocomplete="address-level2" placeholder="Near Lviv, a pine slope by a lake" aria-describedby="m-where-h" required><span class="m-hint" id="m-where-h"></span></div>'
+    + '<fieldset class="m-field m-kind m-in"><legend class="sr-only">Kind of project, optional</legend><div class="m-opts">' + opts('what', WHAT) + '</div></fieldset>'
+    + '<div class="m-step-foot m-in"><button type="button" class="m-send" data-next data-cursor="Next">Next</button></div>'
+    + '</section>'
+    // step 2: how quiet
+    + '<section class="m-step" data-step="2" aria-labelledby="m-h2" hidden>'
+    + '<h2 id="m-h2" class="m-h serif" tabindex="-1">How quiet should it be?</h2>'
+    + '<p class="m-q-read" aria-hidden="true"><span class="serif m-q-num"><span data-q-num>25</span> dB</span><span class="m-q-says" data-q-says>A bedroom at night</span></p>'
+    + '<div class="m-q-track" data-q role="slider" tabindex="0" aria-labelledby="m-h2" aria-valuemin="0" aria-valuemax="25" aria-valuenow="20" aria-valuetext="25 dB, a bedroom at night"><i class="m-q-line"></i><i class="m-q-fill"></i><b class="m-q-thumb"></b></div>'
+    + '<div class="m-q-scale" aria-hidden="true"><span>45 dB</span><span>20 dB</span></div>'
+    + '<div class="m-step-foot"><button type="button" class="m-back" data-back>Back</button><button type="button" class="m-send" data-next data-cursor="Next">Next</button></div>'
+    + '</section>'
+    // step 3: who
+    + '<section class="m-step" data-step="3" aria-labelledby="m-h3" hidden>'
+    + '<h2 id="m-h3" class="m-h serif" tabindex="-1">Who should we call?</h2>'
+    + '<div class="m-pair">'
+    + '<div class="m-field"><label class="m-lab" for="m-name">Name</label><input class="m-input m-input-l" id="m-name" name="name" type="text" autocomplete="name" placeholder="Your name" aria-describedby="m-name-h" required><span class="m-hint" id="m-name-h"></span></div>'
+    + '<div class="m-field"><label class="m-lab" for="m-email">Email</label><input class="m-input m-input-l" id="m-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="name@mail.com" aria-describedby="m-email-h" required><span class="m-hint" id="m-email-h"></span></div>'
     + '</div>'
-    + '<div class="m-foot m-in"><button type="submit" class="m-send" data-m-send data-cursor="Send"><span data-m-send-t>Send</span><i class="m-send-bar" aria-hidden="true"></i></button>'
-    + '<p class="m-consent label">By sending, you agree to our <a class="u" href="' + BASE + 'privacy/">privacy notice</a>.</p></div>'
-    + '<p class="m-fail" data-m-fail role="alert" hidden>The line is noisy: your request didn’t reach us. Nothing is lost. Try again, or write to <a class="u" href="mailto:hello@tysha.studio">hello@tysha.studio</a>.</p>'
-    + '<p class="sr-only" role="status" data-m-status></p>'
+    + '<div class="m-field"><label class="m-lab" for="m-msg">Anything else <span class="m-opt-tag">(optional)</span></label><input class="m-input" id="m-msg" name="message" type="text" autocomplete="off" placeholder="The road you hear, the view you keep"></div>'
+    + '<div class="m-step-foot m-step-foot-send"><div class="m-send-row"><button type="button" class="m-back" data-back>Back</button><button type="submit" class="m-send" data-m-send data-cursor="Send"><span data-m-send-t>Send</span><i class="m-send-bar" aria-hidden="true"></i></button></div>'
+    + '<p class="m-consent">By sending, you agree to our <a class="u" href="' + BASE + 'privacy/">privacy notice</a>. We reply within two working days.</p>'
+    + '<p class="m-fail" data-m-fail role="alert" hidden>The line is noisy: your request didn’t reach us. Nothing is lost. Try again, or write to <a class="u" href="mailto:hello@tysha.studio">hello@tysha.studio</a>.</p></div>'
+    + '</section>'
+    + '<p class="sr-only" role="status" aria-live="polite" data-m-status></p>'
     + '</form>'
     + '<div class="m-done" data-m-done hidden tabindex="-1">'
     + '<span class="label tone-2" data-m-id>Request TY-0000 · Received</span>'
@@ -82,7 +94,7 @@
 
   const panel = q('.m-panel', dlg), form = q('[data-m-form]', dlg), done = q('[data-m-done]', dlg), scroller = q('[data-m-scroll]', dlg);
   const dbEls = qa('[data-m-db], [data-m-db2], [data-m-big]', dlg);
-  const head = q('#m-h', dlg);
+  const head = q('#m-h1', dlg);
   // entrance order: the top bar and the caption first, then the form, row by row
   [q('.m-top', dlg), q('.m-side-cap', dlg), ...qa('.m-in', dlg)].forEach((el, i) => el.style.setProperty('--i', i));
 
@@ -106,7 +118,7 @@
     if (db === quiet && !user) return;
     quiet = db;
     track.style.setProperty('--p', ((LOUD - db) / (LOUD - QUIET)).toFixed(4));   // 0 = louder (left), 1 = quieter
-    qNum.textContent = db; qSays.textContent = SAYS(db).toLowerCase();
+    qNum.textContent = db; qSays.textContent = SAYS(db);
     track.setAttribute('aria-valuenow', String(LOUD - db));   // how much quieter than 45 dB: Right / Up raise it
     track.setAttribute('aria-valuetext', db + ' dB, ' + SAYS(db).toLowerCase());
   };
@@ -130,13 +142,11 @@
   // the fade above the Send bar goes once the form is read to the end
   const atEnd = () => dlg.classList.toggle('m-at-end', scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 8);
   scroller.addEventListener('scroll', atEnd, { passive: true }); window.addEventListener('resize', atEnd);
-  const msg = q('#m-msg', dlg);
-  const grow = () => { msg.style.height = 'auto'; msg.style.height = Math.min(msg.scrollHeight, 220) + 'px'; };
-  msg.addEventListener('input', grow);
+
 
   /* ---------- calm validation: a short mono hint under the field, after the first try ---------- */
   const F = (n) => form.elements[n];
-  const HINT = { name: 'We’d like to know who to answer.', email: 'An email, so we can write back.', emailBad: 'That doesn’t look like an email yet.' };
+  const HINT = { where: 'Roughly where: a town, a region or a plot.', name: 'We’d like to know who to answer.', email: 'An email, so we can write back.', emailBad: 'That doesn’t look like an email yet.' };
   let tried = false;
   const hint = (n, m) => {
     const i = F(n), h = q('#m-' + n + '-h', dlg);
@@ -153,6 +163,40 @@
     return bad;
   };
   ['name', 'email'].forEach((n) => { F(n).addEventListener('input', () => { if (tried) check(); }); F(n).addEventListener('blur', () => { if (tried) check(); }); });
+  let triedWhere = false;
+  const checkWhere = () => { const ok = !!F('where').value.trim(); hint('where', ok ? '' : HINT.where); return ok; };
+  F('where').addEventListener('input', () => { if (triedWhere) checkWhere(); });
+
+  /* ---------- the steps: one question per screen; the photo column stays, only the content moves ---------- */
+  const steps = qa('.m-step', dlg), nEl = q('[data-m-n]', dlg), prog = q('[data-m-prog]', dlg);
+  let step = 1;
+  const first = (n) => (n === 2 ? q('[data-q]', dlg) : n === 3 ? F('name') : F('where'));
+  function go(n, o = {}) {
+    const dir = n >= step ? 1 : -1; step = n;
+    steps.forEach((el) => { const on = +el.dataset.step === n; el.hidden = !on; el.classList.remove('m-enter'); el.style.setProperty('--dir', dir); });
+    nEl.textContent = '0' + n; prog.style.transform = 'scaleX(' + (n / 3).toFixed(3) + ')';
+    if (o.quiet) return;
+    const cur = steps[n - 1];
+    if (!RM.matches) { void cur.offsetWidth; cur.classList.add('m-enter'); }
+    q('[data-m-status]', dlg).textContent = 'Step ' + n + ' of 3: ' + q('.m-h', cur).textContent;
+    scroller.scrollTop = 0;
+    // phones: the headline (no keyboard jumps up); keyboards and mice: straight into the field
+    (WIDE.matches ? first(n) : q('.m-h', cur)).focus({ preventScroll: true });
+    if (T.cursor && T.cursor.refresh) T.cursor.refresh();
+  }
+  function advance() {
+    if (step === 1) { triedWhere = true; if (!checkWhere()) { F('where').focus(); return; } go(2); }
+    else if (step === 2) go(3);
+    else form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event('submit', { cancelable: true }));
+  }
+  qa('[data-next]', dlg).forEach((b) => b.addEventListener('click', advance));
+  qa('[data-back]', dlg).forEach((b) => b.addEventListener('click', () => go(step - 1)));
+  // Enter moves on from any field, the options and the slider (and sends on the last step)
+  form.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' || e.isComposing || e.target.closest('button, a')) return;
+    e.preventDefault(); advance();
+  });
+  go(1, { quiet: true });
 
   /* ---------- the level: counts from the page's dB down to 25 ---------- */
   let dbRaf = 0;
@@ -192,9 +236,10 @@
     requestAnimationFrame(atEnd);
     if (T.sound && T.sound.duck) T.sound.duck(true);
     if (opts.push !== false && location.hash !== '#start') { history.pushState({ tyshaStart: 1 }, '', '#start'); pushed = true; }
-    // the heading takes focus (read first by screen readers); no keyboard pops up on phones
+    // every visit starts at the first question; its heading takes focus (read first; no keyboard pops up on phones)
+    if (done.hidden) go(1, { quiet: true });
     head.focus({ preventScroll: true });
-    if (opts.topic && !F('message').value) { F('message').value = opts.topic; grow(); }
+    if (opts.topic && !F('message').value) F('message').value = opts.topic;
   }
   function hide() {
     if (!dlg.open || closing) return;
@@ -231,7 +276,7 @@
     const stops = f.filter((el) => !(el.type === 'radio' && !el.checked && f.some((o) => o !== el && o.type === 'radio' && o.name === el.name && (o.checked || f.indexOf(o) < f.indexOf(el)))));
     const first = stops[0], last = stops[stops.length - 1];
     if (!first) return;
-    if (e.shiftKey && (document.activeElement === first || document.activeElement === head)) { e.preventDefault(); last.focus(); }
+    if (e.shiftKey && (document.activeElement === first || document.activeElement.matches('.m-h'))) { e.preventDefault(); last.focus(); }
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   });
   dlg.addEventListener('click', (e) => { if (e.target.closest('[data-m-close]')) close(); });
@@ -287,9 +332,10 @@
   form.addEventListener('submit', (ev) => {
     ev.preventDefault();
     if (busy) return;
+    if (step < 3) { advance(); return; }
     tried = true; fail.hidden = true;
     const bad = check();
-    if (bad.length) { status.textContent = bad.length === 1 ? 'One field needs a word.' : bad.length + ' fields need a word.'; bad[0].focus(); return; }
+    if (bad.length) { status.textContent = bad.length === 1 ? 'One field needs a word.' : 'Two fields need a word.'; bad[0].focus(); return; }
     const data = {
       name: F('name').value.trim(), email: F('email').value.trim(), where: F('where').value.trim(),
       what: (q('input[name="what"]:checked', form) || {}).value || '',
@@ -303,8 +349,8 @@
       q('[data-m-id]', dlg).textContent = 'Request TY-' + (1000 + Math.floor(Math.random() * 9000)) + ' · Received · 25 dB';
       const rows = [['Name', data.name], ['Email', data.email], ['Where', data.where], ['What', data.what], ['Quiet', data.quiet + ' · ' + SAYS(quiet).toLowerCase()], ['Note', data.message]].filter((r) => r[1]);
       const sum = q('[data-m-sum]', dlg); sum.textContent = '';
-      rows.forEach(([k, v]) => { const dt = document.createElement('dt'); dt.className = 'label'; dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; sum.append(dt, dd); });
-      form.hidden = true; done.hidden = false; scroller.scrollTop = 0;
+      rows.forEach(([k, v]) => { const dt = document.createElement('dt'); dt.className = 'm-lab'; dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; sum.append(dt, dd); });
+      form.hidden = true; done.hidden = false; scroller.scrollTop = 0; dlg.classList.add('m-is-done');
       requestAnimationFrame(() => done.classList.add('in'));
       showDb(25); done.focus({ preventScroll: true }); if (T.cursor && T.cursor.refresh) T.cursor.refresh();
     }, () => {
@@ -314,7 +360,7 @@
   });
   function reset() {
     form.reset(); tried = false; ['name', 'email'].forEach((n) => hint(n, '')); setQuiet(25, true);
-    btnT.textContent = 'Send'; fail.hidden = true; form.hidden = false; done.hidden = true; done.classList.remove('in'); msg.style.height = '';
+    btnT.textContent = 'Send'; fail.hidden = true; form.hidden = false; done.hidden = true; dlg.classList.remove('m-is-done'); done.classList.remove('in'); go(1, { quiet: true });
   }
 
   T.contact = { open, close };
