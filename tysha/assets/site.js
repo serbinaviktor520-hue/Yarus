@@ -587,6 +587,7 @@
   const homePage = !!q('[data-hero] [data-hero-wm]');
   const daySecEl = q('[data-pin="400"]');
   T.pageDb = () => {
+    if (T.quiet != null) return T.quiet;   // the contact form is open: the room's own level
     const ih = window.innerHeight;
     if (daySecEl && T.dayDb != null) { const r = daySecEl.getBoundingClientRect(); if (r.top < ih * 0.5 && r.bottom > ih * 0.5) return T.dayDb; }
     const max = document.documentElement.scrollHeight - ih;

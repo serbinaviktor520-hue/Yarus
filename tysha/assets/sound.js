@@ -7,7 +7,7 @@
   const T = window.TYSHA = window.TYSHA || {};
   const AC = window.AudioContext || window.webkitAudioContext;
   if (!AC) return;
-  let ctx, master, B, timer = 0, on = false, B_an = null, fbuf = null;
+  let ctx, master, B, timer = 0, on = false, B_an = null, fbuf = null, B_duck = null, ducked = false;
   const BANDS = [[40, 220], [220, 700], [700, 1800], [1800, 4500], [4500, 11000]];
   const R = Math.random;
   const home = !!document.querySelector('[data-hero] [data-hero-wm]');
@@ -32,7 +32,9 @@
     ctx = T.audioCtx || new AC();   // created and unlocked inside the tap by site.js
     master = gain(0);
     const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -18; comp.ratio.value = 3;
-    chain(master, comp, ctx.destination);
+    // the contact form ducks the room: a lowpass and a lower level (duck() below)
+    B_duck = filt('lowpass', ducked ? 650 : 20000, 0.5);
+    chain(master, B_duck, comp, ctx.destination);
     // a tap on the output for the cursor's equalizer
     B_an = ctx.createAnalyser(); B_an.fftSize = 512; B_an.smoothingTimeConstant = 0.5; B_an.minDecibels = -92; B_an.maxDecibels = -28;
     comp.connect(B_an); fbuf = new Uint8Array(B_an.frequencyBinCount);
@@ -100,7 +102,7 @@
   function tick() {
     const [L, db] = scene();
     // the whole mix gets quieter as the number falls: 68 dB -> 1.0, 25 dB -> ~0.3
-    to(master.gain, on ? Math.pow(10, (db - 68) / 80) : 0, 0.5);
+    to(master.gain, on ? Math.pow(10, (db - 68) / 80) * (ducked ? 0.35 : 1) : 0, 0.5);
     ['traffic', 'cars', 'hum', 'wind', 'water', 'room'].forEach((k, i) => to(B[k].gain, L[i], 0.8));
     B.rate.birds = L[6]; B.rate.cup = L[7]; B.rate.drip = L[8];
     const dt = 0.1;
@@ -134,6 +136,13 @@
       setTimeout(() => { if (!on) { clearInterval(timer); timer = 0; ctx.suspend && ctx.suspend(); } }, 700);
     },
     click,
+    // the room goes quiet (contact form open): muffled and lower; back to the scene on false
+    duck(v) {
+      ducked = !!v;
+      if (!ctx) return;
+      to(B_duck.frequency, ducked ? 650 : 20000, ducked ? 0.35 : 0.6);
+      if (on) tick();
+    },
     // five bands of what is playing now, 0..1 (null while silent or suspended)
     bands() {
       if (!on || !B_an || ctx.state !== 'running') return null;
