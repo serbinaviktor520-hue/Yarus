@@ -29,7 +29,7 @@
   const to = (param, v, tau = 0.6) => param.setTargetAtTime(v, ctx.currentTime, tau);
 
   function build() {
-    ctx = new AC();
+    ctx = T.audioCtx || new AC();   // created and unlocked inside the tap by site.js
     master = gain(0);
     const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -18; comp.ratio.value = 3;
     chain(master, comp, ctx.destination);
@@ -122,7 +122,7 @@
     on() {
       if (!ctx) build();
       on = true;
-      ctx.resume && ctx.resume();
+      if (ctx.resume) { const r = ctx.resume(); if (r && r.catch) r.catch(() => {}); }
       if (!timer) { timer = setInterval(tick, 100); tick(); }
       document.addEventListener('pointerover', hover, true); document.addEventListener('pointerdown', press, true);
     },
@@ -144,5 +144,5 @@
     level: () => (master ? +master.gain.value.toFixed(3) : 0),   // for testing
     state: () => (ctx ? ctx.state : 'none'),
   };
-  document.addEventListener('visibilitychange', () => { if (!ctx || !on) return; if (document.hidden) ctx.suspend(); else ctx.resume(); });
+  document.addEventListener('visibilitychange', () => { if (!ctx || !on) return; if (document.hidden) ctx.suspend(); else { const r = ctx.resume(); if (r && r.catch) r.catch(() => {}); } });
 })();

@@ -510,24 +510,76 @@
       const s = document.createElement('script'); s.src = BASE + 'assets/sound.js' + AV;
       s.onload = () => (T.sound ? ok(T.sound) : no()); s.onerror = no; document.head.appendChild(s);
     }));
+    // Mobile browsers only start audio inside the tap itself (iOS Safari: touchend / click / keydown, synchronously).
+    // So the AudioContext is created and resumed here, in the handler, before sound.js has even loaded, with a
+    // one-sample buffer to unlock it; sound.js then builds on this context (T.audioCtx).
+    const AC = window.AudioContext || window.webkitAudioContext;
+    let actx = null, silent = null, want = false;
+    const IOSISH = !navigator.audioSession && 'ontouchend' in document;
+    const silence = () => {
+      // iOS before 16.4 plays Web Audio in the "ambient" session, which the ring/silent switch mutes; a looping silent
+      // media element (also started inside the tap) moves the page to the "playback" session
+      if (silent) return silent;
+      const n = 800, buf = new Uint8Array(44 + n), v = new DataView(buf.buffer);
+      const str = (o, t) => { for (let i = 0; i < t.length; i++) buf[o + i] = t.charCodeAt(i); };
+      str(0, 'RIFF'); v.setUint32(4, 36 + n, true); str(8, 'WAVEfmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+      v.setUint32(24, 8000, true); v.setUint32(28, 8000, true); v.setUint16(32, 1, true); v.setUint16(34, 8, true); str(36, 'data'); v.setUint32(40, n, true);
+      buf.fill(128, 44);
+      silent = new Audio(URL.createObjectURL(new Blob([buf], { type: 'audio/wav' })));
+      silent.loop = true; silent.setAttribute('playsinline', ''); silent.preload = 'auto';
+      return silent;
+    };
+    const unlock = () => {
+      try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) { /* older Safari */ }
+      if (!actx) { actx = T.audioCtx = new AC(); actx.addEventListener('statechange', sync); }
+      if (actx.state !== 'running') { const r = actx.resume(); if (r && r.catch) r.catch(() => {}); }
+      const b = actx.createBufferSource(); b.buffer = actx.createBuffer(1, 1, 22050); b.connect(actx.destination); b.start(0);
+      if (IOSISH) { const pr = silence().play(); if (pr && pr.catch) pr.catch(() => {}); }
+    };
+    // the label tells the truth: "on" only while the context really runs (iOS suspends it on a call, a lock, Siri)
     const set = (on) => {
       sb.setAttribute('aria-pressed', String(on)); sbs.textContent = on ? 'on' : 'off';
-      try { sessionStorage.setItem('tysha-sound', on ? '1' : '0'); } catch (e) { /* not remembered */ }
     };
-    sb.addEventListener('click', () => {
-      const on = sb.getAttribute('aria-pressed') !== 'true'; set(on);
-      T.toast(on ? 'Sound on — the city fades as you scroll' : 'Sound off');
-      if (on) load().then((S) => S.on(), () => { set(false); T.toast('Sound is not available here'); }); else if (T.sound) T.sound.off();
-    });
-    let want = false;
-    try { want = sessionStorage.getItem('tysha-sound') === '1'; } catch (e) { /* first visit */ }
-    if (want) {
-      // remembered from the previous page; browsers only allow audio after a gesture on this one
-      set(true);
-      const EVS = ['pointerdown', 'keydown'];
-      const kick = (e) => { EVS.forEach((n) => window.removeEventListener(n, kick, true)); if (e.target !== sb && sb.getAttribute('aria-pressed') === 'true') load().then((S) => S.on()); };
-      EVS.forEach((n) => window.addEventListener(n, kick, true));
+    const remember = (on) => { try { sessionStorage.setItem('tysha-sound', on ? '1' : '0'); } catch (e) { /* not remembered */ } };
+    const GESTURE = ['touchend', 'click', 'keydown'];
+    let armed = false;
+    const rearm = () => {
+      if (armed) return; armed = true;
+      const go = (e) => {
+        GESTURE.forEach((n) => window.removeEventListener(n, go, true)); armed = false;
+        if (!want || e.target === sb || sb.contains(e.target)) return;   // the button handles its own tap
+        unlock(); load().then((S) => S.on(), () => {});
+      };
+      GESTURE.forEach((n) => window.addEventListener(n, go, { capture: true, passive: true }));
+    };
+    function sync() {
+      if (!actx) return;
+      const running = actx.state === 'running';
+      set(want && running);
+      // suspended or interrupted while wanted (and the page is visible): the next tap brings it back
+      if (want && !running && !document.hidden) rearm();
     }
+    sb.addEventListener('click', () => {
+      want = sb.getAttribute('aria-pressed') !== 'true';
+      remember(want);
+      if (want) {
+        unlock();
+        set(true);
+        T.toast('Sound on — the city fades as you scroll');
+        load().then((S) => { S.on(); setTimeout(sync, 400); }, () => { want = false; remember(false); set(false); T.toast('Sound is not available here'); });
+      } else {
+        set(false); T.toast('Sound off');
+        if (T.sound) T.sound.off();
+        if (silent) silent.pause();
+      }
+    });
+    try { want = sessionStorage.getItem('tysha-sound') === '1'; } catch (e) { /* first visit */ }
+    // remembered from the previous page: the label waits for the first tap on this page, which starts the sound
+    if (want) rearm();
+    const wake = () => { if (want && actx && actx.state !== 'running' && !document.hidden) { const r = actx.resume(); if (r && r.catch) r.catch(() => {}); setTimeout(sync, 300); } };
+    document.addEventListener('visibilitychange', wake);
+    window.addEventListener('pageshow', wake);
+    window.addEventListener('focus', wake);
   }
 
   /* ---------- 3e2. the page's noise level, as the site tells it: 68 dB at the top of the home page, 25 dB at the
