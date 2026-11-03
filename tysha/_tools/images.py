@@ -21,7 +21,7 @@
 
 To swap photos: drop the new files into tysha/img/src/ under the same names and run the script.
 """
-import html, os, re, sys
+import hashlib, html, os, re, sys
 from PIL import Image, ImageOps
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -58,7 +58,10 @@ def encode():
         src = os.path.join(SRC, f)
         im = ImageOps.exif_transpose(Image.open(src)).convert('RGB')
         ws = widths_for(im.width)
-        manifest[name] = {'w': im.width, 'h': im.height, 'widths': ws}
+        # cache-busting: every URL carries ?v=<hash of the source>, so a replaced photo under an old file name
+        # is a new URL for browsers and CDNs (img/ is served with a week-long max-age)
+        v = hashlib.md5(open(src, 'rb').read()).hexdigest()[:8]
+        manifest[name] = {'w': im.width, 'h': im.height, 'widths': ws, 'v': v}
         fb = jpg_width(ws)
         for w in ws:
             small = im if w == im.width else im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)
@@ -108,23 +111,24 @@ def picture(name, img_attrs, prefix, man):
         a = [(k, v) for k, v in a if k != 'loading']
     elif 'loading' not in keys and not defer:
         a.append(('loading', 'lazy'))
-    ss = lambda e: ', '.join(f'{prefix}img/{name}-{w}.{e} {w}w' for w in ws)
+    v = info['v']
+    ss = lambda e: ', '.join(f'{prefix}img/{name}-{w}.{e}?v={v} {w}w' for w in ws)
     fallback = jpg_width(ws)
     sattr = 'data-srcset' if defer else 'srcset'
     parts = [f'<picture data-img="{name}">']
     mob = MOBILE(name, man)
     if mob:
         # art-directed phone crop first: the browser takes the first <source> whose media matches
-        ms = lambda e: ', '.join(f'{prefix}img/{mob}-{w}.{e} {w}w' for w in man[mob]['widths'])
+        ms = lambda e: ', '.join(f'{prefix}img/{mob}-{w}.{e}?v={man[mob]["v"]} {w}w' for w in man[mob]['widths'])
         parts += [f'<source media="{MQ}" type="image/avif" {sattr}="{ms("avif")}" sizes="100vw">',
                   f'<source media="{MQ}" type="image/webp" {sattr}="{ms("webp")}" sizes="100vw">']
     parts += [f'<source type="image/avif" {sattr}="{ss("avif")}" sizes="{sizes}">',
              f'<source type="image/webp" {sattr}="{ss("webp")}" sizes="{sizes}">']
     tag = ['<img']
     if defer:
-        tag.append(f'src="{PLACEHOLDER}" data-src="{prefix}img/{name}-{fallback}.jpg"')
+        tag.append(f'src="{PLACEHOLDER}" data-src="{prefix}img/{name}-{fallback}.jpg?v={v}"')
     else:
-        tag.append(f'src="{prefix}img/{name}-{fallback}.jpg"')
+        tag.append(f'src="{prefix}img/{name}-{fallback}.jpg?v={v}"')
     tag.append(f'width="{info["w"]}" height="{info["h"]}"')
     for k, v in a:
         tag.append(k if v is None else f'{k}="{v}"')
@@ -164,8 +168,8 @@ def rewrite(man):
             out.append(s)
         out.append(t[pos:]); t = ''.join(out)
         # footer wordmark photo
-        t = re.sub(r'(<image\b[^>]*\bhref=")(?:\.\./)?img/([\w-]+?)(?:-\d+)?\.jpg"',
-                   lambda m: f'{m.group(1)}{prefix}img/{m.group(2)}-{jpg_width(man[m.group(2)]["widths"])}.jpg"' if m.group(2) in man else m.group(0), t)
+        t = re.sub(r'(<image\b[^>]*\bhref=")(?:\.\./)?img/([\w-]+?)(?:-\d+)?\.jpg(?:\?v=\w+)?"',
+                   lambda m: f'{m.group(1)}{prefix}img/{m.group(2)}-{jpg_width(man[m.group(2)]["widths"])}.jpg?v={man[m.group(2)]["v"]}"' if m.group(2) in man else m.group(0), t)
         # preload the hero image
         t = re.sub(r'<link rel="preload" as="image"[^>]*data-img-preload[^>]*>\n', '', t)
         hm = re.search(r'<picture data-img="([\w-]+)">(?:(?!</picture>).)*data-hero-img', t, flags=re.S)
@@ -176,10 +180,10 @@ def rewrite(man):
             # with a phone crop, each viewport preloads only the file it will show
             media = f' media="(min-width: 761px)"' if mob else ''
             link = (f'<link rel="preload" as="image" type="image/avif" fetchpriority="high"{media} imagesrcset="'
-                    + ', '.join(f'{prefix}img/{name}-{w}.avif {w}w' for w in ws) + f'" imagesizes="{sizes}" data-img-preload>\n')
+                    + ', '.join(f'{prefix}img/{name}-{w}.avif?v={man[name]["v"]} {w}w' for w in ws) + f'" imagesizes="{sizes}" data-img-preload>\n')
             if mob:
                 link = (f'<link rel="preload" as="image" type="image/avif" fetchpriority="high" media="{MQ}" imagesrcset="'
-                        + ', '.join(f'{prefix}img/{mob}-{w}.avif {w}w' for w in man[mob]['widths']) + '" imagesizes="100vw" data-img-preload>\n') + link
+                        + ', '.join(f'{prefix}img/{mob}-{w}.avif?v={man[mob]["v"]} {w}w' for w in man[mob]['widths']) + '" imagesizes="100vw" data-img-preload>\n') + link
             t = t.replace('<link rel="stylesheet"', link + '<link rel="stylesheet"', 1)
         open(path, 'w', encoding='utf-8').write(t)
         print('rewrote', page)

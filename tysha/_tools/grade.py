@@ -27,7 +27,7 @@ SRC = os.path.normpath(os.path.join(HERE, '..', 'img', 'src'))
 
 # slot: (raw file, crop box on the raw frame or None, kelvin shift, saturation factor)
 SLOTS = {
-    'h08': ('01_hero_straight.png', None, 0, 1.0),
+    'h08': ('v3/hero_gpt.png', None, 0, 1.0),       # stage 3: strictly frontal, steps centred
     'h08m': ('01_hero_mobile.png', None, 0, 1.0),   # art-directed portrait hero for phones
     'g02': ('01_hero_straight.png', (280, 300, 1290, 760), 0, 1.0),
     'g16': ('02_forest.png', None, -100, 1.0),
@@ -35,13 +35,13 @@ SLOTS = {
     'g15': ('06_day_0610.png', None, 0, 1.0),
     'h03': ('07_day_0900.png', None, 0, 1.0),
     'g14': ('05_day_1430.png', None, 0, 1.0),
-    'h06': ('08_day_1900.png', None, 0, 1.0),
-    'h09': ('09_day_2340.png', None, 0, 1.0),
+    'h06': ('v3/08_day_1900_nolamp.png', None, 0, 1.0),   # lamp removed (see the note on the day lamp below)
+    'h09': ('v3/09_day_2340_nolamp.png', None, 0, 1.0),
     'h04': ('03_aerial.png', None, -150, 1.0),
     'g03': ('04_drawing.png', (0, 230, 1024, 1000), 0, 1.0),
     'g11': ('10_bedroom.png', None, -400, 0.8),
     'h01': ('11_corridor.png', None, 0, 1.0),
-    'g09': ('12_bluehour.png', None, 0, 1.0),
+    'g09': ('v3/contact.png', None, 0, 1.0),       # house left, dark sky and water right: the form sits there
     'g06': ('13_panorama.png', (420, 0, 1536, 1024), -100, 1.0),
     'h00': ('14_hollow.png', None, 0, 1.0),
     'g01': ('15_pinecourt.png', None, -100, 1.0),
@@ -51,9 +51,14 @@ SLOTS = {
     'h05': ('h05_materials.png', None, 0, 1.0),
     'g07': ('g07_meter_aerial.png', None, -200, 1.0),
     'g08': ('g08_architect_meter.png', None, 0, 1.0),
-    'g04': ('g04_road.jpg', None, -350, 0.65),   # the stage-1 photo, re-graded to match
+    'g04': ('v3/road.png', None, -450, 0.7),       # misty pine road into the lake valley (portrait), muted
 }
 LONG = {'h08': 3200, 'g16w': 3200}
+# Day lamp (stage 3): the raw 19:00 frame had a mushroom lamp behind the sofa, the 23:40 frame a different drum lamp at
+# the left edge, the other hours none. A composite of one lamp into all five frames was tried and rejected (the unlit
+# day-time lamp read as pasted), so both lamps were taken out of the raws instead: the wall behind them is the same
+# travertine panel from the 14:30 frame (same camera), relit to each frame; at 23:40 the light now falls from a lamp
+# just outside the frame, left. The cleaned raws are v3/08_day_1900_nolamp.png and v3/09_day_2340_nolamp.png.
 DAY = ('g15', 'h03', 'g14', 'h06', 'h09')        # same camera: identical crop, size and chain
 
 
@@ -155,7 +160,7 @@ def soften(a, box, sigma=0.5, feather=4):
 
 def fixes(slot, raw_dir, a):
     if slot == 'h08':
-        a = soften(a, (1046, 528, 1112, 600))      # raw-frame box around the couple
+        a = soften(a, (1000, 512, 1070, 576), sigma=0.4)   # raw-frame box around the couple
     if slot == 'h08m':
         a = soften(a, (703, 818, 774, 884))
     if slot == 'h03':

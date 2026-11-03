@@ -12,8 +12,8 @@
     h08: [1.6, 0.06, 0, 0, 0, 0], h08m: [1.6, 0.06, 0, 0, 0, 0],
     g15: [0, 0, 10, 0, 5, 0.2], // 06:10 mist over the lake
     h03: [0, 0, 4, 0, 16, 0.42], // 09:00 caustics on the ceiling
-    h06: [0, 0, 0, 0.07, 0, 0], // 19:00 the lamp
-    h09: [1.1, 0.16, 0, 0.06, 0, 0], // 23:40 lamp, moon on the water
+    h06: [0.8, 0.05, 0, 0, 0, 0], // 19:00 the evening lake in the window
+    h09: [1.1, 0.16, 0, 0, 0, 0], // 23:40 the moon on the water
     g09: [0.9, 0.03, 3, 0, 30, 0.9], // blue hour: mist on the water (R), chimney smoke (G)
   };
   const VS = 'attribute vec2 a;varying vec2 v;void main(){v=vec2(a.x*.5+.5,.5-a.y*.5);gl_Position=vec4(a,0,1);}';
@@ -58,7 +58,9 @@
       try {
         if (!im.complete || im.naturalWidth < 3) await new Promise((ok) => im.addEventListener('load', ok, { once: true }));
         if (im.decode) await im.decode();
-        const mask = await loadImg(BASE + 'img/' + slot + '-live.png');
+        // the mask changes with its photo: reuse the photo's ?v= so a new photo never gets a cached old mask
+        const v = ((im.currentSrc || im.src).match(/\?v=(\w+)/) || [])[1];
+        const mask = await loadImg(BASE + 'img/' + slot + '-live.png' + (v ? '?v=' + v : ''));
         if (k !== token) return;
         gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tI); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, im);
         gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, tM); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, mask);
