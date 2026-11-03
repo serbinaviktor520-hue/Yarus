@@ -638,8 +638,6 @@ main:focus{outline:none}
 .day-img.on{opacity:1;z-index:1;transition:opacity .7s cubic-bezier(.4,0,.2,1)}
 @media (prefers-reduced-motion:reduce){.day-img,.day-img.on{transition:none}}
 @media (min-width:761px){[data-pin="400"] .day-frame{bottom:132px;top:calc(20px + 12px * 1.45 + 14px)}}   /* the section label row stays on the dark ground */
-/* portrait tablets: the whole 3:2 frame, uncropped, above the hours; heading and number on the dark ground */
-@media (min-width:761px) and (max-aspect-ratio:1/1){[data-pin="400"] .day-frame{top:auto;height:calc((100vw - 40px) * 2 / 3);left:20px;right:20px}}
 /* readability without a band: a soft dark halo hugging the letters only */
 [data-pin="400"] :is(h2,.span-2){text-shadow:0 0 2px rgba(11,11,10,.35),0 0 14px rgba(11,11,10,.5),0 0 40px rgba(11,11,10,.4)}
 [data-pin="400"] .fs-12{text-shadow:0 0 2px rgba(11,11,10,.85),0 0 7px rgba(11,11,10,.75),0 0 18px rgba(11,11,10,.55)}
@@ -648,11 +646,6 @@ main:focus{outline:none}
   [data-pin="400"] :is(h2,.span-2){text-shadow:0 0 2px rgba(11,11,10,.45),0 0 14px rgba(11,11,10,.6),0 0 44px rgba(11,11,10,.45)}
   [data-pin="400"] .fs-12{text-shadow:0 0 2px rgba(11,11,10,.95),0 0 6px rgba(11,11,10,.9),0 0 16px rgba(11,11,10,.7)}
 }
-@media (max-width:760px){
-  /* phones (as on main): the 3:2 frames in a square box above the hour buttons, the whole room in view */
-  [data-pin="400"] .day-frame{top:auto;bottom:max(92px,11svh);aspect-ratio:1/1}
-}
-@media (max-width:760px){[data-pin="400"] .day-img{object-position:40% 50%}}
 
 /* contact: no scrim. The house is on the left of the photo, the heading and the form on its dark sky and water
    right of the axis (text checked at >= 4.5:1 against the pixels under it, 1280-2560 wide) */
@@ -850,4 +843,32 @@ dialog.m::backdrop{background:transparent}
   .m-in,.m-top,.m-side-cap,.m.is-open :is(.m-in,.m-top,.m-side-cap){transform:none;transition:opacity .25s linear;transition-delay:0s}
   .m-done>*,.m-done.in>*{transform:none;transition:opacity .25s linear}
   .m-veil{transition-duration:.25s}
+}
+
+/* day section, phones and portrait tablets: one composed screen. The label row; the heading and the live number side by
+   side; the photo straight below them; the hours under it. Spare height goes above the heading, never between the
+   number, the photo and the hours. Phones show the frames' own 4:5 portrait crops (h03m...) whole; a portrait tablet's
+   box is landscape, so it keeps the 3:2 frames. The frames still cross-fade in place; no text sits on the photo. */
+@media (max-width:1023px) and (orientation:portrait){
+  [data-pin="400"] .day-frame{position:relative;inset:auto;z-index:2;order:2;flex:0 1 auto;min-height:0;margin:24px -20px 20px;top:auto;bottom:auto}
+  [data-pin="400"] [data-pin-inner]>.sec-head{order:0}
+  [data-pin="400"] [data-pin-inner]>.grid-12{order:1}
+  [data-pin="400"] [data-pin-inner]>.div-4{order:3;margin-top:0}
+  [data-pin="400"] :is(h2,.span-2,.fs-12){text-shadow:none}
+}
+@media (max-width:760px) and (orientation:portrait){
+  [data-pin="400"] .day-frame{aspect-ratio:4/5}
+  [data-pin="400"] .day-img{object-position:50% 50%}
+}
+@layer base{@media (max-width:760px) and (orientation:portrait){
+  .day-pin>.mt-120{margin-top:auto!important;padding-top:24px;flex-direction:row!important;justify-content:space-between!important;align-items:flex-end!important;gap:16px!important}
+  .day-pin>.mt-120>h2{font-size:clamp(28px,8vw,36px)!important;line-height:1!important;max-width:6.4em}
+  [data-pin="400"] .span-2{font-size:clamp(64px,19vw,88px)!important}
+  [data-pin="400"] .div-4 .day-grid{column-gap:8px!important}
+}}
+@media (min-width:761px) and (max-width:1023px) and (orientation:portrait){
+  .day-pin>.mt-120{margin-top:auto;padding-top:32px}
+  [data-pin="400"] .day-frame{flex:1 1 auto}
+  [data-pin="400"] .day-img{object-position:42% 70%}
+  [data-pin="400"] .span-2{font-size:120px}
 }

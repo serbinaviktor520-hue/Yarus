@@ -77,7 +77,7 @@
     const L = { cv, imgs, img: null, on: false, ready: false, t0: performance.now() };
     let token = 0;
     L.use = async (im) => {
-      const k = ++token; const slot = im && slotOf(im); const fx = slot && FX[slot];
+      const k = ++token; const slot = im && slotOf(im); const fx = slot && (FX[slot] || (/m$/.test(slot) && FX[slot.slice(0, -1)]));   // a phone crop: its photo's effect
       L.ready = false; cv.classList.remove('on');
       if (!fx) { L.img = null; return; }
       try {

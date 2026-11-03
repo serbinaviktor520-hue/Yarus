@@ -134,9 +134,19 @@ def g09():
 MASKS = {'h08': h08, 'h08m': h08m, 'g15': g15, 'h03': h03, 'h06': h06, 'h09': h09, 'g09': g09}
 
 
+# the 4:5 phone crops of the day frames (grade.py DAY_M, 2560-frame pixels) get the same cut of their masks
+DAY_M = (605, 0, 605 + 1366, 1707)
+
+
 def main():
-    for slot, fn in MASKS.items():
-        R, G, B = fn()
+    for slot, fn in list(MASKS.items()) + [(d + 'm', None) for d in ('g15', 'h03', 'h06', 'h09')]:
+        if fn is None:
+            R, G, B = MASKS[slot[:-1]]()
+            k = 1536 / 2560
+            box = tuple(round(v * k) for v in DAY_M)
+            R, G, B = (c.crop(box) for c in (R, G, B))
+        else:
+            R, G, B = fn()
         im = Image.merge('RGB', (R, G, B))
         s = LONG / max(im.size)
         im = im.resize((round(im.width * s), round(im.height * s)), Image.LANCZOS)

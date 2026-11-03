@@ -33,6 +33,8 @@ WIDTHS = [480, 960, 1600, 2560]
 FMT = {'avif': dict(format='AVIF', quality=52, speed=6), 'webp': dict(format='WEBP', quality=78, method=6), 'jpg': dict(format='JPEG', quality=80, progressive=True, optimize=True)}
 OG_FROM, OG_FOCUS_Y = 'h08', 0.30
 MQ = '(max-width: 760px)'
+# the day frames' portrait crops: phones held upright (a portrait tablet's photo box is landscape, it keeps the 3:2 frames)
+MQ_FOR = {n: '(max-width: 760px) and (orientation: portrait)' for n in ('g15', 'h03', 'g14', 'h06', 'h09')}
 MOBILE = lambda name, man: (name + 'm') if (name + 'm') in man and not name.endswith('m') else None
 PLACEHOLDER = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='
 FORCE = '--force' in sys.argv
@@ -123,8 +125,9 @@ def picture(name, img_attrs, prefix, man):
     if mob:
         # art-directed phone crop first: the browser takes the first <source> whose media matches
         ms = lambda e: ', '.join(f'{prefix}img/{mob}-{w}.{e}?v={man[mob]["v"]} {w}w' for w in man[mob]['widths'])
-        parts += [f'<source media="{MQ}" type="image/avif" {sattr}="{ms("avif")}" sizes="100vw">',
-                  f'<source media="{MQ}" type="image/webp" {sattr}="{ms("webp")}" sizes="100vw">']
+        mq = MQ_FOR.get(name, MQ)
+        parts += [f'<source media="{mq}" type="image/avif" {sattr}="{ms("avif")}" sizes="100vw">',
+                  f'<source media="{mq}" type="image/webp" {sattr}="{ms("webp")}" sizes="100vw">']
     parts += [f'<source type="image/avif" {sattr}="{ss("avif")}" sizes="{sizes}">',
              f'<source type="image/webp" {sattr}="{ss("webp")}" sizes="{sizes}">']
     tag = ['<img']

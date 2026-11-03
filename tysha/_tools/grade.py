@@ -4,6 +4,7 @@
     python3 tysha/_tools/grade.py --raw /path/to/raw            # all slots
     python3 tysha/_tools/grade.py --raw /path/to/raw h08 g16    # only these slots
     python3 tysha/_tools/images.py --force                      # then encode for the web
+    python3 tysha/_tools/grade.py --day-mobile                  # the 4:5 phone crops of the day frames (after grading)
 
 The raw folder holds the original PNG renders under the names in SLOTS below (they are not committed:
 they are large and only this script reads them). Every slot goes through the same chain:
@@ -257,7 +258,22 @@ def grade(slot, raw_dir):
     return out.size
 
 
+# Phones and portrait tablets: the five day frames as 4:5 portraits, one rectangle for all (they stay pixel-aligned while
+# they cross-fade): the sofa arm's edge, the table under the window, the bench and the slippers. Cut from the graded
+# 2560 px frames (no new grading), in 2560-frame pixels; live_masks.py cuts the masks with the same box.
+DAY_M = (605, 0, 605 + 1366, 1707)
+
+
+def day_mobile():
+    for slot in DAY:
+        im = Image.open(os.path.join(SRC, slot + '.jpg'))
+        im.crop(DAY_M).save(os.path.join(SRC, slot + 'm.jpg'), quality=88, subsampling=0, optimize=True)
+        print(slot + 'm', DAY_M)
+
+
 def main():
+    if '--day-mobile' in sys.argv:
+        return day_mobile()
     ap = argparse.ArgumentParser()
     ap.add_argument('--raw', required=True, help='folder with the raw renders')
     ap.add_argument('slots', nargs='*')
