@@ -380,6 +380,7 @@ picture>source{display:none}
 .rv-img{clip-path:inset(100% 0 0 0);transform:scale(1.25)}
 .rv-img.in{clip-path:inset(0% 0 0 0);transform:scale(1);transition:clip-path 1.5s cubic-bezier(.77,0,.18,1),transform 1.9s var(--ez)}
 .rv-scr{opacity:0}
+.rv-now{transition:none!important}
 :root{--ez:cubic-bezier(.16,.84,.24,1)}
 .day-img.on{opacity:1;transform:scale(1)}
 .day-btn[aria-pressed="true"]{border-top-color:#EAE6DE;color:#EAE6DE}
@@ -396,7 +397,8 @@ main:focus{outline:none}
 .radio:focus-visible{outline:2px solid #EAE6DE;outline-offset:3px}
 @media (max-width:1024px){
   /* 44px tap targets without moving anything */
-  .site-foot a,.form-fail a,[data-form] a,.t-note a,.u[href]{display:inline-block;padding-block:13px;margin-block:-13px}
+  .site-foot a{display:inline-block;padding-block:13px;margin-block:-13px}
+  .form-fail a,[data-form] a,.t-note a,.u[href]{padding-block:13px}
 }
 
 /* ---- 7. dB badge: small, solid, in the right gutter (never over text) ---- */

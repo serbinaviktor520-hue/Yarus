@@ -122,10 +122,10 @@
     // keyboard users: whatever receives focus is shown at once, never left at opacity 0 or scrambled
     document.addEventListener('focusin', (e) => {
       for (let el = e.target; el && el !== root; el = el.parentElement) {
-        if (el.classList.contains('rv')) reveal(el);
+        if (el.classList.contains('rv')) { el.classList.add('rv-now'); reveal(el); }
         if (el._tn) { scramble(el); finishScramble(el); }
       }
-      qa('img.rv-img', e.target).forEach(revealImg);
+      qa('img.rv-img', e.target).forEach((im) => { im.classList.add('rv-now'); revealImg(im); });
       const st = e.target.closest && e.target.closest('[data-st-fade]');
       if (st && G.st) window.scrollTo({ top: G.st.top, behavior: 'instant' });
     });
@@ -279,6 +279,10 @@
   }
 
   if (!document.body.hasAttribute('data-preloader')) start();
+
+  // skip link: focus <main> directly (a plain #main would follow <base href> on the 404 page)
+  const skip = q('.skip-link'), main = q('#main');
+  if (skip && main) skip.addEventListener('click', (e) => { e.preventDefault(); main.focus(); main.scrollIntoView(); });
 
   /* ---------- 3a. contact form (simulated: no backend in this concept) ---------- */
   const form = q('[data-form]');
