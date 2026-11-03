@@ -15,6 +15,7 @@
   const clamp = (x) => (x < 0 ? 0 : x > 1 ? 1 : x);
   const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
   const GL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/·—';
+  const FINE = window.matchMedia('(pointer: fine)');
   T.reduced = () => RM.matches;
 
   /* ---------- 1. scroll engine ---------- */
@@ -134,7 +135,7 @@
     const hero = q('[data-hero]', root), heroImg = q('[data-hero-img]', root), heroFade = qa('[data-hero-fade]', root), heroWm = q('[data-hero-wm]', root);
     const st = q('[data-pin="320"]', root);
     const stInner = st && q('[data-pin-inner]', st), stPill = q('[data-st-pill]', root), stLayer = q('[data-st-layer]', root), stLayerImg = q('[data-st-layer-img]', root), stOver = q('[data-st-over]', root), stFade = qa('[data-st-fade]', root);
-    const day = q('[data-pin="460"]', root), dayBar = q('[data-day-bar]', root);
+    const day = q('[data-pin="400"]', root), dayBar = q('[data-day-bar]', root);
     const pano = q('[data-pano]', root), panoImg = q('[data-pano-img]', root);
     const marq = q('[data-marquee]', root), zoom = q('[data-zoom]', root);
     const floats = qa('[data-float]', root);
@@ -229,6 +230,42 @@
     RM.addEventListener && RM.addEventListener('change', () => { qa('[data-float], [data-marquee], [data-zoom], [data-hero-img], [data-hero-wm], [data-pano-img]', root).forEach((el) => { el.style.transform = ''; }); if (pano) pano.style.clipPath = ''; remeasure(); });
     sy = window.scrollY; measure(); frame();
     badge();
+
+    // ---- eased wheel scrolling (mouse and trackpad only) ----
+    // The page keeps its native scroll position: the wheel only sets a target and every animation frame
+    // moves window.scrollY a tenth of the way there, then runs the scene frame in the same tick, so
+    // pinned and scrubbed scenes never lag a frame behind. Keys, the scrollbar, anchors, focus and the
+    // skip link scroll natively; any such jump simply becomes the new resting point.
+    if (FINE.matches && !reduced) {
+      let target = window.scrollY, cur = target, set = target, run = 0;
+      const stop = () => { if (run) cancelAnimationFrame(run); run = 0; };
+      const step = () => {
+        run = 0;
+        if (Math.abs(window.scrollY - set) > 2) { target = cur = set = window.scrollY; return; }
+        cur += (target - cur) * 0.1;
+        if (Math.abs(target - cur) < 0.4) cur = target;
+        window.scrollTo(0, cur); set = window.scrollY;
+        if (T.raf) { cancelAnimationFrame(T.raf); T.raf = 0; }
+        sy = set; frame();
+        if (cur !== target) run = requestAnimationFrame(step);
+      };
+      const inner = (el) => {
+        for (; el && el.nodeType === 1 && el !== document.body; el = el.parentElement) {
+          if (el.scrollHeight > el.clientHeight + 1 && /(auto|scroll)/.test(getComputedStyle(el).overflowY)) return true;
+        }
+        return false;
+      };
+      window.addEventListener('wheel', (e) => {
+        if (e.ctrlKey || e.defaultPrevented || RM.matches || Math.abs(e.deltaX) > Math.abs(e.deltaY) || document.documentElement.style.overflow === 'hidden' || inner(e.target)) return;
+        e.preventDefault();
+        if (!run) target = cur = set = window.scrollY;
+        const d = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
+        target = Math.max(0, Math.min(document.documentElement.scrollHeight - window.innerHeight, target + d));
+        if (!run) run = requestAnimationFrame(step);
+      }, { passive: false });
+      window.addEventListener('keydown', stop, true);
+      window.addEventListener('pointerdown', stop, true);
+    }
   }
   T.start = start;
 
@@ -383,6 +420,67 @@
       }
     });
     window.matchMedia('(min-width: 1025px)').addEventListener('change', (m) => { if (m.matches) close(false); });
+  }
+
+  /* ---------- 3e. sound toggle: off by default, never autoplays; the engine (sound.js) loads on demand ---------- */
+  if (header && (window.AudioContext || window.webkitAudioContext)) {
+    const sb = document.createElement('button');
+    sb.type = 'button'; sb.className = 't-pill t-sound'; sb.setAttribute('aria-pressed', 'false'); sb.textContent = 'Sound off';
+    sb.setAttribute('data-cursor', 'Listen');
+    header.insertBefore(sb, q('.t-menu-btn', header));
+    const load = () => (T.sound ? Promise.resolve(T.sound) : new Promise((ok, no) => {
+      const s = document.createElement('script'); s.src = BASE + 'assets/sound.js';
+      s.onload = () => (T.sound ? ok(T.sound) : no()); s.onerror = no; document.head.appendChild(s);
+    }));
+    const set = (on) => {
+      sb.setAttribute('aria-pressed', String(on)); sb.textContent = on ? 'Sound on' : 'Sound off';
+      try { sessionStorage.setItem('tysha-sound', on ? '1' : '0'); } catch (e) { /* not remembered */ }
+    };
+    sb.addEventListener('click', () => {
+      const on = sb.getAttribute('aria-pressed') !== 'true'; set(on);
+      if (on) load().then((S) => S.on(), () => set(false)); else if (T.sound) T.sound.off();
+    });
+    let want = false;
+    try { want = sessionStorage.getItem('tysha-sound') === '1'; } catch (e) { /* first visit */ }
+    if (want) {
+      // remembered from the previous page; browsers only allow audio after a gesture on this one
+      set(true);
+      const EVS = ['pointerdown', 'keydown'];
+      const kick = (e) => { EVS.forEach((n) => window.removeEventListener(n, kick, true)); if (e.target !== sb && sb.getAttribute('aria-pressed') === 'true') load().then((S) => S.on()); };
+      EVS.forEach((n) => window.addEventListener(n, kick, true));
+    }
+  }
+
+  /* ---------- 3f. cursor: a small dot that follows with a little lag (mouse only, motion allowed) ----------
+     The native cursor stays. Over the project card it reads "View", over the day section the current dB,
+     over anything with data-cursor (the sound toggle) that word. */
+  if (FINE.matches && !RM.matches && root) {
+    const c = document.createElement('div'); c.className = 't-cursor'; c.setAttribute('aria-hidden', 'true');
+    c.innerHTML = '<span></span>'; document.body.appendChild(c);
+    const lab = c.firstChild, daySec = q('[data-pin="400"]'), dayDb = q('#day-db');
+    let x = 0, y = 0, cx = 0, cy = 0, raf = 0, mode = '';
+    const text = () => (mode === 'db' ? dayDb.textContent + ' dB' : mode);
+    const step = () => {
+      raf = 0; cx += (x - cx) * 0.2; cy += (y - cy) * 0.2;
+      c.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0)';
+      if (mode === 'db' && lab.textContent !== text()) lab.textContent = text();
+      if (Math.abs(x - cx) + Math.abs(y - cy) > 0.2 || mode === 'db') raf = requestAnimationFrame(step);
+    };
+    const move = (e) => {
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+      x = e.clientX; y = e.clientY;
+      if (!c.classList.contains('on')) { cx = x; cy = y; c.classList.add('on'); }
+      c.classList.toggle('flip', x > window.innerWidth - 160);   // keep the label inside the window
+      const t = e.target.closest ? e.target : document.body;
+      const k = t.closest('[data-cursor]');
+      const m = k ? k.getAttribute('data-cursor') : t.closest('.card') ? 'View' : (daySec && dayDb && daySec.contains(t)) ? 'db' : '';
+      if (m !== mode) { mode = m; c.classList.toggle('pill', !!m); lab.textContent = text(); }
+      if (!raf) raf = requestAnimationFrame(step);
+    };
+    window.addEventListener('pointermove', move, { passive: true });
+    document.documentElement.addEventListener('pointerleave', () => c.classList.remove('on'));
+    const off = () => { if (RM.matches || !FINE.matches) { c.remove(); window.removeEventListener('pointermove', move); } };
+    RM.addEventListener && RM.addEventListener('change', off); FINE.addEventListener && FINE.addEventListener('change', off);
   }
 
   /* ---------- 3d. privacy note: a small corner toast, remembered in this browser only ---------- */

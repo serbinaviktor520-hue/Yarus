@@ -78,7 +78,7 @@ li[data-rise]>span:nth-child(3){grid-row:3}
 li[data-rise]>span:nth-child(4){grid-row:4;color:#6B665F}
 li[data-rise]>picture>img{grid-column:2/3!important;grid-row:1/5;aspect-ratio:4/5!important}
 [aria-labelledby="h-voices"] figure:nth-of-type(2){margin-left:15%!important}
-section[aria-label="Start a project"]{height:auto!important;min-height:100svh;padding-bottom:64px!important}
+section[aria-label="Start a project"]{height:auto!important;min-height:100svh;padding-bottom:calc(96vw + 24px)!important}  /* room for the house below the form (section 16) */
 footer>div:first-child{display:grid!important;grid-template-columns:1fr 1fr!important;row-gap:24px!important}
 footer>div:first-child>div{grid-column:auto!important;padding-left:0!important;text-align:left!important}
 footer svg{margin-top:64px!important}
@@ -370,7 +370,7 @@ picture>source{display:none}
 @media (min-width:761px){[data-hero]{min-height:720px}}
 @media (max-width:1024px){[data-hero]{padding-top:60px}}
 [data-pin="320"]{height:320vh}
-[data-pin="460"]{height:460vh}
+[data-pin="400"]{height:400vh}
 [data-pin-inner]{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
 
 /* ---- 5. scroll reveals (classes set by site.js; removed once the animation is over) ---- */
@@ -382,7 +382,9 @@ picture>source{display:none}
 .rv-scr{opacity:0}
 .rv-now{transition:none!important}
 :root{--ez:cubic-bezier(.16,.84,.24,1)}
-.day-img.on{opacity:1;transform:scale(1)}
+/* cross-fade without a dark dip: the new frame fades in on top, the old one stays until it is covered */
+.day-img{transition:opacity 0s linear .9s,transform 2.4s cubic-bezier(.2,.7,.2,1)}
+.day-img.on{opacity:1;transform:scale(1);z-index:1;transition:opacity .9s ease,transform 2.4s cubic-bezier(.2,.7,.2,1)}
 .day-btn[aria-pressed="true"]{border-top-color:#EAE6DE;color:#EAE6DE}
 
 @media (max-width:760px){.br-wide{display:none}}
@@ -439,7 +441,7 @@ main:focus{outline:none}
   .rv.in{transition:opacity .8s ease var(--d,0s)}
   .rv-img{clip-path:none;transform:none;opacity:0}
   .rv-img.in{opacity:1;transition:opacity .8s ease}
-  .day-img{transform:none;transition:opacity .9s ease}
+  .day-img,.day-img.on{transform:none}
   .t-menu-list a,.t-note{transform:none}
   .card img,.card:hover .card-media img,.card-cta,.card:hover .card-cta,.ol>li>.h-m,.ol>li:hover>.h-m{transform:none}
 }
@@ -454,8 +456,70 @@ main:focus{outline:none}
    hero (its own portrait crop, h08m) are already centred by default. */
 /* phones: keep each photo's subject in frame (checked at 375x812 and 390x844) */
 @media (max-width:760px){
-  .day-img{object-position:67% 60%}                               /* all five frames alike: bench, window, slippers */
+  /* day series: the 3:2 frames sit in a square box above the buttons, so the whole room shows:
+     window, bench, coffee table, the rug with the slippers and part of the sofa (all five alike) */
+  [data-pin="400"] [data-pin-inner]>.fill:first-child{top:auto;bottom:max(92px,11svh);aspect-ratio:1/1}
+  [data-pin="400"] .day-img{object-position:40% 50%}
+  [data-pin="400"] .bg-2{background:linear-gradient(180deg,rgba(17,17,16,.6) 0%,rgba(17,17,16,0) 45%,rgba(17,17,16,0) 82%,rgba(17,17,16,.85) 100%)}
   [data-img="g09"]>img{object-position:56% 50%}                   /* blue hour: the lit glass room */
   [data-img="g06"]>img{object-position:45% 55%}                   /* panorama: the woman on the path */
   [data-img="h04"]>img{object-position:50% 42%}                   /* aerial: the house */
+}
+
+/* ---- 12. living photos (assets/live.js): a WebGL layer right above the photo ---- */
+.live-c{pointer-events:none;opacity:0;transition:opacity .6s ease;will-change:transform}
+.live-c.on{opacity:1}
+.fill>.live-c{z-index:2}  /* day section: above the cross-fading frames */
+
+/* ---- 13. sound toggle (header) ---- */
+.t-sound{grid-column:10/13;grid-row:2;justify-self:end;margin-top:10px;min-height:32px;padding:0 14px;font-size:11px;font-variant-numeric:tabular-nums;color:inherit}
+.t-sound[aria-pressed="true"]{background:#EAE6DE;color:#111110}
+.t-sound:hover{background:#EAE6DE;color:#111110}
+@media (max-width:1024px){.t-sound{grid-column:10/13;grid-row:1;margin:0 82px 0 0;min-height:40px;align-self:start}}
+@media (max-width:760px){.t-sound{margin:0 0 0 auto}.t-sound+.t-menu-btn{margin-left:8px!important}}
+
+/* ---- 14. cursor (mouse only; site.js never adds it under reduced motion or touch) ---- */
+.t-cursor{position:fixed;left:0;top:0;z-index:5000;pointer-events:none;opacity:0;transition:opacity .3s;mix-blend-mode:difference}
+.t-cursor.on{opacity:1}
+.t-cursor span{position:absolute;left:-4px;top:-4px;display:block;width:8px;height:8px;box-sizing:border-box;border-radius:999px;background:#fff;color:transparent;overflow:hidden;white-space:nowrap;font:500 11px/28px 'Geist Mono',monospace;letter-spacing:.04em;text-transform:uppercase;font-variant-numeric:tabular-nums;transition:width .35s cubic-bezier(.2,.7,.2,1),height .35s cubic-bezier(.2,.7,.2,1),left .35s cubic-bezier(.2,.7,.2,1),top .35s cubic-bezier(.2,.7,.2,1),padding .35s,background-color .3s}
+.t-cursor.pill{mix-blend-mode:normal}
+.t-cursor.pill span{left:14px;top:14px;width:auto;height:28px;padding:0 12px;background:#EAE6DE;color:#111110}
+.t-cursor.pill.flip span{left:auto;right:14px}
+@media (pointer:coarse),(prefers-reduced-motion:reduce){.t-cursor{display:none}}
+
+/* ---- 15. page transitions (cross-document View Transitions; unsupported browsers navigate normally) ---- */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:t-vt-out .45s cubic-bezier(.4,0,.2,1) both}
+::view-transition-new(root){animation:t-vt-in .45s cubic-bezier(.2,.7,.2,1) both}
+@keyframes t-vt-out{to{opacity:0;transform:translateY(-12px)}}
+@keyframes t-vt-in{from{opacity:0;transform:translateY(12px)}}
+/* the Lull House card on the home page becomes the project's hero */
+.vt-lull{view-transition-name:lull-house}
+::view-transition-group(lull-house){animation-duration:.8s;animation-timing-function:cubic-bezier(.65,0,.35,1)}
+::view-transition-old(lull-house),::view-transition-new(lull-house){height:100%;width:100%;object-fit:cover;overflow:clip}
+::view-transition-old(lull-house){animation:none;opacity:0}
+::view-transition-new(lull-house){animation:none}
+@media (prefers-reduced-motion:reduce){
+  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
+}
+
+/* ---- 16. phones: text never sits on the bright sky or over the building ---- */
+@media (max-width:760px){
+  /* home hero (h08m): a soft scrim behind the headline and intro; the house below stays clear */
+  .shade-hero{background:linear-gradient(180deg,rgba(11,11,10,.7) 0%,rgba(11,11,10,.66) 34%,rgba(11,11,10,.5) 41%,rgba(11,11,10,0) 47%,rgba(17,17,16,0) 64%,rgba(17,17,16,.75) 100%)}
+  [data-hero] .body-l,[data-hero] .row-6{text-shadow:0 0 16px rgba(11,11,10,.55)}
+  /* project hero: title and intro at the top over the trunks, facts at the bottom; the house between */
+  section[aria-label="Lull House"] .div-7{margin-top:0}
+  section[aria-label="Lull House"] .mt-40{margin-top:auto}
+  .bg-4{background:linear-gradient(180deg,rgba(11,11,10,.68) 0%,rgba(11,11,10,.62) 34%,rgba(11,11,10,.45) 40%,rgba(11,11,10,0) 46%,rgba(11,11,10,0) 70%,rgba(17,17,16,.8) 100%)}
+  section[aria-label="Lull House"] .div-7 :is(p,.label){text-shadow:0 0 16px rgba(11,11,10,.55)}
+  /* Method hero: the intro sits on a top scrim instead of half on the dark panel, half on the mist */
+  .bg-6{background:linear-gradient(180deg,rgba(17,17,16,.85) 0%,rgba(17,17,16,.7) 24%,rgba(17,17,16,0) 42%,rgba(17,17,16,0) 70%,rgba(17,17,16,.55) 100%)}
+  /* statement expansion: the sentence moves up to the treetops */
+  .st-over{justify-content:flex-start;gap:24px}
+  .st-over>:last-child{margin-top:auto}
+  .st-layer .bg{background:linear-gradient(180deg,rgba(17,17,16,.6) 0%,rgba(17,17,16,.35) 36%,rgba(17,17,16,0) 50%,rgba(17,17,16,.6) 100%)}
+  /* contact: the form sits on dark ground, the lit house gets its own band below it */
+  #contact [data-zoom]{top:auto;height:calc(96vw + 80px);transform-origin:50% 80%}
+  #contact .bg-3{background:linear-gradient(180deg,#111110 0%,#111110 calc(100% - 96vw - 90px),rgba(11,11,10,.25) calc(100% - 96vw + 10px),rgba(11,11,10,.12) 100%)}
 }
