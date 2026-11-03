@@ -225,7 +225,12 @@
       if (G.day) {
         const top = G.day.top - y; const p = clamp(-top / (G.day.h - ih));
         if (dayBar) dayBar.style.transform = 'scaleX(' + p + ')';
-        if (top < ih && top + G.day.h > 0 && T.setDay) { const idx = Math.min(4, Math.floor(p * 5)); if (idx !== T.day) T.setDay(idx); }
+        if (top < ih && top + G.day.h > 0 && T.setDay) {
+          const idx = Math.min(4, Math.floor(p * 5));
+          // an hour chosen by a click holds until the reader scrolls a third of a step away from where they clicked
+          const lk = T.dayLock;
+          if (lk && Math.abs(y - lk.y) < (G.day.h - ih) / 15) { /* hold */ } else { T.dayLock = null; if (idx !== T.day) T.setDay(idx); }
+        }
       }
       if (!still) {
         const f = vw <= 760 ? 0.35 : vw < 1440 ? 0.5 : 1;
@@ -367,6 +372,20 @@
 
   if (!document.body.hasAttribute('data-preloader')) start();
 
+  // Back to a page: return to where the reader was (the projects grid, not the top). The position is kept per page in
+  // this tab and restored after the layout is ready, on a back/forward visit only.
+  const POS = 'tysha-pos:' + location.pathname;
+  try { history.scrollRestoration = 'manual'; } catch (e) { /* fine */ }
+  window.addEventListener('pagehide', () => { try { sessionStorage.setItem(POS, String(Math.round(window.scrollY))); } catch (e) { /* fine */ } });
+  const navEntry = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+  if (navEntry && navEntry.type === 'back_forward' && !location.hash) {
+    let y = 0; try { y = +sessionStorage.getItem(POS) || 0; } catch (e) { /* fine */ }
+    if (y) {
+      const go = () => { window.scrollTo(0, y); if (T.remeasure) T.remeasure(); };
+      go(); requestAnimationFrame(go); window.addEventListener('load', go, { once: true }); setTimeout(go, 400);
+    }
+  }
+
   // page transitions: a case's photo morphs between its home card and its own hero (Lull House .vt-lull, Pine Court
   // .vt-pine), and only on that pair of pages; to any other page it leaves with the rest of the old page (a named
   // element would otherwise stay on top, unfaded)
@@ -391,7 +410,7 @@
   if (form) {
     const sent = q('[data-sent]'), fail = q('[data-fail]', form), btn = q('[data-send]', form), status = q('[data-form-status]', form);
     const F = (n) => q('[name="' + n + '"]', form);
-    const MSG = { name: 'Tell us your name, so we know who to answer.', empty: 'We need a phone or an email to reply.', bad: "That doesn't look like a phone or an email." };
+    const MSG = { name: 'Tell us your name, so we know who to answer.', empty: 'We need a phone or an email to reply.', bad: "That doesn’t look like a phone or an email." };
     const setErr = (n, m) => {
       const i = F(n), e = document.getElementById('err-' + n);
       if (m) i.setAttribute('aria-invalid', 'true'); else i.removeAttribute('aria-invalid');
@@ -426,7 +445,7 @@
         const name = F('name').value.trim().split(/\s+/)[0];
         const find = (q('input[name="plot"]:checked', form) || {}).value === 'find';
         q('[data-sent-id]', sent).textContent = 'Request TY-' + (1000 + Math.floor(Math.random() * 9000)) + ' · Received · 25 dB';
-        q('[data-sent-msg]', sent).textContent = 'Thank you, ' + name + ". We'll reply within two working days from hello@tysha.studio. " + (find ? "We'll start by looking for a quiet plot together." : "First we'll ask for the plot's address, to plan the audit.");
+        q('[data-sent-msg]', sent).textContent = 'Thank you, ' + name + ". We’ll reply within two working days from hello@tysha.studio. " + (find ? "We’ll start by looking for a quiet plot together." : "First we’ll ask for the plot’s address, to plan the audit.");
         form.style.display = 'none'; sent.style.display = 'flex'; sent.setAttribute('tabindex', '-1'); sent.focus({ preventScroll: true });
       }, 1600);
     });
@@ -459,7 +478,9 @@
     document.body.appendChild(ov);
     const de = document.documentElement;
     const others = () => [root, q('.skip-link'), q('.t-note')].filter(Boolean);
+    let back = null;
     const open = () => {
+      back = document.activeElement;
       ov.hidden = false; requestAnimationFrame(() => ov.classList.add('on'));
       b.setAttribute('aria-expanded', 'true'); de.style.overflow = 'hidden';
       others().forEach((el) => { el.inert = true; });
@@ -470,7 +491,7 @@
       ov.classList.remove('on'); b.setAttribute('aria-expanded', 'false'); de.style.overflow = '';
       others().forEach((el) => { el.inert = false; });
       setTimeout(() => { ov.hidden = true; }, 400);
-      if (refocus) b.focus();
+      if (refocus) (back && back !== document.body && back.isConnected && back.getClientRects().length ? back : b).focus({ preventScroll: true });
     };
     b.addEventListener('click', open);
     q('[data-close]', ov).addEventListener('click', () => close());
@@ -689,6 +710,7 @@
       const k = t.closest('[data-cursor]');
       const m = k ? k.getAttribute('data-cursor') : t.closest('.card') ? 'View' : (daySecEl && dayDb && daySecEl.contains(t)) ? 'db' : '';
       if (m !== mode) { mode = m; c.classList.toggle('pill', !!m); lab.textContent = text(); }
+      c.classList.toggle('hot', !m && !!t.closest('a[href], button, [role="slider"], label'));
       const ph = !m && !!t.closest(PHOTO) && !t.closest('a, button, input, label, .label, h1, h2, p');
       if (ph !== photo) { photo = ph; c.classList.toggle('photo', ph); }
       if (!raf) raf = requestAnimationFrame(step);
@@ -710,7 +732,53 @@
     FINE.addEventListener && FINE.addEventListener('change', () => { if (!FINE.matches) { c.remove(); rip.remove(); window.removeEventListener('pointermove', move); } });
     apply(pick);
 
-    T.cursor = { set: apply, get: () => pick };
+    // after the page changes under a still pointer (the form's success state, a closed dialog): drop a stale label
+    const refresh = () => { mode = ''; c.classList.remove('pill', 'hot'); lab.textContent = ''; };
+    T.cursor = { set: apply, get: () => pick, refresh };
+  }
+
+  /* ---------- 3g. the compact bar: after the hero, a thin strip with the mark, the menu, Contact and Sound. It hides
+     while you read down and comes back as soon as you scroll up. Its buttons drive the header's own (one state). */
+  if (header && root) {
+    const hero = q('[data-hero]', root);
+    const bar = document.createElement('div');
+    bar.className = 't-bar'; bar.setAttribute('role', 'navigation'); bar.setAttribute('aria-label', 'Quick');
+    const home = q('.brand', header).getAttribute('href');
+    const links = nav ? qa('a', nav).map((a) => '<a href="' + a.getAttribute('href') + '"' + (a.hasAttribute('aria-current') ? ' aria-current="page"' : '') + '>' + a.textContent + '</a>').join('') : '';
+    bar.innerHTML = '<a class="t-bar-mark" href="' + home + '" aria-label="TYSHA Architecture, home"><svg width="16" height="19" viewBox="0 0 200 240" aria-hidden="true"><use href="#l-arch"></use></svg></a>'
+      + '<span class="t-bar-db label" aria-hidden="true"></span>'
+      + '<nav class="t-bar-nav label" aria-label="Quick links">' + links + '</nav>'
+      + '<span class="t-bar-end"></span>';
+    const end = q('.t-bar-end', bar), dbEl = q('.t-bar-db', bar);
+    const realSound = q('.t-sound', header), realMenu = q('.t-menu-btn', header);
+    if (realSound) {
+      const b2 = document.createElement('button'); b2.type = 'button'; b2.className = 't-pill t-bar-sound'; b2.setAttribute('data-cursor', 'Listen');
+      const sync = () => { b2.innerHTML = realSound.innerHTML; b2.setAttribute('aria-pressed', realSound.getAttribute('aria-pressed')); };
+      sync(); new MutationObserver(sync).observe(realSound, { attributes: true, childList: true, subtree: true, characterData: true });
+      b2.addEventListener('click', () => realSound.click()); end.appendChild(b2);
+    }
+    if (realMenu) {
+      const m2 = document.createElement('button'); m2.type = 'button'; m2.className = 't-pill t-bar-menu'; m2.textContent = 'Menu';
+      m2.setAttribute('aria-controls', 't-menu'); m2.setAttribute('aria-expanded', 'false');
+      m2.addEventListener('click', () => realMenu.click()); end.appendChild(m2);
+      new MutationObserver(() => m2.setAttribute('aria-expanded', realMenu.getAttribute('aria-expanded'))).observe(realMenu, { attributes: true, attributeFilter: ['aria-expanded'] });
+    }
+    document.body.appendChild(bar);
+    let lastY = window.scrollY, shown = false, raf2 = 0;
+    const set = (v) => { if (v === shown) return; shown = v; bar.classList.toggle('on', v); bar.inert = !v; };
+    bar.inert = true;
+    const tick = () => {
+      raf2 = 0;
+      const y = window.scrollY, past = y > (hero ? hero.offsetTop + hero.offsetHeight - 80 : window.innerHeight * 0.8);
+      if (!past) set(false);
+      else if (y < lastY - 6) set(true);
+      else if (y > lastY + 6) set(false);
+      if (Math.abs(y - lastY) > 6) lastY = y;
+      if (shown && T.pageDb) dbEl.textContent = T.pageDb() + ' dB';
+    };
+    window.addEventListener('scroll', () => { if (!raf2) raf2 = requestAnimationFrame(tick); }, { passive: true });
+    // a keyboard user tabbing into the page with the bar hidden never meets it; when they Shift+Tab upward it shows
+    bar.addEventListener('focusin', () => set(true));
   }
 
   /* ---------- 3d. privacy note: a small corner toast, remembered in this browser only ---------- */
@@ -719,10 +787,18 @@
   if (!seen && !document.body.hasAttribute('data-no-note')) {
     const n = document.createElement('div');
     n.className = 't-note'; n.setAttribute('role', 'region'); n.setAttribute('aria-label', 'Privacy note');
-    n.innerHTML = '<p><span class="k">No trackers.</span> No cookies, no analytics. <a href="' + BASE + 'privacy/">Privacy</a></p><button type="button" class="t-pill">Good</button>';
-    const show = () => { document.body.appendChild(n); requestAnimationFrame(() => n.classList.add('on')); };
-    if (T.started || !document.body.hasAttribute('data-preloader')) setTimeout(show, 1500);
-    else document.addEventListener('tysha:ready', () => setTimeout(show, 1200), { once: true });
+    n.innerHTML = '<p><span class="k">No trackers.</span> No cookies, no analytics. <a href="' + BASE + 'privacy/">Privacy</a></p><button type="button" class="t-pill">OK</button>';
+    // it appears after the first real scroll, and steps aside while the day timeline or the contact is on screen
+    let shown = false;
+    const show = () => { if (shown) return; shown = true; document.body.appendChild(n); requestAnimationFrame(() => n.classList.add('on')); };
+    const onScroll = () => { if (window.scrollY > 240) { window.removeEventListener('scroll', onScroll); setTimeout(show, 600); } };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    const busy = qa('[data-pin="400"], #contact, .case-end');
+    if (busy.length && 'IntersectionObserver' in window) {
+      const on = new Set();
+      const io = new IntersectionObserver((es) => { es.forEach((e) => (e.isIntersecting ? on.add(e.target) : on.delete(e.target))); n.classList.toggle('away', on.size > 0); });
+      busy.forEach((el) => io.observe(el));
+    }
     q('button', n).addEventListener('click', () => { try { localStorage.setItem('tysha-quiet', '1'); } catch (e) { /* not remembered */ } n.classList.remove('on'); setTimeout(() => n.remove(), 600); });
   }
 })();

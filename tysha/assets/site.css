@@ -112,9 +112,9 @@ html{scrollbar-gutter:stable}   /* the preloader and the menu hide the scrollbar
 .t-note{position:fixed;right:20px;bottom:20px;z-index:2500;max-width:calc(100vw - 40px);box-sizing:border-box;padding:6px 6px 6px 16px;background:#1C1B19;color:#EAE6DE;border:1px solid rgba(234,230,222,.2);border-radius:999px;display:flex;align-items:center;gap:14px;font-family:'Inter Tight',sans-serif;opacity:0;transform:translateY(16px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.2,1)}
 .t-note.on{opacity:1;transform:none}
 .t-note p{margin:0;font-size:13px;line-height:1.35}
-.t-note .k{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#C9C3B8}
+.t-note .k{font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#C9C3B8}
 .t-note a{text-decoration:underline}
-.t-note .t-pill{min-height:34px;padding:0 14px;font-size:11px}
+.t-note .t-pill{min-height:34px;padding:0 14px;font-size:12px}
 @media (max-width:1024px){
 .site-head>nav[aria-label="Main"]{display:none!important}
 .site-head>span:last-of-type{display:none!important}
@@ -460,7 +460,7 @@ main:focus{outline:none}
 .live-c.on{opacity:1}
 
 /* ---- 13. sound toggle (header) ---- */
-.t-sound{grid-column:10/13;grid-row:2;justify-self:end;margin-top:10px;white-space:nowrap;min-height:32px;padding:0 14px;font-size:11px;font-variant-numeric:tabular-nums;color:inherit}
+.t-sound{grid-column:10/13;grid-row:2;justify-self:end;margin-top:10px;white-space:nowrap;min-height:32px;padding:0 14px;font-size:12px;font-variant-numeric:tabular-nums;color:inherit}
 .t-sound[aria-pressed="true"]{background:#EAE6DE;color:#111110}
 .t-sound:hover{background:#EAE6DE;color:#111110}
 @media (max-width:1024px){.t-sound{grid-column:10/13;grid-row:1;margin:0 82px 0 0;min-height:40px;align-self:start}.t-sound+.t-menu-btn{grid-row:1}}
@@ -499,10 +499,10 @@ main:focus{outline:none}
   .shade-hero{background:linear-gradient(180deg,rgba(11,11,10,.7) 0%,rgba(11,11,10,.66) 34%,rgba(11,11,10,.5) 41%,rgba(11,11,10,0) 47%,rgba(17,17,16,0) 64%,rgba(17,17,16,.75) 100%)}
   [data-hero] .body-l,[data-hero] .row-6{text-shadow:0 0 16px rgba(11,11,10,.55)}
   /* project hero: title and intro at the top over the trunks, facts at the bottom; the house between */
-  section[aria-label="Lull House"] .div-7{margin-top:0}
-  section[aria-label="Lull House"] .mt-40{margin-top:auto}
+  .case-hero .div-7{margin-top:0}
+  .case-hero .mt-40{margin-top:auto}
   .bg-4{background:linear-gradient(180deg,rgba(11,11,10,.68) 0%,rgba(11,11,10,.62) 34%,rgba(11,11,10,.45) 40%,rgba(11,11,10,0) 46%,rgba(11,11,10,0) 70%,rgba(17,17,16,.8) 100%)}
-  section[aria-label="Lull House"] .div-7 :is(p,.label){text-shadow:0 0 16px rgba(11,11,10,.55)}
+  .case-hero .div-7 :is(p,.label){text-shadow:0 0 16px rgba(11,11,10,.55)}
   /* Method hero: the intro sits on a top scrim instead of half on the dark panel, half on the mist */
   .bg-6{background:linear-gradient(180deg,rgba(17,17,16,.85) 0%,rgba(17,17,16,.7) 24%,rgba(17,17,16,0) 42%,rgba(17,17,16,0) 70%,rgba(17,17,16,.55) 100%)}
   /* statement expansion: the sentence moves up to the treetops */
@@ -662,7 +662,7 @@ main:focus{outline:none}
 /* sound toggle: one width for "on" and "off", the label optically centred (the mono caps sit on the centre line
    once the trailing letter-spacing is taken off the right padding) */
 .site-head>.t-sound{justify-content:center;min-width:calc(9ch + 9 * .04em + 32px);line-height:1}
-.t-toast{position:fixed;left:20px;bottom:20px;z-index:2600;max-width:calc(100vw - 40px);box-sizing:border-box;padding:10px 16px;border:1px solid rgba(234,230,222,.2);border-radius:999px;background:#1C1B19;color:#EAE6DE;font:500 11px/1.3 'Geist Mono',monospace;letter-spacing:.04em;text-transform:uppercase;pointer-events:none;opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .5s cubic-bezier(.2,.7,.2,1)}
+.t-toast{position:fixed;left:20px;bottom:20px;z-index:2600;max-width:calc(100vw - 40px);box-sizing:border-box;padding:10px 16px;border:1px solid rgba(234,230,222,.2);border-radius:999px;background:#1C1B19;color:#EAE6DE;font:500 12px/1.3 'Geist Mono',monospace;letter-spacing:.04em;text-transform:uppercase;pointer-events:none;opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .5s cubic-bezier(.2,.7,.2,1)}
 .t-toast.on{opacity:1;transform:none}
 .t-toast:empty{display:none}
 @media (prefers-reduced-motion:reduce){.t-toast{transform:none;transition:opacity .2s linear}}
@@ -760,7 +760,7 @@ dialog.m::backdrop{background:transparent}
 .m-input:focus{border-bottom-color:#C2AE8E}
 .m-input:focus-visible{outline:2px solid #EAE6DE;outline-offset:4px}
 .m-msg{resize:none;min-height:47px;overflow:hidden;white-space:pre-wrap}
-.m-hint{font:500 11px/1.4 'Geist Mono',monospace;letter-spacing:.04em;text-transform:uppercase;color:#E6C9A3}
+.m-hint{font:500 12px/1.4 'Geist Mono',monospace;letter-spacing:.04em;text-transform:uppercase;color:#E6C9A3}
 .m-hint:empty{display:none}
 .m-hint::before{content:'— '}
 .m-field.bad .m-input{border-bottom-color:#E6C9A3}
@@ -796,7 +796,7 @@ dialog.m::backdrop{background:transparent}
 .m-done-h{margin:0;font-size:clamp(64px,calc(16px + 6vw),140px);line-height:.88;letter-spacing:-.02em;font-weight:400}
 .m-sum{display:grid;grid-template-columns:max-content minmax(0,1fr);column-gap:32px;row-gap:12px;width:100%;max-width:640px;margin:12px 0 0;padding-top:20px;border-top:1px solid rgba(234,230,222,.2)}
 .m-sum dt{padding-top:4px;color:#C9C3B8}
-.m-sum dd{margin:0;font-size:17px;line-height:1.45;overflow-wrap:anywhere}
+.m-sum dd{margin:0;font-size:16px;line-height:1.45;overflow-wrap:anywhere}
 .m-done[hidden],.m-form[hidden],.m-fail[hidden]{display:none}
 .m-done>*{opacity:0;transform:translateY(16px)}
 .m-done.in>*{opacity:1;transform:none;transition:opacity .8s var(--ez),transform 1s var(--ez)}
@@ -820,12 +820,12 @@ dialog.m::backdrop{background:transparent}
   .m-plain .m-top{padding-top:14px}
   .m-scroll{padding-bottom:0}
   .m-h{margin-top:20px;font-size:clamp(40px,10.5vw,60px)}
-  .m-sub{font-size:17px}
+  .m-sub{font-size:18px}
   .m-grid{grid-template-columns:minmax(0,1fr);row-gap:24px;margin-top:28px}
   .m-input{font-size:18px}
   .m-foot{position:sticky;bottom:0;z-index:2;flex-direction:column;align-items:stretch;gap:10px;margin:32px -20px 0;padding:12px 20px calc(12px + env(safe-area-inset-bottom));background:#111110;border-top:1px solid rgba(234,230,222,.16)}
   .m-send{width:100%}
-  .m-consent{font-size:11px}
+  .m-consent{font-size:12px}
   .m-fail{margin-bottom:16px}
   .m-done{padding-bottom:32px}
   .m-kb .m-side{display:none}
@@ -857,16 +857,6 @@ dialog.m::backdrop{background:transparent}
   [data-pin="400"] [data-pin-inner]>.div-4{order:3;margin-top:0}
   [data-pin="400"] :is(h2,.span-2,.fs-12){text-shadow:none}
 }
-@media (max-width:760px) and (orientation:portrait){
-  [data-pin="400"] .day-frame{aspect-ratio:4/5}
-  [data-pin="400"] .day-img{object-position:50% 50%}
-}
-@layer base{@media (max-width:760px) and (orientation:portrait){
-  .day-pin>.mt-120{margin-top:auto!important;padding-top:24px;flex-direction:row!important;justify-content:space-between!important;align-items:flex-end!important;gap:16px!important}
-  .day-pin>.mt-120>h2{font-size:clamp(28px,8vw,36px)!important;line-height:1!important;max-width:6.4em}
-  [data-pin="400"] .span-2{font-size:clamp(64px,19vw,88px)!important}
-  [data-pin="400"] .div-4 .day-grid{column-gap:8px!important}
-}}
 @media (min-width:761px) and (max-width:1023px) and (orientation:portrait){
   .day-pin>.mt-120{margin-top:auto;padding-top:32px}
   [data-pin="400"] .day-frame{flex:1 1 auto}
@@ -890,3 +880,96 @@ dialog.m::backdrop{background:transparent}
 .card-soon{cursor:default}
 .card-soon .h-s{color:#5A554E}
 @media (max-width:760px){[data-hero] .hero-img-2.vt-pine{object-position:30% 50%}}
+
+/* ---- 21. stage 4: audit fixes ---- */
+/* the centre line stops at full-bleed photos (hero, day, contact, the next case): it never runs across a picture */
+:is([data-hero],#contact,.case-next)>[data-axis],[data-pin="400"] [data-axis]{display:none}
+
+/* statement over the forest photo: a darker band where the sentence sits, a halo on the letters, clear of the dB badge */
+.st-over{right:52px}
+.st-over .display{text-shadow:0 0 2px rgba(11,11,10,.45),0 0 24px rgba(11,11,10,.55),0 0 60px rgba(11,11,10,.35)}
+.st-over .label{text-shadow:0 0 8px rgba(11,11,10,.8)}
+.st-layer .bg{background:linear-gradient(180deg,rgba(17,17,16,.5) 0%,rgba(17,17,16,.2) 22%,rgba(17,17,16,.5) 44%,rgba(17,17,16,.5) 60%,rgba(17,17,16,.2) 78%,rgba(17,17,16,.65) 100%)}
+@media (max-width:760px){.st-over{right:20px}}
+
+/* home contact: one clear way in (the same form everywhere) */
+.contact-cta{align-items:flex-start}
+.contact-btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:14px;min-height:60px;padding:0 34px;border-radius:999px;background:#EAE6DE;color:#111110;font:500 13px/1 'Geist Mono',monospace;letter-spacing:.04em;text-transform:uppercase;transition:background-color .3s,gap .4s var(--ez)}
+.contact-btn:hover{background:#C2AE8E;gap:22px}
+.contact-btn:focus-visible{outline:2px solid #EAE6DE;outline-offset:4px}
+.contact-mail{text-transform:none;letter-spacing:0;font-family:'Inter Tight',sans-serif;font-size:16px}
+#contact{min-height:max(760px,100svh)}
+
+/* privacy note: a slim bar, only after the first scroll, out of the way of the day timeline and the contact */
+.t-note.away{opacity:0;transform:translateY(16px);pointer-events:none}
+@media (max-width:760px){
+  .t-note{left:10px;right:10px;bottom:10px;max-width:none;padding:4px 4px 4px 14px;gap:10px}
+  .t-note p{font-size:12px}
+  .t-note .t-pill{min-height:32px}
+}
+
+/* the cursor grows a little over anything you can press */
+.t-cursor .tc-eq{transform-origin:0 100%;transition:transform .3s var(--ez)}
+.t-cursor.hot:not(.pill) .tc-eq{transform:scale(1.35)}
+.t-cursor.hot.tc-dot:not(.pill) .tc-lab{transform:scale(1.6)}
+
+/* the compact bar */
+.t-bar{position:fixed;top:0;left:0;right:0;z-index:2900;display:flex;align-items:center;gap:24px;height:52px;padding:0 20px;box-sizing:border-box;background:rgba(17,17,16,.8);-webkit-backdrop-filter:blur(14px) saturate(.9);backdrop-filter:blur(14px) saturate(.9);border-bottom:1px solid rgba(234,230,222,.1);color:#EAE6DE;transform:translateY(-101%);visibility:hidden;transition:transform .5s var(--ez),visibility 0s linear .5s}
+.t-bar.on{transform:none;visibility:visible;transition:transform .5s var(--ez),visibility 0s}
+.t-bar-mark{display:flex;align-items:center;min-height:44px;color:#EAE6DE}
+.t-bar-db{color:#C9C3B8;font-variant-numeric:tabular-nums;min-width:6ch}
+.t-bar-nav{display:flex;gap:28px;margin-left:auto}
+.t-bar-nav a{display:flex;align-items:center;min-height:44px}
+.t-bar-nav a[aria-current]{text-decoration:underline;text-underline-offset:4px}
+.t-bar-end{display:flex;gap:8px;margin-left:24px}
+.t-bar .t-pill{min-height:32px;padding:0 calc(14px - .04em) 0 14px;font-size:12px}
+.t-bar-sound{justify-content:center;min-width:calc(9ch + 9 * .04em + 32px)}
+.t-bar-sound[aria-pressed="true"]{background:#EAE6DE;color:#111110}
+.t-bar-menu{display:none!important}
+@media (max-width:1024px){.t-bar-nav{display:none}.t-bar-end{margin-left:auto}.t-bar-menu{display:inline-flex!important}.t-bar .t-pill{min-height:36px}}
+@media (max-width:760px){.t-bar-db{display:none}}
+@media (prefers-reduced-motion:reduce){.t-bar{transform:none;opacity:0;transition:opacity .2s,visibility 0s linear .2s}.t-bar.on{opacity:1;transition:opacity .2s,visibility 0s}}
+
+/* the modal: a soft fade above the Send bar says there is more below */
+.m-foot::before{content:'';position:absolute;left:0;right:0;bottom:100%;height:44px;background:linear-gradient(rgba(17,17,16,0),#111110);pointer-events:none;transition:opacity .3s}
+.m-at-end .m-foot::before{opacity:0}
+@media (max-width:1023px){.m-msg{min-height:47px}}
+
+/* project heroes on phones: the title clear of the header pills */
+@media (max-width:760px){.case-hero .div-7{padding-top:36px}}
+
+/* reduced motion: the marquee stands still, so it shows one whole phrase instead of a cut one */
+@media (prefers-reduced-motion:reduce){.marquee{transform:none!important;flex-wrap:wrap;white-space:normal;padding:0 20px}.marquee>span:nth-child(n+3){display:none}}
+
+/* tablets (761-1100): "Silence has a number" in two columns instead of three squeezed ones */
+@media (min-width:761px) and (max-width:1100px){
+  section[aria-label="Silence has a number"] .mt-120{row-gap:56px}
+  section[aria-label="Silence has a number"] .mt-120>.col-1-5{grid-column:1/-1}
+  section[aria-label="Silence has a number"] .mt-120>.col-6-10{grid-column:1/8;padding-left:0}
+  section[aria-label="Silence has a number"] .mt-120>.col-10-13{grid-column:8/13}
+}
+
+/* day section on phones: no empty band; the photo takes the height between the number and the hours */
+@media (max-width:760px) and (orientation:portrait){
+  [data-pin="400"] .day-frame{flex:1 1 auto;min-height:280px}
+  [data-pin="400"] .day-img{object-position:50% 58%}
+}
+@layer base{@media (max-width:760px) and (orientation:portrait){.day-pin>.mt-120{margin-top:24px!important;padding-top:0}}}
+
+/* large screens: captions and body grow with the window (13/17 px at 1920, 14/18 px at 2560) */
+@media (min-width:1800px){
+  :is(.label,.fs-12,.fs-12-2,.fs-12-3,.fs-12-4,.fs-12-5,.fs-12-6,.fs-12-row,.fs-12-row-2,.t-pill,.m-opt span,.t-toast){font-size:13px}
+  .body{font-size:17px}
+  .t-note p{font-size:14px}
+  .display{font-size:clamp(48px,6.6vw,172px)}
+}
+@media (min-width:2400px){
+  :is(.label,.fs-12,.fs-12-2,.fs-12-3,.fs-12-4,.fs-12-5,.fs-12-6,.fs-12-row,.fs-12-row-2,.t-pill,.m-opt span,.t-toast){font-size:14px}
+  .body{font-size:18px}
+  .body-l{font-size:25px}
+  .p-5{max-width:1500px}
+}
+/* very large screens: the statement sits in the middle of its screen, not at the top of an empty one */
+@media (min-width:2000px){#statement [data-pin-inner]>.display{margin-top:auto;margin-bottom:auto}#statement .div-3{margin-top:0}}
+/* method prices on phones: the name, then its price on one line below (no split names, no orphans) */
+@media (max-width:760px){.row-5{flex-direction:column;align-items:flex-start;gap:8px}.row-5>.h-s{white-space:nowrap}}

@@ -14,7 +14,7 @@
   const FORCE = /[?&]live=force\b/.test(location.search);   // testing: run even on a software rasteriser, no watchdog
   // [ripple px, shimmer, drift px, glow, drift freq, drift speed]
   const FX = {
-    h08: [1.6, 0.06, 0, 0, 0, 0], h08m: [1.6, 0.06, 0, 0, 0, 0],
+    h08: [2.6, 0.1, 0, 0, 0, 0], h08m: [2.4, 0.1, 0, 0, 0, 0],   // clearly alive, still calm
     g15: [0, 0, 10, 0, 5, 0.2], // 06:10 mist over the lake
     h03: [0, 0, 4, 0, 16, 0.42], // 09:00 caustics on the ceiling
     h06: [0.8, 0.05, 0, 0, 0, 0], // 19:00 the evening lake in the window

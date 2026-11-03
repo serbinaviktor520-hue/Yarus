@@ -43,7 +43,7 @@
     q('#day-time').textContent = DAYS[i][0];
     document.dispatchEvent(new CustomEvent('tysha:day', { detail: i }));
   };
-  dayBtns.forEach((bt) => bt.addEventListener('click', () => { loadDays(); T.setDay(+bt.dataset.dayBtn); }));
+  dayBtns.forEach((bt) => bt.addEventListener('click', () => { loadDays(); T.dayLock = { y: window.scrollY }; T.setDay(+bt.dataset.dayBtn); }));
 
   /* ---------- preloader ----------
      Storyboard: five slabs rise, the letters are carved into TYSHA, a slit opens onto the hero photo

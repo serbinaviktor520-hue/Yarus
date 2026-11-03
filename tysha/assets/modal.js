@@ -61,9 +61,9 @@
     + '<fieldset class="m-field m-wide m-in"><legend class="label">What</legend><div class="m-opts">' + opts('what', WHAT) + '</div></fieldset>'
     + '<div class="m-field m-wide m-q m-in"><span class="label" id="m-q-l">How quiet should it be?</span>'
     + '<p class="m-q-read" aria-hidden="true"><span class="serif m-q-num"><span data-q-num>25</span> dB</span><span class="m-q-says" data-q-says>a bedroom at night</span></p>'
-    + '<div class="m-q-track" data-q role="slider" tabindex="0" aria-labelledby="m-q-l" aria-valuemin="20" aria-valuemax="45" aria-valuenow="25" aria-valuetext="25 dB, a bedroom at night"><i class="m-q-line"></i><i class="m-q-fill"></i><b class="m-q-thumb"></b></div>'
+    + '<div class="m-q-track" data-q role="slider" tabindex="0" aria-labelledby="m-q-l" aria-valuemin="0" aria-valuemax="25" aria-valuenow="20" aria-valuetext="25 dB, a bedroom at night"><i class="m-q-line"></i><i class="m-q-fill"></i><b class="m-q-thumb"></b></div>'
     + '<div class="m-q-scale label" aria-hidden="true"><span>← Louder · 45 dB</span><span>20 dB · Quieter →</span></div></div>'
-    + '<div class="m-field m-wide m-in"><label class="label" for="m-msg">Anything else <span class="tone-dim">· optional</span></label><textarea class="m-input m-msg" id="m-msg" name="message" rows="1" placeholder="The road you can hear, the view you want to keep"></textarea></div>'
+    + '<div class="m-field m-wide m-in"><label class="label" for="m-msg">Anything else <span class="tone-dim">· optional</span></label><textarea class="m-input m-msg" id="m-msg" name="message" rows="1" placeholder="The road you hear, the view you keep"></textarea></div>'
     + '</div>'
     + '<div class="m-foot m-in"><button type="submit" class="m-send" data-m-send data-cursor="Send"><span data-m-send-t>Send</span><i class="m-send-bar" aria-hidden="true"></i></button>'
     + '<p class="m-consent label">By sending, you agree to our <a class="u" href="' + BASE + 'privacy/">privacy notice</a>.</p></div>'
@@ -107,7 +107,7 @@
     quiet = db;
     track.style.setProperty('--p', ((LOUD - db) / (LOUD - QUIET)).toFixed(4));   // 0 = louder (left), 1 = quieter
     qNum.textContent = db; qSays.textContent = SAYS(db).toLowerCase();
-    track.setAttribute('aria-valuenow', String(db));
+    track.setAttribute('aria-valuenow', String(LOUD - db));   // how much quieter than 45 dB: Right / Up raise it
     track.setAttribute('aria-valuetext', db + ' dB, ' + SAYS(db).toLowerCase());
   };
   setQuiet(25, true);
@@ -127,6 +127,9 @@
   });
 
   /* ---------- the message grows with its text ---------- */
+  // the fade above the Send bar goes once the form is read to the end
+  const atEnd = () => dlg.classList.toggle('m-at-end', scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 8);
+  scroller.addEventListener('scroll', atEnd, { passive: true }); window.addEventListener('resize', atEnd);
   const msg = q('#m-msg', dlg);
   const grow = () => { msg.style.height = 'auto'; msg.style.height = Math.min(msg.scrollHeight, 220) + 'px'; };
   msg.addEventListener('input', grow);
@@ -186,6 +189,7 @@
     panel.style.transform = '';
     requestAnimationFrame(() => requestAnimationFrame(() => dlg.classList.add('is-open')));
     countDown();
+    requestAnimationFrame(atEnd);
     if (T.sound && T.sound.duck) T.sound.duck(true);
     if (opts.push !== false && location.hash !== '#start') { history.pushState({ tyshaStart: 1 }, '', '#start'); pushed = true; }
     // the heading takes focus (read first by screen readers); no keyboard pops up on phones
@@ -204,6 +208,7 @@
       if (done.hidden === false) reset();
       const back = visible(opener) ? opener : q('#main');
       if (back) back.focus({ preventScroll: true });
+      if (T.cursor && T.cursor.refresh) T.cursor.refresh();
     }, RM.matches ? 220 : 480);
   }
   // closing by the button, Esc, the veil or Back: the address loses #start the same way it got it
@@ -301,7 +306,7 @@
       rows.forEach(([k, v]) => { const dt = document.createElement('dt'); dt.className = 'label'; dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; sum.append(dt, dd); });
       form.hidden = true; done.hidden = false; scroller.scrollTop = 0;
       requestAnimationFrame(() => done.classList.add('in'));
-      showDb(25); done.focus({ preventScroll: true });
+      showDb(25); done.focus({ preventScroll: true }); if (T.cursor && T.cursor.refresh) T.cursor.refresh();
     }, () => {
       clearInterval(iv); busy = false; form.removeAttribute('aria-busy'); dlg.classList.remove('m-sending'); status.textContent = '';
       btnT.textContent = 'Try again'; fail.hidden = false;
