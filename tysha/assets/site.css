@@ -443,3 +443,19 @@ main:focus{outline:none}
   .t-menu-list a,.t-note{transform:none}
   .card img,.card:hover .card-media img,.card-cta,.card:hover .card-cta,.ol>li>.h-m,.ol>li:hover>.h-m{transform:none}
 }
+
+/* ---- 11. photo art direction (stage 2 photo set) ---- */
+/* the Method hero panel runs from the axis to the right edge; a portrait photo must not size it by its own ratio */
+/* statement pill and its full-screen expansion share one crop: the house, not the treetops */
+[data-st-pill],[data-st-layer-img]{object-position:50% 60%}
+.img-abs{width:calc(100% - 20px - (100% - 40px) * 5 / 12);object-position:60% 70%}
+@media (max-width:760px){.img-abs{width:calc(100% - 10px);left:10px;object-position:78% 70%}}
+/* phones: keep each photo's subject in frame. g16 (door and house), h01 (corridor centre) and the
+   hero (its own portrait crop, h08m) are already centred by default. */
+/* phones: keep each photo's subject in frame (checked at 375x812 and 390x844) */
+@media (max-width:760px){
+  .day-img{object-position:67% 60%}                               /* all five frames alike: bench, window, slippers */
+  [data-img="g09"]>img{object-position:56% 50%}                   /* blue hour: the lit glass room */
+  [data-img="g06"]>img{object-position:45% 55%}                   /* panorama: the woman on the path */
+  [data-img="h04"]>img{object-position:50% 42%}                   /* aerial: the house */
+}

@@ -6,7 +6,7 @@
   const qa = (s, r = document) => Array.from(r.querySelectorAll(s));
 
   /* ---------- day switcher ---------- */
-  const DAYS = [['06:10', 31, 'The living room at blue dawn, forest outside the long window'], ['09:00', 34, 'A woman sitting on the window ledge in warm morning light'], ['14:30', 28, 'The empty living room in soft daylight'], ['19:00', 33, 'Rain on the window at dusk, one warm lamp on'], ['23:40', 21, 'The living room at night, moonlight on the floor']];
+  const DAYS = [['06:10', 31, 'The living room at blue dawn, mist over the lake beyond the long window'], ['09:00', 34, 'A woman in slippers on the bench by the window with a cup of coffee, morning sun on the lake'], ['14:30', 28, 'The empty living room in soft daylight, slippers left on the rug'], ['19:00', 33, 'Dusk after the rain, one warm lamp on, slippers by the sofa, the lake mirroring the sky'], ['23:40', 21, 'The living room at night, a lamp on, the moon over the lake, slippers on the rug']];
   const dayImgs = qa('[data-day-img]'), dayBtns = qa('[data-day-btn]');
   // the four hidden photos load only when the section comes near
   const loadDays = () => dayImgs.forEach((im) => {

@@ -162,6 +162,9 @@
         if (nw && nh) {
           const sP = Math.max(s.pw / nw, s.ph / nh), sL = Math.max(s.W / nw, s.H / nh);
           s.k0 = sP / sL; s.cx = s.l + s.pw / 2 - s.W / 2; s.cy = s.t + s.ph / 2 - s.H / 2;
+          // both images share an object-position; off-centre, the crops differ by (p - .5)(pill - k0 * layer)
+          const op = getComputedStyle(stPill).objectPosition.split(' ').map((v) => (/%$/.test(v) ? parseFloat(v) / 100 : 0.5));
+          s.cx += (op[0] - 0.5) * (s.pw - s.k0 * s.W); s.cy += ((op[1] === undefined ? 0.5 : op[1]) - 0.5) * (s.ph - s.k0 * s.H);
         } else { s.k0 = 1; s.cx = 0; s.cy = 0; }
         G.st = s;
       }
