@@ -5,8 +5,13 @@
   'use strict';
   const T = window.TYSHA || {};
   const n = navigator.connection;
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches || (n && n.saveData)) return;
+  // ?live=debug logs every decision to the console; ?live=force also runs on a software rasteriser (testing only)
+  const DEBUG = /[?&]live=(debug|force)\b/.test(location.search);
+  const log = (...a) => { if (DEBUG) console.info('[live]', ...a); };
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { log('off: prefers-reduced-motion'); return; }
+  if (n && n.saveData) { log('off: Save-Data'); return; }
   const BASE = new URL('../', document.currentScript.src).href;
+  const FORCE = /[?&]live=force\b/.test(location.search);   // testing: run even on a software rasteriser, no watchdog
   // [ripple px, shimmer, drift px, glow, drift freq, drift speed]
   const FX = {
     h08: [1.6, 0.06, 0, 0, 0, 0], h08m: [1.6, 0.06, 0, 0, 0, 0],
@@ -27,11 +32,22 @@
     + 'c*=1.+P.y*m.r*smoothstep(.3,.85,l)*sin(u.x*R.x*.3+u.y*R.y*.8-t*2.4)*sin(u.y*R.y*.19+t*1.5);'
     + 'c*=1.+P.w*m.b*(.55+.45*sin(t*.85))*(.75+.25*sin(t*.31));gl_FragColor=vec4(c,1);}';
 
-  // no GPU (a software rasteriser draws every frame on the CPU): the photos simply stay still
-  const software = (gl) => {
+  // only a definitive software rasteriser (every frame drawn on the CPU) keeps the photos still; an unknown or
+  // masked renderer string counts as a GPU
+  const renderer = (gl) => {
     const ext = gl.getExtension('WEBGL_debug_renderer_info');
-    const r = ext ? String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : '';
-    return /swiftshader|llvmpipe|softpipe|software|basic render/i.test(r);
+    return ext ? String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : '(masked)';
+  };
+  const software = (r) => /swiftshader|llvmpipe|softpipe|software rasterizer|microsoft basic render/i.test(r);
+  // WebGL 1 has no mipmaps for these sizes: a photo much larger than its canvas would alias (shimmering branches).
+  // Upload a copy the browser has scaled down with high quality, about the size it is drawn at; the crop maths only
+  // uses the aspect ratio, so the framing is unchanged
+  const fit = (im) => {
+    const want = Math.max(im.clientWidth, im.clientHeight * im.naturalWidth / im.naturalHeight) * Math.min(2, window.devicePixelRatio || 1) * 1.25;
+    if (im.naturalWidth <= want * 1.5) return im;
+    const c = document.createElement('canvas'); c.width = Math.round(want); c.height = Math.round(want * im.naturalHeight / im.naturalWidth);
+    const x = c.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(im, 0, 0, c.width, c.height);
+    return c;
   };
   const slotOf = (im) => { const m = (im.currentSrc || im.src).match(/img\/(\w+?)-\d+\./); return m && m[1]; };
   const loadImg = (src) => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
@@ -40,8 +56,11 @@
     const cv = document.createElement('canvas');
     cv.className = 'fill live-c'; cv.setAttribute('aria-hidden', 'true');
     after.after(cv);   // above the photo, under shade and text
-    const gl = cv.getContext('webgl', { alpha: false, antialias: false, depth: false, powerPreference: 'low-power', failIfMajorPerformanceCaveat: true });
-    if (!gl || software(gl)) { cv.remove(); return null; }
+    const gl = cv.getContext('webgl', { alpha: false, antialias: false, depth: false, powerPreference: 'low-power' });
+    if (!gl) { log('off: no WebGL'); cv.remove(); return null; }
+    const rn = renderer(gl);
+    if (software(rn) && !FORCE) { log('off: software renderer', rn); cv.remove(); return null; }
+    log('on:', rn);
     const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
     const pr = gl.createProgram();
     gl.attachShader(pr, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS));
@@ -68,7 +87,7 @@
         const v = ((im.currentSrc || im.src).match(/\?v=(\w+)/) || [])[1];
         const mask = await loadImg(BASE + 'img/' + slot + '-live.png' + (v ? '?v=' + v : ''));
         if (k !== token) return;
-        gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tI); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, im);
+        gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tI); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, fit(im));
         gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, tM); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, mask);
         L.img = im; L.fx = fx; L.nw = im.naturalWidth; L.nh = im.naturalHeight; L.size();
         L.ready = true; L.draw(performance.now()); wake();
@@ -78,7 +97,7 @@
     L.size = () => {
       const im = L.img; if (!im) return;
       const w = im.clientWidth, h = im.clientHeight; if (!w || !h) return;
-      const d = Math.min(2, window.devicePixelRatio || 1);
+      const d = Math.min(2, window.devicePixelRatio || 1) * quality;
       cv.width = Math.round(w * d); cv.height = Math.round(h * d);
       Object.assign(cv.style, { top: im.offsetTop + 'px', left: im.offsetLeft + 'px', width: w + 'px', height: h + 'px', right: 'auto', bottom: 'auto', transformOrigin: getComputedStyle(im).transformOrigin });
       gl.viewport(0, 0, cv.width, cv.height);
@@ -101,19 +120,33 @@
 
   const lives = [];
   let raf = 0, last = 0;
-  // watchdog: if the page cannot keep ~20 fps while a living photo draws, the effect stops for good
-  let slow = 0, prev = 0;
+  // Frame-rate check, only while the page is calm: it starts 2.5 s after the effect does (the preloader, fonts and
+  // decodes are over by then), skips anything near a scroll, resize or hidden tab, and judges 2 s windows. A slow
+  // window first halves the canvas resolution; only a second slow window at half resolution stops the effect.
+  let quality = 1, prev = 0, wStart = 0, wFrames = 0, calmAfter = 0, strikes = 0;
+  const unsettle = () => { calmAfter = performance.now() + 400; wStart = 0; };
+  ['scroll', 'wheel', 'resize', 'touchmove'].forEach((e) => window.addEventListener(e, unsettle, { passive: true }));
+  const judge = (now) => {
+    if (FORCE || document.hidden || now < calmAfter) { wStart = 0; return; }
+    if (!wStart) { wStart = now; wFrames = 0; return; }
+    wFrames++;
+    if (now - wStart < 2000) return;
+    const fps = wFrames * 1000 / (now - wStart); wStart = 0;
+    if (fps >= 20) { log('fps ' + fps.toFixed(0) + ', resolution x' + quality); return; }
+    strikes++;
+    if (quality > 0.5) { quality = 0.5; lives.forEach((L) => { L.size(); }); log('fps ' + fps.toFixed(0) + ': half resolution'); }
+    else if (strikes >= 2) { log('fps ' + fps.toFixed(0) + ' at half resolution: stopped'); lives.forEach((L) => { L.dead = true; L.cv.remove(); }); }
+  };
   const loop = (now) => {
     raf = 0;
     const act = lives.filter((L) => L.on && L.ready && !L.dead);
     if (!act.length) { prev = 0; return; }
-    if (prev && !document.hidden) { slow = now - prev > 50 ? slow + 1 : Math.max(0, slow - 1); }
+    if (prev) judge(now);
     prev = now;
-    if (slow > 30) { lives.forEach((L) => { L.dead = true; L.cv.remove(); }); return; }
     if (now - last > 30) { last = now; act.forEach((L) => L.draw(now)); }
     raf = requestAnimationFrame(loop);
   };
-  const wake = () => { if (!raf) { prev = 0; raf = requestAnimationFrame(loop); } };
+  const wake = () => { if (!raf) { prev = 0; wStart = 0; raf = requestAnimationFrame(loop); } };
 
   function add(host, after, imgs, pick) {
     const L = Live(after, imgs); if (!L) return null;
@@ -124,6 +157,8 @@
   }
 
   function init() {
+    calmAfter = performance.now() + 2500;
+    log('init');
     const hero = document.querySelector('[data-hero-img]');
     if (hero && FX[slotOf(hero) || '']) add(hero.closest('[data-hero]'), hero.parentElement, [hero], () => hero);
     const contact = document.querySelector('#contact [data-zoom]');

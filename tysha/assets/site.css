@@ -87,6 +87,7 @@ footer svg{margin-top:64px!important}
 }
 h1,h2,h3,blockquote{text-wrap:balance}p{text-wrap:pretty}
 html,body{margin:0;background:#111110;-webkit-text-size-adjust:100%}
+html{scrollbar-gutter:stable}   /* the preloader and the menu hide the scrollbar: the page must not change width (the hero photo would re-crop) */
 [data-form] input[type=text]:focus{border-bottom-color:#C2AE8E!important}
 [data-form] input[type=text][aria-invalid=true]{border-bottom-color:#E8A68C!important}
 [data-send]:hover,[data-form][aria-busy=true] [data-send]{background:#EAE6DE;color:#111110}
