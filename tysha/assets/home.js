@@ -86,6 +86,12 @@
     + '<div class="pre-cap pre-cap-b label"><span>We design homes where<br>the loudest thing is the rain.</span><span class="tone-5">49.8397° N<br>24.0297° E</span><span class="case-none"><span class="f">LULL_HOUSE.JPG</span> <span class="f">PINE_COURT.JPG</span> <span class="f">HOLLOW.JPG</span></span><span class="ta-r">Loading quiet<br><span data-pre-pct>000</span> / 100</span></div>';
   document.body.appendChild(pre);
   root.inert = true; de.style.overflow = 'hidden';
+  // one frame for the photo: the preloader's copy takes the hero image's exact box, crop and scrim (the hero photo can
+  // reach below the fold and is bottom-aligned), so when the shutters open and the layer fades, nothing under it moves
+  const pImg = q('.pre-photo img', pre), pShade = q('.pre-photo i', pre), shade = q('.shade-hero');
+  const place = (el, r) => Object.assign(el.style, { inset: 'auto', left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
+  place(pImg, heroImg.getBoundingClientRect()); pImg.style.objectPosition = getComputedStyle(heroImg).objectPosition;
+  if (shade) { place(pShade, shade.getBoundingClientRect()); pShade.style.background = getComputedStyle(shade).backgroundImage; }
 
   // geometry, read once: from a centred wordmark to the hero wordmark
   const VW = window.innerWidth, VH = window.innerHeight;

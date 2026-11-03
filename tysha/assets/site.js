@@ -7,6 +7,7 @@
 (() => {
   'use strict';
   const BASE = new URL('../', document.currentScript.src).href;
+  const AV = (document.currentScript.src.match(/\?v=\w+/) || [''])[0];   // the build's code version, for sound.js
   const T = window.TYSHA = window.TYSHA || {};
   const root = document.querySelector('[data-t-root]');
   const RM = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -506,7 +507,7 @@
     header.insertBefore(sb, q('.t-menu-btn', header));
     T.soundOn = () => sb.getAttribute('aria-pressed') === 'true';
     const load = () => (T.sound ? Promise.resolve(T.sound) : new Promise((ok, no) => {
-      const s = document.createElement('script'); s.src = BASE + 'assets/sound.js';
+      const s = document.createElement('script'); s.src = BASE + 'assets/sound.js' + AV;
       s.onload = () => (T.sound ? ok(T.sound) : no()); s.onerror = no; document.head.appendChild(s);
     }));
     const set = (on) => {
@@ -550,6 +551,8 @@
      Transform and opacity only, one rAF loop, pointer-events: none. Reduced motion: no lag, still bars, no ripples. */
   if (FINE.matches && root) {
     const VARS = ['dot', 'a', 'b', 'c', 'd', 'e'];
+    // the equalizer for everyone; a choice saved by the old test switcher (stage 3, round 1) is forgotten
+    try { localStorage.removeItem('tysha-cursor'); } catch (e) { /* no storage */ }
     let pick = (new URLSearchParams(location.search).get('cursor') || '').toLowerCase();
     if (VARS.indexOf(pick) < 0) pick = 'a';
 

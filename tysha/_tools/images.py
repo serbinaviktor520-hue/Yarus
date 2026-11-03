@@ -141,10 +141,24 @@ def picture(name, img_attrs, prefix, man):
     return ''.join(parts)
 
 
+# one version for the code: a hash of every stylesheet and script, written on each <script>/<link> as ?v= (site.js
+# passes its own ?v= on to sound.js), so a returning visitor never runs yesterday's code under today's page
+ASSETS = ['site.css', 'site.js', 'home.js', 'live.js', 'sound.js']
+
+
+def asset_version():
+    h = hashlib.md5()
+    for a in ASSETS:
+        h.update(open(os.path.join(SITE, 'assets', a), 'rb').read())
+    return h.hexdigest()[:8]
+
+
 def rewrite(man):
+    av = asset_version()
     for page, prefix in PAGES.items():
         path = os.path.join(SITE, page)
         t = open(path, encoding='utf-8').read()
+        t = re.sub(r'((?:src|href)="(?:\.\./)?assets/(?:' + '|'.join(re.escape(a) for a in ASSETS) + r'))(?:\?v=\w+)?"', lambda m: f'{m.group(1)}?v={av}"', t)
         imgrx = r'<img\b[^>]*>'
 
         def name_from(tag):
