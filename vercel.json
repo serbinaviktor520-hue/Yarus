@@ -1,11 +1,69 @@
 {
   "routes": [
-    { "src": "^/assets/(.*)$", "headers": { "Cache-Control": "public, max-age=31536000, immutable" }, "continue": true },
-    { "src": "^/tysha/assets/fonts/(.*)$", "headers": { "Cache-Control": "public, max-age=31536000, immutable" }, "continue": true },
-    { "src": "^/tysha/img/(.*)$", "headers": { "Cache-Control": "public, max-age=604800, stale-while-revalidate=86400" }, "continue": true },
-    { "src": "^/(.*/)?index\\.html$", "status": 308, "headers": { "Location": "/$1" } },
-    { "handle": "filesystem" },
-    { "src": "^/((?:[^/]+/)*[^/.]+)$", "status": 308, "headers": { "Location": "/$1/" } },
-    { "src": "^/tysha/.*$", "status": 404, "dest": "/tysha/404/index.html" }
+    {
+      "src": "^/(?!tysha/)(.*)$",
+      "has": [
+        {
+          "type": "host",
+          "value": "tysha.vbrilliant.com"
+        }
+      ],
+      "dest": "/tysha/$1",
+      "continue": true
+    },
+    {
+      "src": "^/(?!strata/)(.*)$",
+      "has": [
+        {
+          "type": "host",
+          "value": "strata.vbrilliant.com"
+        }
+      ],
+      "dest": "/strata/$1",
+      "continue": true
+    },
+    {
+      "src": "^/assets/(.*)$",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
+    },
+    {
+      "src": "^/tysha/assets/fonts/(.*)$",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
+    },
+    {
+      "src": "^/tysha/img/(.*)$",
+      "headers": {
+        "Cache-Control": "public, max-age=604800, stale-while-revalidate=86400"
+      },
+      "continue": true
+    },
+    {
+      "src": "^/(.*/)?index\\.html$",
+      "status": 308,
+      "headers": {
+        "Location": "/$1"
+      }
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "^/((?:[^/]+/)*[^/.]+)$",
+      "status": 308,
+      "headers": {
+        "Location": "/$1/"
+      }
+    },
+    {
+      "src": "^/tysha/.*$",
+      "status": 404,
+      "dest": "/tysha/404/index.html"
+    }
   ]
 }
