@@ -64,6 +64,21 @@ A source named `<name>m.jpg` (for example `h08m.jpg`, the portrait hero) is an a
 download the wide photo. For the page hero it writes two preloads with `media` attributes, one per crop.
 Other photos keep one file and get a phone `object-position` in `site.css` (section 11).
 
+## Living photos: `live_masks.py`
+
+`assets/live.js` animates one element of a few photos (hero lake, the day frames, the blue-hour contact
+photo) with a small WebGL shader while they are on screen. Where it acts is set by a mask per photo,
+`img/<name>-live.png`, drawn by `python3 tysha/_tools/live_masks.py` on the raw frame geometry:
+R = water ripple and shimmer, G = drift or waver (mist, smoke, caustics), B = a lamp that breathes.
+Strengths are in the `FX` table at the top of `live.js`. If you re-crop one of these photos in
+`grade.py`, redraw its mask. Nothing runs under reduced motion, Save-Data or without WebGL.
+
+## Sound: `assets/sound.js`
+
+Opt-in from the header toggle; the file loads only when sound is switched on. All sound is synthesised
+(Web Audio), so there are no audio files. The scenes (city, forest, the five hours of the day section)
+are arrays near the bottom of the file.
+
 ## Icons: `icons.py`
 
 `python3 tysha/_tools/icons.py` draws `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`,

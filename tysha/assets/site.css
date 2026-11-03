@@ -472,10 +472,10 @@ main:focus{outline:none}
 .fill>.live-c{z-index:2}  /* day section: above the cross-fading frames */
 
 /* ---- 13. sound toggle (header) ---- */
-.t-sound{grid-column:10/13;grid-row:2;justify-self:end;margin-top:10px;min-height:32px;padding:0 14px;font-size:11px;font-variant-numeric:tabular-nums;color:inherit}
+.t-sound{grid-column:10/13;grid-row:2;justify-self:end;margin-top:10px;white-space:nowrap;min-height:32px;padding:0 14px;font-size:11px;font-variant-numeric:tabular-nums;color:inherit}
 .t-sound[aria-pressed="true"]{background:#EAE6DE;color:#111110}
 .t-sound:hover{background:#EAE6DE;color:#111110}
-@media (max-width:1024px){.t-sound{grid-column:10/13;grid-row:1;margin:0 82px 0 0;min-height:40px;align-self:start}}
+@media (max-width:1024px){.t-sound{grid-column:10/13;grid-row:1;margin:0 82px 0 0;min-height:40px;align-self:start}.t-sound+.t-menu-btn{grid-row:1}}
 @media (max-width:760px){.t-sound{margin:0 0 0 auto}.t-sound+.t-menu-btn{margin-left:8px!important}}
 
 /* ---- 14. cursor (mouse only; site.js never adds it under reduced motion or touch) ---- */
