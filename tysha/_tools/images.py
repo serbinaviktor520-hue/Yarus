@@ -28,10 +28,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.normpath(os.path.join(HERE, '..'))
 SRC = os.path.join(SITE, 'img', 'src')
 OUT = os.path.join(SITE, 'img')
-PAGES = {'index.html': '', 'project/index.html': '../', 'method/index.html': '../', 'privacy/index.html': '../', '404/index.html': ''}
+PAGES = {'index.html': '', 'project/index.html': '../', 'project/pine-court/index.html': '../../', 'method/index.html': '../', 'privacy/index.html': '../', '404/index.html': ''}
 WIDTHS = [480, 960, 1600, 2560]
 FMT = {'avif': dict(format='AVIF', quality=52, speed=6), 'webp': dict(format='WEBP', quality=78, method=6), 'jpg': dict(format='JPEG', quality=80, progressive=True, optimize=True)}
 OG_FROM, OG_FOCUS_Y = 'h08', 0.30
+OG_MORE = {'og-pine': ('p01', 0.45)}   # one social card per case
 MQ = '(max-width: 760px)'
 # the day frames' portrait crops: phones held upright (a portrait tablet's photo box is landscape, it keeps the 3:2 frames)
 MQ_FOR = {n: '(max-width: 760px) and (orientation: portrait)' for n in ('g15', 'h03', 'g14', 'h06', 'h09')}
@@ -94,6 +95,12 @@ def og(manifest):
     top = min(max(0, round(r.height * OG_FOCUS_Y - H / 2)), r.height - H)
     left = (r.width - W) // 2
     r.crop((left, top, left + W, top + H)).save(os.path.join(OUT, 'og.jpg'), quality=82, progressive=True, optimize=True)
+    for out, (name, fy) in OG_MORE.items():
+        im = ImageOps.exif_transpose(Image.open(os.path.join(SRC, name + '.jpg'))).convert('RGB')
+        s = max(W / im.width, H / im.height)
+        r = im.resize((round(im.width * s), round(im.height * s)), Image.LANCZOS)
+        top = min(max(0, round(r.height * fy - H / 2)), r.height - H)
+        r.crop(((r.width - W) // 2, top, (r.width - W) // 2 + W, top + H)).save(os.path.join(OUT, out + '.jpg'), quality=82, progressive=True, optimize=True)
 
 
 def _attrs(tag):
@@ -165,7 +172,7 @@ def rewrite(man):
         imgrx = r'<img\b[^>]*>'
 
         def name_from(tag):
-            m = re.search(r'\b(?:data-)?src="(?:\.\./)?img/([\w-]+?)(?:-\d+)?\.(?:jpg|jpeg|png)"', tag)
+            m = re.search(r'\b(?:data-)?src="(?:\.\./)*img/([\w-]+?)(?:-\d+)?\.(?:jpg|jpeg|png)"', tag)
             return m.group(1) if m and m.group(1) in man else None
 
         # refresh existing pictures
@@ -188,7 +195,7 @@ def rewrite(man):
             out.append(s)
         out.append(t[pos:]); t = ''.join(out)
         # footer wordmark photo
-        t = re.sub(r'(<image\b[^>]*\bhref=")(?:\.\./)?img/([\w-]+?)(?:-\d+)?\.jpg(?:\?v=\w+)?"',
+        t = re.sub(r'(<image\b[^>]*\bhref=")(?:\.\./)*img/([\w-]+?)(?:-\d+)?\.jpg(?:\?v=\w+)?"',
                    lambda m: f'{m.group(1)}{prefix}img/{m.group(2)}-{jpg_width(man[m.group(2)]["widths"])}.jpg?v={man[m.group(2)]["v"]}"' if m.group(2) in man else m.group(0), t)
         # preload the hero image
         t = re.sub(r'<link rel="preload" as="image"[^>]*data-img-preload[^>]*>\n', '', t)

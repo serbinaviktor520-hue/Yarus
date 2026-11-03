@@ -367,13 +367,20 @@
 
   if (!document.body.hasAttribute('data-preloader')) start();
 
-  // page transitions: the Lull House photo morphs only between the home card and the case; to any other
-  // page it leaves with the rest of the old page (a named element would otherwise stay on top, unfaded)
+  // page transitions: a case's photo morphs between its home card and its own hero (Lull House .vt-lull, Pine Court
+  // .vt-pine), and only on that pair of pages; to any other page it leaves with the rest of the old page (a named
+  // element would otherwise stay on top, unfaded)
   const BP = new URL(BASE).pathname;
-  const pair = (u) => { try { const p = new URL(u, location.href).pathname; return p === BP || p === BP + 'index.html' || p.indexOf(BP + 'project/') === 0; } catch (e) { return false; } };
-  const unname = () => qa('.vt-lull').forEach((el) => { el.style.viewTransitionName = 'none'; });
-  window.addEventListener('pageswap', (e) => { if (e.viewTransition && !(pair(location.href) && e.activation && e.activation.entry && pair(e.activation.entry.url))) unname(); });
-  window.addEventListener('pagereveal', (e) => { const f = window.navigation && navigation.activation && navigation.activation.from; if (e.viewTransition && !(f && pair(f.url) && pair(location.href))) unname(); });
+  const where = (u) => { try { const p = new URL(u, location.href).pathname.replace(/index\.html$/, ''); return p === BP ? 'home' : p === BP + 'project/' ? 'lull' : p === BP + 'project/pine-court/' ? 'pine' : 'other'; } catch (e) { return 'other'; } };
+  const VT = { lull: '.vt-lull', pine: '.vt-pine' };
+  // keep the morph only for the case that pairs this page with the other one
+  const keep = (other) => {
+    const here = where(location.href);
+    const pick = here === 'home' ? other : (other === 'home' ? here : null);
+    Object.keys(VT).forEach((k) => qa(VT[k]).forEach((el) => { el.style.viewTransitionName = k === pick ? '' : 'none'; }));
+  };
+  window.addEventListener('pageswap', (e) => { if (e.viewTransition) keep(e.activation && e.activation.entry ? where(e.activation.entry.url) : 'other'); });
+  window.addEventListener('pagereveal', (e) => { const f = window.navigation && navigation.activation && navigation.activation.from; if (e.viewTransition) keep(f ? where(f.url) : 'other'); });
 
   // skip link: focus <main> directly (a plain #main would follow <base href> on the 404 page)
   const skip = q('.skip-link'), main = q('#main');

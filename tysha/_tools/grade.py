@@ -31,30 +31,41 @@ SLOTS = {
     'h08': ('v3/hero_gpt.png', None, 0, 1.0),       # stage 3: strictly frontal, steps centred
     'h08m': ('01_hero_mobile.png', None, 0, 1.0),   # art-directed portrait hero for phones
     'g02': ('01_hero_straight.png', (280, 300, 1290, 760), 0, 1.0),
-    'g16': ('02_forest.png', None, -100, 1.0),
-    'g16w': ('02_forest_landscape.png', None, -100, 1.0),   # landscape: the project hero on every screen
+    'g16': ('v4/lull_entrance_tall.png', None, -100, 1.0),   # stage 4: the entrance side of the hero pavilion
+    'g16w': ('v4/lull_entrance_wide.png', None, -100, 1.0),  # landscape: the project hero on every screen
     'g15': ('06_day_0610.png', None, 0, 1.0),
     'h03': ('07_day_0900.png', None, 0, 1.0),
     'g14': ('05_day_1430.png', None, 0, 1.0),
     'h06': ('v3/08_day_1900_nolamp.png', None, 0, 1.0),   # lamp removed (see the note on the day lamp below)
     'h09': ('v3/09_day_2340_nolamp.png', None, 0, 1.0),
-    'h04': ('03_aerial.png', None, -150, 1.0),
-    'g03': ('04_drawing.png', (0, 230, 1024, 1000), 0, 1.0),
+    'h04': ('v4/lull_aerial.png', None, -150, 1.0),
+    'g03': ('v4/lull_plan.png', None, 0, 0.9),
     'g11': ('10_bedroom.png', None, -400, 0.8),
     'h01': ('11_corridor.png', None, 0, 1.0),
     'g09': ('v3/contact.png', None, 0, 1.0),       # house left, dark sky and water right: the form sits there
     'g06': ('13_panorama.png', (420, 0, 1536, 1024), -100, 1.0),
-    'h00': ('14_hollow.png', None, 0, 1.0),
+    'h00': ('14_hollow.png', None, 700, 1.05),            # warmed: it read cold grey next to the set
     'g01': ('15_pinecourt.png', None, -100, 1.0),
-    'g13': ('16_construction.png', None, 0, 1.0),
-    'g10': ('17_model.png', (0, 150, 1024, 1000), -100, 1.0),
+    'g13': ('16_construction.png', None, -150, 0.92),    # the hi-vis orange is tamed in fixes()
+    'g10': ('v4/lull_model.png', (0, 232, 1280, 878), -100, 1.0),   # cropped: no book titles, sheet title or pencil brand
     'h02': ('h02_earth_wall.png', None, -250, 0.92),
     'h05': ('h05_materials.png', None, 0, 1.0),
     'g07': ('g07_meter_aerial.png', None, -200, 1.0),
     'g08': ('g08_architect_meter.png', None, 0, 1.0),
     'g04': ('v3/road.png', None, -450, 0.7),       # misty pine road into the lake valley (portrait), muted
+    # Pine Court (stage 4): three travertine-and-larch houses on a pine slope
+    'p01': ('v4/pine_hero.png', None, -100, 0.95),
+    'p01m': ('v4/pine_hero.png', (60, 0, 879, 1024), -100, 0.95),   # phones: the first house and the woman on its steps
+    'p02': ('v4/pine_aerial.png', None, -150, 0.95),
+    'p03': ('v4/pine_interior.png', None, -200, 0.95),
+    'p04': ('v4/pine_detail.png', None, -100, 0.95),
 }
-LONG = {'h08': 3200, 'g16w': 3200}
+LONG = {'h08': 3200, 'g16w': 3200, 'p01': 3200}
+# Heroes are upscaled with a compact Real-ESRGAN model (--sr x4.onnx, made by _tools/esrgan_onnx.py), blended with
+# Lanczos so stone keeps its grain; inside these raw-frame boxes (people a few dozen pixels tall) Lanczos alone, since the
+# model paints faces. Without --sr every slot uses Lanczos.
+SR = {'h08': [(990, 500, 1080, 590)], 'g16w': [], 'p01': [(235, 530, 340, 675)]}
+SR_MIX = 0.65
 # Day lamp (stage 3): the raw 19:00 frame had a mushroom lamp behind the sofa, the 23:40 frame a different drum lamp at
 # the left edge, the other hours none. A composite of one lamp into all five frames was tried and rejected (the unlit
 # day-time lamp read as pasted), so both lamps were taken out of the raws instead: the wall behind them is the same
@@ -174,6 +185,19 @@ def deep_blue(a):
     return np.where(lin <= 0.0031308, lin * 12.92, 1.055 * np.power(np.clip(lin, 0, None), 1 / 2.4) - 0.055)
 
 
+def tame_orange(a):
+    """Construction site: the hi-vis vest and the orange machinery pulled toward the warm, muted set (orange hues only,
+    desaturated by ~60 % and a touch darker)."""
+    from matplotlib.colors import rgb_to_hsv, hsv_to_rgb
+    hsv = rgb_to_hsv(np.clip(a, 0, 1))
+    h, sat = hsv[..., 0], hsv[..., 1]
+    w = np.clip(1 - np.abs(h - 0.075) / 0.07, 0, 1) * np.clip((sat - 0.58) / 0.12, 0, 1)
+    w = blur(w, 1.5)
+    hsv[..., 1] = sat * (1 - 0.82 * w)
+    hsv[..., 2] = hsv[..., 2] * (1 - 0.2 * w)
+    return hsv_to_rgb(hsv)
+
+
 def fixes(slot, raw_dir, a):
     if slot == 'h08':
         a = soften(a, (1000, 512, 1070, 576), sigma=0.4)   # raw-frame box around the couple
@@ -183,22 +207,30 @@ def fixes(slot, raw_dir, a):
         a = lake_patch(raw_dir, a)
     if slot == 'g09':
         a = deep_blue(a)
+    if slot == 'g13':
+        a = tame_orange(a)
     if slot == 'h09':
         a = soft_moon(a)
-    if slot == 'g03':
-        # raw-frame coordinates: the "signature" above the plan, the note by the boat, the one by the steps
-        a = paper_cover(a, [(170, 330, 335, 395), (712, 790, 870, 850)])
     return a
 
 
 # ---------- 1-4. the shared chain ----------
-def upscale(a, long_side):
+def upscale(a, long_side, sr=None, keep=()):
     im = img(a)
     w, h = im.size
     s = long_side / max(w, h)
-    im = im.resize((round(w * s), round(h * s)), Image.LANCZOS)
-    im = im.filter(ImageFilter.UnsharpMask(radius=1.6, percent=45, threshold=2))
-    return f32(im)
+    size = (round(w * s), round(h * s))
+    lz = f32(im.resize(size, Image.LANCZOS).filter(ImageFilter.UnsharpMask(radius=1.6, percent=45, threshold=2)))
+    if not sr:
+        return lz
+    sys.path.insert(0, HERE)
+    from esrgan_onnx import upscale4
+    up = f32(upscale4(im, sr).resize(size, Image.LANCZOS))
+    m = np.full(size[::-1], SR_MIX, np.float32)
+    for (x0, y0, x1, y1) in keep:
+        m[round(y0 * s):round(y1 * s), round(x0 * s):round(x1 * s)] = 0
+    m = blur(m, 6 * s)[..., None]
+    return up * m + lz * (1 - m)
 
 
 def white_balance(a, kelvin, sat):
@@ -241,13 +273,15 @@ def grain(a, sigma=2.5 / 255, seed=7):
     return a + (n * amp)[..., None]
 
 
-def grade(slot, raw_dir):
+def grade(slot, raw_dir, sr=None):
     name, box, kelvin, sat = SLOTS[slot]
     a = f32(Image.open(os.path.join(raw_dir, name)))
     a = fixes(slot, raw_dir, a)
+    keep = SR.get(slot, [])
     if box:
         a = a[box[1]:box[3], box[0]:box[2]]
-    a = upscale(a, LONG.get(slot, 2560))
+        keep = [(x0 - box[0], y0 - box[1], x1 - box[0], y1 - box[1]) for (x0, y0, x1, y1) in keep]
+    a = upscale(a, LONG.get(slot, 2560), sr if slot in SR else None, keep)
     a = white_balance(a, kelvin, sat)
     a = tone(np.clip(a, 0, 1))
     a = clarity(a)
@@ -276,12 +310,13 @@ def main():
         return day_mobile()
     ap = argparse.ArgumentParser()
     ap.add_argument('--raw', required=True, help='folder with the raw renders')
+    ap.add_argument('--sr', help='Real-ESRGAN x4 .onnx for the heroes (see esrgan_onnx.py)')
     ap.add_argument('slots', nargs='*')
     o = ap.parse_args()
     for slot in o.slots or SLOTS:
         if slot not in SLOTS:
             sys.exit('unknown slot ' + slot)
-        print(slot, '<-', SLOTS[slot][0], grade(slot, o.raw))
+        print(slot, '<-', SLOTS[slot][0], grade(slot, o.raw, o.sr))
 
 
 if __name__ == '__main__':

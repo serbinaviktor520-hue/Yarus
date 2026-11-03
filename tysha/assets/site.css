@@ -484,10 +484,11 @@ main:focus{outline:none}
 @keyframes t-vt-in{from{opacity:0;transform:translateY(12px)}}
 /* the Lull House card on the home page becomes the project's hero */
 .vt-lull{view-transition-name:lull-house}
-::view-transition-group(lull-house){animation-duration:.8s;animation-timing-function:cubic-bezier(.65,0,.35,1)}
-::view-transition-old(lull-house),::view-transition-new(lull-house){height:100%;width:100%;object-fit:cover;overflow:clip}
-::view-transition-old(lull-house){animation:none;opacity:0}
-::view-transition-new(lull-house){animation:none}
+.vt-pine{view-transition-name:pine-court}
+::view-transition-group(lull-house),::view-transition-group(pine-court){animation-duration:.8s;animation-timing-function:cubic-bezier(.65,0,.35,1)}
+::view-transition-old(lull-house),::view-transition-new(lull-house),::view-transition-old(pine-court),::view-transition-new(pine-court){height:100%;width:100%;object-fit:cover;overflow:clip}
+::view-transition-old(lull-house),::view-transition-old(pine-court){animation:none;opacity:0}
+::view-transition-new(lull-house),::view-transition-new(pine-court){animation:none}
 @media (prefers-reduced-motion:reduce){
   ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
 }
@@ -872,3 +873,20 @@ dialog.m::backdrop{background:transparent}
   [data-pin="400"] .day-img{object-position:42% 70%}
   [data-pin="400"] .span-2{font-size:120px}
 }
+
+/* ---- 20. stage 4: two cases ---- */
+.case-next{display:flex;color:#EAE6DE;text-decoration:none}
+.case-next>.row-4{position:relative;margin-top:auto}
+.case-next>.sec-head{position:relative}
+.case-next img{transition:transform 1.2s var(--ez)}
+.case-next:hover img,.case-next:focus-visible img{transform:scale(1.03)}
+.case-next:hover{color:#EAE6DE}
+.case-next:focus-visible{outline:2px solid #EAE6DE;outline-offset:-6px}
+.pc-card{object-position:22% 50%}
+.pc-aerial{object-position:50% 40%}
+.obj-steps{object-position:50% 72%}
+/* the cases still to come: a clear, quiet "not yet" (no link, muted photo, the tag says when) */
+.card-soon .card-media img{filter:saturate(.55) brightness(.92)}
+.card-soon{cursor:default}
+.card-soon .h-s{color:#5A554E}
+@media (max-width:760px){[data-hero] .hero-img-2.vt-pine{object-position:30% 50%}}

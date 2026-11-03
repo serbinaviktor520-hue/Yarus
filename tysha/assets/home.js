@@ -83,7 +83,7 @@
     + '<g class="pre-cuts">' + CUTS.map(([s, o]) => s.replace('/>', ' style="transform-origin:' + o + '"/>')).join('') + '</g></g>'
     + '<use class="pre-final" href="#l-wm"/></svg>'
     + '<div class="pre-cap pre-cap-t label"><span>Tysha Architecture<br><span class="tone-5">Lviv — Warsaw</span></span><span>Architecture of silence<br><span class="tone-5">Est. 2014</span></span><span>Private houses<br><span class="tone-5">38 built, 6 a year</span></span><span class="ta-r">Now: <span data-pre-db>68</span> dB<br><span class="tone-5">Turning the city down</span></span></div>'
-    + '<div class="pre-cap pre-cap-b label"><span>We design homes where<br>the loudest thing is the rain.</span><span class="tone-5">49.8397° N<br>24.0297° E</span><span class="case-none"><span class="f">LULL_HOUSE.JPG</span> <span class="f">PINE_COURT.JPG</span> <span class="f">HOLLOW.JPG</span></span><span class="ta-r">Loading quiet<br><span data-pre-pct>000</span> / 100</span></div>';
+    + '<div class="pre-cap pre-cap-b label"><span>We design homes where<br>the loudest thing is the rain.</span><span class="tone-5">49.9312° N<br>23.6187° E</span><span class="case-none"><span class="f">LULL_HOUSE.JPG</span> <span class="f">PINE_COURT.JPG</span> <span class="f">HOLLOW.JPG</span></span><span class="ta-r">Loading quiet<br><span data-pre-pct>000</span> / 100</span></div>';
   document.body.appendChild(pre);
   root.inert = true; de.style.overflow = 'hidden';
   // one frame for the photo: the preloader's copy takes the hero image's exact box, crop and scrim (the hero photo can
