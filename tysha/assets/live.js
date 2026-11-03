@@ -123,7 +123,7 @@
       const L = add(dayImgs[0].closest('.fill'), dayImgs[dayImgs.length - 1].parentElement, dayImgs, pick);
       // new hour: hide now, show again after the cross-fade
       let tm = 0;
-      if (L) document.addEventListener('tysha:day', () => { L.ready = false; L.cv.classList.remove('on'); clearTimeout(tm); tm = setTimeout(() => L.use(pick()), 2500); });
+      if (L) document.addEventListener('tysha:day', () => { L.ready = false; L.cv.classList.remove('on'); clearTimeout(tm); tm = setTimeout(() => L.use(pick()), 900); });
     }
   }
   const go = () => (window.requestIdleCallback ? requestIdleCallback(init, { timeout: 2500 }) : setTimeout(init, 300));

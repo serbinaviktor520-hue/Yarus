@@ -460,6 +460,23 @@
   }
 
   /* ---------- 3e. sound toggle: off by default, never autoplays; the engine (sound.js) loads on demand ---------- */
+  // a small caption toast: polite live region, shown only when the visitor toggles (never when a state is restored)
+  let toast = null, toastT = 0;
+  T.toast = (msg) => {
+    if (!toast) {
+      toast = document.createElement('div'); toast.className = 't-toast';
+      toast.setAttribute('role', 'status'); toast.setAttribute('aria-live', 'polite'); toast.setAttribute('aria-atomic', 'true');
+      document.body.appendChild(toast);
+    }
+    // phones: keep clear of the privacy note in the bottom corner
+    const note = q('.t-note.on');
+    toast.style.bottom = note && PHONE.matches ? (window.innerHeight - note.getBoundingClientRect().top + 12) + 'px' : '';
+    clearTimeout(toastT);
+    toast.textContent = msg;
+    requestAnimationFrame(() => toast.classList.add('on'));
+    toastT = setTimeout(() => { toast.classList.remove('on'); toastT = setTimeout(() => { toast.textContent = ''; }, 500); }, 3000);
+  };
+  T.soundOn = () => false;
   if (header && (window.AudioContext || window.webkitAudioContext)) {
     const sb = document.createElement('button');
     sb.type = 'button'; sb.className = 't-pill t-sound'; sb.setAttribute('aria-pressed', 'false'); sb.setAttribute('data-noscramble', '');
@@ -467,6 +484,7 @@
     const sbs = q('.t-sound-s', sb);
     sb.setAttribute('data-cursor', 'Listen');
     header.insertBefore(sb, q('.t-menu-btn', header));
+    T.soundOn = () => sb.getAttribute('aria-pressed') === 'true';
     const load = () => (T.sound ? Promise.resolve(T.sound) : new Promise((ok, no) => {
       const s = document.createElement('script'); s.src = BASE + 'assets/sound.js';
       s.onload = () => (T.sound ? ok(T.sound) : no()); s.onerror = no; document.head.appendChild(s);
@@ -477,7 +495,8 @@
     };
     sb.addEventListener('click', () => {
       const on = sb.getAttribute('aria-pressed') !== 'true'; set(on);
-      if (on) load().then((S) => S.on(), () => set(false)); else if (T.sound) T.sound.off();
+      T.toast(on ? 'Sound on — the city fades as you scroll' : 'Sound off');
+      if (on) load().then((S) => S.on(), () => { set(false); T.toast('Sound is not available here'); }); else if (T.sound) T.sound.off();
     });
     let want = false;
     try { want = sessionStorage.getItem('tysha-sound') === '1'; } catch (e) { /* first visit */ }
@@ -490,36 +509,131 @@
     }
   }
 
-  /* ---------- 3f. cursor: a small dot that follows with a little lag (mouse only, motion allowed) ----------
-     The native cursor stays. Over the project card it reads "View", over the day section the current dB,
-     over anything with data-cursor (the sound toggle) that word. */
-  if (FINE.matches && !RM.matches && root) {
-    const c = document.createElement('div'); c.className = 't-cursor'; c.setAttribute('aria-hidden', 'true');
-    c.innerHTML = '<span></span>'; document.body.appendChild(c);
-    const lab = c.firstChild, daySec = q('[data-pin="400"]'), dayDb = q('#day-db');
-    let x = 0, y = 0, cx = 0, cy = 0, raf = 0, mode = '';
-    const text = () => (mode === 'db' ? dayDb.textContent + ' dB' : mode);
-    const step = () => {
-      raf = 0; cx += (x - cx) * 0.2; cy += (y - cy) * 0.2;
+  /* ---------- 3e2. the page's noise level, as the site tells it: 68 dB at the top of the home page, 25 dB at the
+     bottom; the day section reads its own hour; the other pages are already out of town ---------- */
+  const homePage = !!q('[data-hero] [data-hero-wm]');
+  const daySecEl = q('[data-pin="400"]');
+  T.pageDb = () => {
+    const ih = window.innerHeight;
+    if (daySecEl && T.dayDb != null) { const r = daySecEl.getBoundingClientRect(); if (r.top < ih * 0.5 && r.bottom > ih * 0.5) return T.dayDb; }
+    const max = document.documentElement.scrollHeight - ih;
+    let p = max > 0 ? window.scrollY / max : 1;
+    if (!homePage) p = 0.75 + 0.25 * p;
+    return Math.round(68 - 43 * Math.min(1, p * 1.25));
+  };
+
+  /* ---------- 3f. cursor (mouse only). The native cursor stays; this one is an accent that follows it.
+     Variants for the client to choose from: ?cursor=a|b|c|d|e (remembered in this browser), or Shift+C for a
+     small switcher. Visitors without a choice get the default dot.
+       dot  a small dot; over the project card "View", over the day section the current dB, over [data-cursor] that word
+       a    equalizer: five bars whose height follows the page's dB (flat when the sound is off)
+       b    meter: a thin ring with the live dB inside, the arc filled by loudness
+       c    ripple: the dot, and two rings spreading from every click
+       d    crosshair: an architect's crosshair with coordinates; over photos a viewfinder with a label
+       e    equalizer + ripples
+     Transform and opacity only, one rAF loop, pointer-events: none. Reduced motion: no lag, no ripples, still bars. */
+  if (FINE.matches && root) {
+    const VARS = ['dot', 'a', 'b', 'c', 'd', 'e'];
+    const NAMES = { dot: 'Dot', a: 'Equalizer', b: 'Meter', c: 'Ripple', d: 'Crosshair', e: 'A + C' };
+    let pick = null;
+    const urlPick = (new URLSearchParams(location.search).get('cursor') || '').toLowerCase();
+    try { pick = localStorage.getItem('tysha-cursor'); } catch (e) { /* no storage */ }
+    if (urlPick) { pick = VARS.indexOf(urlPick) >= 0 ? urlPick : 'dot'; try { localStorage.setItem('tysha-cursor', pick); } catch (e) { /* fine */ } }
+    if (VARS.indexOf(pick) < 0) pick = 'dot';
+
+    const c = document.createElement('div'); c.setAttribute('aria-hidden', 'true');
+    c.innerHTML = '<span class="tc-lab"></span><i class="tc-eq"><b></b><b></b><b></b><b></b><b></b></i>'
+      + '<svg class="tc-ring" viewBox="0 0 36 36" width="36" height="36"><circle cx="18" cy="18" r="16" class="tc-track"/><circle cx="18" cy="18" r="16" class="tc-arc" pathLength="100"/></svg><em class="tc-num"></em>'
+      + '<i class="tc-cross"></i><i class="tc-xy"></i><i class="tc-vf"><b></b><b></b><b></b><b></b></i>';
+    document.body.appendChild(c);
+    const rip = document.createElement('div'); rip.className = 't-ripples'; rip.setAttribute('aria-hidden', 'true'); document.body.appendChild(rip);
+    const lab = q('.tc-lab', c), bars = qa('.tc-eq b', c), arc = q('.tc-arc', c), num = q('.tc-num', c), xy = q('.tc-xy', c), dayDb = q('#day-db');
+    let x = 0, y = 0, cx = 0, cy = 0, raf = 0, mode = '', photo = false, seen = false;
+    const apply = (v) => {
+      pick = v; c.className = 't-cursor tc-' + v + (seen ? ' on' : '') + (mode ? ' pill' : '') + (photo ? ' photo' : '');
+      if (!raf) raf = requestAnimationFrame(step);
+    };
+    const text = () => (mode === 'db' ? (dayDb ? dayDb.textContent : T.pageDb()) + ' dB' : mode);
+    const eq = () => pick === 'a' || pick === 'e';
+    const still = () => RM.matches;
+    let lastDb = -1, lastXY = '';
+    const step = (now) => {
+      raf = 0;
+      const k = still() ? 1 : 0.2;
+      cx += (x - cx) * k; cy += (y - cy) * k;
       c.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0)';
       if (mode === 'db' && lab.textContent !== text()) lab.textContent = text();
-      if (Math.abs(x - cx) + Math.abs(y - cy) > 0.2 || mode === 'db') raf = requestAnimationFrame(step);
+      let busy = Math.abs(x - cx) + Math.abs(y - cy) > 0.2 || mode === 'db';
+      if (seen && (eq() || pick === 'b')) {
+        const db = T.pageDb(); const loud = Math.max(0, Math.min(1, (db - 20) / 48));
+        if (eq()) {
+          const on = T.soundOn(); const t = (now || performance.now()) / 1000;
+          bars.forEach((bar, i) => {
+            let h;
+            if (!on) h = 0.08;                                       // a flat line: silence
+            else if (still()) h = 0.15 + 0.7 * loud * [0.55, 0.9, 1, 0.75, 0.5][i];
+            else h = 0.1 + 0.9 * loud * (0.5 + 0.5 * Math.abs(Math.sin(t * (2.1 + i * 0.73) + i * 1.7) * Math.sin(t * (1.3 + i * 0.41))));
+            bar.style.transform = 'scaleY(' + h.toFixed(3) + ')';
+          });
+          busy = busy || (on && !still());
+        }
+        if (pick === 'b' && db !== lastDb) { lastDb = db; num.textContent = db; arc.style.strokeDasharray = (loud * 100).toFixed(1) + ' 100'; }
+        if (pick === 'b') busy = true;
+      }
+      if (pick === 'd') { const s = 'X ' + String(Math.round(x)).padStart(4, '0') + ' · Y ' + String(Math.round(y + window.scrollY)).padStart(5, '0'); if (s !== lastXY) { lastXY = s; xy.textContent = s; } }
+      if (busy && seen && !document.hidden) raf = requestAnimationFrame(step);
     };
+    const PHOTO = 'picture, img, .card-media, .day-frame, [data-pano], [data-hero], #contact [data-zoom]';
     const move = (e) => {
       if (e.pointerType && e.pointerType !== 'mouse') return;
       x = e.clientX; y = e.clientY;
-      if (!c.classList.contains('on')) { cx = x; cy = y; c.classList.add('on'); }
+      if (!seen) { cx = x; cy = y; seen = true; c.classList.add('on'); }
       c.classList.toggle('flip', x > window.innerWidth - 160);   // keep the label inside the window
       const t = e.target.closest ? e.target : document.body;
       const k = t.closest('[data-cursor]');
-      const m = k ? k.getAttribute('data-cursor') : t.closest('.card') ? 'View' : (daySec && dayDb && daySec.contains(t)) ? 'db' : '';
+      const m = k ? k.getAttribute('data-cursor') : t.closest('.card') ? 'View' : (daySecEl && dayDb && daySecEl.contains(t)) ? 'db' : '';
       if (m !== mode) { mode = m; c.classList.toggle('pill', !!m); lab.textContent = text(); }
+      const ph = !m && !!t.closest(PHOTO) && !t.closest('a, button, input, label, .label, h1, h2, p');
+      if (ph !== photo) { photo = ph; c.classList.toggle('photo', ph); }
       if (!raf) raf = requestAnimationFrame(step);
     };
+    const ripple = (e) => {
+      if ((e.pointerType && e.pointerType !== 'mouse') || still() || !(pick === 'c' || pick === 'e')) return;
+      [0, 120].forEach((d) => {
+        const r = document.createElement('i'); r.style.transform = 'translate3d(' + e.clientX + 'px,' + e.clientY + 'px,0)'; rip.appendChild(r);
+        const a = r.animate([{ transform: 'translate3d(' + e.clientX + 'px,' + e.clientY + 'px,0) scale(.2)', opacity: 0.9 }, { transform: 'translate3d(' + e.clientX + 'px,' + e.clientY + 'px,0) scale(1)', opacity: 0 }], { duration: 600, delay: d, easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'both' });
+        a.onfinish = () => r.remove();
+      });
+    };
     window.addEventListener('pointermove', move, { passive: true });
-    document.documentElement.addEventListener('pointerleave', () => c.classList.remove('on'));
-    const off = () => { if (RM.matches || !FINE.matches) { c.remove(); window.removeEventListener('pointermove', move); } };
-    RM.addEventListener && RM.addEventListener('change', off); FINE.addEventListener && FINE.addEventListener('change', off);
+    window.addEventListener('pointerdown', ripple, { passive: true });
+    window.addEventListener('scroll', () => { if (seen && !raf) raf = requestAnimationFrame(step); }, { passive: true });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && seen && !raf) raf = requestAnimationFrame(step); });
+    document.documentElement.addEventListener('pointerleave', () => { seen = false; c.classList.remove('on'); });
+    document.addEventListener('tysha:day', () => { if (seen && !raf) raf = requestAnimationFrame(step); });
+    FINE.addEventListener && FINE.addEventListener('change', () => { if (!FINE.matches) { c.remove(); rip.remove(); window.removeEventListener('pointermove', move); } });
+    apply(pick);
+
+    // the test switcher: only with ?cursor in the address, or after Shift+C
+    let sw = null;
+    const switcher = () => {
+      if (sw) { sw.hidden = !sw.hidden; return; }
+      sw = document.createElement('div'); sw.className = 't-cursor-sw'; sw.setAttribute('role', 'group'); sw.setAttribute('aria-label', 'Cursor variant (test)');
+      sw.innerHTML = '<span>Cursor</span>' + VARS.map((v) => '<button type="button" data-v="' + v + '" title="' + NAMES[v] + '" aria-pressed="' + (v === pick) + '">' + (v === 'dot' ? '·' : v.toUpperCase()) + '</button>').join('');
+      sw.addEventListener('click', (e) => {
+        const b = e.target.closest('button'); if (!b) return;
+        const v = b.getAttribute('data-v'); apply(v);
+        try { localStorage.setItem('tysha-cursor', v); } catch (er) { /* fine */ }
+        qa('button', sw).forEach((x2) => x2.setAttribute('aria-pressed', String(x2 === b)));
+        T.toast('Cursor: ' + NAMES[v]);
+      });
+      document.body.appendChild(sw);
+    };
+    if (urlPick) switcher();
+    document.addEventListener('keydown', (e) => {
+      if (e.shiftKey && !e.ctrlKey && !e.metaKey && !e.altKey && (e.key === 'C' || e.key === 'c') && !(e.target.closest && e.target.closest('input, textarea, [contenteditable]'))) switcher();
+    });
+    T.cursor = { set: apply, get: () => pick };
   }
 
   /* ---------- 3d. privacy note: a small corner toast, remembered in this browser only ---------- */

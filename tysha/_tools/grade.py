@@ -158,6 +158,21 @@ def soften(a, box, sigma=0.5, feather=4):
     return a * (1 - al) + blur(a, sigma) * al
 
 
+def deep_blue(a):
+    """Contact (stage 3): a later blue hour on the right, where the form sits on the photo with no scrim. A graduated
+    exposure in linear light on the blue sky and water only (warm stone and lit windows are left alone), stronger to
+    the right, so every line of the form keeps >= 4.5:1 against the pixels behind it."""
+    H, W, _ = a.shape
+    lin = np.where(a <= 0.04045, a / 12.92, ((a + 0.055) / 1.055) ** 2.4)
+    w = np.clip((a[..., 2] - a[..., 0]) / 0.10, 0, 1)                     # how blue: sky and water 1, stone 0
+    w = blur(w, 2.0)
+    x = np.linspace(0, 1, W)[None, :]
+    g = 0.62 + (0.32 - 0.62) * np.clip((x - 0.30) / 0.28, 0, 1)            # 0.62 over the house, 0.32 right of it
+    gain = 1 - w * (1 - g)
+    lin = lin * gain[..., None]
+    return np.where(lin <= 0.0031308, lin * 12.92, 1.055 * np.power(np.clip(lin, 0, None), 1 / 2.4) - 0.055)
+
+
 def fixes(slot, raw_dir, a):
     if slot == 'h08':
         a = soften(a, (1000, 512, 1070, 576), sigma=0.4)   # raw-frame box around the couple
@@ -165,6 +180,8 @@ def fixes(slot, raw_dir, a):
         a = soften(a, (703, 818, 774, 884))
     if slot == 'h03':
         a = lake_patch(raw_dir, a)
+    if slot == 'g09':
+        a = deep_blue(a)
     if slot == 'h09':
         a = soft_moon(a)
     if slot == 'g03':

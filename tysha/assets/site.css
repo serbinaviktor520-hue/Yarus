@@ -16,7 +16,7 @@ img{height:auto}
 body{margin:0;background:#111110}
 a{color:inherit;text-decoration:none}a:hover{color:#C2AE8E}
 input{color:#EAE6DE}
-input::placeholder{color:rgba(234,230,222,0.62)}
+input::placeholder{color:rgba(234,230,222,0.88)}
 @media (max-width: 1100px) and (min-width: 761px){
 :is(.h-xl){font-size:56px!important}
 :is(.h-2,.h-3,.lh-09,.marquee,.num-xl,.span-2){font-size:120px!important}
@@ -192,8 +192,6 @@ footer :is(.ta-r){text-align:left!important}
 .axis-tan{background:#C2AE8E}
 .axis-tan-2{background:#B8A78A}
 .bg{background:linear-gradient(180deg, rgba(17,17,16,0.45) 0%, rgba(17,17,16,0.1) 40%, rgba(17,17,16,0.6) 100%)}
-.bg-2{background:linear-gradient(180deg, rgba(17,17,16,0.55) 0%, rgba(17,17,16,0) 30%, rgba(17,17,16,0) 55%, rgba(17,17,16,0.8) 100%)}
-.bg-3{background:rgba(11, 11, 10, 0.35)}
 .bg-4{background:linear-gradient(180deg, rgba(17,17,16,0.55) 0%, rgba(17,17,16,0.05) 35%, rgba(17,17,16,0.15) 60%, rgba(17,17,16,0.8) 100%)}
 .bg-5{background:rgba(11,11,10,0.4)}
 .bg-6{background:linear-gradient(90deg, #111110 0%, #111110 calc(20px + (100% - 40px) * 5 / 12), rgba(17,17,16,0.15) calc(20px + (100% - 40px) * 5 / 12 + 1px), rgba(17,17,16,0.35) 100%)}
@@ -207,7 +205,6 @@ footer :is(.ta-r){text-align:left!important}
 .day-bar{background:#C2AE8E;transform-origin:left;transform:scaleX(0)}
 .day-btn{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:8px;padding-top:16px;border-top:1px solid rgba(234,230,222,0.3);color:rgba(234,230,222,0.6);min-height:44px;transition:color 0.4s ease, border-color 0.4s ease}
 .day-grid{display:grid;grid-template-columns:repeat(5, minmax(0, 1fr));column-gap:20px}
-.day-img{height:100%;object-position:center 60%;opacity:0;transform:scale(1.08);transition:opacity 0.9s ease, transform 2.4s cubic-bezier(.2,.7,.2,1)}
 .day-track{position:relative;height:1px;background:rgba(234,230,222,0.2);margin-bottom:-1px}
 .div{border-top:1px solid #2E2D2B;padding:24px 0 40px}
 .div-2{position:relative;line-height:1.6}
@@ -358,7 +355,7 @@ footer :is(.ta-r){text-align:left!important}
 .stack-mt-80{margin-top:80px;display:flex;flex-direction:column;gap:16px}
 .step-row{display:grid;grid-template-columns:48px 1fr auto;gap:16px;padding:14px 0;border-bottom:1px solid rgba(234,230,222,0.4)}
 .ta-r{text-align:right}
-.tone-dim{color:rgba(234,230,222,0.62)}
+.tone-dim{color:rgba(234,230,222,0.78)}
 
 /* ---- 3. display face: Instrument Serif for headings and display text >= 40px ---- */
 .serif,.t-menu-list .t{font-family:'Instrument Serif',Georgia,serif;font-weight:400;letter-spacing:-0.02em}
@@ -382,9 +379,6 @@ picture>source{display:none}
 .rv-scr{opacity:0}
 .rv-now{transition:none!important}
 :root{--ez:cubic-bezier(.16,.84,.24,1)}
-/* cross-fade without a dark dip: the new frame fades in on top, the old one stays until it is covered */
-.day-img{transition:opacity 0s linear .9s,transform 2.4s cubic-bezier(.2,.7,.2,1)}
-.day-img.on{opacity:1;transform:scale(1);z-index:1;transition:opacity .9s ease,transform 2.4s cubic-bezier(.2,.7,.2,1)}
 .day-btn[aria-pressed="true"]{border-top-color:#EAE6DE;color:#EAE6DE}
 
 @media (max-width:760px){.br-wide{display:none}}
@@ -441,7 +435,6 @@ main:focus{outline:none}
   .rv.in{transition:opacity .8s ease var(--d,0s)}
   .rv-img{clip-path:none;transform:none;opacity:0}
   .rv-img.in{opacity:1;transition:opacity .8s ease}
-  .day-img,.day-img.on{transform:none}
   .t-menu-list a,.t-note{transform:none}
   .card img,.card:hover .card-media img,.card-cta,.card:hover .card-cta,.ol>li>.h-m,.ol>li:hover>.h-m{transform:none}
 }
@@ -456,12 +449,6 @@ main:focus{outline:none}
    hero (its own portrait crop, h08m) are already centred by default. */
 /* phones: keep each photo's subject in frame (checked at 375x812 and 390x844) */
 @media (max-width:760px){
-  /* day series: the 3:2 frames sit in a square box above the buttons, so the whole room shows:
-     window, bench, coffee table, the rug with the slippers and part of the sofa (all five alike) */
-  [data-pin="400"] [data-pin-inner]>.fill:first-child{top:auto;bottom:max(92px,11svh);aspect-ratio:1/1}
-  [data-pin="400"] .day-img{object-position:40% 50%}
-  [data-pin="400"] .bg-2{background:linear-gradient(180deg,rgba(17,17,16,.6) 0%,rgba(17,17,16,0) 45%,rgba(17,17,16,0) 82%,rgba(17,17,16,.85) 100%)}
-  [data-img="g09"]>img{object-position:56% 50%}                   /* blue hour: the lit glass room */
   [data-img="g06"]>img{object-position:45% 55%}                   /* panorama: the woman on the path */
   [data-img="h04"]>img{object-position:50% 42%}                   /* aerial: the house */
 }
@@ -469,7 +456,6 @@ main:focus{outline:none}
 /* ---- 12. living photos (assets/live.js): a WebGL layer right above the photo ---- */
 .live-c{pointer-events:none;opacity:0;transition:opacity .6s ease;will-change:transform}
 .live-c.on{opacity:1}
-.fill>.live-c{z-index:2}  /* day section: above the cross-fading frames */
 
 /* ---- 13. sound toggle (header) ---- */
 .t-sound{grid-column:10/13;grid-row:2;justify-self:end;margin-top:10px;white-space:nowrap;min-height:32px;padding:0 14px;font-size:11px;font-variant-numeric:tabular-nums;color:inherit}
@@ -485,7 +471,8 @@ main:focus{outline:none}
 .t-cursor.pill{mix-blend-mode:normal}
 .t-cursor.pill span{left:14px;top:14px;width:auto;height:28px;padding:0 12px;background:#EAE6DE;color:#111110}
 .t-cursor.pill.flip span{left:auto;right:14px}
-@media (pointer:coarse),(prefers-reduced-motion:reduce){.t-cursor{display:none}}
+@media (pointer:coarse){.t-cursor,.t-ripples,.t-cursor-sw{display:none!important}}
+@media (prefers-reduced-motion:reduce){.t-cursor.tc-dot{display:none}}
 
 /* ---- 15. page transitions (cross-document View Transitions; unsupported browsers navigate normally) ---- */
 @view-transition{navigation:auto}
@@ -519,30 +506,15 @@ main:focus{outline:none}
   .st-over{justify-content:flex-start;gap:24px}
   .st-over>:last-child{margin-top:auto}
   .st-layer .bg{background:linear-gradient(180deg,rgba(17,17,16,.6) 0%,rgba(17,17,16,.35) 36%,rgba(17,17,16,0) 50%,rgba(17,17,16,.6) 100%)}
-  /* contact: the form sits on dark ground, the lit house gets its own band below it */
-  #contact [data-zoom]{top:auto;height:calc(96vw + 80px);transform-origin:50% 80%}
-  #contact .bg-3{background:linear-gradient(180deg,#111110 0%,#111110 calc(100% - 96vw - 90px),rgba(11,11,10,.25) calc(100% - 96vw + 10px),rgba(11,11,10,.12) 100%)}
 }
 
 /* ---- 17. final QA pass ---- */
-/* day section: photo (and its WebGL layer) < scrim and axis < text and buttons; on wider screens the
-   photo stops above the hour buttons, bottom-aligned, so the rug and the slippers stay in every frame */
-[data-pin="400"] [data-pin-inner]>.fill:first-child{z-index:0}
-[data-pin="400"] [data-pin-inner]>:is(.bg-2,[data-axis]){z-index:1}
-[data-pin="400"] [data-pin-inner]>:is(.sec-head,.grid-12,.div-4){position:relative;z-index:2}
-@media (min-width:761px){
-  [data-pin="400"]{--day-foot:132px}
-  [data-pin="400"] [data-pin-inner]>:is(.fill:first-child,.bg-2){bottom:var(--day-foot)}
-  [data-pin="400"] .day-img{object-position:50% 100%}
-  [data-pin="400"] .bg-2{background:linear-gradient(180deg,rgba(11,11,10,.8) 0%,rgba(11,11,10,.7) 24%,rgba(11,11,10,.5) 40%,rgba(11,11,10,0) 58%,rgba(11,11,10,0) 90%,rgba(17,17,16,.5) 100%)}
-}
 
 /* dB badge: phones have no free gutter for it */
 @media (max-width:760px){.db-badge{display:none!important}}
 
 /* header buttons: real padding, one row, a sound toggle that keeps its width */
 .site-head>.t-sound{padding:0 14px}
-.t-sound-s{display:inline-block;width:3.3ch;text-align:left}
 @media (max-width:760px){.site-head>.t-sound{flex:none}.site-head>.t-menu-btn{flex:none}.site-head>.brand{flex:none;min-width:0}}
 @media (max-width:360px){.site-head .brand br,.site-head .brand .tone-2{display:none}.site-head .brand{align-self:center}}
 
@@ -580,10 +552,6 @@ main:focus{outline:none}
 @media (max-width:1279px){[data-hero] .row-7{display:none!important}}
 @media (min-width:761px){.hero-img{object-position:50% 100%}}
 
-/* contact: the lit house on the left under the heading, the form on dark ground right of the axis */
-@media (min-width:1025px){#contact [data-zoom]{left:-41.5%;right:auto;width:133%;max-width:none}}
-@media (min-width:761px) and (max-width:1024px){#contact [data-zoom]{object-position:91% 50%}}
-@media (min-width:761px){#contact .bg-3{background:linear-gradient(90deg,rgba(11,11,10,.28) 0%,rgba(11,11,10,.28) calc(20px + (100% - 40px) * 5 / 12 - 170px),rgba(11,11,10,.82) calc(20px + (100% - 40px) * 5 / 12 - 10px),rgba(11,11,10,.86) 100%)}}
 
 /* reveals: shorter clip; the "coming" tag waits for its photo */
 .rv-img.in{transition:clip-path 1.1s cubic-bezier(.65,0,.25,1),transform 1.4s var(--ez)}
@@ -643,7 +611,6 @@ main:focus{outline:none}
 @keyframes t-vt-fade{to{opacity:0}}
 
 /* text over photos: every line at least 4.5:1 (3:1 for large type) against the brightest part behind it */
-[data-pin="400"] :is(h2,.span-2,.fs-12){text-shadow:0 0 18px rgba(11,11,10,.55)}
 @media (min-width:761px){
   .shade-hero{background:linear-gradient(180deg,rgba(11,11,10,.66) 0%,rgba(11,11,10,.5) 24%,rgba(11,11,10,.12) 40%,rgba(11,11,10,.08) 50%,rgba(11,11,10,.55) 58%,rgba(11,11,10,.82) 100%)}
   [data-hero] :is(h1,.body-l,.label){text-shadow:0 0 16px rgba(11,11,10,.6)}
@@ -655,4 +622,101 @@ main:focus{outline:none}
   .bg-4{background:linear-gradient(180deg,rgba(11,11,10,.74) 0%,rgba(11,11,10,.68) 36%,rgba(11,11,10,.45) 42%,rgba(11,11,10,0) 48%,rgba(11,11,10,0) 66%,rgba(17,17,16,.85) 82%,rgba(17,17,16,.9) 100%)}
 }
 .link-line-end,.link-line-dark-end{white-space:nowrap}
-@media (min-width:761px) and (max-width:1100px){[data-pin="400"] .bg-2{background:linear-gradient(180deg,rgba(11,11,10,.82) 0%,rgba(11,11,10,.74) 30%,rgba(11,11,10,.58) 48%,rgba(11,11,10,0) 64%,rgba(11,11,10,0) 90%,rgba(17,17,16,.5) 100%)}}
+
+/* ---- 18. stage 3 ---- */
+/* day section: the heading and the live number sit on the dark band above; the photo is a framed image below
+   them (never under text); the hours run underneath. Frames cross-fade in place: opacity only, nothing moves. */
+.day-pin{display:flex;flex-direction:column}
+.day-pin>.mt-120{margin-top:28px}
+[data-pin="400"] .day-frame{position:relative;inset:auto;z-index:2;flex:1 1 auto;min-height:0;margin:28px 0 24px;overflow:hidden;background:#1C1B19}
+[data-pin="400"] .day-frame>.live-c{z-index:2}
+.day-img{height:100%;object-position:50% 70%;opacity:0;transition:opacity 0s linear .7s}
+.day-img.on{opacity:1;z-index:1;transition:opacity .7s cubic-bezier(.4,0,.2,1)}
+@media (prefers-reduced-motion:reduce){.day-img,.day-img.on{transition:none}}
+[data-pin="400"] .span-2{font-size:clamp(88px,calc(30px + 13vh),184px)!important}
+[data-pin="400"] .div-4{margin-top:0}
+@media (max-height:760px) and (min-width:761px){
+  .day-pin>.mt-120{margin-top:16px}
+  [data-pin="400"] .day-frame{margin:16px 0}
+  [data-pin="400"] .day-btn>span:last-child{display:none}
+}
+@layer base{@media (max-width:760px){
+  .day-pin>.mt-120{margin-top:24px!important;flex-direction:row!important;justify-content:space-between!important;align-items:flex-end!important;gap:16px!important}
+  .day-pin>.mt-120>h2{font-size:30px!important;max-width:9.5em}
+  [data-pin="400"] .span-2{font-size:72px!important}
+  [data-pin="400"] .day-frame{margin:20px -20px 16px}
+}}
+@media (max-width:760px){[data-pin="400"] .day-img{object-position:42% 60%}}
+
+/* contact: no scrim. The house is on the left of the photo, the heading and the form on its dark sky and water
+   right of the axis (text checked at >= 4.5:1 against the pixels under it, 1280-2560 wide) */
+#contact{height:auto;min-height:max(940px,100svh)}
+.contact-grid{row-gap:48px;align-content:start}
+@media (min-width:1025px){#contact [data-zoom]{left:-16%;right:auto;width:116%;max-width:none}}   /* the house ends left of the form */
+@media (min-width:761px) and (max-width:1024px){#contact [data-zoom]{object-position:45% 50%}}
+@media (max-width:760px){
+  /* phones: heading and form on the dark ground, the house in its own band below, its sky fading out of the dark */
+  #contact [data-zoom]{top:auto;height:calc(96vw + 80px);object-position:24% 60%;transform-origin:50% 80%;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 72px);mask-image:linear-gradient(180deg,transparent 0,#000 72px)}
+}
+
+/* sound toggle: one width for "on" and "off", the label optically centred (the mono caps sit on the centre line
+   once the trailing letter-spacing is taken off the right padding) */
+.site-head>.t-sound{justify-content:center;min-width:calc(9ch + 9 * .04em + 28px);padding:0 calc(14px - .04em) 0 14px!important;line-height:1}
+.t-toast{position:fixed;left:20px;bottom:20px;z-index:2600;max-width:calc(100vw - 40px);box-sizing:border-box;padding:10px 16px;border:1px solid rgba(234,230,222,.2);border-radius:999px;background:#1C1B19;color:#EAE6DE;font:500 11px/1.3 'Geist Mono',monospace;letter-spacing:.04em;text-transform:uppercase;pointer-events:none;opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .5s cubic-bezier(.2,.7,.2,1)}
+.t-toast.on{opacity:1;transform:none}
+.t-toast:empty{display:none}
+@media (prefers-reduced-motion:reduce){.t-toast{transform:none;transition:opacity .2s linear}}
+
+/* cursor variants (14 holds the default dot; see site.js 3f) */
+.t-cursor>:not(.tc-lab){position:absolute;display:none}
+.t-cursor .tc-eq{left:12px;top:6px;height:14px;gap:2px;align-items:flex-end}
+.t-cursor .tc-eq b{display:block;width:2px;height:14px;background:#fff;transform-origin:50% 100%;transform:scaleY(.08)}
+.t-cursor.tc-a:not(.pill) .tc-eq,.t-cursor.tc-e:not(.pill) .tc-eq{display:flex}
+.t-cursor:is(.tc-a,.tc-e,.tc-b,.tc-d):not(.pill) .tc-lab{opacity:0}
+.t-cursor .tc-ring{left:10px;top:10px;overflow:visible;transform:rotate(-90deg)}
+.t-cursor .tc-ring circle{fill:none;stroke:#fff;stroke-width:1}
+.t-cursor .tc-track{opacity:.35}
+.t-cursor .tc-arc{stroke-width:1.5;stroke-dasharray:0 100;transition:stroke-dasharray .4s ease}
+.t-cursor .tc-num{left:10px;top:10px;width:36px;line-height:36px;text-align:center;color:#fff;font:500 10px/36px 'Geist Mono',monospace;font-style:normal;font-variant-numeric:tabular-nums;letter-spacing:0}
+.t-cursor.tc-b:not(.pill) :is(.tc-ring,.tc-num){display:block}
+.t-cursor .tc-cross{left:-14px;top:-14px;width:28px;height:28px;background:linear-gradient(#fff,#fff) 50% 0/1px 100% no-repeat,linear-gradient(#fff,#fff) 0 50%/100% 1px no-repeat}
+.t-cursor .tc-xy{left:12px;top:10px;color:#fff;white-space:nowrap;font:500 9px/1 'Geist Mono',monospace;font-style:normal;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.t-cursor.flip .tc-xy{left:auto;right:12px}
+.t-cursor .tc-vf{left:-34px;top:-24px;width:68px;height:48px}
+.t-cursor .tc-vf b{position:absolute;width:10px;height:10px;border:0 solid #fff}
+.t-cursor .tc-vf b:nth-child(1){left:0;top:0;border-width:1px 0 0 1px}
+.t-cursor .tc-vf b:nth-child(2){right:0;top:0;border-width:1px 1px 0 0}
+.t-cursor .tc-vf b:nth-child(3){left:0;bottom:0;border-width:0 0 1px 1px}
+.t-cursor .tc-vf b:nth-child(4){right:0;bottom:0;border-width:0 1px 1px 0}
+.t-cursor.tc-d:not(.pill):not(.photo) :is(.tc-cross,.tc-xy){display:block}
+.t-cursor.tc-d.photo:not(.pill) .tc-vf{display:block}
+.t-cursor.tc-d.photo:not(.pill) .tc-cross{display:block;transform:scale(.4)}
+.t-ripples{position:fixed;left:0;top:0;width:0;height:0;z-index:4999;pointer-events:none;mix-blend-mode:difference}
+.t-ripples i{position:absolute;left:-28px;top:-28px;width:56px;height:56px;box-sizing:border-box;border:1px solid #fff;border-radius:50%;opacity:0}
+.t-cursor-sw{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:2700;display:flex;align-items:center;gap:2px;padding:4px 4px 4px 14px;border:1px solid rgba(234,230,222,.25);border-radius:999px;background:#1C1B19;color:#EAE6DE;font:500 11px/1 'Geist Mono',monospace;letter-spacing:.04em;text-transform:uppercase}
+.t-cursor-sw[hidden]{display:none}
+.t-cursor-sw span{margin-right:8px;color:#C9C3B8}
+.t-cursor-sw button{all:unset;cursor:pointer;min-width:28px;height:28px;border-radius:999px;text-align:center;line-height:28px}
+.t-cursor-sw button[aria-pressed="true"]{background:#EAE6DE;color:#111110}
+.t-cursor-sw button:focus-visible{outline:2px solid #EAE6DE;outline-offset:2px}
+
+/* home hero (stage 3 frontal photo): the photo stays bottom-aligned; where the window is too short for the intro,
+   the house and the captions, the photo box grows below the fold by --hx (the house moves down, the water under the
+   wordmark is what is lost), the intro rises, and the caption row steps aside */
+@media (min-width:761px){
+  [data-hero]{--H:max(720px,100svh);--hx:clamp(0px,calc(207px + 42.87vw - var(--H)),min(calc(66.67vw - var(--H)),calc(4.94vw - 17px)))}
+  [data-hero] .hero-img{bottom:auto;height:calc(100% + var(--hx))}
+  section[aria-label="Hero"] .mt-120{margin-top:clamp(16px,calc(var(--H) - 42.87vw - 240px),96px)}
+  section[aria-label="Hero"] .mt-120>.stack-3{grid-column:6/13}
+  section[aria-label="Hero"] .mt-120>.stack-3>.p{max-width:min(640px,calc(100% - 150px))}  /* clear of the sound toggle */
+}
+@media (min-width:761px) and (max-width:1100px){section[aria-label="Hero"] .mt-120{margin-top:clamp(16px,calc(var(--H) - 42.87vw - 270px),96px)}}
+@media (min-width:761px) and (max-width:1599px) and (min-aspect-ratio:17/10){[data-hero] .div-5{visibility:hidden}}
+@media (min-width:761px) and (min-aspect-ratio:2/1){
+  [data-hero]{--hx:clamp(0px,calc(207px + 42.87vw - var(--H)),min(calc(66.67vw - var(--H)),calc(8.6vw - 17px)))}
+  [data-hero] .div-5{visibility:hidden}
+  /* wide, short windows: the two links repeat the menu (Projects, Contact); the intro alone stays above the roof */
+  [data-hero] .row-6{display:none}
+  [data-hero] h1{font-size:clamp(44px,7.4svh,60px)!important}
+}
+@layer base{@media (max-width:760px){section[aria-label="Start a project"]{padding-bottom:calc(96vw + 104px)!important}}}
