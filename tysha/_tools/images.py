@@ -28,7 +28,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.normpath(os.path.join(HERE, '..'))
 SRC = os.path.join(SITE, 'img', 'src')
 OUT = os.path.join(SITE, 'img')
-PAGES = {'index.html': '', 'project/index.html': '../', 'project/pine-court/index.html': '../../', 'method/index.html': '../', 'privacy/index.html': '../', '404/index.html': ''}
+PAGES = {'index.html': '', 'project/index.html': '../', 'project/pine-court/index.html': '../../', 'project/lull-house/index.html': '../../', 'method/index.html': '../', 'privacy/index.html': '../', '404/index.html': ''}
 WIDTHS = [480, 960, 1600, 2560]
 FMT = {'avif': dict(format='AVIF', quality=52, speed=6), 'webp': dict(format='WEBP', quality=78, method=6), 'jpg': dict(format='JPEG', quality=80, progressive=True, optimize=True)}
 OG_FROM, OG_FOCUS_Y = 'h08', 0.30
@@ -118,7 +118,8 @@ def picture(name, img_attrs, prefix, man):
     sizes = dict(a).get('sizes') or '100vw'
     a = [(k, v) for k, v in a if k != 'sizes']
     keys = [k for k, _ in a]
-    hero, defer = 'data-hero-img' in keys, 'data-defer' in keys
+    # data-lcp: a first-screen photo that is not a hero (the projects index card): loaded and preloaded like one
+    hero, defer = 'data-hero-img' in keys or 'data-lcp' in keys, 'data-defer' in keys
     if hero:
         a = [(k, v) for k, v in a if k != 'loading']
     elif 'loading' not in keys and not defer:
@@ -195,11 +196,14 @@ def rewrite(man):
             out.append(s)
         out.append(t[pos:]); t = ''.join(out)
         # footer wordmark photo
-        t = re.sub(r'(<image\b[^>]*\bhref=")(?:\.\./)*img/([\w-]+?)(?:-\d+)?\.jpg(?:\?v=\w+)?"',
+        # the footer wordmark photo: written as data-href, set by site.js when the footer comes near (an SVG <image>
+        # cannot be lazy, and this one would otherwise compete with the first screen on every page)
+        t = re.sub(r'(<image\b[^>]*\b)href="((?:\.\./)*img/[\w-]+?(?:-\d+)?\.jpg(?:\?v=\w+)?)"', r'\1data-href="\2"', t)
+        t = re.sub(r'(<image\b[^>]*\bdata-href=")(?:\.\./)*img/([\w-]+?)(?:-\d+)?\.jpg(?:\?v=\w+)?"',
                    lambda m: f'{m.group(1)}{prefix}img/{m.group(2)}-{jpg_width(man[m.group(2)]["widths"])}.jpg?v={man[m.group(2)]["v"]}"' if m.group(2) in man else m.group(0), t)
         # preload the hero image
         t = re.sub(r'<link rel="preload" as="image"[^>]*data-img-preload[^>]*>\n', '', t)
-        hm = re.search(r'<picture data-img="([\w-]+)">(?:(?!</picture>).)*data-hero-img', t, flags=re.S)
+        hm = re.search(r'<picture data-img="([\w-]+)">(?:(?!</picture>).)*data-(?:hero-img|lcp)', t, flags=re.S)
         if hm:
             name = hm.group(1); ws = man[name]['widths']
             sizes = re.search(r'<source type="[^"]*"[^>]*\bsizes="([^"]*)"', hm.group(0)).group(1)

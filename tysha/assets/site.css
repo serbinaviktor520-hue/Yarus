@@ -175,6 +175,9 @@ footer :is(.ta-r){text-align:left!important}
 .col-6-12{grid-column:6 / 12}
 .col-6-13{grid-column:6 / 13}
 .col-7-12{grid-column:7 / 12}
+.col-7-13{grid-column:7 / 13}
+.col-8-13{grid-column:8 / 13}
+.col-4-7{grid-column:4 / 7}
 .col-8-12{grid-column:8 / 12}
 .col-9-13{grid-column:9 / 13}
 .col-10-12{grid-column:10 / 12}
@@ -974,3 +977,34 @@ dialog.m::backdrop{background:transparent}
 /* method prices on phones: the name, then its price on one line below (no split names, no orphans) */
 @media (max-width:760px){.row-5{flex-direction:column;align-items:flex-start;gap:8px}.row-5>.h-s{white-space:nowrap}}
 @media (max-width:760px){.ol-2>li>.ta-r{text-align:left}}
+
+/* ---- 22. projects index ---- */
+.idx{padding-bottom:120px}
+.idx-hero{padding-top:calc(20px + 2 * 12px * 1.45 + clamp(64px,12vh,140px));padding-bottom:20px}
+.idx-head{position:relative;align-items:end;row-gap:24px}
+.idx-top{margin-top:clamp(48px,8vh,96px);padding-top:16px;border-top:1px solid rgba(234,230,222,.2)}
+@media (max-width:1024px){.idx-hero{padding-top:calc(60px + clamp(40px,8vh,96px))}}
+.idx-h{font-size:clamp(88px,calc(20px + 9vw),220px);line-height:.82;letter-spacing:-.03em;font-weight:400}
+.idx-intro{max-width:420px;padding-left:20px}
+.idx-cases{position:relative;margin-top:clamp(36px,5vh,64px);align-items:start;row-gap:64px}
+.idx-case-2{margin-top:160px}
+.idx-db{display:flex;align-items:baseline;gap:8px}
+.idx-db .serif{font-size:clamp(48px,4vw,72px);line-height:.85;font-variant-numeric:tabular-nums}
+.idx-soon-head{margin-top:120px;padding-top:16px;border-top:1px solid #C9BFAF}
+.idx-soon{position:relative;margin-top:32px;align-items:end;row-gap:40px}
+.idx-note{max-width:380px;padding-left:20px}
+@media (min-width:761px) and (max-width:1100px){.idx-soon>.idx-note{grid-column:7/13}}
+@layer base{@media (max-width:760px){
+  .idx-head,.idx-cases,.idx-soon{display:grid!important;grid-template-columns:1fr 1fr!important;column-gap:16px!important}
+  .idx-head>*,.idx-cases>*{grid-column:1/-1!important}
+  .idx-intro{padding-left:0}
+  .idx-case-2{margin-top:0!important}
+  .idx-soon>article{grid-column:auto!important}
+  .idx-soon>.idx-note{grid-column:1/-1!important;padding-left:0}
+  .idx-soon .h-s{font-size:20px!important}
+  .idx-soon .split-base{flex-direction:column;align-items:flex-start;gap:4px}
+}}
+@media (max-width:760px){.idx-h{font-size:clamp(72px,24vw,104px)}.idx-soon-head{margin-top:72px}}
+[data-hero].idx-hero{height:auto;min-height:0}
+@media (max-width:760px){.idx-top{flex-direction:column;gap:6px}}
+.idx-note{color:#4A4640}

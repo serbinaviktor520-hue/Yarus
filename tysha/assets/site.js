@@ -370,6 +370,13 @@
     document.addEventListener('tysha:day', update);
   }
 
+  // the footer wordmark's photo loads as the footer comes near (see images.py)
+  const wmImg = q('.foot-wm image[data-href]');
+  if (wmImg) {
+    const set = () => { wmImg.setAttribute('href', wmImg.getAttribute('data-href')); wmImg.removeAttribute('data-href'); };
+    if ('IntersectionObserver' in window) { const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); set(); } }, { rootMargin: '150% 0px' }); io.observe(wmImg.closest('svg')); } else set();
+  }
+
   if (!document.body.hasAttribute('data-preloader')) start();
 
   // Back to a page: return to where the reader was (the projects grid, not the top). The position is kept per page in
@@ -386,16 +393,17 @@
     }
   }
 
-  // page transitions: a case's photo morphs between its home card and its own hero (Lull House .vt-lull, Pine Court
+  // page transitions: a case's photo morphs between its card (home or the projects index) and its own hero (Lull House .vt-lull, Pine Court
   // .vt-pine), and only on that pair of pages; to any other page it leaves with the rest of the old page (a named
   // element would otherwise stay on top, unfaded)
   const BP = new URL(BASE).pathname;
-  const where = (u) => { try { const p = new URL(u, location.href).pathname.replace(/index\.html$/, ''); return p === BP ? 'home' : p === BP + 'project/' ? 'lull' : p === BP + 'project/pine-court/' ? 'pine' : 'other'; } catch (e) { return 'other'; } };
+  const where = (u) => { try { const p = new URL(u, location.href).pathname.replace(/index\.html$/, ''); return p === BP ? 'home' : p === BP + 'project/' ? 'index' : p === BP + 'project/lull-house/' ? 'lull' : p === BP + 'project/pine-court/' ? 'pine' : 'other'; } catch (e) { return 'other'; } };
   const VT = { lull: '.vt-lull', pine: '.vt-pine' };
+  const LIST = (k) => k === 'home' || k === 'index';   // pages with a card for each case
   // keep the morph only for the case that pairs this page with the other one
   const keep = (other) => {
     const here = where(location.href);
-    const pick = here === 'home' ? other : (other === 'home' ? here : null);
+    const pick = LIST(here) ? (VT[other] ? other : null) : (LIST(other) ? here : null);
     Object.keys(VT).forEach((k) => qa(VT[k]).forEach((el) => { el.style.viewTransitionName = k === pick ? '' : 'none'; }));
   };
   window.addEventListener('pageswap', (e) => { if (e.viewTransition) keep(e.activation && e.activation.entry ? where(e.activation.entry.url) : 'other'); });
