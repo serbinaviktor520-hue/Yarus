@@ -33,6 +33,14 @@ What it does:
 - points the footer wordmark photo at the 1600 px JPEG and cuts `img/og.jpg` (1200×630, the social
   card) from the home hero `h08`.
 
+- writes `?v=<8 hex of the source's hash>` on every image URL (the files keep their names; `img/` is cached for a
+  week, so a replaced photo needs a new URL) and `data-tone="#rrggbb"`, the photo's average colour, on every `<img>`.
+
+`assets/site.js` paints each photo's tone behind it until the photo arrives, starts every lazy photo ~1.8 viewports
+before it reaches the screen (eager, low priority, decoded off-thread) and opens a photo's reveal only once it is
+decoded. That warm-up matters: a lazy `<img>` under the reveal's `clip-path: inset(100% …)` has no visible area, so
+the browser's own lazy loader would not start it until it was already on screen.
+
 `sizes` were measured from the layout. If you move a photo into a slot of a different width, edit
 the `sizes` attribute on its `<source>` tags; the script keeps whatever is there.
 

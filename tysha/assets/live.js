@@ -12,8 +12,8 @@
     h08: [1.6, 0.06, 0, 0, 0, 0], h08m: [1.6, 0.06, 0, 0, 0, 0],
     g15: [0, 0, 10, 0, 5, 0.2], // 06:10 mist over the lake
     h03: [0, 0, 4, 0, 16, 0.42], // 09:00 caustics on the ceiling
-    h06: [0, 0, 0, 0.07, 0, 0], // 19:00 the lamp
-    h09: [1.1, 0.16, 0, 0.06, 0, 0], // 23:40 lamp, moon on the water
+    h06: [0.8, 0.05, 0, 0, 0, 0], // 19:00 the evening lake in the window
+    h09: [1.1, 0.16, 0, 0, 0, 0], // 23:40 the moon on the water
     g09: [0.9, 0.03, 3, 0, 30, 0.9], // blue hour: mist on the water (R), chimney smoke (G)
   };
   const VS = 'attribute vec2 a;varying vec2 v;void main(){v=vec2(a.x*.5+.5,.5-a.y*.5);gl_Position=vec4(a,0,1);}';
@@ -27,6 +27,12 @@
     + 'c*=1.+P.y*m.r*smoothstep(.3,.85,l)*sin(u.x*R.x*.3+u.y*R.y*.8-t*2.4)*sin(u.y*R.y*.19+t*1.5);'
     + 'c*=1.+P.w*m.b*(.55+.45*sin(t*.85))*(.75+.25*sin(t*.31));gl_FragColor=vec4(c,1);}';
 
+  // no GPU (a software rasteriser draws every frame on the CPU): the photos simply stay still
+  const software = (gl) => {
+    const ext = gl.getExtension('WEBGL_debug_renderer_info');
+    const r = ext ? String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : '';
+    return /swiftshader|llvmpipe|softpipe|software|basic render/i.test(r);
+  };
   const slotOf = (im) => { const m = (im.currentSrc || im.src).match(/img\/(\w+?)-\d+\./); return m && m[1]; };
   const loadImg = (src) => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
 
@@ -34,8 +40,8 @@
     const cv = document.createElement('canvas');
     cv.className = 'fill live-c'; cv.setAttribute('aria-hidden', 'true');
     after.after(cv);   // above the photo, under shade and text
-    const gl = cv.getContext('webgl', { alpha: false, antialias: false, depth: false, powerPreference: 'low-power' });
-    if (!gl) { cv.remove(); return null; }
+    const gl = cv.getContext('webgl', { alpha: false, antialias: false, depth: false, powerPreference: 'low-power', failIfMajorPerformanceCaveat: true });
+    if (!gl || software(gl)) { cv.remove(); return null; }
     const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
     const pr = gl.createProgram();
     gl.attachShader(pr, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS));
@@ -58,7 +64,9 @@
       try {
         if (!im.complete || im.naturalWidth < 3) await new Promise((ok) => im.addEventListener('load', ok, { once: true }));
         if (im.decode) await im.decode();
-        const mask = await loadImg(BASE + 'img/' + slot + '-live.png');
+        // the mask changes with its photo: reuse the photo's ?v= so a new photo never gets a cached old mask
+        const v = ((im.currentSrc || im.src).match(/\?v=(\w+)/) || [])[1];
+        const mask = await loadImg(BASE + 'img/' + slot + '-live.png' + (v ? '?v=' + v : ''));
         if (k !== token) return;
         gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tI); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, im);
         gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, tM); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, mask);
@@ -93,14 +101,19 @@
 
   const lives = [];
   let raf = 0, last = 0;
+  // watchdog: if the page cannot keep ~20 fps while a living photo draws, the effect stops for good
+  let slow = 0, prev = 0;
   const loop = (now) => {
     raf = 0;
     const act = lives.filter((L) => L.on && L.ready && !L.dead);
-    if (!act.length) return;
+    if (!act.length) { prev = 0; return; }
+    if (prev && !document.hidden) { slow = now - prev > 50 ? slow + 1 : Math.max(0, slow - 1); }
+    prev = now;
+    if (slow > 30) { lives.forEach((L) => { L.dead = true; L.cv.remove(); }); return; }
     if (now - last > 30) { last = now; act.forEach((L) => L.draw(now)); }
     raf = requestAnimationFrame(loop);
   };
-  const wake = () => { if (!raf) raf = requestAnimationFrame(loop); };
+  const wake = () => { if (!raf) { prev = 0; raf = requestAnimationFrame(loop); } };
 
   function add(host, after, imgs, pick) {
     const L = Live(after, imgs); if (!L) return null;
@@ -121,7 +134,7 @@
       const L = add(dayImgs[0].closest('.fill'), dayImgs[dayImgs.length - 1].parentElement, dayImgs, pick);
       // new hour: hide now, show again after the cross-fade
       let tm = 0;
-      if (L) document.addEventListener('tysha:day', () => { L.ready = false; L.cv.classList.remove('on'); clearTimeout(tm); tm = setTimeout(() => L.use(pick()), 2500); });
+      if (L) document.addEventListener('tysha:day', () => { L.ready = false; L.cv.classList.remove('on'); clearTimeout(tm); tm = setTimeout(() => L.use(pick()), 900); });
     }
   }
   const go = () => (window.requestIdleCallback ? requestIdleCallback(init, { timeout: 2500 }) : setTimeout(init, 300));

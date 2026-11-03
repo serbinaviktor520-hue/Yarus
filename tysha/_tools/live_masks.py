@@ -50,12 +50,11 @@ def radial(im, cx, cy, rx, ry, k=1.0):
 
 
 def h08():
-    """Hero, wide: the lake below the bottom step (y ~630), not the reeds left, right and bottom-right."""
+    """Hero, wide (stage 3 frontal photo): the lake below the bottom step (y ~598), the reflections included;
+    nothing above that line moves (house, steps, the couple, the reeds)."""
     R, G, B = canvas(1536, 1024)
-    d = ImageDraw.Draw(R)
-    d.polygon([(0, 660), (250, 652), (262, 634), (1250, 634), (1268, 652), (1536, 652), (1536, 1024), (0, 1024)], fill=255)
+    ImageDraw.Draw(R).rectangle((0, 606, 1536, 1024), fill=255)
     R = feather(R, 4)
-    R = cut(R, [(1385, 770, 1536, 1024), (1440, 700, 1536, 800)], 10)           # tall reeds, bottom right
     return R, G, B
 
 
@@ -96,17 +95,21 @@ def h03():
     return R, G, B
 
 
+LAKE = (640, 468, 1536, 528)   # the lake band inside the long window, above the terrace edge
+
+
 def h06():
-    """19:00: the lamp by the sofa and its glow on the wall."""
+    """19:00: the evening lake in the window (the lamp was taken out of this frame in stage 3)."""
     R, G, B = canvas(1536, 1024)
-    B = radial(B, 160, 525, 150, 190)
+    ImageDraw.Draw(R).rectangle(LAKE, fill=255)
+    R = feather(R, 6)
+    R = cut(R, MULLIONS, 2)
     return R, G, B
 
 
 def h09():
-    """23:40: the table lamp; the moon's path on the water."""
+    """23:40: the moon's path on the water."""
     R, G, B = canvas(1536, 1024)
-    B = radial(B, 62, 535, 135, 170)
     ImageDraw.Draw(R).ellipse((975, 490, 1125, 600), fill=255)
     R = feather(R, 12)
     R = cut(R, MULLIONS, 2)
@@ -114,13 +117,17 @@ def h09():
 
 
 def g09():
-    """Contact, blue hour: the chimney smoke and the mist on the water, not the reeds or the rocks."""
+    """Contact, blue hour (stage 3 photo, house left): the open water right of the rocks and the house's reflection,
+    the mist lying along the far shore, the chimney smoke; never the house, the steps, the rocks or the trees."""
     R, G, B = canvas(1536, 1024)
-    ImageDraw.Draw(G).polygon([(520, 434), (570, 434), (585, 380), (565, 330), (515, 330), (505, 380)], fill=255)  # smoke
+    ImageDraw.Draw(R).polygon([(372, 640), (560, 632), (740, 626), (800, 606), (1536, 604), (1536, 1024), (640, 1024),
+                               (560, 950), (450, 885), (330, 810), (262, 740), (232, 700), (290, 668)], fill=255)
+    R = feather(R, 5)
+    R = cut(R, [(220, 600, 380, 676)], 8)                                   # the rock by the steps
+    g = ImageDraw.Draw(G)
+    g.polygon([(468, 392), (512, 392), (518, 340), (504, 296), (470, 296), (458, 340)], fill=255)   # smoke
+    g.rectangle((820, 584, 1536, 604), fill=255)                                                     # mist on the far shore
     G = feather(G, 8)
-    ImageDraw.Draw(R).rectangle((0, 645, 1536, 790), fill=255)                                   # mist on the water
-    R = feather(R, 12)
-    R = cut(R, [(1020, 560, 1270, 735), (1250, 700, 1536, 1024), (230, 560, 410, 640)], 10)        # reeds, rocks
     return R, G, B
 
 
