@@ -61,7 +61,10 @@ def encode():
         # cache-busting: every URL carries ?v=<hash of the source>, so a replaced photo under an old file name
         # is a new URL for browsers and CDNs (img/ is served with a week-long max-age)
         v = hashlib.md5(open(src, 'rb').read()).hexdigest()[:8]
-        manifest[name] = {'w': im.width, 'h': im.height, 'widths': ws, 'v': v}
+        # placeholder: the photo's average colour (a little darker), shown on the <img> until it paints
+        c = im.resize((1, 1), Image.BOX).getpixel((0, 0))
+        tone = '#%02x%02x%02x' % tuple(round(x * 0.85) for x in c)
+        manifest[name] = {'w': im.width, 'h': im.height, 'widths': ws, 'v': v, 'tone': tone}
         fb = jpg_width(ws)
         for w in ws:
             small = im if w == im.width else im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)
@@ -101,7 +104,7 @@ def _attrs(tag):
 def picture(name, img_attrs, prefix, man):
     info = man[name]
     ws = info['widths']
-    a = [(k, v) for k, v in img_attrs if k not in ('src', 'srcset', 'width', 'height', 'data-srcset', 'data-src', 'fetchpriority', 'decoding')]
+    a = [(k, v) for k, v in img_attrs if k not in ('src', 'srcset', 'width', 'height', 'data-srcset', 'data-src', 'fetchpriority', 'decoding', 'data-tone')]
     keys = [k for k, _ in a]
     sizes = dict(a).get('sizes') or '100vw'
     a = [(k, v) for k, v in a if k != 'sizes']
@@ -129,7 +132,7 @@ def picture(name, img_attrs, prefix, man):
         tag.append(f'src="{PLACEHOLDER}" data-src="{prefix}img/{name}-{fallback}.jpg?v={v}"')
     else:
         tag.append(f'src="{prefix}img/{name}-{fallback}.jpg?v={v}"')
-    tag.append(f'width="{info["w"]}" height="{info["h"]}"')
+    tag.append(f'width="{info["w"]}" height="{info["h"]}" data-tone="{info["tone"]}"')
     for k, v in a:
         tag.append(k if v is None else f'{k}="{v}"')
     tag.append('fetchpriority="high"' if hero else 'decoding="async"')

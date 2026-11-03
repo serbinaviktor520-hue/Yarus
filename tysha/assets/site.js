@@ -20,6 +20,15 @@
   T.reduced = () => RM.matches;
 
   /* ---------- 1. scroll engine ---------- */
+  // a lazy photo: start it now, at low priority, and decode it off the main thread
+  const warm = (im) => {
+    if (im._warm) return; im._warm = true;
+    if (im.loading === 'lazy') { im.fetchPriority = 'low'; im.loading = 'eager'; }
+    if (im.decode) im.decode().catch(() => {});
+  };
+  // placeholder: each photo's own average colour (images.py) fills its box until the photo paints
+  qa('img[data-tone]').forEach((im) => { im.style.backgroundColor = im.getAttribute('data-tone'); });
+
   function start() {
     if (T.started) return; T.started = true;
     const reduced = RM.matches;
@@ -105,10 +114,16 @@
       el.classList.add('in');
       setTimeout(() => el.classList.remove('rv', 'rv-blur', 'in'), ((el._d || 0) + 1.5) * 1000);
     };
+    // the clip opens only on a decoded photo; a photo that is not ready shows its tone instead, never an empty box
     const revealImg = (im) => {
       if (im._rv) return; im._rv = true;
-      im.classList.add('in');
-      setTimeout(() => im.classList.remove('rv-img', 'in'), 1500);
+      let went = false;
+      const go = () => { if (went) return; went = true; im.classList.add('in'); setTimeout(() => im.classList.remove('rv-img', 'in', 'rv-wait'), 1500); };
+      if (im.complete && im.naturalWidth) { go(); return; }
+      // not here yet (a jump on a cold cache): open the box at once on the photo's tone, the photo replaces it
+      warm(im); im.classList.add('rv-wait');
+      im.addEventListener('load', () => (im.decode ? im.decode() : Promise.resolve()).then(go, go), { once: true });
+      im.addEventListener('error', go, { once: true });
     };
     const watch = (els, margin, fn) => {
       const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { io.unobserve(e.target); fn(e.target); } }), { rootMargin: margin });
@@ -120,6 +135,11 @@
     const holder = (im) => { const p = im.parentElement; return p.tagName === 'PICTURE' ? p.parentElement : p; };
     const byHolder = new Map(); imgs.forEach((im) => { const h = holder(im); byHolder.set(h, (byHolder.get(h) || []).concat(im)); });
     watch([...byHolder.keys()], '0px 0px 15% 0px', (h) => byHolder.get(h).forEach(revealImg));
+    // Fetch and decode photos ~1.8 viewports before they arrive. Needed because a lazy <img> under the reveal's
+    // clip-path: inset(100%) has no visible area, so the browser's own lazy loader would only start it on screen.
+    const ahead = new Map();
+    qa('img[loading="lazy"]', root).forEach((im) => { const h = holder(im); ahead.set(h, (ahead.get(h) || []).concat(im)); });
+    watch([...ahead.keys()], '180% 0px 180% 0px', (h) => ahead.get(h).forEach(warm));
     watch(scr, '0px 0px -4% 0px', scramble);
     watch(counts, '0px 0px -12% 0px', countUp);
 
@@ -523,23 +543,15 @@
   };
 
   /* ---------- 3f. cursor (mouse only). The native cursor stays; this one is an accent that follows it.
-     Variants for the client to choose from: ?cursor=a|b|c|d|e (remembered in this browser), or Shift+C for a
-     small switcher. Visitors without a choice get the default dot.
-       dot  a small dot; over the project card "View", over the day section the current dB, over [data-cursor] that word
-       a    equalizer: five bars whose height follows the page's dB (flat when the sound is off)
-       b    meter: a thin ring with the live dB inside, the arc filled by loudness
-       c    ripple: the dot, and two rings spreading from every click
-       d    crosshair: an architect's crosshair with coordinates; over photos a viewfinder with a label
-       e    equalizer + ripples
-     Transform and opacity only, one rAF loop, pointer-events: none. Reduced motion: no lag, no ripples, still bars. */
+     Default: a five-bar equalizer whose height follows the page's dB (a flat line while the sound is off); over the
+     project card it reads "View", over the day section the current dB, over [data-cursor] that word.
+     For comparison only, ?cursor= switches this page view to: dot | b (meter ring) | c (dot + click ripples) |
+     d (crosshair, viewfinder over photos) | e (equalizer + ripples). Nothing is remembered.
+     Transform and opacity only, one rAF loop, pointer-events: none. Reduced motion: no lag, still bars, no ripples. */
   if (FINE.matches && root) {
     const VARS = ['dot', 'a', 'b', 'c', 'd', 'e'];
-    const NAMES = { dot: 'Dot', a: 'Equalizer', b: 'Meter', c: 'Ripple', d: 'Crosshair', e: 'A + C' };
-    let pick = null;
-    const urlPick = (new URLSearchParams(location.search).get('cursor') || '').toLowerCase();
-    try { pick = localStorage.getItem('tysha-cursor'); } catch (e) { /* no storage */ }
-    if (urlPick) { pick = VARS.indexOf(urlPick) >= 0 ? urlPick : 'dot'; try { localStorage.setItem('tysha-cursor', pick); } catch (e) { /* fine */ } }
-    if (VARS.indexOf(pick) < 0) pick = 'dot';
+    let pick = (new URLSearchParams(location.search).get('cursor') || '').toLowerCase();
+    if (VARS.indexOf(pick) < 0) pick = 'a';
 
     const c = document.createElement('div'); c.setAttribute('aria-hidden', 'true');
     c.innerHTML = '<span class="tc-lab"></span><i class="tc-eq"><b></b><b></b><b></b><b></b><b></b></i>'
@@ -614,25 +626,6 @@
     FINE.addEventListener && FINE.addEventListener('change', () => { if (!FINE.matches) { c.remove(); rip.remove(); window.removeEventListener('pointermove', move); } });
     apply(pick);
 
-    // the test switcher: only with ?cursor in the address, or after Shift+C
-    let sw = null;
-    const switcher = () => {
-      if (sw) { sw.hidden = !sw.hidden; return; }
-      sw = document.createElement('div'); sw.className = 't-cursor-sw'; sw.setAttribute('role', 'group'); sw.setAttribute('aria-label', 'Cursor variant (test)');
-      sw.innerHTML = '<span>Cursor</span>' + VARS.map((v) => '<button type="button" data-v="' + v + '" title="' + NAMES[v] + '" aria-pressed="' + (v === pick) + '">' + (v === 'dot' ? '·' : v.toUpperCase()) + '</button>').join('');
-      sw.addEventListener('click', (e) => {
-        const b = e.target.closest('button'); if (!b) return;
-        const v = b.getAttribute('data-v'); apply(v);
-        try { localStorage.setItem('tysha-cursor', v); } catch (er) { /* fine */ }
-        qa('button', sw).forEach((x2) => x2.setAttribute('aria-pressed', String(x2 === b)));
-        T.toast('Cursor: ' + NAMES[v]);
-      });
-      document.body.appendChild(sw);
-    };
-    if (urlPick) switcher();
-    document.addEventListener('keydown', (e) => {
-      if (e.shiftKey && !e.ctrlKey && !e.metaKey && !e.altKey && (e.key === 'C' || e.key === 'c') && !(e.target.closest && e.target.closest('input, textarea, [contenteditable]'))) switcher();
-    });
     T.cursor = { set: apply, get: () => pick };
   }
 

@@ -377,6 +377,7 @@ picture>source{display:none}
 .rv-img{clip-path:inset(100% 0 0 0);transform:scale(1.25)}
 .rv-img.in{clip-path:inset(0% 0 0 0);transform:scale(1);transition:clip-path 1.5s cubic-bezier(.77,0,.18,1),transform 1.9s var(--ez)}
 .rv-scr{opacity:0}
+.rv-img.rv-wait{clip-path:none;transform:none;transition:none}
 .rv-now{transition:none!important}
 :root{--ez:cubic-bezier(.16,.84,.24,1)}
 .day-btn[aria-pressed="true"]{border-top-color:#EAE6DE;color:#EAE6DE}
@@ -471,7 +472,7 @@ main:focus{outline:none}
 .t-cursor.pill{mix-blend-mode:normal}
 .t-cursor.pill span{left:14px;top:14px;width:auto;height:28px;padding:0 12px;background:#EAE6DE;color:#111110}
 .t-cursor.pill.flip span{left:auto;right:14px}
-@media (pointer:coarse){.t-cursor,.t-ripples,.t-cursor-sw{display:none!important}}
+@media (pointer:coarse){.t-cursor,.t-ripples{display:none!important}}
 @media (prefers-reduced-motion:reduce){.t-cursor.tc-dot{display:none}}
 
 /* ---- 15. page transitions (cross-document View Transitions; unsupported browsers navigate normally) ---- */
@@ -625,29 +626,32 @@ main:focus{outline:none}
 .link-line-end,.link-line-dark-end{white-space:nowrap}
 
 /* ---- 18. stage 3 ---- */
-/* day section: the heading and the live number sit on the dark band above; the photo is a framed image below
-   them (never under text); the hours run underneath. Frames cross-fade in place: opacity only, nothing moves. */
-.day-pin{display:flex;flex-direction:column}
-.day-pin>.mt-120{margin-top:28px}
-[data-pin="400"] .day-frame{position:relative;inset:auto;z-index:2;flex:1 1 auto;min-height:0;margin:28px 0 24px;overflow:hidden;background:#1C1B19}
+/* day section (as on main): the photo full-bleed behind the heading and the live number, stopping above the hour
+   buttons, bottom-aligned so the rug and the slippers stay in every frame; no scrim. The frames cross-fade in place:
+   opacity only, nothing moves or scales. */
+[data-pin="400"] .day-frame{z-index:0}
 [data-pin="400"] .day-frame>.live-c{z-index:2}
-.day-img{height:100%;object-position:50% 70%;opacity:0;transition:opacity 0s linear .7s}
+[data-pin="400"] [data-pin-inner]>:is(.sec-head,.grid-12,.div-4){position:relative;z-index:2}
+[data-pin="400"] [data-pin-inner]>[data-axis]{z-index:1}
+.day-img{height:100%;object-position:50% 72%;opacity:0;transition:opacity 0s linear .7s}
 .day-img.on{opacity:1;z-index:1;transition:opacity .7s cubic-bezier(.4,0,.2,1)}
 @media (prefers-reduced-motion:reduce){.day-img,.day-img.on{transition:none}}
-[data-pin="400"] .span-2{font-size:clamp(88px,calc(30px + 13vh),184px)!important}
-[data-pin="400"] .div-4{margin-top:0}
-@media (max-height:760px) and (min-width:761px){
-  .day-pin>.mt-120{margin-top:16px}
-  [data-pin="400"] .day-frame{margin:16px 0}
-  [data-pin="400"] .day-btn>span:last-child{display:none}
+@media (min-width:761px){[data-pin="400"] .day-frame{bottom:132px;top:calc(20px + 12px * 1.45 + 14px)}}   /* the section label row stays on the dark ground */
+/* portrait tablets: the whole 3:2 frame, uncropped, above the hours; heading and number on the dark ground */
+@media (min-width:761px) and (max-aspect-ratio:1/1){[data-pin="400"] .day-frame{top:auto;height:calc((100vw - 40px) * 2 / 3);left:20px;right:20px}}
+/* readability without a band: a soft dark halo hugging the letters only */
+[data-pin="400"] :is(h2,.span-2){text-shadow:0 0 2px rgba(11,11,10,.35),0 0 14px rgba(11,11,10,.5),0 0 40px rgba(11,11,10,.4)}
+[data-pin="400"] .fs-12{text-shadow:0 0 2px rgba(11,11,10,.85),0 0 7px rgba(11,11,10,.75),0 0 18px rgba(11,11,10,.55)}
+@media (min-width:761px) and (min-aspect-ratio:2/1){   /* wide, short: the floor, not the bright glass, behind the text */
+  .day-img{object-position:50% 88%}
+  [data-pin="400"] :is(h2,.span-2){text-shadow:0 0 2px rgba(11,11,10,.45),0 0 14px rgba(11,11,10,.6),0 0 44px rgba(11,11,10,.45)}
+  [data-pin="400"] .fs-12{text-shadow:0 0 2px rgba(11,11,10,.95),0 0 6px rgba(11,11,10,.9),0 0 16px rgba(11,11,10,.7)}
 }
-@layer base{@media (max-width:760px){
-  .day-pin>.mt-120{margin-top:24px!important;flex-direction:row!important;justify-content:space-between!important;align-items:flex-end!important;gap:16px!important}
-  .day-pin>.mt-120>h2{font-size:30px!important;max-width:9.5em}
-  [data-pin="400"] .span-2{font-size:72px!important}
-  [data-pin="400"] .day-frame{margin:20px -20px 16px}
-}}
-@media (max-width:760px){[data-pin="400"] .day-img{object-position:42% 60%}}
+@media (max-width:760px){
+  /* phones (as on main): the 3:2 frames in a square box above the hour buttons, the whole room in view */
+  [data-pin="400"] .day-frame{top:auto;bottom:max(92px,11svh);aspect-ratio:1/1}
+}
+@media (max-width:760px){[data-pin="400"] .day-img{object-position:40% 50%}}
 
 /* contact: no scrim. The house is on the left of the photo, the heading and the form on its dark sky and water
    right of the axis (text checked at >= 4.5:1 against the pixels under it, 1280-2560 wide) */
@@ -695,12 +699,6 @@ main:focus{outline:none}
 .t-cursor.tc-d.photo:not(.pill) .tc-cross{display:block;transform:scale(.4)}
 .t-ripples{position:fixed;left:0;top:0;width:0;height:0;z-index:4999;pointer-events:none;mix-blend-mode:difference}
 .t-ripples i{position:absolute;left:-28px;top:-28px;width:56px;height:56px;box-sizing:border-box;border:1px solid #fff;border-radius:50%;opacity:0}
-.t-cursor-sw{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:2700;display:flex;align-items:center;gap:2px;padding:4px 4px 4px 14px;border:1px solid rgba(234,230,222,.25);border-radius:999px;background:#1C1B19;color:#EAE6DE;font:500 11px/1 'Geist Mono',monospace;letter-spacing:.04em;text-transform:uppercase}
-.t-cursor-sw[hidden]{display:none}
-.t-cursor-sw span{margin-right:8px;color:#C9C3B8}
-.t-cursor-sw button{all:unset;cursor:pointer;min-width:28px;height:28px;border-radius:999px;text-align:center;line-height:28px}
-.t-cursor-sw button[aria-pressed="true"]{background:#EAE6DE;color:#111110}
-.t-cursor-sw button:focus-visible{outline:2px solid #EAE6DE;outline-offset:2px}
 
 /* home hero (stage 3 frontal photo): the photo stays bottom-aligned; where the window is too short for the intro,
    the house and the captions, the photo box grows below the fold by --hx (the house moves down, the water under the
