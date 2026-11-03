@@ -6,7 +6,7 @@
   const qa = (s, r = document) => Array.from(r.querySelectorAll(s));
 
   /* ---------- day switcher ---------- */
-  const DAYS = [['06:10', 31, 'The living room at blue dawn, forest outside the long window'], ['09:00', 34, 'A woman sitting on the window ledge in warm morning light'], ['14:30', 28, 'The empty living room in soft daylight'], ['19:00', 33, 'Rain on the window at dusk, one warm lamp on'], ['23:40', 21, 'The living room at night, moonlight on the floor']];
+  const DAYS = [['06:10', 31, 'The living room at blue dawn, mist over the lake beyond the long window'], ['09:00', 34, 'A woman in slippers on the bench by the window with a cup of coffee, morning sun on the lake'], ['14:30', 28, 'The empty living room in soft daylight, slippers left on the rug'], ['19:00', 33, 'Dusk after the rain, one warm lamp on, slippers by the sofa, the lake mirroring the sky'], ['23:40', 21, 'The living room at night, a lamp on, the moon over the lake, slippers on the rug']];
   const dayImgs = qa('[data-day-img]'), dayBtns = qa('[data-day-btn]');
   // the four hidden photos load only when the section comes near
   const loadDays = () => dayImgs.forEach((im) => {
@@ -16,18 +16,32 @@
       if (el.dataset.src) { el.src = el.dataset.src; el.removeAttribute('data-src'); }
     });
   });
-  const daySec = q('[data-pin="460"]');
+  const daySec = q('[data-pin="400"]');
   if (daySec && 'IntersectionObserver' in window) {
     const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); loadDays(); } }, { rootMargin: '150% 0px' });
     io.observe(daySec);
   } else loadDays();
-  T.day = 0;
+  T.day = 0; T.dayDb = DAYS[0][1];
+  // the big dB number counts to its new value instead of jumping
+  const dayDb = q("#day-db"); let dbNow = DAYS[0][1], dbRaf = 0;
+  const countTo = (to) => {
+    cancelAnimationFrame(dbRaf);
+    if (T.reduced()) { dbNow = to; dayDb.textContent = to; return; }
+    const from = dbNow, t0 = performance.now(), dur = 700;
+    const step = (now) => {
+      const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      dbNow = Math.round(from + (to - from) * e); dayDb.textContent = dbNow;
+      if (k < 1) dbRaf = requestAnimationFrame(step);
+    };
+    dbRaf = requestAnimationFrame(step);
+  };
   T.setDay = (i) => {
-    T.day = i;
+    T.day = i; T.dayDb = DAYS[i][1];
     dayImgs.forEach((im) => { const on = +im.dataset.dayImg === i; im.classList.toggle('on', on); im.alt = on ? DAYS[i][2] : ''; });
     dayBtns.forEach((bt) => bt.setAttribute('aria-pressed', String(+bt.dataset.dayBtn === i)));
-    q('#day-db').textContent = DAYS[i][1];
+    countTo(DAYS[i][1]);
     q('#day-time').textContent = DAYS[i][0];
+    document.dispatchEvent(new CustomEvent('tysha:day', { detail: i }));
   };
   dayBtns.forEach((bt) => bt.addEventListener('click', () => { loadDays(); T.setDay(+bt.dataset.dayBtn); }));
 
@@ -40,7 +54,8 @@
   const ready = () => document.dispatchEvent(new Event('tysha:ready'));
   let seen = false;
   try { seen = sessionStorage.getItem('tysha-pre') === '1'; } catch (e) { /* no storage: treat as first visit */ }
-  if (T.reduced() || !('animate' in Element.prototype)) { T.start(); ready(); return; }
+  // once per session only: internal navigation back home (or a reload) goes straight to the page
+  if (seen || T.reduced() || !('animate' in Element.prototype)) { T.start(); ready(); return; }
   try { sessionStorage.setItem('tysha-pre', '1'); } catch (e) { /* fine */ }
   try { history.scrollRestoration = 'manual'; } catch (e) { /* fine */ }
   window.scrollTo(0, 0);
@@ -67,8 +82,8 @@
     + SLABS.map((s) => '<g class="pre-slab">' + s + '</g>').join('')
     + '<g class="pre-cuts">' + CUTS.map(([s, o]) => s.replace('/>', ' style="transform-origin:' + o + '"/>')).join('') + '</g></g>'
     + '<use class="pre-final" href="#l-wm"/></svg>'
-    + '<div class="pre-cap pre-cap-t label"><span>Tysha Architecture<br><span class="tone-5">Lviv — Warsaw</span></span><span>Architecture of silence<br><span class="tone-5">Est. 2014</span></span><span>Private houses<br><span class="tone-5">2 — 8 homes, 6 a year</span></span><span class="ta-r">Now: <span data-pre-db>68</span> dB<br><span class="tone-5">Turning the city down</span></span></div>'
-    + '<div class="pre-cap pre-cap-b label"><span>We design homes where<br>the loudest thing is the rain.</span><span class="tone-5">49.8397° N<br>24.0297° E</span><span class="case-none"><span class="u">LULL_HOUSE.JPG</span> <span class="u">PINE_COURT.JPG</span> <span class="u">HOLLOW.JPG</span></span><span class="ta-r">Loading quiet<br><span data-pre-pct>000</span> / 100</span></div>';
+    + '<div class="pre-cap pre-cap-t label"><span>Tysha Architecture<br><span class="tone-5">Lviv — Warsaw</span></span><span>Architecture of silence<br><span class="tone-5">Est. 2014</span></span><span>Private houses<br><span class="tone-5">38 built, 6 a year</span></span><span class="ta-r">Now: <span data-pre-db>68</span> dB<br><span class="tone-5">Turning the city down</span></span></div>'
+    + '<div class="pre-cap pre-cap-b label"><span>We design homes where<br>the loudest thing is the rain.</span><span class="tone-5">49.8397° N<br>24.0297° E</span><span class="case-none"><span class="f">LULL_HOUSE.JPG</span> <span class="f">PINE_COURT.JPG</span> <span class="f">HOLLOW.JPG</span></span><span class="ta-r">Loading quiet<br><span data-pre-pct>000</span> / 100</span></div>';
   document.body.appendChild(pre);
   root.inert = true; de.style.overflow = 'hidden';
 

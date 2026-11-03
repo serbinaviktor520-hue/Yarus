@@ -15,6 +15,8 @@
   const clamp = (x) => (x < 0 ? 0 : x > 1 ? 1 : x);
   const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
   const GL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/·—';
+  const FINE = window.matchMedia('(pointer: fine)');
+  const PHONE = window.matchMedia('(max-width: 760px)');
   T.reduced = () => RM.matches;
 
   /* ---------- 1. scroll engine ---------- */
@@ -23,7 +25,9 @@
     const reduced = RM.matches;
 
     // reveal: headings and [data-rise] rows rise in; pending state lives in .rv
-    const reveals = qa('h1, h2, h3, blockquote, [data-rise]', root).filter((el) => !el.closest('[data-st-layer]') && !el.classList.contains('sr-only'));
+    // subpage heroes are on screen at load and arrive with the page transition: no second entrance (and no late paint)
+    const pre = document.body.hasAttribute('data-preloader');
+    const reveals = qa('h1, h2, h3, blockquote, [data-rise]', root).filter((el) => !el.closest('[data-st-layer]') && !el.classList.contains('sr-only') && (pre || !el.closest('[data-hero]')));
     reveals.forEach((el) => {
       const rise = el.hasAttribute('data-rise');
       const i = rise ? Array.from(el.parentElement.children).filter((c) => c.hasAttribute('data-rise')).indexOf(el) : 0;
@@ -104,7 +108,7 @@
     const revealImg = (im) => {
       if (im._rv) return; im._rv = true;
       im.classList.add('in');
-      setTimeout(() => im.classList.remove('rv-img', 'in'), 2000);
+      setTimeout(() => im.classList.remove('rv-img', 'in'), 1500);
     };
     const watch = (els, margin, fn) => {
       const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { io.unobserve(e.target); fn(e.target); } }), { rootMargin: margin });
@@ -115,7 +119,7 @@
     // an image hidden by its own clip-path never "intersects", so watch the box that holds it
     const holder = (im) => { const p = im.parentElement; return p.tagName === 'PICTURE' ? p.parentElement : p; };
     const byHolder = new Map(); imgs.forEach((im) => { const h = holder(im); byHolder.set(h, (byHolder.get(h) || []).concat(im)); });
-    watch([...byHolder.keys()], '0px 0px -8% 0px', (h) => byHolder.get(h).forEach(revealImg));
+    watch([...byHolder.keys()], '0px 0px 15% 0px', (h) => byHolder.get(h).forEach(revealImg));
     watch(scr, '0px 0px -4% 0px', scramble);
     watch(counts, '0px 0px -12% 0px', countUp);
 
@@ -134,7 +138,7 @@
     const hero = q('[data-hero]', root), heroImg = q('[data-hero-img]', root), heroFade = qa('[data-hero-fade]', root), heroWm = q('[data-hero-wm]', root);
     const st = q('[data-pin="320"]', root);
     const stInner = st && q('[data-pin-inner]', st), stPill = q('[data-st-pill]', root), stLayer = q('[data-st-layer]', root), stLayerImg = q('[data-st-layer-img]', root), stOver = q('[data-st-over]', root), stFade = qa('[data-st-fade]', root);
-    const day = q('[data-pin="460"]', root), dayBar = q('[data-day-bar]', root);
+    const day = q('[data-pin="400"]', root), dayBar = q('[data-day-bar]', root);
     const pano = q('[data-pano]', root), panoImg = q('[data-pano-img]', root);
     const marq = q('[data-marquee]', root), zoom = q('[data-zoom]', root);
     const floats = qa('[data-float]', root);
@@ -162,6 +166,9 @@
         if (nw && nh) {
           const sP = Math.max(s.pw / nw, s.ph / nh), sL = Math.max(s.W / nw, s.H / nh);
           s.k0 = sP / sL; s.cx = s.l + s.pw / 2 - s.W / 2; s.cy = s.t + s.ph / 2 - s.H / 2;
+          // both images share an object-position; off-centre, the crops differ by (p - .5)(pill - k0 * layer)
+          const op = getComputedStyle(stPill).objectPosition.split(' ').map((v) => (/%$/.test(v) ? parseFloat(v) / 100 : 0.5));
+          s.cx += (op[0] - 0.5) * (s.pw - s.k0 * s.W); s.cy += ((op[1] === undefined ? 0.5 : op[1]) - 0.5) * (s.ph - s.k0 * s.H);
         } else { s.k0 = 1; s.cx = 0; s.cy = 0; }
         G.st = s;
       }
@@ -200,7 +207,7 @@
         if (top < ih && top + G.day.h > 0 && T.setDay) { const idx = Math.min(4, Math.floor(p * 5)); if (idx !== T.day) T.setDay(idx); }
       }
       if (!still) {
-        const f = vw <= 760 ? 0.35 : 1;
+        const f = vw <= 760 ? 0.35 : vw < 1440 ? 0.5 : 1;
         floats.forEach((el, i) => {
           const b = G.floats[i]; const qq = clamp((ih - (b.top - y)) / (ih + b.h));
           el._ty = (0.5 - qq) * parseFloat(el.getAttribute('data-float')) * f;
@@ -223,9 +230,46 @@
     if (document.fonts) document.fonts.ready.then(remeasure);
     if (window.ResizeObserver) new ResizeObserver(remeasure).observe(root);
     if (stLayerImg && !stLayerImg.complete) stLayerImg.addEventListener('load', remeasure, { once: true });
+    qa('img[data-axis-gap]', root).forEach((im) => { if (!im.complete || !im.naturalWidth) im.addEventListener('load', remeasure, { once: true }); });
     RM.addEventListener && RM.addEventListener('change', () => { qa('[data-float], [data-marquee], [data-zoom], [data-hero-img], [data-hero-wm], [data-pano-img]', root).forEach((el) => { el.style.transform = ''; }); if (pano) pano.style.clipPath = ''; remeasure(); });
     sy = window.scrollY; measure(); frame();
     badge();
+
+    // ---- eased wheel scrolling (mouse and trackpad only) ----
+    // The page keeps its native scroll position: the wheel only sets a target and every animation frame
+    // moves window.scrollY a tenth of the way there, then runs the scene frame in the same tick, so
+    // pinned and scrubbed scenes never lag a frame behind. Keys, the scrollbar, anchors, focus and the
+    // skip link scroll natively; any such jump simply becomes the new resting point.
+    if (FINE.matches && !reduced) {
+      let target = window.scrollY, cur = target, set = target, run = 0;
+      const stop = () => { if (run) cancelAnimationFrame(run); run = 0; };
+      const step = () => {
+        run = 0;
+        if (Math.abs(window.scrollY - set) > 2) { target = cur = set = window.scrollY; return; }
+        cur += (target - cur) * 0.1;
+        if (Math.abs(target - cur) < 0.4) cur = target;
+        window.scrollTo(0, cur); set = window.scrollY;
+        if (T.raf) { cancelAnimationFrame(T.raf); T.raf = 0; }
+        sy = set; frame();
+        if (cur !== target) run = requestAnimationFrame(step);
+      };
+      const inner = (el) => {
+        for (; el && el.nodeType === 1 && el !== document.body; el = el.parentElement) {
+          if (el.scrollHeight > el.clientHeight + 1 && /(auto|scroll)/.test(getComputedStyle(el).overflowY)) return true;
+        }
+        return false;
+      };
+      window.addEventListener('wheel', (e) => {
+        if (e.ctrlKey || e.defaultPrevented || RM.matches || Math.abs(e.deltaX) > Math.abs(e.deltaY) || document.documentElement.style.overflow === 'hidden' || inner(e.target)) return;
+        e.preventDefault();
+        if (!run) target = cur = set = window.scrollY;
+        const d = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaMode === 2 ? e.deltaY * window.innerHeight : e.deltaY;
+        target = Math.max(0, Math.min(document.documentElement.scrollHeight - window.innerHeight, target + d));
+        if (!run) run = requestAnimationFrame(step);
+      }, { passive: false });
+      window.addEventListener('keydown', stop, true);
+      window.addEventListener('pointerdown', stop, true);
+    }
   }
   T.start = start;
 
@@ -246,10 +290,28 @@
         const ty = fl ? (fl._ty || 0) : 0;
         spans.push([r.top - ty - ar.top - slack, r.bottom - ty - ar.top + slack]);
       });
+      // drawn type (the TYSHA wordmarks) and the buildings in full-bleed photos: the line stops there too
+      qa('svg[role="img"]', host).forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.height && r.left <= x && r.right >= x) spans.push([r.top - ar.top - 12, r.bottom - ar.top + 12]);
+      });
+      if (!PHONE.matches) qa('img[data-axis-gap]', host).forEach((im) => {
+        // data-axis-gap="top bottom" in image fractions; mapped through object-fit: cover and object-position
+        const nw = im.naturalWidth, nh = im.naturalHeight; if (!nw || !nh) return;
+        // layout box, not the scroll-transformed one (parallax / zoom)
+        const W = im.offsetWidth, H = im.offsetHeight; if (!H || im.offsetParent !== ax.offsetParent) return;
+        const top = im.offsetTop - ax.offsetTop;
+        const [t, b] = im.getAttribute('data-axis-gap').split(/\s+/).map(parseFloat);
+        const k = Math.max(W / nw, H / nh);
+        const oy = getComputedStyle(im).objectPosition.split(' ')[1] || '50%';
+        const off = (H - nh * k) * (/%$/.test(oy) ? parseFloat(oy) / 100 : 0.5);
+        spans.push([top + off + t * nh * k, top + off + b * nh * k]);
+      });
       if (!spans.length) { ax.style.maskImage = ax.style.webkitMaskImage = ''; return; }
       spans.sort((a, b) => a[0] - b[0]);
       const merged = [];
-      spans.forEach((s) => { const m = merged[merged.length - 1]; if (m && s[0] <= m[1]) m[1] = Math.max(m[1], s[1]); else merged.push(s.slice()); });
+      // gaps closer than 48px merge: no short stubs of line between two stops
+      spans.forEach((s) => { const m = merged[merged.length - 1]; if (m && s[0] <= m[1] + 48) m[1] = Math.max(m[1], s[1]); else merged.push(s.slice()); });
       const stops = ['#000 0px'];
       merged.forEach(([a, b]) => { stops.push('#000 ' + Math.round(a) + 'px', 'transparent ' + Math.round(a) + 'px', 'transparent ' + Math.round(b) + 'px', '#000 ' + Math.round(b) + 'px'); });
       const g = 'linear-gradient(to bottom,' + stops.join(',') + ')';
@@ -260,7 +322,10 @@
   /* ---------- 2b. dB badge: shows the label value of the section at the viewport centre ---------- */
   function badge() {
     const el = q('[data-db-badge]'); if (!el) return;
+    const live = q('#day-db');
     const secs = qa('section', root).map((s) => {
+      // the day section shows its own live number (the hour on screen), not a fixed label
+      if (live && s.contains(live)) return { s, get v() { return (T.dayDb != null ? T.dayDb : live.textContent) + ' dB'; } };
       const head = q('.sec-head', s); if (!head || head.closest('[data-st-layer]')) return null;
       const m = (head.lastElementChild ? head.lastElementChild.textContent : '').match(/(\d+)\s*(?:→\s*\d+\s*)?dB/i);
       return m ? { s, v: m[1] + ' dB' } : null;
@@ -276,9 +341,18 @@
     };
     const io = new IntersectionObserver((es) => { es.forEach((e) => state.set(e.target, e.isIntersecting)); update(); }, { rootMargin: '-50% 0px -50% 0px' });
     secs.forEach((x) => io.observe(x.s)); quiet.forEach((x) => io.observe(x));
+    document.addEventListener('tysha:day', update);
   }
 
   if (!document.body.hasAttribute('data-preloader')) start();
+
+  // page transitions: the Lull House photo morphs only between the home card and the case; to any other
+  // page it leaves with the rest of the old page (a named element would otherwise stay on top, unfaded)
+  const BP = new URL(BASE).pathname;
+  const pair = (u) => { try { const p = new URL(u, location.href).pathname; return p === BP || p === BP + 'index.html' || p.indexOf(BP + 'project/') === 0; } catch (e) { return false; } };
+  const unname = () => qa('.vt-lull').forEach((el) => { el.style.viewTransitionName = 'none'; });
+  window.addEventListener('pageswap', (e) => { if (e.viewTransition && !(pair(location.href) && e.activation && e.activation.entry && pair(e.activation.entry.url))) unname(); });
+  window.addEventListener('pagereveal', (e) => { const f = window.navigation && navigation.activation && navigation.activation.from; if (e.viewTransition && !(f && pair(f.url) && pair(location.href))) unname(); });
 
   // skip link: focus <main> directly (a plain #main would follow <base href> on the 404 page)
   const skip = q('.skip-link'), main = q('#main');
@@ -334,15 +408,18 @@
 
   /* ---------- 3b. live clocks in the footer ---------- */
   const clocks = qa('[data-clock]');
-  const tickClock = () => clocks.forEach((c) => { try { c.textContent = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: c.getAttribute('data-clock') }).format(new Date()); } catch (e) { /* keep the static time */ } });
-  if (clocks.length) { tickClock(); setInterval(tickClock, 20000); }
+  const fmt = {};
+  const tickClock = () => clocks.forEach((c) => { try { const z = c.getAttribute('data-clock'); fmt[z] = fmt[z] || new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: z }); c.textContent = fmt[z].format(new Date()); } catch (e) { /* keep the static time */ } });
+  // the time-zone data is slow to load; the footer is far below, so start once the page is idle
+  const idle = window.requestIdleCallback || ((f) => setTimeout(f, 1500));
+  if (clocks.length) idle(() => { tickClock(); setInterval(tickClock, 20000); }, { timeout: 4000 });
 
   /* ---------- 3c. mobile menu (up to 1024px): dialog with focus trap, Esc, focus return ---------- */
   const header = q('.site-head'), nav = header && q('nav[aria-label="Main"]', header);
   if (nav) {
     const DB = { Projects: '40 dB', Method: '33 dB', Studio: '27 dB', Contact: '25 dB' };
     const b = document.createElement('button');
-    b.type = 'button'; b.className = 't-pill t-menu-btn'; b.textContent = 'Menu';
+    b.type = 'button'; b.className = 't-pill t-menu-btn'; b.textContent = 'Menu'; b.setAttribute('data-noscramble', '');
     b.setAttribute('aria-expanded', 'false'); b.setAttribute('aria-controls', 't-menu');
     header.appendChild(b);
     const ov = document.createElement('div');
@@ -350,7 +427,7 @@
     ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', 'Menu');
     ov.innerHTML = '<div class="t-menu-axis"></div><div class="t-menu-top"><span>Tysha<br><span class="t-mute">Architecture</span></span><button type="button" class="t-pill" data-close>Close</button></div>'
       + '<nav class="t-menu-list" aria-label="Menu">' + qa('a', nav).map((a, i) => '<a href="' + a.getAttribute('href') + '"' + (a.hasAttribute('aria-current') ? ' aria-current="page"' : '') + '><span class="n">0' + (i + 1) + '</span><span class="t">' + a.textContent + '</span><span class="d">' + (DB[a.textContent] || '') + '</span></a>').join('') + '</nav>'
-      + '<div class="t-menu-foot"><a href="mailto:hello@tysha.studio" class="case-none">hello@tysha.studio</a><span>+48 22 000 00 00</span><span class="t-mute">Lviv — Warsaw · Now: 25 dB</span></div>';
+      + '<div class="t-menu-foot"><a href="mailto:hello@tysha.studio" class="case-none">hello@tysha.studio</a><span>+380 32 245 18 90 · Lviv</span><span>+48 22 628 41 07 · Warsaw</span><span class="t-mute">Now: 25 dB</span></div>';
     document.body.appendChild(ov);
     const de = document.documentElement;
     const others = () => [root, q('.skip-link'), q('.t-note')].filter(Boolean);
@@ -380,6 +457,69 @@
       }
     });
     window.matchMedia('(min-width: 1025px)').addEventListener('change', (m) => { if (m.matches) close(false); });
+  }
+
+  /* ---------- 3e. sound toggle: off by default, never autoplays; the engine (sound.js) loads on demand ---------- */
+  if (header && (window.AudioContext || window.webkitAudioContext)) {
+    const sb = document.createElement('button');
+    sb.type = 'button'; sb.className = 't-pill t-sound'; sb.setAttribute('aria-pressed', 'false'); sb.setAttribute('data-noscramble', '');
+    sb.innerHTML = 'Sound&nbsp;<span class="t-sound-s">off</span>';
+    const sbs = q('.t-sound-s', sb);
+    sb.setAttribute('data-cursor', 'Listen');
+    header.insertBefore(sb, q('.t-menu-btn', header));
+    const load = () => (T.sound ? Promise.resolve(T.sound) : new Promise((ok, no) => {
+      const s = document.createElement('script'); s.src = BASE + 'assets/sound.js';
+      s.onload = () => (T.sound ? ok(T.sound) : no()); s.onerror = no; document.head.appendChild(s);
+    }));
+    const set = (on) => {
+      sb.setAttribute('aria-pressed', String(on)); sbs.textContent = on ? 'on' : 'off';
+      try { sessionStorage.setItem('tysha-sound', on ? '1' : '0'); } catch (e) { /* not remembered */ }
+    };
+    sb.addEventListener('click', () => {
+      const on = sb.getAttribute('aria-pressed') !== 'true'; set(on);
+      if (on) load().then((S) => S.on(), () => set(false)); else if (T.sound) T.sound.off();
+    });
+    let want = false;
+    try { want = sessionStorage.getItem('tysha-sound') === '1'; } catch (e) { /* first visit */ }
+    if (want) {
+      // remembered from the previous page; browsers only allow audio after a gesture on this one
+      set(true);
+      const EVS = ['pointerdown', 'keydown'];
+      const kick = (e) => { EVS.forEach((n) => window.removeEventListener(n, kick, true)); if (e.target !== sb && sb.getAttribute('aria-pressed') === 'true') load().then((S) => S.on()); };
+      EVS.forEach((n) => window.addEventListener(n, kick, true));
+    }
+  }
+
+  /* ---------- 3f. cursor: a small dot that follows with a little lag (mouse only, motion allowed) ----------
+     The native cursor stays. Over the project card it reads "View", over the day section the current dB,
+     over anything with data-cursor (the sound toggle) that word. */
+  if (FINE.matches && !RM.matches && root) {
+    const c = document.createElement('div'); c.className = 't-cursor'; c.setAttribute('aria-hidden', 'true');
+    c.innerHTML = '<span></span>'; document.body.appendChild(c);
+    const lab = c.firstChild, daySec = q('[data-pin="400"]'), dayDb = q('#day-db');
+    let x = 0, y = 0, cx = 0, cy = 0, raf = 0, mode = '';
+    const text = () => (mode === 'db' ? dayDb.textContent + ' dB' : mode);
+    const step = () => {
+      raf = 0; cx += (x - cx) * 0.2; cy += (y - cy) * 0.2;
+      c.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0)';
+      if (mode === 'db' && lab.textContent !== text()) lab.textContent = text();
+      if (Math.abs(x - cx) + Math.abs(y - cy) > 0.2 || mode === 'db') raf = requestAnimationFrame(step);
+    };
+    const move = (e) => {
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+      x = e.clientX; y = e.clientY;
+      if (!c.classList.contains('on')) { cx = x; cy = y; c.classList.add('on'); }
+      c.classList.toggle('flip', x > window.innerWidth - 160);   // keep the label inside the window
+      const t = e.target.closest ? e.target : document.body;
+      const k = t.closest('[data-cursor]');
+      const m = k ? k.getAttribute('data-cursor') : t.closest('.card') ? 'View' : (daySec && dayDb && daySec.contains(t)) ? 'db' : '';
+      if (m !== mode) { mode = m; c.classList.toggle('pill', !!m); lab.textContent = text(); }
+      if (!raf) raf = requestAnimationFrame(step);
+    };
+    window.addEventListener('pointermove', move, { passive: true });
+    document.documentElement.addEventListener('pointerleave', () => c.classList.remove('on'));
+    const off = () => { if (RM.matches || !FINE.matches) { c.remove(); window.removeEventListener('pointermove', move); } };
+    RM.addEventListener && RM.addEventListener('change', off); FINE.addEventListener && FINE.addEventListener('change', off);
   }
 
   /* ---------- 3d. privacy note: a small corner toast, remembered in this browser only ---------- */
