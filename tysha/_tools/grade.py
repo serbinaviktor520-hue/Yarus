@@ -29,7 +29,7 @@ SRC = os.path.normpath(os.path.join(HERE, '..', 'img', 'src'))
 # slot: (raw file, crop box on the raw frame or None, kelvin shift, saturation factor)
 SLOTS = {
     'h08': ('v3/hero_gpt.png', None, 0, 1.0),       # stage 3: strictly frontal, steps centred
-    'h08m': ('01_hero_mobile.png', None, 0, 1.0),   # art-directed portrait hero for phones
+    'h08m': ('v5/hero_mobile.png', None, 0, 1.0),   # art-directed portrait hero for phones (stage 5: full reflection)
     'g02': ('01_hero_straight.png', (280, 300, 1290, 760), 0, 1.0),
     'g16': ('v4/lull_entrance_tall.png', None, -100, 1.0),   # stage 4: the entrance side of the hero pavilion
     'g16w': ('v4/lull_entrance_wide.png', None, -100, 1.0),  # landscape: the project hero on every screen
@@ -42,7 +42,7 @@ SLOTS = {
     'g03': ('v4/lull_plan.png', None, 0, 0.9),
     'g11': ('10_bedroom.png', None, -400, 0.8),
     'h01': ('11_corridor.png', None, 0, 1.0),
-    'g09': ('v3/contact.png', None, 0, 1.0),       # house left, dark sky and water right: the form sits there
+    'g09': ('v5/contact.png', None, 0, 1.0),       # stage 5: the hero pavilion at blue hour, house left, dark right half
     'g06': ('13_panorama.png', (420, 0, 1536, 1024), -100, 1.0),
     'h00': ('14_hollow.png', None, 700, 1.05),            # warmed: it read cold grey next to the set
     'g01': ('15_pinecourt.png', None, -100, 1.0),
@@ -64,7 +64,7 @@ LONG = {'h08': 3200, 'g16w': 3200, 'p01': 3200}
 # Heroes are upscaled with a compact Real-ESRGAN model (--sr x4.onnx, made by _tools/esrgan_onnx.py), blended with
 # Lanczos so stone keeps its grain; inside these raw-frame boxes (people a few dozen pixels tall) Lanczos alone, since the
 # model paints faces. Without --sr every slot uses Lanczos.
-SR = {'h08': [(990, 500, 1080, 590)], 'g16w': [], 'p01': [(235, 530, 340, 675)]}
+SR = {'h08': [(990, 500, 1080, 590)], 'h08m': [(650, 705, 750, 785)], 'g16w': [], 'p01': [(235, 530, 340, 675)]}
 SR_MIX = 0.65
 # Day lamp (stage 3): the raw 19:00 frame had a mushroom lamp behind the sofa, the 23:40 frame a different drum lamp at
 # the left edge, the other hours none. A composite of one lamp into all five frames was tried and rejected (the unlit
@@ -202,7 +202,7 @@ def fixes(slot, raw_dir, a):
     if slot == 'h08':
         a = soften(a, (1000, 512, 1070, 576), sigma=0.4)   # raw-frame box around the couple
     if slot == 'h08m':
-        a = soften(a, (703, 818, 774, 884))
+        a = soften(a, (660, 715, 740, 775), sigma=0.4)
     if slot == 'h03':
         a = lake_patch(raw_dir, a)
     if slot == 'g09':

@@ -59,17 +59,12 @@ def h08():
 
 
 def h08m():
-    """Hero, phones: the mirror lake below the steps (y ~902), not the grass blades along the bottom."""
+    """Hero, phones (stage 5 frontal portrait): the whole mirror lake below the bottom step (y ~805), reflection
+    included; not the reeds at the sides of the steps or the grass along the bottom edge."""
     R, G, B = canvas(1024, 1536)
-    d = ImageDraw.Draw(R)
-    d.polygon([(0, 912), (250, 904), (262, 902), (815, 902), (845, 906), (1024, 912), (1024, 1536), (0, 1536)], fill=255)
+    ImageDraw.Draw(R).rectangle((0, 812, 1024, 1536), fill=255)
     R = feather(R, 4)
-    m = Image.new('L', R.size, 255)
-    dm = ImageDraw.Draw(m)
-    dm.polygon([(0, 1250), (120, 1300), (420, 1390), (1024, 1360), (1024, 1536), (0, 1536)], fill=0)   # blades
-    dm.polygon([(860, 1290), (1024, 1250), (1024, 1360)], fill=0)
-    m = feather(m, 18)
-    R = Image.fromarray((np.asarray(R, np.float32) * np.asarray(m, np.float32) / 255).astype(np.uint8))
+    R = cut(R, [(0, 790, 175, 905), (835, 790, 1024, 905), (0, 1430, 1024, 1536)], 14)
     return R, G, B
 
 
