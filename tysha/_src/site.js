@@ -47,10 +47,9 @@
     });
     const imgs = qa('img', root).filter((im) => !im.closest('[data-noreveal]'));
     imgs.forEach((im) => im.classList.add('rv-img'));
-    const scr = qa('.mono, .label, [data-scramble]', root).filter((el) => {
-      const par = el.parentElement && el.parentElement.closest('.mono, .label, [data-scramble]');
-      return !par && !el.closest('[data-noscramble]') && !el.hasAttribute('data-noscramble');
-    });
+    // the decode effect: only the small section labels (".sec-head" captions), briefly, as they enter; never in a hero,
+    // never on project names or figures, never on anything the reader is about to read closely
+    const scr = qa('.sec-head > span', root).filter((el) => !el.closest('[data-hero], [data-noscramble], [data-st-layer], .card, .case-next') && !el.hasAttribute('data-noscramble'));
     scr.forEach((el) => {
       const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); const nodes = []; let n;
       while ((n = w.nextNode())) if (n.nodeValue.trim() && !n.parentElement.closest('[data-noscramble]')) nodes.push({ n, o: n.nodeValue });
@@ -97,7 +96,7 @@
       }).filter(Boolean);
       const len = parts.reduce((s, t) => s + t.o.length, 0) || 1;
       const rev = []; for (let i = 0; i < len; i++) rev.push((i / len) * 0.6 + Math.random() * 0.4);
-      el._scr = { type: 's', el, parts, rev, dur: 650 + Math.min(900, len * 16) };
+      el._scr = { type: 's', el, parts, rev, dur: Math.min(400, 200 + len * 8) };
       run(el._scr);
     };
     const finishScramble = (el) => {
@@ -208,7 +207,8 @@
       if (G.st) {
         const s = G.st; const top = s.top - y;
         const p = clamp(-top / (s.h - ih)); const e = clamp((ih - top) / ih);
-        const fade = 1 - clamp((p - 0.2) / 0.18);
+        // the words leave first, then the photo opens: it never passes over a visible word
+        const fade = 1 - clamp((p - 0.03) / 0.1);
         stFade.forEach((el) => { el.style.opacity = String(Math.min(e, fade)); });
         const a = ease(clamp((p - 0.14) / 0.42));
         if (a <= 0.001) { stLayer.style.visibility = 'hidden'; stPill.style.opacity = '1'; }
@@ -406,8 +406,20 @@
     const pick = LIST(here) ? (VT[other] ? other : null) : (LIST(other) ? here : null);
     Object.keys(VT).forEach((k) => qa(VT[k]).forEach((el) => { el.style.viewTransitionName = k === pick ? '' : 'none'; }));
   };
-  window.addEventListener('pageswap', (e) => { if (e.viewTransition) keep(e.activation && e.activation.entry ? where(e.activation.entry.url) : 'other'); });
-  window.addEventListener('pagereveal', (e) => { const f = window.navigation && navigation.activation && navigation.activation.from; if (e.viewTransition) keep(f ? where(f.url) : 'other'); });
+  const VTK = 'tysha-vt';
+  window.addEventListener('pageswap', (e) => {
+    if (!e.viewTransition) return;
+    const to = e.activation && e.activation.entry ? where(e.activation.entry.url) : 'other';
+    keep(to);
+    try { sessionStorage.setItem(VTK, where(location.href) + '>' + to); } catch (er) { /* fine */ }
+  });
+  window.addEventListener('pagereveal', (e) => {
+    if (!e.viewTransition) return;
+    let from = 'other';
+    try { const v = (sessionStorage.getItem(VTK) || '').split('>'); if (v[1] === where(location.href)) from = v[0]; sessionStorage.removeItem(VTK); } catch (er) { /* fine */ }
+    if (from === 'other') { const f = window.navigation && navigation.activation && navigation.activation.from; if (f) from = where(f.url); }
+    keep(from);
+  });
 
   // skip link: focus <main> directly (a plain #main would follow <base href> on the 404 page)
   const skip = q('.skip-link'), main = q('#main');
@@ -465,9 +477,14 @@
   const clocks = qa('[data-clock]');
   const fmt = {};
   const tickClock = () => clocks.forEach((c) => { try { const z = c.getAttribute('data-clock'); fmt[z] = fmt[z] || new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: z }); c.textContent = fmt[z].format(new Date()); } catch (e) { /* keep the static time */ } });
-  // the time-zone data is slow to load; the footer is far below, so start once the page is idle
-  const idle = window.requestIdleCallback || ((f) => setTimeout(f, 1500));
-  if (clocks.length) idle(() => { tickClock(); setInterval(tickClock, 20000); }, { timeout: 4000 });
+  // the time-zone data is slow to load (a long task on a phone); the footer is far below, so start when it comes near
+  if (clocks.length) {
+    const startClocks = () => { tickClock(); setInterval(tickClock, 20000); };
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); startClocks(); } }, { rootMargin: '0px 0px 150% 0px' });
+      clocks.forEach((c) => io.observe(c));
+    } else setTimeout(startClocks, 4000);
+  }
 
   /* ---------- 3c. mobile menu (up to 1024px): dialog with focus trap, Esc, focus return ---------- */
   const header = q('.site-head'), nav = header && q('nav[aria-label="Main"]', header);
@@ -750,7 +767,7 @@
   if (header && root) {
     const hero = q('[data-hero]', root);
     const bar = document.createElement('div');
-    bar.className = 't-bar'; bar.setAttribute('role', 'navigation'); bar.setAttribute('aria-label', 'Quick');
+    bar.className = 't-bar';
     const home = q('.brand', header).getAttribute('href');
     const links = nav ? qa('a', nav).map((a) => '<a href="' + a.getAttribute('href') + '"' + (a.hasAttribute('aria-current') ? ' aria-current="page"' : '') + '>' + a.textContent + '</a>').join('') : '';
     bar.innerHTML = '<a class="t-bar-mark" href="' + home + '" aria-label="TYSHA Architecture, home"><svg width="16" height="19" viewBox="0 0 200 240" aria-hidden="true"><use href="#l-arch"></use></svg></a>'
@@ -772,12 +789,13 @@
       new MutationObserver(() => m2.setAttribute('aria-expanded', realMenu.getAttribute('aria-expanded'))).observe(realMenu, { attributes: true, attributeFilter: ['aria-expanded'] });
     }
     document.body.appendChild(bar);
-    let lastY = window.scrollY, shown = false, raf2 = 0;
+    let lastY = -1, shown = false, raf2 = 0;    // read on the first scroll: a scrollY read here would force the page's first layout inside this script
     const set = (v) => { if (v === shown) return; shown = v; bar.classList.toggle('on', v); bar.inert = !v; };
     bar.inert = true;
     const tick = () => {
       raf2 = 0;
       const y = window.scrollY, past = y > (hero ? hero.offsetTop + hero.offsetHeight - 80 : window.innerHeight * 0.8);
+      if (lastY < 0) lastY = y;
       if (!past) set(false);
       else if (y < lastY - 6) set(true);
       else if (y > lastY + 6) set(false);
@@ -795,10 +813,12 @@
   if (!seen && !document.body.hasAttribute('data-no-note')) {
     const n = document.createElement('div');
     n.className = 't-note'; n.setAttribute('role', 'region'); n.setAttribute('aria-label', 'Privacy note');
-    n.innerHTML = '<p><span class="k">No trackers.</span> No cookies, no analytics. <a href="' + BASE + 'privacy/">Privacy</a></p><button type="button" class="t-pill">OK</button>';
+    n.innerHTML = '<p><span class="k">No trackers</span> · no cookies · <a href="' + BASE + 'privacy/">Privacy</a></p><button type="button" class="t-pill">OK</button>';
     // it appears after the first real scroll, and steps aside while the day timeline or the contact is on screen
     let shown = false;
-    const show = () => { if (shown) return; shown = true; document.body.appendChild(n); requestAnimationFrame(() => n.classList.add('on')); };
+    const dismiss = () => { try { localStorage.setItem('tysha-quiet', '1'); } catch (e) { /* not remembered */ } n.classList.remove('on'); setTimeout(() => n.remove(), 600); };
+    // it leaves by itself after eight seconds (the Privacy link in the footer stays)
+    const show = () => { if (shown) return; shown = true; document.body.appendChild(n); requestAnimationFrame(() => n.classList.add('on')); setTimeout(dismiss, 8000); };
     const onScroll = () => { if (window.scrollY > 240) { window.removeEventListener('scroll', onScroll); setTimeout(show, 600); } };
     window.addEventListener('scroll', onScroll, { passive: true });
     const busy = qa('[data-pin="400"], #contact, .case-end');
@@ -807,6 +827,6 @@
       const io = new IntersectionObserver((es) => { es.forEach((e) => (e.isIntersecting ? on.add(e.target) : on.delete(e.target))); n.classList.toggle('away', on.size > 0); });
       busy.forEach((el) => io.observe(el));
     }
-    q('button', n).addEventListener('click', () => { try { localStorage.setItem('tysha-quiet', '1'); } catch (e) { /* not remembered */ } n.classList.remove('on'); setTimeout(() => n.remove(), 600); });
+    q('button', n).addEventListener('click', dismiss);
   }
 })();

@@ -1,7 +1,21 @@
 # TYSHA tools
 
-The files in `tysha/` are the source. Edit the HTML, `assets/site.css` and `assets/*.js` directly.
+The pages in `tysha/` are the source. Edit the HTML directly; edit the stylesheet and scripts in `tysha/_src/`
+(`site.css`, `site.js`, `home.js`, `live.js`, `sound.js`, `modal.js`), never in `tysha/assets/`.
 These scripts only do the repetitive parts.
+
+## Build: `build.py`
+
+`tysha/assets/*.css|js` are generated: `build.py` minifies `tysha/_src/<file>` into `tysha/assets/<file>` with
+esbuild (comments, whitespace and local names only; the syntax is kept as written, no source maps).
+`images.py` runs it first, so after any change run, from the repo root:
+
+```sh
+python3 tysha/_tools/images.py      # build + photos + ?v= hashes on every page
+```
+
+It uses `$ESBUILD`, an `esbuild` on PATH, or `npx --yes esbuild@0.28.2`. `tysha/_src/` is not deployed
+(`.vercelignore`). Commit both `_src/` and the built `assets/`, since Vercel serves the repo as it is.
 
 ## Photos: `images.py`
 
@@ -29,14 +43,14 @@ What it does:
   `sizes`, `width`/`height` (from the source, to prevent layout shift) and `loading="lazy"
   decoding="async"`. The hero (`data-hero-img`) loads eagerly with `fetchpriority="high"` and a
   `<link rel="preload">` in the head; the four hidden day photos (`data-defer`) are loaded by
-  `assets/home.js` when the day section approaches;
+  `home.js` when the day section approaches;
 - points the footer wordmark photo at the 1600 px JPEG and cuts `img/og.jpg` (1200×630, the social
   card) from the home hero `h08`.
 
 - writes `?v=<8 hex of the source's hash>` on every image URL (the files keep their names; `img/` is cached for a
   week, so a replaced photo needs a new URL) and `data-tone="#rrggbb"`, the photo's average colour, on every `<img>`.
 
-`assets/site.js` paints each photo's tone behind it until the photo arrives, starts every lazy photo ~1.8 viewports
+`site.js` paints each photo's tone behind it until the photo arrives, starts every lazy photo ~1.8 viewports
 before it reaches the screen (eager, low priority, decoded off-thread) and opens a photo's reveal only once it is
 decoded. That warm-up matters: a lazy `<img>` under the reveal's `clip-path: inset(100% …)` has no visible area, so
 the browser's own lazy loader would not start it until it was already on screen.
@@ -82,14 +96,14 @@ crosses a building. Drawn type (`svg[role=img]`, the wordmarks) stops it too.
 
 ## Living photos: `live_masks.py`
 
-`assets/live.js` animates one element of a few photos (hero lake, the day frames, the blue-hour contact
+`live.js` animates one element of a few photos (hero lake, the day frames, the blue-hour contact
 photo) with a small WebGL shader while they are on screen. Where it acts is set by a mask per photo,
 `img/<name>-live.png`, drawn by `python3 tysha/_tools/live_masks.py` on the raw frame geometry:
 R = water ripple and shimmer, G = drift or waver (mist, smoke, caustics), B = a lamp that breathes.
 Strengths are in the `FX` table at the top of `live.js`. If you re-crop one of these photos in
 `grade.py`, redraw its mask. Nothing runs under reduced motion, Save-Data or without WebGL.
 
-## Sound: `assets/sound.js`
+## Sound: `sound.js`
 
 Opt-in from the header toggle; the file loads only when sound is switched on. All sound is synthesised
 (Web Audio), so there are no audio files. The scenes (city, forest, the five hours of the day section)
@@ -102,7 +116,7 @@ are arrays near the bottom of the file.
 
 ## Styles: `extract_styles.py`
 
-One-shot migration that moved the old inline styles into `assets/site.css`. Kept for reference;
+One-shot migration that moved the old inline styles into `site.css` (now `_src/site.css`). Kept for reference;
 it refuses to run now that the pages have no inline styles.
 
 ## Moving to tysha.studio

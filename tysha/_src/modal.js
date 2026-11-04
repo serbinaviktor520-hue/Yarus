@@ -64,16 +64,16 @@
     + '<section class="m-step" data-step="2" aria-labelledby="m-h2" hidden>'
     + '<h2 id="m-h2" class="m-h serif" tabindex="-1">How quiet should it be?</h2>'
     + '<p class="m-q-read" aria-hidden="true"><span class="serif m-q-num"><span data-q-num>25</span> dB</span><span class="m-q-says" data-q-says>A bedroom at night</span></p>'
-    + '<div class="m-q-track" data-q role="slider" tabindex="0" aria-labelledby="m-h2" aria-valuemin="0" aria-valuemax="25" aria-valuenow="20" aria-valuetext="25 dB, a bedroom at night"><i class="m-q-line"></i><i class="m-q-fill"></i><b class="m-q-thumb"></b></div>'
+    + '<div class="m-q-track" data-q role="slider" tabindex="0" aria-labelledby="m-h2" aria-valuemin="20" aria-valuemax="45" aria-valuenow="25" aria-valuetext="25 dB, a bedroom at night"><i class="m-q-line"></i><i class="m-q-fill"></i><b class="m-q-thumb"></b></div>'
     + '<div class="m-q-scale" aria-hidden="true"><span>45 dB</span><span>20 dB</span></div>'
     + '<div class="m-step-foot"><button type="button" class="m-send" data-next data-cursor="Next">Next</button></div>'
     + '</section>'
     // step 3: who
     + '<section class="m-step" data-step="3" aria-labelledby="m-h3" hidden>'
-    + '<h2 id="m-h3" class="m-h serif" tabindex="-1">Who should we call?</h2>'
+    + '<h2 id="m-h3" class="m-h serif" tabindex="-1">How do we reach you?</h2>'
     + '<div class="m-pair">'
     + '<div class="m-field"><label class="m-lab" for="m-name">Name</label><input class="m-input m-input-l" id="m-name" name="name" type="text" autocomplete="name" placeholder="Your name" aria-describedby="m-name-h" required><span class="m-hint" id="m-name-h"></span></div>'
-    + '<div class="m-field"><label class="m-lab" for="m-email">Email</label><input class="m-input m-input-l" id="m-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="name@mail.com" aria-describedby="m-email-h" required><span class="m-hint" id="m-email-h"></span></div>'
+    + '<div class="m-field"><label class="m-lab" for="m-email">Email or phone</label><input class="m-input m-input-l" id="m-email" name="email" type="text" autocomplete="email" placeholder="name@mail.com or +48 …" aria-describedby="m-email-h" required><span class="m-hint" id="m-email-h"></span></div>'
     + '</div>'
     + '<div class="m-field"><label class="m-lab" for="m-msg">Anything else <span class="m-opt-tag">(optional)</span></label><input class="m-input" id="m-msg" name="message" type="text" autocomplete="off" placeholder="The road you hear, the view you keep"></div>'
     + '<div class="m-step-foot m-step-foot-send"><div class="m-send-row"><button type="submit" class="m-send" data-m-send data-cursor="Send"><span data-m-send-t>Send</span><i class="m-send-bar" aria-hidden="true"></i></button></div>'
@@ -85,7 +85,7 @@
     + '<div class="m-done" data-m-done hidden tabindex="-1">'
     + '<span class="label tone-2" data-m-id>Request TY-0000 · Received</span>'
     + '<p class="m-done-h serif">It’s quiet now.</p>'
-    + '<p class="m-sub">Thank you. We’ll reply within two working days, from hello@tysha.studio.</p>'
+    + '<p class="m-sub" data-m-reply>Thank you. We’ll reply within two working days, from hello@tysha.studio.</p>'
     + '<dl class="m-sum" data-m-sum></dl>'
     + '<button type="button" class="t-pill m-done-close" data-m-close>Close</button>'
     + '</div>'
@@ -119,7 +119,7 @@
     quiet = db;
     track.style.setProperty('--p', ((LOUD - db) / (LOUD - QUIET)).toFixed(4));   // 0 = louder (left), 1 = quieter
     qNum.textContent = db; qSays.textContent = SAYS(db);
-    track.setAttribute('aria-valuenow', String(LOUD - db));   // how much quieter than 45 dB: Right / Up raise it
+    track.setAttribute('aria-valuenow', String(db));   // the dB shown; Right / Up = quieter = fewer dB
     track.setAttribute('aria-valuetext', db + ' dB, ' + SAYS(db).toLowerCase());
   };
   setQuiet(25, true);
@@ -130,7 +130,7 @@
     const up = () => { track.classList.remove('drag'); track.removeEventListener('pointermove', mv); track.removeEventListener('pointerup', up); track.removeEventListener('pointercancel', up); };
     track.addEventListener('pointermove', mv); track.addEventListener('pointerup', up); track.addEventListener('pointercancel', up);
   });
-  // value = how much quieter than 45 dB: Right / Up = quieter
+  // Right / Up = quieter (fewer dB), like the scale reads: 45 dB on the left, 20 dB on the right
   track.addEventListener('keydown', (e) => {
     const k = { ArrowRight: -1, ArrowUp: -1, ArrowLeft: 1, ArrowDown: 1, PageUp: -5, PageDown: 5 }[e.key];
     if (k) { e.preventDefault(); setQuiet(quiet + k, true); }
@@ -146,7 +146,7 @@
 
   /* ---------- calm validation: a short mono hint under the field, after the first try ---------- */
   const F = (n) => form.elements[n];
-  const HINT = { where: 'Roughly where: a town, a region or a plot.', name: 'We’d like to know who to answer.', email: 'An email, so we can write back.', emailBad: 'That doesn’t look like an email yet.' };
+  const HINT = { where: 'Roughly where: a town, a region or a plot.', name: 'We’d like to know who to answer.', email: 'An email or a phone number, so we can answer.', emailBad: 'That doesn’t look like an email or a phone number yet.' };
   let tried = false;
   const hint = (n, m) => {
     const i = F(n), h = q('#m-' + n + '-h', dlg);
@@ -158,7 +158,7 @@
     if (!F('name').value.trim()) { hint('name', HINT.name); bad.push(F('name')); } else hint('name', '');
     const e = F('email').value.trim();
     if (!e) { hint('email', HINT.email); bad.push(F('email')); }
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e)) { hint('email', HINT.emailBad); bad.push(F('email')); }
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e) && !/^\+?[\d\s().-]{7,}$/.test(e)) { hint('email', HINT.emailBad); bad.push(F('email')); }
     else hint('email', '');
     return bad;
   };
@@ -348,7 +348,8 @@
     send(data).then(() => {
       clearInterval(iv); busy = false; form.removeAttribute('aria-busy'); dlg.classList.remove('m-sending'); status.textContent = '';
       q('[data-m-id]', dlg).textContent = 'Request TY-' + (1000 + Math.floor(Math.random() * 9000)) + ' · Received · 25 dB';
-      const rows = [['Name', data.name], ['Email', data.email], ['Where', data.where], ['What', data.what], ['Quiet', data.quiet + ' · ' + SAYS(quiet).toLowerCase()], ['Note', data.message]].filter((r) => r[1]);
+      const rows = [['Name', data.name], [/@/.test(data.email) ? 'Email' : 'Phone', data.email], ['Where', data.where], ['What', data.what], ['Quiet', data.quiet + ' · ' + SAYS(quiet).toLowerCase()], ['Note', data.message]].filter((r) => r[1]);
+      q('[data-m-reply]', dlg).textContent = /@/.test(data.email) ? 'Thank you. We’ll reply within two working days, from hello@tysha.studio.' : 'Thank you. We’ll text you within two working days, and call only if you ask.';
       const sum = q('[data-m-sum]', dlg); sum.textContent = '';
       rows.forEach(([k, v]) => { const dt = document.createElement('dt'); dt.className = 'm-lab'; dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; sum.append(dt, dd); });
       form.hidden = true; done.hidden = false; scroller.scrollTop = 0; dlg.classList.add('m-is-done');

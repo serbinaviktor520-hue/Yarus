@@ -41,7 +41,13 @@ PLACEHOLDER = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAI
 FORCE = '--force' in sys.argv
 
 
-def widths_for(w):
+# the day frames are served at 1600 px at most: enlarged further, their pines turn painterly
+CAP = {n: 1600 for n in ('g15', 'h03', 'g14', 'h06', 'h09')}
+
+
+def widths_for(w, cap=None):
+    if cap:
+        return [x for x in WIDTHS if x <= min(w, cap)]
     ws = [x for x in WIDTHS if x <= w]
     if not ws or max(ws) < 0.9 * w:
         ws.append(w)
@@ -60,7 +66,7 @@ def encode():
             continue
         src = os.path.join(SRC, f)
         im = ImageOps.exif_transpose(Image.open(src)).convert('RGB')
-        ws = widths_for(im.width)
+        ws = widths_for(im.width, CAP.get(name))
         # cache-busting: every URL carries ?v=<hash of the source>, so a replaced photo under an old file name
         # is a new URL for browsers and CDNs (img/ is served with a week-long max-age)
         v = hashlib.md5(open(src, 'rb').read()).hexdigest()[:8]
@@ -221,6 +227,8 @@ def rewrite(man):
 
 
 if __name__ == '__main__':
+    import build                      # _src/ -> minified assets/, before the ?v= hash is taken
+    build.build(quiet=True)
     man = encode()
     og(man)
     rewrite(man)
