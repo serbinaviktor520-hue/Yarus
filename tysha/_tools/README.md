@@ -141,6 +141,7 @@ links are relative, so the site works at any path. When the domain is live:
 ## Experiments: `_src/fx.js` (branch fx-depth)
 
 Loaded by `site.js` only after `?fx=depth` (remembered for the tab in sessionStorage, `?fx=off` clears it); without
-the flag nothing of it runs. "Quiet depth" tilts sections a few degrees at the screen edges; "Linen" bends the photo
-under the pointer with one shared WebGL canvas. Desktop and tablet with a fine pointer, never under reduced motion,
+the flag nothing of it runs. "Quiet depth" hinges sections a few degrees at their boundary, eased over the whole viewport;
+"Curtain" makes the photos hang like linen (idle sway, scroll gusts, pointer brushes), rendered by one shared
+WebGL context into each visible photo's own canvas. Desktop and tablet with a fine pointer, never under reduced motion,
 never on a software renderer (`?live=force` overrides, for testing). All amplitudes are the constants at the top.
