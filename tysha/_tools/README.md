@@ -14,7 +14,11 @@ esbuild (comments, whitespace and local names only; the syntax is kept as writte
 python3 tysha/_tools/images.py      # build + photos + ?v= hashes on every page
 ```
 
-It uses `$ESBUILD`, an `esbuild` on PATH, or `npx --yes esbuild@0.28.2`. `tysha/_src/` is not deployed
+It uses `$ESBUILD`, an `esbuild` on PATH, or `npx --yes esbuild@0.28.2`.
+
+`images.py` finds every page by itself (all `index.html` under `tysha/`, nested folders included) and ends with a
+check that fails the run if any page carries a `?v=` other than the current one on a script or stylesheet, if a
+footer wordmark has lost its `data-href`, or if a doubled `data-data-` attribute appears. `tysha/_src/` is not deployed
 (`.vercelignore`). Commit both `_src/` and the built `assets/`, since Vercel serves the repo as it is.
 
 ## Photos: `images.py`

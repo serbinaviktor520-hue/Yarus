@@ -28,7 +28,20 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.normpath(os.path.join(HERE, '..'))
 SRC = os.path.join(SITE, 'img', 'src')
 OUT = os.path.join(SITE, 'img')
-PAGES = {'index.html': '', 'project/index.html': '../', 'project/pine-court/index.html': '../../', 'project/lull-house/index.html': '../../', 'method/index.html': '../', 'privacy/index.html': '../', '404/index.html': ''}
+def _pages():
+    """Every HTML page of the site, nested folders included, with the relative prefix back to tysha/.
+    404 is the exception: Vercel serves it at any URL, so it carries <base href="/tysha/"> and no prefix."""
+    out = {}
+    for d, dirs, files in os.walk(SITE):
+        dirs[:] = sorted(x for x in dirs if not x.startswith(('_', '.')) and x not in ('img', 'assets'))
+        for f in files:
+            if f.endswith('.html'):
+                rel = os.path.relpath(os.path.join(d, f), SITE).replace(os.sep, '/')
+                out[rel] = '' if rel.startswith('404/') else '../' * rel.count('/')
+    return dict(sorted(out.items()))
+
+
+PAGES = _pages()
 WIDTHS = [480, 960, 1600, 2560]
 FMT = {'avif': dict(format='AVIF', quality=52, speed=6), 'webp': dict(format='WEBP', quality=78, method=6), 'jpg': dict(format='JPEG', quality=80, progressive=True, optimize=True)}
 OG_FROM, OG_FOCUS_Y = 'h08', 0.30
@@ -175,7 +188,7 @@ def rewrite(man):
     for page, prefix in PAGES.items():
         path = os.path.join(SITE, page)
         t = open(path, encoding='utf-8').read()
-        t = re.sub(r'((?:src|href)="(?:\.\./)?assets/(?:' + '|'.join(re.escape(a) for a in ASSETS) + r'))(?:\?v=\w+)?"', lambda m: f'{m.group(1)}?v={av}"', t)
+        t = re.sub(r'((?:src|href)="(?:\.\./)*assets/(?:' + '|'.join(re.escape(a) for a in ASSETS) + r'))(?:\?v=\w+)?"', lambda m: f'{m.group(1)}?v={av}"', t)
         imgrx = r'<img\b[^>]*>'
 
         def name_from(tag):
@@ -204,7 +217,8 @@ def rewrite(man):
         # footer wordmark photo
         # the footer wordmark photo: written as data-href, set by site.js when the footer comes near (an SVG <image>
         # cannot be lazy, and this one would otherwise compete with the first screen on every page)
-        t = re.sub(r'(<image\b[^>]*\b)href="((?:\.\./)*img/[\w-]+?(?:-\d+)?\.jpg(?:\?v=\w+)?)"', r'\1data-href="\2"', t)
+        t = re.sub(r'\bdata-(?:data-)+href=', 'data-href=', t)        # repair the old bug: \b also matched inside data-href
+        t = re.sub(r'(<image\b[^>]*?)(?<![\w-])href="((?:\.\./)*img/[\w-]+?(?:-\d+)?\.jpg(?:\?v=\w+)?)"', r'\1data-href="\2"', t)
         t = re.sub(r'(<image\b[^>]*\bdata-href=")(?:\.\./)*img/([\w-]+?)(?:-\d+)?\.jpg(?:\?v=\w+)?"',
                    lambda m: f'{m.group(1)}{prefix}img/{m.group(2)}-{jpg_width(man[m.group(2)]["widths"])}.jpg?v={man[m.group(2)]["v"]}"' if m.group(2) in man else m.group(0), t)
         # preload the hero image
@@ -226,9 +240,27 @@ def rewrite(man):
         print('rewrote', page)
 
 
+def check():
+    """Fail loudly if a page is left behind: a doubled data- prefix, or a script/style on a stale ?v=."""
+    av, bad = asset_version(), []
+    for page in PAGES:
+        t = open(os.path.join(SITE, page), encoding='utf-8').read()
+        if 'data-data-' in t:
+            bad.append(f'{page}: doubled "data-data-" attribute')
+        for a, v in re.findall(r'(?:src|href)="(?:\.\./)*assets/([\w.]+\.(?:js|css))\?v=(\w+)"', t):
+            if v != av:
+                bad.append(f'{page}: {a}?v={v}, expected {av}')
+        if '<svg' in t and 'class="foot-wm' in t and not re.search(r'<image\b[^>]*\bdata-href="[^"]*img/', t):
+            bad.append(f'{page}: footer wordmark <image> has no data-href')
+    if bad:
+        sys.exit('images.py check failed:\n  ' + '\n  '.join(bad))
+    print(f'check: {len(PAGES)} pages, assets ?v={av}, no doubled attributes')
+
+
 if __name__ == '__main__':
     import build                      # _src/ -> minified assets/, before the ?v= hash is taken
     build.build(quiet=True)
     man = encode()
     og(man)
     rewrite(man)
+    check()
