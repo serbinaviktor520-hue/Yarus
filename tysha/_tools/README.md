@@ -142,6 +142,6 @@ links are relative, so the site works at any path. When the domain is live:
 
 Loaded by `site.js` only after `?fx=depth` (remembered for the tab in sessionStorage, `?fx=off` clears it); without
 the flag nothing of it runs. "Quiet depth" hinges sections a few degrees at their boundary, eased over the whole viewport;
-"Curtain" makes the photos hang like linen (idle sway, scroll gusts, pointer brushes), rendered by one shared
-WebGL context into each visible photo's own canvas. Desktop and tablet with a fine pointer, never under reduced motion,
+"Curtain" is hover only: the hovered photo becomes a linen curtain with one soft billow that
+follows the pointer, then hands back to the plain <img> (one shared WebGL canvas). Desktop and tablet with a fine pointer, never under reduced motion,
 never on a software renderer (`?live=force` overrides, for testing). All amplitudes are the constants at the top.
