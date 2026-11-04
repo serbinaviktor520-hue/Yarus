@@ -1158,5 +1158,6 @@ section[aria-label="The plan"]>.mt-120{margin-top:56px}
 /* experiments (?fx=depth, assets/fx.js): the linen canvas sits exactly on its photo; the photo's own hover zoom
    gives way to the cloth */
 .fx-linen{position:absolute;pointer-events:none;display:block}
+.fx-curtain{position:fixed;left:0;top:0;z-index:40;pointer-events:none;display:block;transform-origin:0 0}
 html.fx-depth .fx-linen-src{opacity:0!important}
 html.fx-depth .card:hover .card-media img,html.fx-depth .card:focus-visible .card-media img{transform:none}
