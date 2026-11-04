@@ -11,7 +11,7 @@ import os, shutil, subprocess, sys
 
 SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC, OUT = os.path.join(SITE, '_src'), os.path.join(SITE, 'assets')
-FILES = ['site.css', 'site.js', 'home.js', 'live.js', 'sound.js', 'modal.js']
+FILES = ['site.css', 'site.js', 'home.js', 'live.js', 'sound.js', 'modal.js', 'fx.js']
 
 
 def esbuild():

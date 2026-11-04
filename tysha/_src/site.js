@@ -18,6 +18,15 @@
   const GL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/·—';
   const FINE = window.matchMedia('(pointer: fine)');
   const PHONE = window.matchMedia('(max-width: 760px)');
+  // experiments: ?fx=depth turns them on for this tab, ?fx=off turns them off; without it nothing here runs
+  try {
+    const fx = (location.search.match(/[?&]fx=(\w+)/) || [])[1];
+    if (fx === 'off') sessionStorage.removeItem('tysha-fx'); else if (fx === 'depth') sessionStorage.setItem('tysha-fx', 'depth');
+    if (sessionStorage.getItem('tysha-fx') === 'depth') {
+      document.documentElement.classList.add('fx-depth');
+      const s = document.createElement('script'); s.src = BASE + 'assets/fx.js' + AV; s.defer = true; document.head.appendChild(s);
+    }
+  } catch (e) { /* no storage: no experiments */ }
   T.reduced = () => RM.matches;
 
   /* ---------- 1. scroll engine ---------- */

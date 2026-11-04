@@ -137,3 +137,10 @@ links are relative, so the site works at any path. When the domain is live:
   `404/index.html` with status 404 for unknown paths; `routes` is used because `rewrites` cannot
   set a status code, and `routes` cannot be combined with `cleanUrls` / `trailingSlash` /
   `headers`, so those are expressed as routes too.
+
+## Experiments: `_src/fx.js` (branch fx-depth)
+
+Loaded by `site.js` only after `?fx=depth` (remembered for the tab in sessionStorage, `?fx=off` clears it); without
+the flag nothing of it runs. "Quiet depth" tilts sections a few degrees at the screen edges; "Linen" bends the photo
+under the pointer with one shared WebGL canvas. Desktop and tablet with a fine pointer, never under reduced motion,
+never on a software renderer (`?live=force` overrides, for testing). All amplitudes are the constants at the top.

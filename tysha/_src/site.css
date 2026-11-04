@@ -1154,3 +1154,9 @@ section[aria-label="The plan"]>.mt-120{margin-top:56px}
 
 /* the sound toast: on desktop it briefly covers the "Now: dB" header label above the sound button (never the hero copy), on phones it hangs under the top row */
 @media (max-width:1024px){.t-toast{top:calc(env(safe-area-inset-top,0px) + 64px);right:12px;max-width:calc(100vw - 24px)}}
+
+/* experiments (?fx=depth, assets/fx.js): the linen canvas sits exactly on its photo; the photo's own hover zoom
+   gives way to the cloth */
+.fx-linen{position:absolute;pointer-events:none;display:block}
+html.fx-depth .fx-linen-src{opacity:0!important}
+html.fx-depth .card:hover .card-media img,html.fx-depth .card:focus-visible .card-media img{transform:none}

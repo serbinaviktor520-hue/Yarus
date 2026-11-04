@@ -173,7 +173,7 @@ def picture(name, img_attrs, prefix, man):
 
 # one version for the code: a hash of every stylesheet and script, written on each <script>/<link> as ?v= (site.js
 # passes its own ?v= on to sound.js), so a returning visitor never runs yesterday's code under today's page
-ASSETS = ['site.css', 'site.js', 'home.js', 'live.js', 'sound.js', 'modal.js']
+ASSETS = ['site.css', 'site.js', 'home.js', 'live.js', 'sound.js', 'modal.js', 'fx.js']
 
 
 def asset_version():
