@@ -1076,3 +1076,11 @@ dialog.m::backdrop{background:transparent}
 }
 @media (prefers-reduced-motion:reduce){.m-step.m-enter>*{animation:none}.m-prog i{transition:none}}
 .m-sum dt.m-lab{padding-top:2px}
+/* Back lives in the header, left of the counter: "← 02 / 03" */
+.m-count{display:flex;align-items:center;gap:4px}
+.m-hback{all:unset;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;min-width:32px;min-height:32px;margin-left:-8px;font:400 16px/1 'Inter Tight',sans-serif;color:#C9C3B8;border-radius:999px;transition:color .2s,background-color .2s}
+.m-hback[hidden]{display:none}
+.m-hback:hover{color:#111110;background:#EAE6DE}
+.m-hback:focus-visible{outline:2px solid #EAE6DE;outline-offset:2px}
+.m-is-done .m-hback{display:none}
+@media (max-width:1023px){.m-hback{min-width:44px;min-height:44px;margin-left:-12px;font-size:18px}}

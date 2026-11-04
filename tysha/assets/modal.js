@@ -49,7 +49,7 @@
     + '<div class="m-side-cap label"><span class="m-big num-xl" aria-hidden="true"><span data-m-big>68</span></span><span>' + (PLAIN ? 'The room, as you step in' : 'Lake shore, blue hour') + '<br><span class="tone-2">Measured inside: <span data-m-db2>68</span> dB</span></span></div>'
     + '</div>'
     + '<div class="m-body">'
-    + '<div class="m-top" data-m-grab><span id="m-title" class="m-title">Start a project</span><span class="m-count" aria-hidden="true"><span data-m-n>01</span> / 03</span><button type="button" class="t-pill m-close" data-m-close data-noscramble>Close</button></div>'
+    + '<div class="m-top" data-m-grab><span id="m-title" class="m-title">Start a project</span><span class="m-count"><button type="button" class="m-hback" data-back hidden aria-label="Back to step 1">←</button><span aria-hidden="true"><span data-m-n>01</span> / 03</span></span><button type="button" class="t-pill m-close" data-m-close data-noscramble>Close</button></div>'
     + '<div class="m-prog" aria-hidden="true"><i data-m-prog></i></div>'
     + '<div class="m-scroll" data-m-scroll>'
     + '<form class="m-form" data-m-form novalidate>'
@@ -66,7 +66,7 @@
     + '<p class="m-q-read" aria-hidden="true"><span class="serif m-q-num"><span data-q-num>25</span> dB</span><span class="m-q-says" data-q-says>A bedroom at night</span></p>'
     + '<div class="m-q-track" data-q role="slider" tabindex="0" aria-labelledby="m-h2" aria-valuemin="0" aria-valuemax="25" aria-valuenow="20" aria-valuetext="25 dB, a bedroom at night"><i class="m-q-line"></i><i class="m-q-fill"></i><b class="m-q-thumb"></b></div>'
     + '<div class="m-q-scale" aria-hidden="true"><span>45 dB</span><span>20 dB</span></div>'
-    + '<div class="m-step-foot"><button type="button" class="m-back" data-back>Back</button><button type="button" class="m-send" data-next data-cursor="Next">Next</button></div>'
+    + '<div class="m-step-foot"><button type="button" class="m-send" data-next data-cursor="Next">Next</button></div>'
     + '</section>'
     // step 3: who
     + '<section class="m-step" data-step="3" aria-labelledby="m-h3" hidden>'
@@ -76,7 +76,7 @@
     + '<div class="m-field"><label class="m-lab" for="m-email">Email</label><input class="m-input m-input-l" id="m-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="name@mail.com" aria-describedby="m-email-h" required><span class="m-hint" id="m-email-h"></span></div>'
     + '</div>'
     + '<div class="m-field"><label class="m-lab" for="m-msg">Anything else <span class="m-opt-tag">(optional)</span></label><input class="m-input" id="m-msg" name="message" type="text" autocomplete="off" placeholder="The road you hear, the view you keep"></div>'
-    + '<div class="m-step-foot m-step-foot-send"><div class="m-send-row"><button type="button" class="m-back" data-back>Back</button><button type="submit" class="m-send" data-m-send data-cursor="Send"><span data-m-send-t>Send</span><i class="m-send-bar" aria-hidden="true"></i></button></div>'
+    + '<div class="m-step-foot m-step-foot-send"><div class="m-send-row"><button type="submit" class="m-send" data-m-send data-cursor="Send"><span data-m-send-t>Send</span><i class="m-send-bar" aria-hidden="true"></i></button></div>'
     + '<p class="m-consent">By sending, you agree to our <a class="u" href="' + BASE + 'privacy/">privacy notice</a>. We reply within two working days.</p>'
     + '<p class="m-fail" data-m-fail role="alert" hidden>The line is noisy: your request didn’t reach us. Nothing is lost. Try again, or write to <a class="u" href="mailto:hello@tysha.studio">hello@tysha.studio</a>.</p></div>'
     + '</section>'
@@ -174,6 +174,7 @@
   function go(n, o = {}) {
     const dir = n >= step ? 1 : -1; step = n;
     steps.forEach((el) => { const on = +el.dataset.step === n; el.hidden = !on; el.classList.remove('m-enter'); el.style.setProperty('--dir', dir); });
+    const hb = q('.m-hback', dlg); hb.hidden = n === 1; hb.setAttribute('aria-label', 'Back to step ' + (n - 1));
     nEl.textContent = '0' + n; prog.style.transform = 'scaleX(' + (n / 3).toFixed(3) + ')';
     if (o.quiet) return;
     const cur = steps[n - 1];
