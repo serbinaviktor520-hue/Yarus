@@ -32,7 +32,7 @@ SLOTS = {
     'h08m': ('v5/hero_mobile.png', None, 0, 1.0),   # art-directed portrait hero for phones (stage 5: full reflection)
     'g02': ('01_hero_straight.png', (280, 300, 1290, 760), 0, 1.0),
     'g16': ('v4/lull_entrance_tall.png', None, -100, 1.0),   # stage 4: the entrance side of the hero pavilion
-    'g16w': ('v4/lull_entrance_wide.png', None, -100, 1.0),  # landscape: the project hero on every screen
+    'g16w': ('v5/lull_entrance_wide2.png', None, -100, 1.0),  # landscape: the project hero on every screen (stage 6: same entrance as g16)
     'g15': ('06_day_0610.png', None, 0, 1.0),
     'h03': ('07_day_0900.png', None, 0, 1.0),
     'g14': ('05_day_1430.png', None, 0, 1.0),

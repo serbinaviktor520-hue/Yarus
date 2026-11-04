@@ -126,7 +126,17 @@ def g09():
     return R, G, B
 
 
-MASKS = {'h08': h08, 'h08m': h08m, 'g15': g15, 'h03': h03, 'h06': h06, 'h09': h09, 'g09': g09}
+def p01():
+    """Pine Court hero: only the lake glimpsed between the trunks, right of the third house; never the house, the
+    thin pines standing in front of the water, the far shore or the big trunk on the right."""
+    R, G, B = canvas(1536, 1024)
+    ImageDraw.Draw(R).polygon([(1282, 556), (1422, 552), (1422, 698), (1282, 700)], fill=255)
+    R = feather(R, 5)
+    R = cut(R, [(1306, 420, 1326, 720), (1386, 0, 1410, 720), (1288, 610, 1352, 720), (1424, 0, 1536, 1024)], 4)
+    return R, G, B
+
+
+MASKS = {'p01': p01, 'h08': h08, 'h08m': h08m, 'g15': g15, 'h03': h03, 'h06': h06, 'h09': h09, 'g09': g09}
 
 
 # the 4:5 phone crops of the day frames (grade.py DAY_M, 2560-frame pixels) get the same cut of their masks
