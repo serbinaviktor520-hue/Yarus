@@ -70,12 +70,12 @@ section[aria-label="Selected projects"] [data-float]>.split-base{flex-direction:
 [data-pin-inner]>div:is(.div-3,.div-4,.div-5,.div-7,.stack-14,.stack-15) :is(.day-grid){column-gap:8px!important}
 .day-btn>span:last-child{display:none}
 .day-btn>span:first-child{font-size:18px!important}
-li[data-rise]{display:grid!important;grid-template-columns:1fr 96px!important;column-gap:16px!important;row-gap:8px!important;align-items:start!important}
+li[data-rise]{display:grid!important;grid-template-columns:1fr 120px!important;column-gap:16px!important;row-gap:8px!important;align-items:start!important}
 li[data-rise]>*{grid-column:1/2!important;padding-left:0!important}
 li[data-rise]>span:nth-child(1){grid-row:1}
 li[data-rise]>span:nth-child(2){grid-row:2}
 li[data-rise]>span:nth-child(3){grid-row:3}
-li[data-rise]>span:nth-child(4){grid-row:4;color:#6B665F}
+li[data-rise]>span:nth-child(4){grid-row:4;color:#5A554E}
 li[data-rise]>picture>img{grid-column:2/3!important;grid-row:1/5;aspect-ratio:4/5!important}
 [aria-labelledby="h-voices"] figure:nth-of-type(2){margin-left:15%!important}
 section[aria-label="Start a project"]{height:auto!important;min-height:100svh;padding-bottom:calc(96vw + 24px)!important}  /* room for the house below the form (section 16) */
@@ -368,7 +368,7 @@ footer :is(.ta-r){text-align:left!important}
 picture{display:contents}
 picture>source{display:none}
 [data-hero]{height:100vh;height:100svh;padding-top:calc(20px + 2 * 12px * 1.45)}
-@media (min-width:761px){[data-hero]{min-height:720px}}
+@media (min-width:761px){[data-hero]{min-height:600px}}
 @media (max-width:1024px){[data-hero]{padding-top:60px}}
 [data-pin="320"]{height:320vh}
 [data-pin="400"]{height:400vh}
@@ -511,7 +511,7 @@ main:focus{outline:none}
   /* statement expansion: the sentence moves up to the treetops */
   .st-over{justify-content:flex-start;gap:24px}
   .st-over>:last-child{margin-top:auto}
-  .st-layer .bg{background:linear-gradient(180deg,rgba(17,17,16,.6) 0%,rgba(17,17,16,.35) 36%,rgba(17,17,16,0) 50%,rgba(17,17,16,.6) 100%)}
+  .st-layer .bg{background:linear-gradient(180deg,rgba(17,17,16,.8) 0%,rgba(17,17,16,.74) 30%,rgba(17,17,16,.45) 40%,rgba(17,17,16,0) 52%,rgba(17,17,16,0) 72%,rgba(17,17,16,.6) 100%)}   /* a dark band under the sentence: >= 3:1 over the fog */
 }
 
 /* ---- 17. final QA pass ---- */
@@ -665,7 +665,7 @@ main:focus{outline:none}
 /* sound toggle: one width for "on" and "off", the label optically centred (the mono caps sit on the centre line
    once the trailing letter-spacing is taken off the right padding) */
 .site-head>.t-sound{justify-content:center;min-width:calc(9ch + 9 * .04em + 32px);line-height:1}
-.t-toast{position:fixed;left:20px;bottom:20px;z-index:2600;max-width:calc(100vw - 40px);box-sizing:border-box;padding:10px 16px;border:1px solid rgba(234,230,222,.2);border-radius:999px;background:#1C1B19;color:#EAE6DE;font:500 12px/1.3 'Geist Mono',monospace;letter-spacing:.04em;text-transform:uppercase;pointer-events:none;opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .5s cubic-bezier(.2,.7,.2,1)}
+.t-toast{position:fixed;right:20px;top:12px;z-index:2600;max-width:calc(100vw - 40px);box-sizing:border-box;padding:10px 16px;border:1px solid rgba(234,230,222,.2);border-radius:999px;background:#1C1B19;color:#EAE6DE;font:500 12px/1.3 'Geist Mono',monospace;letter-spacing:.04em;text-transform:uppercase;pointer-events:none;opacity:0;transform:translateY(-6px);transition:opacity .4s ease,transform .5s cubic-bezier(.2,.7,.2,1)}
 .t-toast.on{opacity:1;transform:none}
 .t-toast:empty{display:none}
 @media (prefers-reduced-motion:reduce){.t-toast{transform:none;transition:opacity .2s linear}}
@@ -702,7 +702,7 @@ main:focus{outline:none}
    the house and the captions, the photo box grows below the fold by --hx (the house moves down, the water under the
    wordmark is what is lost), the intro rises, and the caption row steps aside */
 @media (min-width:761px){
-  [data-hero]{--H:max(720px,100svh);--hx:clamp(0px,calc(207px + 42.87vw - var(--H)),min(calc(66.67vw - var(--H)),calc(4.94vw - 17px)))}
+  [data-hero]{--H:max(600px,100svh);--hx:clamp(0px,calc(207px + 42.87vw - var(--H)),min(calc(66.67vw - var(--H)),calc(4.94vw - 17px)))}
   [data-hero] .hero-img{bottom:auto;height:calc(100% + var(--hx))}
   section[aria-label="Hero"] .mt-120{margin-top:clamp(16px,calc(var(--H) - 42.87vw - 240px),96px)}
   section[aria-label="Hero"] .mt-120>.stack-3{grid-column:6/13}
@@ -715,7 +715,7 @@ main:focus{outline:none}
   [data-hero] .div-5{visibility:hidden}
   /* wide, short windows: the wordmark is sized by the height (it stays below the terrace), the intro stays above the
      roof, and "Start a project" moves into the free space right of the wordmark ("See the projects" repeats the menu) */
-  [data-hero] h1{font-size:clamp(44px,7.4svh,60px)!important}
+  section[aria-label="Hero"] h1{font-size:clamp(56px,3.8vw,80px)!important}   /* home only; width-based, so a short screen keeps a display size */
   [data-hero] .hero-wm{width:min(100%,125svh)}
   section[aria-label="Hero"] .mt-120{position:static}
   section[aria-label="Hero"] .mt-120>h1,section[aria-label="Hero"] .mt-120 .p{position:relative}
@@ -765,7 +765,7 @@ dialog.m::backdrop{background:transparent}
 .m-field .label,.m-field legend{color:#C9C3B8}
 .m-field legend{padding:0;margin-bottom:12px}
 .m-input{all:unset;box-sizing:border-box;width:100%;padding:10px 0;border-bottom:1px solid rgba(234,230,222,.45);font:400 20px/1.35 'Inter Tight',sans-serif;color:#EAE6DE;transition:border-color .3s}
-.m-input::placeholder{color:rgba(234,230,222,.62)}
+.m-input::placeholder{color:#8A857E;font-style:italic}   /* an example, not an answer: dimmer and slanted, still 5.2:1 on the panel */
 .m-input:hover{border-bottom-color:rgba(234,230,222,.75)}
 .m-input:focus{border-bottom-color:#C2AE8E}
 .m-input:focus-visible{outline:2px solid #EAE6DE;outline-offset:4px}
@@ -777,8 +777,11 @@ dialog.m::backdrop{background:transparent}
 .m-opts{display:flex;flex-wrap:wrap;column-gap:32px;row-gap:12px}
 .m-opt{position:relative;cursor:pointer}
 .m-opt input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
-.m-opt span{display:inline-block;padding:10px 0 6px;border-bottom:1px solid transparent;font:500 12px/1.2 'Geist Mono',monospace;letter-spacing:.04em;text-transform:uppercase;color:#A39E96;transition:color .25s,border-color .25s}
-.m-opt:hover span{color:#EAE6DE}
+.m-opt span{display:inline-flex;align-items:center;gap:10px;padding:10px 0 6px;border-bottom:1px solid transparent;font:500 12px/1.2 'Geist Mono',monospace;letter-spacing:.04em;text-transform:uppercase;color:#A39E96;transition:color .25s,border-color .25s}
+.m-opt:hover span{color:#EAE6DE;border-bottom-color:rgba(234,230,222,.35)}
+/* a tiny radio: a hairline ring that fills when chosen */
+.m-opt span::before{content:"";flex:none;width:9px;height:9px;box-sizing:border-box;border:1px solid currentColor;border-radius:50%;transition:background-color .25s,box-shadow .25s}
+.m-opt input:checked+span::before{background:#EAE6DE;box-shadow:inset 0 0 0 2px #111110}
 .m-opt input:checked+span{color:#EAE6DE;border-bottom-color:#EAE6DE}
 .m-opt input:focus-visible+span{outline:2px solid #EAE6DE;outline-offset:4px}
 /* how quiet: the number and its line, one hairline with a thumb, the two ends named */
@@ -899,7 +902,7 @@ dialog.m::backdrop{background:transparent}
 .st-over{right:52px}
 .st-over .display{text-shadow:0 0 2px rgba(11,11,10,.45),0 0 24px rgba(11,11,10,.55),0 0 60px rgba(11,11,10,.35)}
 .st-over .label{text-shadow:0 0 8px rgba(11,11,10,.8)}
-.st-layer .bg{background:linear-gradient(180deg,rgba(17,17,16,.5) 0%,rgba(17,17,16,.2) 22%,rgba(17,17,16,.5) 44%,rgba(17,17,16,.5) 60%,rgba(17,17,16,.2) 78%,rgba(17,17,16,.65) 100%)}
+@media (min-width:761px){.st-layer .bg{background:linear-gradient(180deg,rgba(17,17,16,.72) 0%,rgba(17,17,16,.42) 12%,rgba(17,17,16,.2) 24%,rgba(17,17,16,.55) 42%,rgba(17,17,16,.55) 60%,rgba(17,17,16,.2) 78%,rgba(17,17,16,.65) 100%)}}
 @media (max-width:760px){.st-over{right:20px}}
 
 /* home contact: one clear way in (the same form everywhere) */
@@ -1138,3 +1141,16 @@ section[aria-label="The plan"]>.mt-120{margin-top:56px}
 
 /* Lull House, The form: the aerial runs the full height of the text + drawing column, so no empty band opens under it */
 @media (min-width:1025px){.form-aerial{aspect-ratio:auto;height:100%;min-height:0;align-self:stretch;object-position:50% 40%}}
+
+/* privacy: storage keys in the mono face, no box */
+.fs-20 code{font:500 .8em/1 "Geist Mono",monospace;letter-spacing:.02em;white-space:nowrap}
+
+/* case plan rows: the room photo is a real picture (two columns, ~220 px at 1440), not a stamp */
+@media (min-width:761px){
+  .ol>.li>.col-6-10{grid-column:6/9}
+  .ol>.li>.col-10-12{grid-column:9/11}
+  .ol>.li img.col-12-13{grid-column:11/13;aspect-ratio:4/3}
+}
+
+/* the sound toast: on desktop it briefly covers the "Now: dB" header label above the sound button (never the hero copy), on phones it hangs under the top row */
+@media (max-width:1024px){.t-toast{top:calc(env(safe-area-inset-top,0px) + 64px);right:12px;max-width:calc(100vw - 24px)}}

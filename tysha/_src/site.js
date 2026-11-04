@@ -407,13 +407,18 @@
     Object.keys(VT).forEach((k) => qa(VT[k]).forEach((el) => { el.style.viewTransitionName = k === pick ? '' : 'none'; }));
   };
   const VTK = 'tysha-vt';
+  // a transition the browser skips (opt-in off, a hidden tab, a phone in low-power mode) rejects its promises; that is
+  // not an error for us, so they are handled here and never reach the console
+  const quietVT = (t) => { if (!t) return; ['ready', 'finished', 'updateCallbackDone'].forEach((k) => { if (t[k] && t[k].catch) t[k].catch(() => {}); }); };
   window.addEventListener('pageswap', (e) => {
+    quietVT(e.viewTransition);
     if (!e.viewTransition) return;
     const to = e.activation && e.activation.entry ? where(e.activation.entry.url) : 'other';
     keep(to);
     try { sessionStorage.setItem(VTK, where(location.href) + '>' + to); } catch (er) { /* fine */ }
   });
   window.addEventListener('pagereveal', (e) => {
+    quietVT(e.viewTransition);
     if (!e.viewTransition) return;
     let from = 'other';
     try { const v = (sessionStorage.getItem(VTK) || '').split('>'); if (v[1] === where(location.href)) from = v[0]; sessionStorage.removeItem(VTK); } catch (er) { /* fine */ }
@@ -819,7 +824,12 @@
     const dismiss = () => { try { localStorage.setItem('tysha-quiet', '1'); } catch (e) { /* not remembered */ } n.classList.remove('on'); setTimeout(() => n.remove(), 600); };
     // it leaves by itself after eight seconds (the Privacy link in the footer stays)
     const show = () => { if (shown) return; shown = true; document.body.appendChild(n); requestAnimationFrame(() => n.classList.add('on')); setTimeout(dismiss, 8000); };
-    const onScroll = () => { if (window.scrollY > 240) { window.removeEventListener('scroll', onScroll); setTimeout(show, 600); } };
+    // only once the hero has gone by (it never lands on the first screen's text), read on scroll, not at start-up
+    const heroEl = q('[data-hero]');
+    const onScroll = () => {
+      const past = heroEl ? heroEl.getBoundingClientRect().bottom < window.innerHeight * 0.35 : window.scrollY > window.innerHeight;
+      if (past) { window.removeEventListener('scroll', onScroll); setTimeout(show, 600); }
+    };
     window.addEventListener('scroll', onScroll, { passive: true });
     const busy = qa('[data-pin="400"], #contact, .case-end');
     if (busy.length && 'IntersectionObserver' in window) {

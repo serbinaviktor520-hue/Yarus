@@ -55,8 +55,8 @@
     + '<form class="m-form" data-m-form novalidate>'
     // step 1: where
     + '<section class="m-step" data-step="1" aria-labelledby="m-h1">'
-    + '<h2 id="m-h1" class="m-h serif m-in" tabindex="-1">Where is it loud?</h2>'
-    + '<div class="m-field m-in"><label class="m-lab" for="m-where">City or plot</label><input class="m-input m-input-l" id="m-where" name="where" type="text" autocomplete="address-level2" placeholder="Near Lviv, a pine slope by a lake" aria-describedby="m-where-h" required><span class="m-hint" id="m-where-h"></span></div>'
+    + '<h2 id="m-h1" class="m-h serif m-in" tabindex="-1">Where would you like it quiet?</h2>'
+    + '<div class="m-field m-in"><label class="m-lab" for="m-where">City, region or plot</label><input class="m-input m-input-l" id="m-where" name="where" type="text" autocomplete="address-level2" placeholder="e.g. near Lviv, a pine slope by a lake" aria-describedby="m-where-h" required><span class="m-hint" id="m-where-h"></span></div>'
     + '<fieldset class="m-field m-kind m-in"><legend class="sr-only">Kind of project, optional</legend><div class="m-opts">' + opts('what', WHAT) + '</div></fieldset>'
     + '<div class="m-step-foot m-in"><button type="button" class="m-send" data-next data-cursor="Next">Next</button></div>'
     + '</section>'
@@ -65,7 +65,7 @@
     + '<h2 id="m-h2" class="m-h serif" tabindex="-1">How quiet should it be?</h2>'
     + '<p class="m-q-read" aria-hidden="true"><span class="serif m-q-num"><span data-q-num>25</span> dB</span><span class="m-q-says" data-q-says>A bedroom at night</span></p>'
     + '<div class="m-q-track" data-q role="slider" tabindex="0" aria-labelledby="m-h2" aria-valuemin="20" aria-valuemax="45" aria-valuenow="25" aria-valuetext="25 dB, a bedroom at night"><i class="m-q-line"></i><i class="m-q-fill"></i><b class="m-q-thumb"></b></div>'
-    + '<div class="m-q-scale" aria-hidden="true"><span>45 dB</span><span>20 dB</span></div>'
+    + '<div class="m-q-scale" aria-hidden="true"><span>20 dB · quieter</span><span>45 dB · louder</span></div>'
     + '<div class="m-step-foot"><button type="button" class="m-send" data-next data-cursor="Next">Next</button></div>'
     + '</section>'
     // step 3: who
@@ -117,25 +117,25 @@
     db = Math.max(QUIET, Math.min(LOUD, Math.round(db)));
     if (db === quiet && !user) return;
     quiet = db;
-    track.style.setProperty('--p', ((LOUD - db) / (LOUD - QUIET)).toFixed(4));   // 0 = louder (left), 1 = quieter
+    track.style.setProperty('--p', ((db - QUIET) / (LOUD - QUIET)).toFixed(4));   // 0 = quietest (left), 1 = loudest (right)
     qNum.textContent = db; qSays.textContent = SAYS(db);
-    track.setAttribute('aria-valuenow', String(db));   // the dB shown; Right / Up = quieter = fewer dB
+    track.setAttribute('aria-valuenow', String(db));   // the dB shown; Right / Up = more dB, as the scale reads
     track.setAttribute('aria-valuetext', db + ' dB, ' + SAYS(db).toLowerCase());
   };
   setQuiet(25, true);
-  const fromX = (x) => { const r = track.getBoundingClientRect(); return LOUD - Math.max(0, Math.min(1, (x - r.left) / r.width)) * (LOUD - QUIET); };
+  const fromX = (x) => { const r = track.getBoundingClientRect(); return QUIET + Math.max(0, Math.min(1, (x - r.left) / r.width)) * (LOUD - QUIET); };
   track.addEventListener('pointerdown', (e) => {
     track.setPointerCapture(e.pointerId); track.classList.add('drag'); setQuiet(fromX(e.clientX), true);
     const mv = (ev) => setQuiet(fromX(ev.clientX), true);
     const up = () => { track.classList.remove('drag'); track.removeEventListener('pointermove', mv); track.removeEventListener('pointerup', up); track.removeEventListener('pointercancel', up); };
     track.addEventListener('pointermove', mv); track.addEventListener('pointerup', up); track.addEventListener('pointercancel', up);
   });
-  // Right / Up = quieter (fewer dB), like the scale reads: 45 dB on the left, 20 dB on the right
+  // one direction everywhere: 20 dB on the left, 45 dB on the right; Right / Up = more dB, Home = 20, End = 45
   track.addEventListener('keydown', (e) => {
-    const k = { ArrowRight: -1, ArrowUp: -1, ArrowLeft: 1, ArrowDown: 1, PageUp: -5, PageDown: 5 }[e.key];
+    const k = { ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1, PageUp: 5, PageDown: -5 }[e.key];
     if (k) { e.preventDefault(); setQuiet(quiet + k, true); }
-    else if (e.key === 'Home') { e.preventDefault(); setQuiet(LOUD, true); }
-    else if (e.key === 'End') { e.preventDefault(); setQuiet(QUIET, true); }
+    else if (e.key === 'Home') { e.preventDefault(); setQuiet(QUIET, true); }
+    else if (e.key === 'End') { e.preventDefault(); setQuiet(LOUD, true); }
   });
 
   /* ---------- the message grows with its text ---------- */

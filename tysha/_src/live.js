@@ -12,17 +12,19 @@
   if (n && n.saveData) { log('off: Save-Data'); return; }
   const BASE = new URL('../', document.currentScript.src).href;
   const FORCE = /[?&]live=force\b/.test(location.search);   // testing: run even on a software rasteriser, no watchdog
-  // [ripple px, shimmer, drift px, glow, drift freq, drift speed]
+  // [ripple px, shimmer, drift px, glow, drift freq, drift speed, mist veil, glints, veil speed]
   const FX = {
-    h08: [2.6, 0.1, 0, 0, 0, 0], h08m: [2.4, 0.1, 0, 0, 0, 0],   // clearly alive, still calm
-    g15: [0, 0, 10, 0, 5, 0.2], // 06:10 mist over the lake
+    h08: [3.3, 0.14, 0, 0, 0, 0], h08m: [3.0, 0.14, 0, 0, 0, 0],   // the lake breathes: visible, never a distortion
+    g15: [0, 0, 10, 0, 5, 0.2, 0.3, 0, 0.05], // 06:10 a veil of mist drifting across the lake
     h03: [0, 0, 4, 0, 16, 0.42], // 09:00 caustics on the ceiling
     h06: [0.8, 0.05, 0, 0, 0, 0], // 19:00 the evening lake in the window
-    h09: [1.1, 0.16, 0, 0, 0, 0], // 23:40 the moon on the water
+    h09: [1.3, 0.3, 0, 0, 0, 0, 0, 0.55, 0], // 23:40 the moon's path: ripples and slow glints
     g09: [0.9, 0.03, 3, 0, 30, 0.9], // blue hour: mist on the water (R), chimney smoke (G)
+    p01: [0.8, 0.08, 0, 0, 0, 0], // Pine Court: the lake between the trunks
+    p01m: null, // the phone crop shows no water: it stays still
   };
   const VS = 'attribute vec2 a;varying vec2 v;void main(){v=vec2(a.x*.5+.5,.5-a.y*.5);gl_Position=vec4(a,0,1);}';
-  const FS = 'precision mediump float;uniform sampler2D I,M;uniform float t;uniform vec2 R,Q;uniform vec4 C,P;varying vec2 v;'
+  const FS = 'precision mediump float;uniform sampler2D I,M;uniform float t;uniform vec2 R,Q;uniform vec4 C,P,E;varying vec2 v;'
     + 'void main(){vec2 u=C.xy+v*C.zw,p=1./R;vec3 m=texture2D(M,u).rgb;'
     + 'float w=sin(u.y*R.y*.11+t*1.1+sin(u.x*7.+t*.3)*2.)+.5*sin(u.y*R.y*.037-t*.8+u.x*4.);'
     + 'vec2 o=vec2(w*P.x*p.x,sin(u.x*R.x*.013+t*.6)*P.x*.3*p.y)*m.r;'
@@ -30,7 +32,13 @@
     + 'o+=vec2(d,.3*cos(u.x*Q.x*.8+t*Q.y*.9))*P.z*p*m.g;'
     + 'vec3 c=texture2D(I,u+o).rgb;float l=dot(c,vec3(.3,.6,.1));'
     + 'c*=1.+P.y*m.r*smoothstep(.3,.85,l)*sin(u.x*R.x*.3+u.y*R.y*.8-t*2.4)*sin(u.y*R.y*.19+t*1.5);'
-    + 'c*=1.+P.w*m.b*(.55+.45*sin(t*.85))*(.75+.25*sin(t*.31));gl_FragColor=vec4(c,1);}';
+    + 'c*=1.+P.w*m.b*(.55+.45*sin(t*.85))*(.75+.25*sin(t*.31));'
+    // mist: a soft veil of light, two slow layers drifting right at different speeds, only where the mask is green
+    + 'float s=t*E.z,n=.5+.25*sin(u.x*5.3-s*7.+sin(u.y*9.+s*3.))+.25*sin(u.x*11.7-s*11.+u.y*6.);n=smoothstep(.35,1.,n);'
+    + 'c=mix(c,vec3(.80,.82,.84)*(.55+.6*l),E.x*m.g*n);'
+    // glints: tiny, short-lived highlights on the brightest ripples, only where the mask is red
+    + 'float g=sin(u.x*R.x*.21+t*1.7+sin(u.y*R.y*.05))*sin(u.y*R.y*.63-t*2.9);'
+    + 'c+=E.y*m.r*pow(max(g,0.),10.)*smoothstep(.35,.8,l)*vec3(1.,.97,.9);gl_FragColor=vec4(c,1);}';
 
   // only a definitive software rasteriser (every frame drawn on the CPU) keeps the photos still; an unknown or
   // masked renderer string counts as a GPU
@@ -70,14 +78,14 @@
     gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
     gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-    const U = {}; ['I', 'M', 't', 'R', 'Q', 'C', 'P'].forEach((k) => { U[k] = gl.getUniformLocation(pr, k); });
+    const U = {}; ['I', 'M', 't', 'R', 'Q', 'C', 'P', 'E'].forEach((k) => { U[k] = gl.getUniformLocation(pr, k); });
     const tex = (unit) => { const x = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, x); [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T].forEach((p) => gl.texParameteri(gl.TEXTURE_2D, p, gl.CLAMP_TO_EDGE)); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR); return x; };
     const tI = tex(0), tM = tex(1);
     gl.uniform1i(U.I, 0); gl.uniform1i(U.M, 1);
     const L = { cv, imgs, img: null, on: false, ready: false, t0: performance.now() };
     let token = 0;
     L.use = async (im) => {
-      const k = ++token; const slot = im && slotOf(im); const fx = slot && (FX[slot] || (/m$/.test(slot) && FX[slot.slice(0, -1)]));   // a phone crop: its photo's effect
+      const k = ++token; const slot = im && slotOf(im); const fx = slot && (slot in FX ? FX[slot] : (/m$/.test(slot) && FX[slot.slice(0, -1)]));   // a phone crop: its photo's effect
       L.ready = false; cv.classList.remove('on');
       if (!fx) { L.img = null; return; }
       try {
@@ -111,7 +119,7 @@
       const f = L.fx;
       cv.style.transform = L.img.style.transform;
       gl.uniform1f(U.t, (now - L.t0) / 1000);
-      gl.uniform4f(U.P, f[0], f[1], f[2], f[3]); gl.uniform2f(U.Q, f[4], f[5]);
+      gl.uniform4f(U.P, f[0], f[1], f[2], f[3]); gl.uniform2f(U.Q, f[4], f[5]); gl.uniform4f(U.E, f[6] || 0, f[7] || 0, f[8] || 0, 0);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     };
     cv.addEventListener('webglcontextlost', () => { L.ready = false; cv.remove(); L.dead = true; });
