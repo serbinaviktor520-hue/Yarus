@@ -6,7 +6,7 @@
       edge in a breeze that blows from the pointer's side: long diagonal folds travel across and down the cloth, the
       print rides on them, the far edge billows out past the box and the near edge pulls in. A subdivided mesh in
       perspective, lit from the folds' analytic normals. On leave it relaxes flat and hands back to the <img>.
-      ONE WebGL canvas (fixed, over the page, so the billow is not clipped), lent to the hovered photo.
+      ONE WebGL context; each active card has its own canvas (fixed, over the page, so the billow is not clipped).
    Desktop / tablet with a fine pointer; prefers-reduced-motion and software renderers keep everything still. */
 (() => {
   'use strict';
@@ -84,9 +84,10 @@
   addEventListener('pageswap', () => secs.forEach(flat));
 
   /* ---------- 2. curtain photos (hover only) ---------- */
-  const cv = document.createElement('canvas');
-  cv.className = 'fx-curtain'; cv.setAttribute('aria-hidden', 'true');
-  const gl = cv.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: true, depth: false, powerPreference: 'low-power' });
+  // one GL context renders off screen; each active card copies its frame into its own 2D canvas, so cards are
+  // independent: the one being left settles on its own while the next starts on the very first pointer event
+  const glc = document.createElement('canvas');
+  const gl = glc.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: true, depth: false, powerPreference: 'low-power' });
   if (!gl) return;   // no WebGL: plain photos
   const ext = gl.getExtension('WEBGL_debug_renderer_info');
   const rend = ext ? String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : '';
@@ -140,8 +141,6 @@
   const al = gl.getAttribLocation(pr, 'a'); gl.enableVertexAttribArray(al); gl.vertexAttribPointer(al, 2, gl.FLOAT, false, 0, 0);
   const U = {}; ['I', 'S', 'O', 'T', 'F', 'Q', 'P'].forEach((k2) => { U[k2] = gl.getUniformLocation(pr, k2); });
   gl.uniform1i(U.I, 0); gl.clearColor(0, 0, 0, 0);
-  const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
-  [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]].forEach(([k2, v]) => gl.texParameteri(gl.TEXTURE_2D, k2, v));
 
   // the visible crop of a photo at exactly the texture size, scaled by the browser's own resampler
   const crop = (im, cw, ch) => {
@@ -157,81 +156,120 @@
   };
 
   const SKIP = '[data-hero], [data-pin], #contact, dialog, .st-layer, .foot-wm';
-  let cur = null, loop = 0, last = 0;
-  // wind: a critically damped spring on its side (cx) and strength; the folds' phases accumulate over time
-  const st = { k: 0, kt: 0, cx: 0, vx: 0, tcx: 0, g: 0, gt: 0, gv: 0, t: 0, ph: [0, 1.9, 4.1], w: 0, h: 0, o: 0, d: 1 };
-  const attach = (im) => {
-    if (cur === im) return true;
-    detach();
-    if (!im.complete || !im.naturalWidth || im.offsetWidth < CURTAIN.minSize || (im.classList.contains('rv-img') && !im.classList.contains('in'))) return false;
-    const w = im.offsetWidth, h = im.offsetHeight, d = Math.min(2, devicePixelRatio || 1), o = Math.round(Math.max(w, h) * CURTAIN.overscan);
-    cv.width = Math.round((w + 2 * o) * d); cv.height = Math.round((h + 2 * o) * d);
-    Object.assign(cv.style, { width: (w + 2 * o) + 'px', height: (h + 2 * o) + 'px' });
-    gl.viewport(0, 0, cv.width, cv.height);
-    gl.bindTexture(gl.TEXTURE_2D, tex);
-    try { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, crop(im, Math.round(w * d), Math.round(h * d))); } catch (e) { return false; }
-    gl.uniform2f(U.S, w, h); gl.uniform1f(U.O, o);
-    gl.uniform4f(U.F, CURTAIN.angle * Math.PI / 180, CURTAIN.waves, CURTAIN.amp * w, CURTAIN.edgeBillow * w);
-    gl.uniform4f(U.Q, CURTAIN.light, CURTAIN.sheen, 0, 0);
-    document.body.appendChild(cv);
-    cur = im; Object.assign(st, { w, h, o, d, k: 0, g: 0, gt: 0, gv: 0, vx: 0 });
-    return true;
-  };
-  const detach = () => { if (!cur) return; cur.classList.remove('fx-linen-src'); cv.remove(); cur = null; st.k = st.kt = 0; };
-
-  const frame = (now) => {
-    loop = 0;
-    if (!cur || document.hidden) return;
-    const dt = Math.min(0.05, last ? (now - last) / 1000 : 0.016); last = now;
-    st.k += (st.kt - st.k) * (1 - Math.exp(-dt * 4.6 / (st.kt > 0 ? CURTAIN.hoverIn : CURTAIN.settle)));
-    // critically damped springs: no overshoot, no jumps, whatever the pointer does
-    const sp = (x, v, to, w) => { const a = w * w * (to - x) - 2 * w * v; v += a * dt; return [x + v * dt, v]; };
-    [st.cx, st.vx] = sp(st.cx, st.vx, st.tcx, CURTAIN.lag);
-    st.gt *= Math.exp(-dt * 1.2);
-    [st.g, st.gv] = sp(st.g, st.gv, st.gt, 3);
-    const g = Math.max(0, st.g), tempo = CURTAIN.speed * (1 + g * 0.6);
-    st.t += dt * tempo;
-    // folds travel away from the wind's side (and slowly down); the rate changes, the phase never jumps
-    [0.55, 0.83, 0.37].forEach((w, i) => { st.ph[i] += dt * tempo * w * (st.cx * 1.4 - 0.6); });
-    // the canvas follows the photo on screen (scroll, parallax, the depth tilt)
-    const r = cur.getBoundingClientRect(), s = r.width / st.w || 1;
-    cv.style.transform = 'translate(' + (r.left - st.o * s).toFixed(1) + 'px,' + (r.top - st.o * s).toFixed(1) + 'px) scale(' + s.toFixed(4) + ')';
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.uniform4f(U.T, st.t, st.k * st.k * (3 - 2 * st.k), st.cx, Math.max(0, st.g)); gl.uniform3f(U.P, st.ph[0], st.ph[1], st.ph[2]);
-    gl.drawElements(gl.TRIANGLES, idx.length, gl.UNSIGNED_SHORT, 0);
-    if (!cur.classList.contains('fx-linen-src')) cur.classList.add('fx-linen-src');   // swap once a frame is drawn
-    if (st.kt === 0 && st.k < 0.003) { detach(); if (lastE) onMove(lastE); return; }   // the pointer may already be on the next photo
-    loop = requestAnimationFrame(frame);
-  };
-  const wake = () => { if (!loop) { last = 0; loop = requestAnimationFrame(frame); } };
-
-  // one listener for the page: the photo under the pointer (by its box on screen) gets the curtain
   // only the project cards on the home page and the projects index: the architecture in the cases stays straight
   const imgs = document.querySelector('.case-hero') ? [] : Array.from(document.querySelectorAll('main .card-media img')).filter((im) => !im.closest(SKIP));
   if (!imgs.length) return;
   document.documentElement.classList.add('fx-curtain-on');
-  let lx = null;
+
+  const ready = (im) => im.complete && im.naturalWidth && im.offsetWidth >= CURTAIN.minSize && (!im.classList.contains('rv-img') || im.classList.contains('in'));
+  // per card: texture (uploaded ahead of time), output canvas and its own wind state
+  const inst = new Map();
+  const prepare = (im) => {
+    let c = inst.get(im);
+    const w = im.offsetWidth, h = im.offsetHeight;
+    if (c && c.w === w && c.h === h) return c;
+    if (!ready(im)) return null;
+    const d = Math.min(2, devicePixelRatio || 1), o = Math.round(Math.max(w, h) * CURTAIN.overscan);
+    if (!c) {
+      c = { im, tex: gl.createTexture(), cv: document.createElement('canvas'), k: 0, kt: 0, cx: 0, vx: 0, tcx: 0, g: 0, gt: 0, gv: 0, t: Math.random() * 20, ph: [Math.random() * 6, 1.9, 4.1], lx: null, on: false };
+      c.cv.className = 'fx-curtain'; c.cv.setAttribute('aria-hidden', 'true'); c.ctx = c.cv.getContext('2d');
+      inst.set(im, c);
+    }
+    Object.assign(c, { w, h, o, d, cw: Math.round((w + 2 * o) * d), ch: Math.round((h + 2 * o) * d) });
+    c.cv.width = c.cw; c.cv.height = c.ch;
+    Object.assign(c.cv.style, { width: (w + 2 * o) + 'px', height: (h + 2 * o) + 'px' });
+    gl.bindTexture(gl.TEXTURE_2D, c.tex);
+    [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]].forEach(([k2, v]) => gl.texParameteri(gl.TEXTURE_2D, k2, v));
+    try { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, crop(im, Math.round(w * d), Math.round(h * d))); } catch (e) { inst.delete(im); return null; }
+    // the render target is shared and only ever grows (re-allocating it on a hover would cost a frame); one tiny
+    // draw with this texture makes the driver finish the upload now
+    if (glc.width < c.cw || glc.height < c.ch) { glc.width = Math.max(glc.width, c.cw); glc.height = Math.max(glc.height, c.ch); }
+    gl.viewport(0, 0, 1, 1); gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
+    return c;
+  };
+  // textures for the cards on screen are uploaded when the browser is idle, so a first hover never waits
+  const onIdle = window.requestIdleCallback || ((f) => setTimeout(f, 200));
+  const seen = new Set();
+  const warm = (im) => onIdle(() => { if (!seen.has(im)) return; if (!prepare(im)) setTimeout(() => warm(im), 400); }, { timeout: 1500 });   // not revealed yet: try again
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    if (e.isIntersecting) { seen.add(e.target); warm(e.target); } else seen.delete(e.target);
+  }), { rootMargin: '200px 0px' });
+  // the driver compiles a program on its first draw: do that once now, not on the first hover
+  glc.width = glc.height = 2; gl.viewport(0, 0, 2, 2); gl.drawElements(gl.TRIANGLES, idx.length, gl.UNSIGNED_SHORT, 0);
+  imgs.forEach((im) => { io.observe(im); im.addEventListener('load', () => { if (inst.has(im)) { inst.get(im).w = 0; } }); });
+
+  const draw = (c, dt) => {
+    c.k += (c.kt - c.k) * (1 - Math.exp(-dt * 4.6 / (c.kt > 0 ? CURTAIN.hoverIn : CURTAIN.settle)));
+    // critically damped springs: no overshoot, no jumps, whatever the pointer does
+    const sp = (x, v, to, w) => { const a = w * w * (to - x) - 2 * w * v; v += a * dt; return [x + v * dt, v]; };
+    [c.cx, c.vx] = sp(c.cx, c.vx, c.tcx, CURTAIN.lag);
+    c.gt *= Math.exp(-dt * 1.2);
+    [c.g, c.gv] = sp(c.g, c.gv, c.gt, 3);
+    const g = Math.max(0, c.g), tempo = CURTAIN.speed * (1 + g * 0.6);
+    c.t += dt * tempo;
+    // folds travel away from the wind's side (and slowly down); the rate changes, the phase never jumps
+    [0.55, 0.83, 0.37].forEach((w, i) => { c.ph[i] += dt * tempo * w * (c.cx * 1.4 - 0.6); });
+    if (glc.width < c.cw || glc.height < c.ch) { glc.width = Math.max(glc.width, c.cw); glc.height = Math.max(glc.height, c.ch); }
+    gl.viewport(0, 0, c.cw, c.ch); gl.enable(gl.SCISSOR_TEST); gl.scissor(0, 0, c.cw, c.ch); gl.clear(gl.COLOR_BUFFER_BIT); gl.disable(gl.SCISSOR_TEST);
+    gl.bindTexture(gl.TEXTURE_2D, c.tex);
+    gl.uniform2f(U.S, c.w, c.h); gl.uniform1f(U.O, c.o);
+    gl.uniform4f(U.F, CURTAIN.angle * Math.PI / 180, CURTAIN.waves, CURTAIN.amp * c.w, CURTAIN.edgeBillow * c.w);
+    gl.uniform4f(U.Q, CURTAIN.light, CURTAIN.sheen, 0, 0);
+    gl.uniform4f(U.T, c.t, c.k, c.cx, g); gl.uniform3f(U.P, c.ph[0], c.ph[1], c.ph[2]);
+    gl.drawElements(gl.TRIANGLES, idx.length, gl.UNSIGNED_SHORT, 0);
+    // the frame sits in the bottom-left corner of the shared target; copied in the same task as the draw
+    c.ctx.clearRect(0, 0, c.cw, c.ch); c.ctx.drawImage(glc, 0, glc.height - c.ch, c.cw, c.ch, 0, 0, c.cw, c.ch);
+    // the canvas follows the photo on screen (scroll, parallax, the depth tilt)
+    const r = c.im.getBoundingClientRect(), s2 = r.width / c.w || 1;
+    c.cv.style.transform = 'translate(' + (r.left - c.o * s2).toFixed(1) + 'px,' + (r.top - c.o * s2).toFixed(1) + 'px) scale(' + s2.toFixed(4) + ')';
+    if (!c.on) { c.on = true; document.body.appendChild(c.cv); c.im.classList.add('fx-linen-src'); }   // swap in the same frame
+  };
+  const stop = (c) => { c.on = false; c.cv.remove(); c.im.classList.remove('fx-linen-src'); c.k = c.kt = 0; c.g = c.gt = c.gv = c.vx = 0; };
+  let loop = 0, last = 0;
+  const frame = (now) => {
+    loop = 0;
+    if (document.hidden) return;
+    const dt = Math.min(0.05, last ? (now - last) / 1000 : 0.016); last = now;
+    let any = false;
+    inst.forEach((c) => {
+      if (!c.on && c.kt === 0) return;
+      draw(c, dt);
+      if (c.kt === 0 && c.k < 0.003) stop(c); else any = true;
+    });
+    if (any) loop = requestAnimationFrame(frame); else last = 0;
+  };
+  const wake = () => { if (!loop) loop = requestAnimationFrame(frame); };
+
+  // one listener for the page: the photo under the pointer (by its box on screen) gets the breeze
   const side = (e, r) => Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width * 2 - 1) * 1.6));
-  let lastE = null;
+  let curIm = null;
   const onMove = (e) => {
     let hit = null, hr = null;
     for (const im of imgs) {
       const r = im.getBoundingClientRect();
-      if (r.width && e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom && r.width >= CURTAIN.minSize) { hit = im; hr = r; }
+      if (r.width && e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) { hit = im; hr = r; }
     }
-    if (!hit) { lx = null; if (cur) { st.kt = 0; wake(); } return; }
-    // one canvas: a photo still settling finishes first (never a pop), then the next one starts
-    if (cur && cur !== hit) { st.kt = 0; lx = null; wake(); return; }
-    if (cur !== hit) { if (!attach(hit)) return; st.cx = st.tcx = side(e, hr); st.vx = 0; }
-    st.tcx = side(e, hr);   // the wind blows from the pointer's side; moving the pointer stirs it
-    if (lx !== null) st.gt = Math.min(1, st.gt + Math.abs(e.clientX - lx) / 400);   // pointer speed -> gust (smoothed by its spring)
-    lx = e.clientX; st.kt = 1; wake();
+    if (curIm && curIm !== hit) { const o = inst.get(curIm); if (o) { o.kt = 0; o.lx = null; } wake(); }   // the one left settles on its own
+    curIm = hit;
+    if (!hit) return;
+    const c = prepare(hit);
+    if (!c) return;
+    c.tcx = side(e, hr);   // the wind blows from the pointer's side; moving the pointer stirs it
+    if (c.lx !== null) c.gt = Math.min(1, c.gt + Math.abs(e.clientX - c.lx) / 400);
+    c.lx = e.clientX;
+    if (c.kt === 0) {
+      if (!c.on) { c.cx = c.tcx; c.vx = 0; }
+      c.kt = 1;
+      draw(c, 1 / 60);   // the first displaced frame right now, in the pointer event, not one frame later
+    }
+    wake();
   };
   document.addEventListener('pointermove', (e) => {
     if (e.pointerType && e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
-    lastE = { clientX: e.clientX, clientY: e.clientY }; onMove(lastE);
+    onMove(e);
   }, { passive: true });
-  document.documentElement.addEventListener('pointerleave', () => { lx = null; lastE = null; if (cur) { st.kt = 0; wake(); } });
-  addEventListener('resize', detach);
-  addEventListener('pageswap', detach);
+  document.documentElement.addEventListener('pointerleave', () => { if (curIm) { const o = inst.get(curIm); if (o) o.kt = 0; curIm = null; wake(); } });
+  const reset = () => inst.forEach((c) => { if (c.on) stop(c); c.w = 0; });   // sizes change: textures are re-made on next use
+  addEventListener('resize', reset);
+  addEventListener('pageswap', () => inst.forEach((c) => { if (c.on) stop(c); }));
 })();
