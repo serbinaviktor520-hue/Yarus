@@ -1,6 +1,93 @@
 {
   "routes": [
     {
+      "src": "^/(.*/)?index\\.html$",
+      "status": 308,
+      "headers": {
+        "Location": "/$1"
+      },
+      "has": [
+        {
+          "type": "host",
+          "value": "tysha.vbrilliant.com"
+        }
+      ]
+    },
+    {
+      "src": "^/projects/?$",
+      "status": 301,
+      "headers": {
+        "Location": "/project/"
+      },
+      "has": [
+        {
+          "type": "host",
+          "value": "tysha.vbrilliant.com"
+        }
+      ]
+    },
+    {
+      "src": "^/project/lull/?$",
+      "status": 301,
+      "headers": {
+        "Location": "/project/lull-house/"
+      },
+      "has": [
+        {
+          "type": "host",
+          "value": "tysha.vbrilliant.com"
+        }
+      ]
+    },
+    {
+      "src": "^/project/pinecourt/?$",
+      "status": 301,
+      "headers": {
+        "Location": "/project/pine-court/"
+      },
+      "has": [
+        {
+          "type": "host",
+          "value": "tysha.vbrilliant.com"
+        }
+      ]
+    },
+    {
+      "src": "^/((?:[^/]+/)*[^/.]+)$",
+      "status": 308,
+      "headers": {
+        "Location": "/$1/"
+      },
+      "has": [
+        {
+          "type": "host",
+          "value": "tysha.vbrilliant.com"
+        }
+      ]
+    },
+    {
+      "src": "^/(?!tysha/)(.*)$",
+      "has": [
+        {
+          "type": "host",
+          "value": "tysha.vbrilliant.com"
+        }
+      ],
+      "dest": "/tysha/$1",
+      "continue": true
+    },
+    {
+      "src": "^/(?!strata/)(.*)$",
+      "has": [
+        {
+          "type": "host",
+          "value": "strata.vbrilliant.com"
+        }
+      ],
+      "dest": "/strata/$1",
+      "continue": true
+    },
+    {
       "src": "^/assets/(.*)$",
       "headers": {
         "Cache-Control": "public, max-age=31536000, immutable"
