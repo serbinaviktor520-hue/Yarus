@@ -130,8 +130,8 @@ so the same files are also served at `/tysha/` on the Vercel project domain. Eve
 subdomain in `og:image`, `twitter:image`, `og:url` and `<link rel="canonical">` (the 404 page has no
 canonical or `og:url`, on purpose), and so do `sitemap.xml` and `robots.txt`, which the subdomain serves at
 its root. All internal links are relative, so the site works at both paths. The 404 page is served for
-any unknown URL, so it has `<base href="/tysha/">` and a one-line script that switches it to `/` on the
-subdomain.
+any unknown URL, so it keeps `<base href="/tysha/">`: on the subdomain its assets load from `/tysha/...` (served as they
+are) and its links to pages under `/tysha/` are redirected to the root.
 
 `vercel.json` order matters: the subdomain's redirects (`index.html`, old project URLs, the trailing
 slash) come before the host rewrite, because after the rewrite the path carries the `/tysha/` prefix and

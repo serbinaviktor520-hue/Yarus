@@ -1,6 +1,19 @@
 {
   "routes": [
     {
+      "src": "^/tysha(?:/((?:[^/]+/)*[^/.]*))?$",
+      "has": [
+        {
+          "type": "host",
+          "value": "tysha.vbrilliant.com"
+        }
+      ],
+      "status": 308,
+      "headers": {
+        "Location": "/$1"
+      }
+    },
+    {
       "src": "^/(.*/)?index\\.html$",
       "status": 308,
       "headers": {
