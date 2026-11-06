@@ -18,15 +18,18 @@
   const GL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/·—';
   const FINE = window.matchMedia('(pointer: fine)');
   const PHONE = window.matchMedia('(max-width: 760px)');
-  // experiments: ?fx=depth turns them on for this tab, ?fx=off turns them off; without it nothing here runs
+  // effects (assets/fx.js): the depth scroll and the curtain on project cards. Desktop / tablet with a fine pointer,
+  // never under reduced motion; ?fx=off turns them off for this tab (?fx=on back on). Loaded once the page is idle,
+  // so they never compete with the first screen
   try {
     const fx = (location.search.match(/[?&]fx=(\w+)/) || [])[1];
-    if (fx === 'off') sessionStorage.removeItem('tysha-fx'); else if (fx === 'depth') sessionStorage.setItem('tysha-fx', 'depth');
-    if (sessionStorage.getItem('tysha-fx') === 'depth') {
-      document.documentElement.classList.add('fx-depth');
-      const s = document.createElement('script'); s.src = BASE + 'assets/fx.js' + AV; s.defer = true; document.head.appendChild(s);
+    if (fx === 'off') sessionStorage.setItem('tysha-fx', 'off'); else if (fx) sessionStorage.removeItem('tysha-fx');
+    if (sessionStorage.getItem('tysha-fx') !== 'off' && !RM.matches && matchMedia('(min-width: 761px) and (pointer: fine)').matches) {
+      const go = () => { const s = document.createElement('script'); s.src = BASE + 'assets/fx.js' + AV; s.async = true; document.head.appendChild(s); };
+      const later = () => (window.requestIdleCallback ? requestIdleCallback(go, { timeout: 2500 }) : setTimeout(go, 1200));
+      if (document.readyState === 'complete') later(); else addEventListener('load', later, { once: true });
     }
-  } catch (e) { /* no storage: no experiments */ }
+  } catch (e) { /* no storage: no effects */ }
   T.reduced = () => RM.matches;
 
   /* ---------- 1. scroll engine ---------- */

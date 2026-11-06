@@ -1,8 +1,7 @@
 # TYSHA. Nothing to hide, nothing tracked.
-# Crawlers read robots.txt only at a domain root: this file is ready for the move to tysha.studio
-# (see _tools/README.md). Until then it is informational.
+# Served at the root of https://tysha.vbrilliant.com (the subdomain maps to this folder).
 User-agent: *
 Allow: /
 Disallow: /404/
 
-Sitemap: https://tysha.studio/sitemap.xml
+Sitemap: https://tysha.vbrilliant.com/sitemap.xml

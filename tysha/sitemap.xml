@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Placeholder domain until tysha.studio is bought; see _tools/README.md -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://tysha.studio/</loc><lastmod>2026-11-03</lastmod></url>
-  <url><loc>https://tysha.studio/project/</loc><lastmod>2026-11-03</lastmod></url>
-  <url><loc>https://tysha.studio/project/lull-house/</loc><lastmod>2026-11-04</lastmod></url>
-  <url><loc>https://tysha.studio/project/pine-court/</loc><lastmod>2026-11-03</lastmod></url>
-  <url><loc>https://tysha.studio/method/</loc><lastmod>2026-11-03</lastmod></url>
-  <url><loc>https://tysha.studio/privacy/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://tysha.vbrilliant.com/</loc><lastmod>2026-11-06</lastmod></url>
+  <url><loc>https://tysha.vbrilliant.com/project/</loc><lastmod>2026-11-06</lastmod></url>
+  <url><loc>https://tysha.vbrilliant.com/project/lull-house/</loc><lastmod>2026-11-06</lastmod></url>
+  <url><loc>https://tysha.vbrilliant.com/project/pine-court/</loc><lastmod>2026-11-06</lastmod></url>
+  <url><loc>https://tysha.vbrilliant.com/method/</loc><lastmod>2026-11-06</lastmod></url>
+  <url><loc>https://tysha.vbrilliant.com/privacy/</loc><lastmod>2026-11-06</lastmod></url>
 </urlset>

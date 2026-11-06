@@ -123,25 +123,27 @@ are arrays near the bottom of the file.
 One-shot migration that moved the old inline styles into `site.css` (now `_src/site.css`). Kept for reference;
 it refuses to run now that the pages have no inline styles.
 
-## Moving to tysha.studio
+## Domain: tysha.vbrilliant.com
 
-`https://tysha.studio/` is a placeholder domain: it is not bought yet. It is already written into
-`og:image`, `twitter:image`, `og:url` and `<link rel="canonical">` in every page head (the 404 page has
-no canonical or `og:url`, on purpose) and into `sitemap.xml`. **If the studio ends up on another domain,
-search for `tysha.studio/` and swap it everywhere** (pages, `sitemap.xml`, `robots.txt`). All internal
-links are relative, so the site works at any path. When the domain is live:
+The site lives at `https://tysha.vbrilliant.com/`: `vercel.json` (repo root) maps that host onto this folder,
+so the same files are also served at `/tysha/` on the Vercel project domain. Every page head carries the
+subdomain in `og:image`, `twitter:image`, `og:url` and `<link rel="canonical">` (the 404 page has no
+canonical or `og:url`, on purpose), and so do `sitemap.xml` and `robots.txt`, which the subdomain serves at
+its root. All internal links are relative, so the site works at both paths. The 404 page is served for
+any unknown URL, so it has `<base href="/tysha/">` and a one-line script that switches it to `/` on the
+subdomain.
 
-- `404/index.html`: change `<base href="/tysha/">` to `<base href="/">`;
-- move `sitemap.xml` and `robots.txt` to the domain root;
-- `vercel.json` (repo root): the `/tysha/` routes become `/` routes. The last route serves
-  `404/index.html` with status 404 for unknown paths; `routes` is used because `rewrites` cannot
-  set a status code, and `routes` cannot be combined with `cleanUrls` / `trailingSlash` /
-  `headers`, so those are expressed as routes too.
+`vercel.json` order matters: the subdomain's redirects (`index.html`, old project URLs, the trailing
+slash) come before the host rewrite, because after the rewrite the path carries the `/tysha/` prefix and
+a redirect would send it to the visitor. The `/tysha/...` versions follow for the project domain.
+`routes` is used because `rewrites` cannot set a status code, and `routes` cannot be combined with
+`cleanUrls` / `trailingSlash` / `headers`, so those are expressed as routes too.
 
-## Experiments: `_src/fx.js` (branch fx-depth)
+## Effects: `_src/fx.js`
 
-Loaded by `site.js` only after `?fx=depth` (remembered for the tab in sessionStorage, `?fx=off` clears it); without
-the flag nothing of it runs. "Quiet depth" hinges sections a few degrees at their boundary, eased over the whole viewport;
-"Curtain" is hover only: the hovered photo becomes silk in a breeze from the pointer's side
-(a perspective mesh with diagonal travelling folds and a billowing edge), then hands back to the plain <img>. Desktop and tablet with a fine pointer, never under reduced motion,
-never on a software renderer (`?live=force` overrides, for testing). All amplitudes are the constants at the top.
+`site.js` loads it once the page is idle, on desktop and tablet with a fine pointer, never under reduced
+motion; `?fx=off` turns it off for the tab (`?fx=on` back on). "Quiet depth" hinges sections a few degrees at
+their boundary as they scroll by (pinned scenes stay flat). "Curtain" is a hover effect on the project cards
+of the home page and the projects index only (not the case pages): the hovered photo becomes silk in a breeze
+from the pointer's side, rendered by one shared WebGL canvas, then hands back to the plain `<img>`; no WebGL
+or a software renderer keeps the photos plain. All amplitudes are the constants at the top of the file.

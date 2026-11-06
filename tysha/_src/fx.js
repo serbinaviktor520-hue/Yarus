@@ -1,4 +1,4 @@
-/* TYSHA — experimental effects, loaded by site.js only with ?fx=depth (kept for the tab in sessionStorage).
+/* TYSHA — effects, loaded by site.js once the page is idle (desktop / tablet, fine pointer; ?fx=off turns them off).
    1. Quiet depth: the boundary between two sections is a soft hinge. As it travels up the screen the incoming
       section's far edge and the outgoing section's far edge lean back a few degrees, eased over the whole viewport
       (a sine), symmetric for entering and leaving. Transform only, geometry cached, rAF only while scrolling.
@@ -206,7 +206,10 @@
   const wake = () => { if (!loop) { last = 0; loop = requestAnimationFrame(frame); } };
 
   // one listener for the page: the photo under the pointer (by its box on screen) gets the curtain
-  const imgs = Array.from(document.querySelectorAll('main img')).filter((im) => !im.closest(SKIP));
+  // only the project cards on the home page and the projects index: the architecture in the cases stays straight
+  const imgs = document.querySelector('.case-hero') ? [] : Array.from(document.querySelectorAll('main .card-media img')).filter((im) => !im.closest(SKIP));
+  if (!imgs.length) return;
+  document.documentElement.classList.add('fx-curtain-on');
   let lx = null;
   const side = (e, r) => Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width * 2 - 1) * 1.6));
   let lastE = null;
