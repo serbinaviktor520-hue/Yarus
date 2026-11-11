@@ -1,6 +1,108 @@
 {
   "routes": [
     {
+      "src": "^/(.*)$",
+      "status": 308,
+      "headers": {
+        "Location": "https://tyshahello.win/$1"
+      },
+      "has": [
+        {
+          "type": "host",
+          "value": "www.tyshahello.win"
+        }
+      ]
+    },
+    {
+      "src": "^/tysha(?:/((?:[^/]+/)*[^/.]*))?$",
+      "status": 308,
+      "headers": {
+        "Location": "/$1"
+      },
+      "has": [
+        {
+          "type": "host",
+          "value": "tyshahello.win"
+        }
+      ]
+    },
+    {
+      "src": "^/(.*/)?index\\.html$",
+      "status": 308,
+      "headers": {
+        "Location": "/$1"
+      },
+      "has": [
+        {
+          "type": "host",
+          "value": "tyshahello.win"
+        }
+      ]
+    },
+    {
+      "src": "^/projects/?$",
+      "status": 301,
+      "headers": {
+        "Location": "/project/"
+      },
+      "has": [
+        {
+          "type": "host",
+          "value": "tyshahello.win"
+        }
+      ]
+    },
+    {
+      "src": "^/project/lull/?$",
+      "status": 301,
+      "headers": {
+        "Location": "/project/lull-house/"
+      },
+      "has": [
+        {
+          "type": "host",
+          "value": "tyshahello.win"
+        }
+      ]
+    },
+    {
+      "src": "^/project/pinecourt/?$",
+      "status": 301,
+      "headers": {
+        "Location": "/project/pine-court/"
+      },
+      "has": [
+        {
+          "type": "host",
+          "value": "tyshahello.win"
+        }
+      ]
+    },
+    {
+      "src": "^/((?:[^/]+/)*[^/.]+)$",
+      "status": 308,
+      "headers": {
+        "Location": "/$1/"
+      },
+      "has": [
+        {
+          "type": "host",
+          "value": "tyshahello.win"
+        }
+      ]
+    },
+    {
+      "src": "^/(?!tysha/)(.*)$",
+      "has": [
+        {
+          "type": "host",
+          "value": "tyshahello.win"
+        }
+      ],
+      "dest": "/tysha/$1",
+      "continue": true
+    },
+    {
       "src": "^/tysha(?:/((?:[^/]+/)*[^/.]*))?$",
       "has": [
         {
