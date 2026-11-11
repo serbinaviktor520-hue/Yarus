@@ -451,6 +451,15 @@
     const pick = LIST(here) ? (VT[other] ? other : null) : (LIST(other) ? here : null);
     Object.keys(VT).forEach((k) => qa(VT[k]).forEach((el) => { el.style.viewTransitionName = k === pick ? '' : 'none'; }));
   };
+  // a card <-> case morph also lifts the case header, meta and facts into their own layers (html.vt-case, site.css),
+  // so they come in after the photo lands instead of popping in when the transition ends
+  const caseLayers = (t, a, b) => {
+    const de = document.documentElement;
+    if (!((LIST(a) && VT[b]) || (VT[a] && LIST(b)))) return;
+    de.classList.add('vt-case');
+    const off = () => de.classList.remove('vt-case');
+    if (t.finished) t.finished.then(off, off);
+  };
   const VTK = 'tysha-vt';
   // a transition the browser skips (opt-in off, a hidden tab, a phone in low-power mode) rejects its promises; that is
   // not an error for us, so they are handled here and never reach the console
@@ -460,6 +469,7 @@
     if (!e.viewTransition) return;
     const to = e.activation && e.activation.entry ? where(e.activation.entry.url) : 'other';
     keep(to);
+    caseLayers(e.viewTransition, where(location.href), to);
     try { sessionStorage.setItem(VTK, where(location.href) + '>' + to); } catch (er) { /* fine */ }
   });
   window.addEventListener('pagereveal', (e) => {
@@ -469,6 +479,7 @@
     try { const v = (sessionStorage.getItem(VTK) || '').split('>'); if (v[1] === where(location.href)) from = v[0]; sessionStorage.removeItem(VTK); } catch (er) { /* fine */ }
     if (from === 'other') { const f = window.navigation && navigation.activation && navigation.activation.from; if (f) from = where(f.url); }
     keep(from);
+    caseLayers(e.viewTransition, from, where(location.href));
   });
 
   // skip link: focus <main> directly (a plain #main would follow <base href> on the 404 page)

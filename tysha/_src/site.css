@@ -892,7 +892,7 @@ dialog.m::backdrop{background:transparent}
 .card-soon .card-media img{filter:saturate(.55) brightness(.92)}
 .card-soon{cursor:default}
 .card-soon .h-s{color:#5A554E}
-@media (max-width:760px){[data-hero] .hero-img-2.vt-pine{object-position:30% 50%}}
+@media (max-width:760px){[data-hero] .vt-pine .hero-img-2{object-position:30% 50%}}
 
 /* ---- 21. stage 4: audit fixes ---- */
 /* the centre line stops at full-bleed photos (hero, day, contact, the next case): it never runs across a picture */
@@ -1126,18 +1126,39 @@ section[aria-label="The plan"]>.mt-120{margin-top:56px}
 .idx-top{margin-top:clamp(28px,4vh,48px)}
 @media (max-width:1024px){.idx-hero{padding-top:84px}}
 @media (max-width:760px){.idx-h{font-size:clamp(88px,27vw,120px)}}
-/* card -> case hero: the card's photo grows into the hero; the two framings cross-fade inside the growing frame */
+/* card <-> case hero: the card's photo grows into the hero. The named element on a case page is the photo WITH its
+   dark scrim (.hero-media), so the grade travels with the morph instead of popping in under it at the end; inside
+   the growing frame the two framings (bright card, graded hero) cross-fade over the whole flight with matching
+   curves (the pair is blended plus-lighter, so complementary opacities never dip or flash) */
+.hero-media{overflow:clip}
 ::view-transition-group(lull-house),::view-transition-group(pine-court){animation-duration:.9s;animation-timing-function:cubic-bezier(.7,0,.2,1)}
-::view-transition-old(lull-house),::view-transition-old(pine-court){animation:t-vt-x-out .4s cubic-bezier(.4,0,.2,1) .3s both;opacity:1}
-::view-transition-new(lull-house),::view-transition-new(pine-court){animation:t-vt-x-in .4s cubic-bezier(.4,0,.2,1) .1s both}
+::view-transition-old(lull-house),::view-transition-old(pine-court){animation:t-vt-x-out .8s cubic-bezier(.65,0,.35,1) .1s both;opacity:1}
+::view-transition-new(lull-house),::view-transition-new(pine-court){animation:t-vt-x-in .8s cubic-bezier(.65,0,.35,1) .1s both}
 @keyframes t-vt-x-out{to{opacity:0}}
 @keyframes t-vt-x-in{from{opacity:0}}
-@media (prefers-reduced-motion:reduce){::view-transition-group(lull-house),::view-transition-group(pine-court),::view-transition-old(lull-house),::view-transition-new(lull-house),::view-transition-old(pine-court),::view-transition-new(pine-court){animation:none!important}}
 /* the case title rides above the growing photo and arrives as it lands */
 .case-hero h1{view-transition-name:case-title}
 ::view-transition-new(case-title){animation:t-vt-x-in .5s cubic-bezier(.2,.7,.2,1) .55s both}
 ::view-transition-old(case-title){animation:t-vt-x-out .2s linear both}
-@media (prefers-reduced-motion:reduce){::view-transition-new(case-title),::view-transition-old(case-title){animation:none!important}}
+/* only on a card <-> case morph (html.vt-case, set by site.js): the header, the axis, the meta block and the facts row
+   are their own layers above the photo, so they never hide under it and pop in when it ends. After the landing they
+   come in one by one, ~100 ms apart (transform + opacity only); leaving a case they simply fade */
+.vt-case .site-head{view-transition-name:case-head}
+.vt-case .case-hero>[data-axis]{view-transition-name:case-axis}
+.vt-case .case-hero .div-7>:not(h1){view-transition-name:case-meta}
+.vt-case .case-hero>.mt-40{view-transition-name:case-facts}
+::view-transition-group(case-head),::view-transition-group(case-axis),::view-transition-group(case-meta),::view-transition-group(case-facts){animation-duration:.9s}
+::view-transition-new(case-head){animation:t-vt-head .6s cubic-bezier(.2,.7,.2,1) .8s both}
+::view-transition-new(case-axis){animation:t-vt-x-in .6s cubic-bezier(.2,.7,.2,1) .8s both}
+::view-transition-new(case-meta){animation:t-vt-rise .6s cubic-bezier(.2,.7,.2,1) .9s both}
+::view-transition-new(case-facts){animation:t-vt-rise .6s cubic-bezier(.2,.7,.2,1) 1s both}
+::view-transition-old(case-head),::view-transition-old(case-axis),::view-transition-old(case-meta),::view-transition-old(case-facts){animation:t-vt-x-out .25s linear both}
+@keyframes t-vt-head{from{opacity:0;transform:translateY(-10px)}}
+@keyframes t-vt-rise{from{opacity:0;transform:translateY(16px)}}
+/* reduced motion: no morph and no named layers, only the plain fade of the whole page (section above) */
+@media (prefers-reduced-motion:reduce){
+  .vt-lull,.vt-pine,.case-hero h1,.vt-case :is(.site-head,.case-hero>[data-axis],.case-hero .div-7>*,.case-hero>.mt-40){view-transition-name:none!important}
+}
 
 /* Lull House, The form: the aerial runs the full height of the text + drawing column, so no empty band opens under it */
 @media (min-width:1025px){.form-aerial{aspect-ratio:auto;height:100%;min-height:0;align-self:stretch;object-position:50% 40%}}
