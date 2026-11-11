@@ -9,6 +9,19 @@
       "has": [
         {
           "type": "host",
+          "value": "tysha.vbrilliant.com"
+        }
+      ]
+    },
+    {
+      "src": "^/(.*)$",
+      "status": 308,
+      "headers": {
+        "Location": "https://tyshahello.win/$1"
+      },
+      "has": [
+        {
+          "type": "host",
           "value": "www.tyshahello.win"
         }
       ]
@@ -97,95 +110,6 @@
         {
           "type": "host",
           "value": "tyshahello.win"
-        }
-      ],
-      "dest": "/tysha/$1",
-      "continue": true
-    },
-    {
-      "src": "^/tysha(?:/((?:[^/]+/)*[^/.]*))?$",
-      "has": [
-        {
-          "type": "host",
-          "value": "tysha.vbrilliant.com"
-        }
-      ],
-      "status": 308,
-      "headers": {
-        "Location": "/$1"
-      }
-    },
-    {
-      "src": "^/(.*/)?index\\.html$",
-      "status": 308,
-      "headers": {
-        "Location": "/$1"
-      },
-      "has": [
-        {
-          "type": "host",
-          "value": "tysha.vbrilliant.com"
-        }
-      ]
-    },
-    {
-      "src": "^/projects/?$",
-      "status": 301,
-      "headers": {
-        "Location": "/project/"
-      },
-      "has": [
-        {
-          "type": "host",
-          "value": "tysha.vbrilliant.com"
-        }
-      ]
-    },
-    {
-      "src": "^/project/lull/?$",
-      "status": 301,
-      "headers": {
-        "Location": "/project/lull-house/"
-      },
-      "has": [
-        {
-          "type": "host",
-          "value": "tysha.vbrilliant.com"
-        }
-      ]
-    },
-    {
-      "src": "^/project/pinecourt/?$",
-      "status": 301,
-      "headers": {
-        "Location": "/project/pine-court/"
-      },
-      "has": [
-        {
-          "type": "host",
-          "value": "tysha.vbrilliant.com"
-        }
-      ]
-    },
-    {
-      "src": "^/((?:[^/]+/)*[^/.]+)$",
-      "status": 308,
-      "headers": {
-        "Location": "/$1/"
-      },
-      "has": [
-        {
-          "type": "host",
-          "value": "tysha.vbrilliant.com"
-        }
-      ]
-    },
-    {
-      "src": "^/(?!tysha/)(.*)$",
-      "has": [
-        {
-          "type": "host",
-          "value": "tysha.vbrilliant.com"
         }
       ],
       "dest": "/tysha/$1",

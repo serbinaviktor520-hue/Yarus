@@ -123,17 +123,18 @@ are arrays near the bottom of the file.
 One-shot migration that moved the old inline styles into `site.css` (now `_src/site.css`). Kept for reference;
 it refuses to run now that the pages have no inline styles.
 
-## Domain: tysha.vbrilliant.com
+## Domain: tyshahello.win
 
-The site lives at `https://tysha.vbrilliant.com/`: `vercel.json` (repo root) maps that host onto this folder,
+The site lives at `https://tyshahello.win/`: `vercel.json` (repo root) maps that host onto this folder
+(`www.tyshahello.win` and the old `tysha.vbrilliant.com` redirect there, path kept),
 so the same files are also served at `/tysha/` on the Vercel project domain. Every page head carries the
-subdomain in `og:image`, `twitter:image`, `og:url` and `<link rel="canonical">` (the 404 page has no
-canonical or `og:url`, on purpose), and so do `sitemap.xml` and `robots.txt`, which the subdomain serves at
+domain in `og:image`, `twitter:image`, `og:url` and `<link rel="canonical">` (the 404 page has no
+canonical or `og:url`, on purpose), and so do `sitemap.xml` and `robots.txt`, which the domain serves at
 its root. All internal links are relative, so the site works at both paths. The 404 page is served for
-any unknown URL, so it keeps `<base href="/tysha/">`: on the subdomain its assets load from `/tysha/...` (served as they
+any unknown URL, so it keeps `<base href="/tysha/">`: on the domain its assets load from `/tysha/...` (served as they
 are) and its links to pages under `/tysha/` are redirected to the root.
 
-`vercel.json` order matters: the subdomain's redirects (`index.html`, old project URLs, the trailing
+`vercel.json` order matters: the domain's redirects (`index.html`, old project URLs, the trailing
 slash) come before the host rewrite, because after the rewrite the path carries the `/tysha/` prefix and
 a redirect would send it to the visitor. The `/tysha/...` versions follow for the project domain.
 `routes` is used because `rewrites` cannot set a status code, and `routes` cannot be combined with

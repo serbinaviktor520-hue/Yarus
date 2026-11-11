@@ -1,7 +1,7 @@
 # TYSHA. Nothing to hide, nothing tracked.
-# Served at the root of https://tysha.vbrilliant.com (the subdomain maps to this folder).
+# Served at the root of https://tyshahello.win (the domain maps to this folder).
 User-agent: *
 Allow: /
 Disallow: /404/
 
-Sitemap: https://tysha.vbrilliant.com/sitemap.xml
+Sitemap: https://tyshahello.win/sitemap.xml
