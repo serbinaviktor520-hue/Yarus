@@ -218,21 +218,28 @@
       }
       if (G.st) {
         const s = G.st; const top = s.top - y;
+        // layers only while the scene is within a screen of the viewport (they cost memory)
+        const live = top < ih * 2 && top + s.h > -ih;
+        if (live !== st._live) { st._live = live; st.classList.toggle('st-live', live); }
         const p = clamp(-top / (s.h - ih)); const e = clamp((ih - top) / ih);
         // the words leave first, then the photo opens: it never passes over a visible word
         const fade = 1 - clamp((p - 0.03) / 0.1);
-        stFade.forEach((el) => { el.style.opacity = String(Math.min(e, fade)); });
+        const set = (el, k, v) => { if (el['_' + k] !== v) { el['_' + k] = v; el.style[k] = v; } };
+        stFade.forEach((el) => set(el, 'opacity', String(Math.min(e, fade))));
         const a = ease(clamp((p - 0.14) / 0.42));
-        if (a <= 0.001) { stLayer.style.visibility = 'hidden'; stPill.style.opacity = '1'; }
-        else if (still) { stLayer.style.visibility = 'visible'; stLayer.style.clipPath = ''; stLayer.style.opacity = String(a); stPill.style.opacity = '1'; }
+        // before it opens, the photo layer stays practically invisible rather than hidden, and the sentence above
+        // it practically transparent rather than 0: the browser rasterises both ahead, not on the first visible frame
+        if (a <= 0.001) { set(stLayer, 'visibility', live ? 'visible' : 'hidden'); set(stLayer, 'opacity', live ? '0.002' : ''); set(stPill, 'opacity', '1'); }
+        else if (still) { set(stLayer, 'visibility', 'visible'); set(stLayer, 'clipPath', ''); set(stLayer, 'opacity', String(a)); set(stPill, 'opacity', '1'); }
         else {
           const k = 1 - a;
-          stLayer.style.visibility = 'visible'; stLayer.style.opacity = ''; stPill.style.opacity = '0';
-          stLayer.style.clipPath = 'inset(' + (s.t * k) + 'px ' + (s.r * k) + 'px ' + (s.b * k) + 'px ' + (s.l * k) + 'px round ' + (s.ph / 2 * k) + 'px)';
-          stLayerImg.style.transform = 'translate3d(' + (s.cx * k) + 'px,' + (s.cy * k) + 'px,0) scale(' + (s.k0 + (1 - s.k0) * a) + ')';
+          set(stLayer, 'visibility', 'visible'); set(stLayer, 'opacity', ''); set(stPill, 'opacity', '0');
+          // fully open: no clip at all (a rounded clip, even a zero one, keeps a mask on the layer)
+          set(stLayer, 'clipPath', k < 0.0005 ? 'none' : 'inset(' + (s.t * k).toFixed(1) + 'px ' + (s.r * k).toFixed(1) + 'px ' + (s.b * k).toFixed(1) + 'px ' + (s.l * k).toFixed(1) + 'px round ' + (s.ph / 2 * k).toFixed(1) + 'px)');
+          set(stLayerImg, 'transform', 'translate3d(' + (s.cx * k).toFixed(1) + 'px,' + (s.cy * k).toFixed(1) + 'px,0) scale(' + (s.k0 + (1 - s.k0) * a).toFixed(4) + ')');
         }
         const o = clamp((p - 0.6) / 0.2);
-        stOver.style.opacity = String(o); stOver.style.transform = still ? '' : 'translate3d(0,' + ((1 - o) * 60) + 'px,0)';
+        set(stOver, 'opacity', (live ? Math.max(o, 0.002) : o).toFixed(3)); set(stOver, 'transform', still ? '' : 'translate3d(0,' + ((1 - o) * 60).toFixed(1) + 'px,0)');
       }
       if (G.day) {
         const top = G.day.top - y; const p = clamp(-top / (G.day.h - ih));
@@ -245,15 +252,17 @@
         }
       }
       if (!still) {
+        // write a style only when it changes: an identical write still invalidates, and offscreen parts sit still
+        const put = (el, k, v) => { if (el['_' + k] !== v) { el['_' + k] = v; el.style[k] = v; } };
         const f = vw <= 760 ? 0.35 : vw < 1440 ? 0.5 : 1;
         floats.forEach((el, i) => {
           const b = G.floats[i]; const qq = clamp((ih - (b.top - y)) / (ih + b.h));
-          el._ty = (0.5 - qq) * parseFloat(el.getAttribute('data-float')) * f;
-          el.style.transform = 'translate3d(0,' + el._ty + 'px,0)';
+          el._ty = Math.round((0.5 - qq) * parseFloat(el.getAttribute('data-float')) * f * 10) / 10;
+          put(el, 'transform', 'translate3d(0,' + el._ty + 'px,0)');
         });
-        if (G.pano) { const qq = clamp((ih - (G.pano.top - y)) / (ih * 0.85)); const x = 24 * (1 - ease(qq)); pano.style.clipPath = 'inset(0 ' + x + '% 0 ' + x + '%)'; if (panoImg) panoImg.style.transform = 'scale(' + (1.3 - 0.3 * qq) + ')'; }
-        if (G.marq) { const qq = clamp((ih - (G.marq.top - y)) / (ih + G.marq.h)); marq.style.transform = 'translate3d(' + (-qq * 38) + '%,0,0)'; }
-        if (G.zoom) { const qq = clamp((ih - (G.zoom.top - y)) / (ih + G.zoom.h)); zoom.style.transform = 'scale(' + (1.25 - 0.25 * qq) + ')'; }
+        if (G.pano) { const qq = clamp((ih - (G.pano.top - y)) / (ih * 0.85)); const x = (24 * (1 - ease(qq))).toFixed(2); put(pano, 'clipPath', 'inset(0 ' + x + '% 0 ' + x + '%)'); if (panoImg) put(panoImg, 'transform', 'scale(' + (1.3 - 0.3 * qq).toFixed(4) + ')'); }
+        if (G.marq) { const qq = clamp((ih - (G.marq.top - y)) / (ih + G.marq.h)); put(marq, 'transform', 'translate3d(' + (-qq * 38).toFixed(2) + '%,0,0)'); }
+        if (G.zoom) { const qq = clamp((ih - (G.zoom.top - y)) / (ih + G.zoom.h)); put(zoom, 'transform', 'scale(' + (1.25 - 0.25 * qq).toFixed(4) + ')'); }
       }
     };
     // scrollY is read in the scroll event (layout is clean there), never inside the frame after text writes

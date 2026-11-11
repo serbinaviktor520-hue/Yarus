@@ -190,7 +190,12 @@
   // textures for the cards on screen are uploaded when the browser is idle, so a first hover never waits
   const onIdle = window.requestIdleCallback || ((f) => setTimeout(f, 200));
   const seen = new Set();
-  const warm = (im) => onIdle(() => { if (!seen.has(im)) return; if (!prepare(im)) setTimeout(() => warm(im), 400); }, { timeout: 1500 });   // not revealed yet: try again
+  // never while the page is scrolling (resampling a photo costs a frame or two): when it has been still for 300 ms
+  let lastScroll = 0; addEventListener('scroll', () => { lastScroll = performance.now(); }, { passive: true });
+  const warm = (im) => onIdle(() => {
+    if (!seen.has(im) || inst.has(im)) return;
+    if (performance.now() - lastScroll < 300 || !prepare(im)) setTimeout(() => warm(im), 350);   // scrolling, or not revealed yet: later
+  });
   const io = new IntersectionObserver((es) => es.forEach((e) => {
     if (e.isIntersecting) { seen.add(e.target); warm(e.target); } else seen.delete(e.target);
   }), { rootMargin: '200px 0px' });

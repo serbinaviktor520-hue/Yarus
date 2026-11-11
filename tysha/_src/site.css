@@ -1161,3 +1161,15 @@ section[aria-label="The plan"]>.mt-120{margin-top:56px}
 .fx-curtain{position:fixed;left:0;top:0;z-index:40;pointer-events:none;display:block;transform-origin:0 0}
 html.fx-curtain-on .fx-linen-src{opacity:0!important}
 html.fx-curtain-on .card:hover .card-media img,html.fx-curtain-on .card:focus-visible .card-media img{transform:none}
+
+/* statement scene: while it is near the screen (.st-live, set by site.js) every moving part is its own
+   compositor layer, so scrolling only re-composites. The big halo-lit sentence is rasterised once and then
+   only faded and moved; the photo is only scaled; the bands do not move */
+.st-live [data-st-layer]{will-change:clip-path,opacity}
+.st-live [data-st-layer-img]{will-change:transform}
+.st-live .st-over{will-change:opacity,transform;backface-visibility:hidden}
+.st-live [data-st-fade],.st-live [data-st-pill]{will-change:opacity}
+.st-live .st-layer .bg{will-change:transform}
+.st-live>[data-pin-inner]{will-change:transform}   /* the pinned frame scrolls as one composited layer */
+[data-pin-inner]>.sec-head{will-change:transform}   /* its label scrambles: repaint the label, not the whole frame */
+[data-float],[data-marquee]{will-change:transform}   /* parallax parts move on their own layers: no page repaint */
