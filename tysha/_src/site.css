@@ -1169,7 +1169,7 @@ html.fx-curtain-on .card:hover .card-media img,html.fx-curtain-on .card:focus-vi
 .st-live [data-st-layer-img]{will-change:transform}
 .st-live .st-over{will-change:opacity,transform;backface-visibility:hidden}
 .st-live [data-st-fade],.st-live [data-st-pill]{will-change:opacity}
-.st-live .st-layer .bg{will-change:transform}
+.st-live .st-layer .bg{will-change:opacity}
 .st-live>[data-pin-inner]{will-change:transform}   /* the pinned frame scrolls as one composited layer */
 [data-pin-inner]>.sec-head{will-change:transform}   /* its label scrambles: repaint the label, not the whole frame */
 [data-float],[data-marquee]{will-change:transform}   /* parallax parts move on their own layers: no page repaint */

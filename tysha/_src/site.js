@@ -169,7 +169,7 @@
     // ---- scroll-linked scenes ----
     const hero = q('[data-hero]', root), heroImg = q('[data-hero-img]', root), heroFade = qa('[data-hero-fade]', root), heroWm = q('[data-hero-wm]', root);
     const st = q('[data-pin="320"]', root);
-    const stInner = st && q('[data-pin-inner]', st), stPill = q('[data-st-pill]', root), stLayer = q('[data-st-layer]', root), stLayerImg = q('[data-st-layer-img]', root), stOver = q('[data-st-over]', root), stFade = qa('[data-st-fade]', root);
+    const stInner = st && q('[data-pin-inner]', st), stPill = q('[data-st-pill]', root), stLayer = q('[data-st-layer]', root), stLayerImg = q('[data-st-layer-img]', root), stOver = q('[data-st-over]', root), stFade = qa('[data-st-fade]', root), stBg = stLayer && q('.bg', stLayer);
     const day = q('[data-pin="400"]', root), dayBar = q('[data-day-bar]', root);
     const pano = q('[data-pano]', root), panoImg = q('[data-pano-img]', root);
     const marq = q('[data-marquee]', root), zoom = q('[data-zoom]', root);
@@ -193,14 +193,22 @@
         const s = box(st);
         s.t = pr.top - ir.top; s.l = pr.left - ir.left; s.r = ir.right - pr.right; s.b = ir.bottom - pr.bottom;
         s.pw = pr.width; s.ph = pr.height; s.W = ir.width; s.H = ir.height;
-        // start the expanding layer from exactly the crop the pill shows (both are object-fit: cover)
+        // start the expanding layer from exactly the crop the pill shows. The layer photo's box is the whole photo at
+        // its cover size (not the layer's box): scaled down to pill size, a box-sized img would cut the photo where
+        // the layer's cover crops it (the sides of a portrait phone layer) and leave dark bars inside the pill
         const nw = stLayerImg.naturalWidth || stPill.naturalWidth, nh = stLayerImg.naturalHeight || stPill.naturalHeight;
         if (nw && nh) {
-          const sP = Math.max(s.pw / nw, s.ph / nh), sL = Math.max(s.W / nw, s.H / nh);
-          s.k0 = sP / sL; s.cx = s.l + s.pw / 2 - s.W / 2; s.cy = s.t + s.ph / 2 - s.H / 2;
-          // both images share an object-position; off-centre, the crops differ by (p - .5)(pill - k0 * layer)
           const op = getComputedStyle(stPill).objectPosition.split(' ').map((v) => (/%$/.test(v) ? parseFloat(v) / 100 : 0.5));
-          s.cx += (op[0] - 0.5) * (s.pw - s.k0 * s.W); s.cy += ((op[1] === undefined ? 0.5 : op[1]) - 0.5) * (s.ph - s.k0 * s.H);
+          const ox = op[0], oy = op[1] === undefined ? 0.5 : op[1];
+          const sP = Math.max(s.pw / nw, s.ph / nh), sL = Math.max(s.W / nw, s.H / nh);
+          const iw = nw * sL, ihh = nh * sL, ix = (s.W - iw) * ox, iy = (s.H - ihh) * oy;
+          const im = stLayerImg.style;
+          im.left = ix.toFixed(1) + 'px'; im.top = iy.toFixed(1) + 'px'; im.right = 'auto'; im.bottom = 'auto';
+          im.width = iw.toFixed(1) + 'px'; im.height = ihh.toFixed(1) + 'px';
+          // scaled by k0 about its centre, the photo must sit where the pill's cover places it
+          s.k0 = sP / sL;
+          s.cx = s.l + (s.pw - nw * sP) * ox + nw * sP / 2 - (ix + iw / 2);
+          s.cy = s.t + (s.ph - nh * sP) * oy + nh * sP / 2 - (iy + ihh / 2);
         } else { s.k0 = 1; s.cx = 0; s.cy = 0; }
         G.st = s;
       }
@@ -222,23 +230,39 @@
         const live = top < ih * 2 && top + s.h > -ih;
         if (live !== st._live) { st._live = live; st.classList.toggle('st-live', live); }
         const p = clamp(-top / (s.h - ih)); const e = clamp((ih - top) / ih);
-        // the words leave first, then the photo opens: it never passes over a visible word
-        const fade = 1 - clamp((p - 0.03) / 0.1);
+        // one continuous handoff, never an empty frame: as soon as the scene moves, the expanding layer takes over
+        // from the pill at exactly the pill's crop (the pill itself fades with its sentence, so it must not be what
+        // carries the photo). Desktop: it starts growing at once and the words fade out around it. Phones: the
+        // words leave first while the photo holds at pill size, then it opens (it never covers a word). Once open,
+        // it keeps a slow push-in to the end of the pin, so no stretch of the scroll is dead
+        const phone = PHONE.matches;
+        const f0 = 0.02, f1 = phone ? 0.12 : 0.22;          // the words fade over [f0, f1]
+        const g0 = phone ? f1 : 0.03, g1 = phone ? 0.54 : 0.52; // the photo grows over [g0, g1]
+        const fade = 1 - clamp((p - f0) / (f1 - f0));
         const set = (el, k, v) => { if (el['_' + k] !== v) { el['_' + k] = v; el.style[k] = v; } };
         stFade.forEach((el) => set(el, 'opacity', String(Math.min(e, fade))));
-        const a = ease(clamp((p - 0.14) / 0.42));
-        // before it opens, the photo layer stays practically invisible rather than hidden, and the sentence above
-        // it practically transparent rather than 0: the browser rasterises both ahead, not on the first visible frame
-        if (a <= 0.001) { set(stLayer, 'visibility', live ? 'visible' : 'hidden'); set(stLayer, 'opacity', live ? '0.002' : ''); set(stPill, 'opacity', '1'); }
-        else if (still) { set(stLayer, 'visibility', 'visible'); set(stLayer, 'clipPath', ''); set(stLayer, 'opacity', String(a)); set(stPill, 'opacity', '1'); }
+        // an ease-out (sine): the photo visibly starts growing the moment its range begins, never idling at pill size,
+        // and settles softly into full bleed
+        const a = Math.sin(clamp((p - g0) / (g1 - g0)) * Math.PI / 2);
+        const held = !still && p > 0.012;   // the layer holds the photo (at pill size while a = 0)
+        // its dark grade comes in with the growth: at pill size the layer looks exactly like the pill
+        if (stBg) set(stBg, 'opacity', still ? '' : a.toFixed(3));
+        // before that, the photo layer stays practically invisible rather than hidden, and the sentence above it
+        // practically transparent rather than 0: the browser rasterises both ahead, not on the first visible frame
+        if (still) {
+          // reduced motion: a plain crossfade from the words to the full photo, overlapping (never a blank frame)
+          const c = 1 - fade;
+          set(stLayer, 'visibility', live || c > 0 ? 'visible' : 'hidden'); set(stLayer, 'clipPath', ''); set(stLayerImg, 'transform', '');
+          set(stLayer, 'opacity', String(live ? Math.max(c, 0.002) : c)); set(stPill, 'opacity', '1');
+        } else if (!held) { set(stLayer, 'visibility', live ? 'visible' : 'hidden'); set(stLayer, 'opacity', live ? '0.002' : ''); set(stPill, 'opacity', '1'); }
         else {
-          const k = 1 - a;
+          const k = 1 - a; const z = 1 + 0.05 * clamp((p - g1) / (1 - g1));
           set(stLayer, 'visibility', 'visible'); set(stLayer, 'opacity', ''); set(stPill, 'opacity', '0');
           // fully open: no clip at all (a rounded clip, even a zero one, keeps a mask on the layer)
           set(stLayer, 'clipPath', k < 0.0005 ? 'none' : 'inset(' + (s.t * k).toFixed(1) + 'px ' + (s.r * k).toFixed(1) + 'px ' + (s.b * k).toFixed(1) + 'px ' + (s.l * k).toFixed(1) + 'px round ' + (s.ph / 2 * k).toFixed(1) + 'px)');
-          set(stLayerImg, 'transform', 'translate3d(' + (s.cx * k).toFixed(1) + 'px,' + (s.cy * k).toFixed(1) + 'px,0) scale(' + (s.k0 + (1 - s.k0) * a).toFixed(4) + ')');
+          set(stLayerImg, 'transform', 'translate3d(' + (s.cx * k).toFixed(1) + 'px,' + (s.cy * k).toFixed(1) + 'px,0) scale(' + ((s.k0 + (1 - s.k0) * a) * z).toFixed(4) + ')');
         }
-        const o = clamp((p - 0.6) / 0.2);
+        const o = clamp((p - (g1 - 0.06)) / 0.26);
         set(stOver, 'opacity', (live ? Math.max(o, 0.002) : o).toFixed(3)); set(stOver, 'transform', still ? '' : 'translate3d(0,' + ((1 - o) * 60).toFixed(1) + 'px,0)');
       }
       if (G.day) {
