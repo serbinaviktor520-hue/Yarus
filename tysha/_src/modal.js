@@ -73,19 +73,19 @@
     + '<h2 id="m-h3" class="m-h serif" tabindex="-1">How do we reach you?</h2>'
     + '<div class="m-pair">'
     + '<div class="m-field"><label class="m-lab" for="m-name">Name</label><input class="m-input m-input-l" id="m-name" name="name" type="text" autocomplete="name" placeholder="Your name" aria-describedby="m-name-h" required><span class="m-hint" id="m-name-h"></span></div>'
-    + '<div class="m-field"><label class="m-lab" for="m-email">Email or phone</label><input class="m-input m-input-l" id="m-email" name="email" type="text" autocomplete="email" placeholder="name@mail.com or +48 …" aria-describedby="m-email-h" required><span class="m-hint" id="m-email-h"></span></div>'
+    + '<div class="m-field"><label class="m-lab" for="m-email">Email or phone</label><input class="m-input m-input-l" id="m-email" name="email" type="text" autocomplete="email" placeholder="name@mail.com or phone" aria-describedby="m-email-h" required><span class="m-hint" id="m-email-h"></span></div>'
     + '</div>'
     + '<div class="m-field"><label class="m-lab" for="m-msg">Anything else <span class="m-opt-tag">(optional)</span></label><input class="m-input" id="m-msg" name="message" type="text" autocomplete="off" placeholder="The road you hear, the view you keep"></div>'
     + '<div class="m-step-foot m-step-foot-send"><div class="m-send-row"><button type="submit" class="m-send" data-m-send data-cursor="Send"><span data-m-send-t>Send</span><i class="m-send-bar" aria-hidden="true"></i></button></div>'
     + '<p class="m-consent">By sending, you agree to our <a class="u" href="' + BASE + 'privacy/">privacy notice</a>. We reply within two working days.</p>'
-    + '<p class="m-fail" data-m-fail role="alert" hidden>The line is noisy: your request didn’t reach us. Nothing is lost. Try again, or write to <a class="u" href="mailto:hello@tysha.studio">hello@tysha.studio</a>.</p></div>'
+    + '<p class="m-fail" data-m-fail role="alert" hidden>The line is noisy: your request didn’t reach us. Nothing is lost. Try again in a moment.</p></div>'
     + '</section>'
     + '<p class="sr-only" role="status" aria-live="polite" data-m-status></p>'
     + '</form>'
     + '<div class="m-done" data-m-done hidden tabindex="-1">'
     + '<span class="label tone-2" data-m-id>Request TY-0000 · Received</span>'
     + '<p class="m-done-h serif">It’s quiet now.</p>'
-    + '<p class="m-sub" data-m-reply>Thank you. We’ll reply within two working days, from hello@tysha.studio.</p>'
+    + '<p class="m-sub" data-m-reply>Thank you. We’ll reply within two working days.</p>'
     + '<dl class="m-sum" data-m-sum></dl>'
     + '<button type="button" class="t-pill m-done-close" data-m-close>Close</button>'
     + '</div>'
@@ -349,7 +349,7 @@
       clearInterval(iv); busy = false; form.removeAttribute('aria-busy'); dlg.classList.remove('m-sending'); status.textContent = '';
       q('[data-m-id]', dlg).textContent = 'Request TY-' + (1000 + Math.floor(Math.random() * 9000)) + ' · Received · 25 dB';
       const rows = [['Name', data.name], [/@/.test(data.email) ? 'Email' : 'Phone', data.email], ['Where', data.where], ['What', data.what], ['Quiet', data.quiet + ' · ' + SAYS(quiet).toLowerCase()], ['Note', data.message]].filter((r) => r[1]);
-      q('[data-m-reply]', dlg).textContent = /@/.test(data.email) ? 'Thank you. We’ll reply within two working days, from hello@tysha.studio.' : 'Thank you. We’ll text you within two working days, and call only if you ask.';
+      q('[data-m-reply]', dlg).textContent = /@/.test(data.email) ? 'Thank you. We’ll reply within two working days.' : 'Thank you. We’ll text you within two working days, and call only if you ask.';
       const sum = q('[data-m-sum]', dlg); sum.textContent = '';
       rows.forEach(([k, v]) => { const dt = document.createElement('dt'); dt.className = 'm-lab'; dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; sum.append(dt, dd); });
       form.hidden = true; done.hidden = false; scroller.scrollTop = 0; dlg.classList.add('m-is-done');

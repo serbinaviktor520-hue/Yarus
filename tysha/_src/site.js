@@ -526,7 +526,7 @@
         const name = F('name').value.trim().split(/\s+/)[0];
         const find = (q('input[name="plot"]:checked', form) || {}).value === 'find';
         q('[data-sent-id]', sent).textContent = 'Request TY-' + (1000 + Math.floor(Math.random() * 9000)) + ' · Received · 25 dB';
-        q('[data-sent-msg]', sent).textContent = 'Thank you, ' + name + ". We’ll reply within two working days from hello@tysha.studio. " + (find ? "We’ll start by looking for a quiet plot together." : "First we’ll ask for the plot’s address, to plan the audit.");
+        q('[data-sent-msg]', sent).textContent = 'Thank you, ' + name + ". We’ll reply within two working days. " + (find ? "We’ll start by looking for a quiet plot together." : "First we’ll ask for the plot’s address, to plan the audit.");
         form.style.display = 'none'; sent.style.display = 'flex'; sent.setAttribute('tabindex', '-1'); sent.focus({ preventScroll: true });
       }, 1600);
     });
@@ -560,7 +560,7 @@
     ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', 'Menu');
     ov.innerHTML = '<div class="t-menu-axis"></div><div class="t-menu-top"><span>Tysha<br><span class="t-mute">Architecture</span></span><button type="button" class="t-pill" data-close>Close</button></div>'
       + '<nav class="t-menu-list" aria-label="Menu">' + qa('a', nav).map((a, i) => '<a href="' + a.getAttribute('href') + '"' + (a.hasAttribute('aria-current') ? ' aria-current="page"' : '') + '><span class="n">0' + (i + 1) + '</span><span class="t">' + a.textContent + '</span><span class="d">' + (DB[a.textContent] || '') + '</span></a>').join('') + '</nav>'
-      + '<div class="t-menu-foot"><a href="mailto:hello@tysha.studio" class="case-none">hello@tysha.studio</a><span>+380 32 245 18 90 · Lviv</span><span>+48 22 628 41 07 · Warsaw</span><span class="t-mute">Now: 25 dB</span></div>';
+      + '<div class="t-menu-foot"><a href="https://vbrilliant.com" target="_blank" rel="noopener">Concept by Victor Brilliant</a><span>Lviv · Warsaw</span><span class="t-mute">Now: 25 dB</span></div>';
     document.body.appendChild(ov);
     const de = document.documentElement;
     const others = () => [root, q('.skip-link'), q('.t-note')].filter(Boolean);
